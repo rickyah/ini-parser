@@ -736,6 +736,21 @@ namespace IniParser
         #region Properties
 
         /// <summary>
+        /// Gets the <see cref="IniParser.KeyDataCollection"/> instance 
+        /// with the specified section name.
+        /// </summary>
+        public KeyDataCollection this[string sectionName]
+        {
+            get
+            {
+                if (_sections.ContainsSection(sectionName))
+                    return _sections[sectionName];
+                return null;
+            }
+
+        }
+
+        /// <summary>
         /// Gets or sets all the <see cref="SectionData"/> 
         /// for this IniData instance.
         /// </summary>
