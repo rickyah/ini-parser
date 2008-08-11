@@ -754,7 +754,7 @@ namespace IniParser
         /// Gets or sets all the <see cref="SectionData"/> 
         /// for this IniData instance.
         /// </summary>
-        public SectionDataCollection SectionCollection
+        public SectionDataCollection Sections
         {
             get { return _sections; }
             set { _sections = value; }
