@@ -38,7 +38,7 @@ namespace IniFileParserTests
             IniData data = sip.ParseString(iniFileStr);
 
             Assert.That(data, Is.Not.Null);
-            Assert.That(data.SectionCollection.Count, Is.EqualTo(2));
+            Assert.That(data.Sections.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -46,9 +46,9 @@ namespace IniFileParserTests
         {
             IniData data = new IniData();
 
-            data.SectionCollection.AddSection("newSection1");
-            data.SectionCollection["newSection1"].AddKey("newKey1", "newValue1");
-            data.SectionCollection["newSection1"].AddKey("newKey2", "newValue5");
+            data.Sections.AddSection("newSection1");
+            data.Sections["newSection1"].AddKey("newKey1", "newValue1");
+            data.Sections["newSection1"].AddKey("newKey2", "newValue5");
 
             string result = string.Empty;
             result = sip.WriteString(data);

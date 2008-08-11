@@ -13,7 +13,7 @@ namespace IniParser
     {
         #region Default regular expression strings
 
-        private readonly string strCommentRegex = @"[\d\w\s]*";
+        private readonly string strCommentRegex = @".[^\r^\n]*";
         private readonly string strSectionRegexStart = @"^(\s*?)";
         private readonly string strSectionRegexMiddle = @"{1}\s*[\w\d]+\s*";
         private readonly string strSectionRegexEnd = @"(\s*?)$";
@@ -95,7 +95,7 @@ namespace IniParser
         public void WriteData(StreamWriter writer, IniData iniData)
         {
 
-            SectionDataCollection sdc = iniData.SectionCollection;
+            SectionDataCollection sdc = iniData.Sections;
 
 
             //Write sections
