@@ -704,7 +704,7 @@ namespace IniParser
     /// <summary>
     /// Represents all data from an INI file
     /// </summary>
-    public class IniData
+    public class IniData : ICloneable
     {
         #region Non-Public Members
         /// <summary>
@@ -730,7 +730,7 @@ namespace IniParser
         /// data with the sections of the file</param>
         public IniData(SectionDataCollection sdc)
         {
-            _sections = sdc;
+            _sections = (SectionDataCollection)sdc.Clone();
         }
 
         #region Properties
@@ -761,6 +761,15 @@ namespace IniParser
         }   
         #endregion
 
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return new IniData(this.Sections);
+        }
+
+        #endregion
     }
 
     internal static class Assert

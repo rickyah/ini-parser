@@ -18,14 +18,11 @@ namespace ExampleProject
                 File.Delete("NewTestIniFile.ini");
 
             //Parse the ini file
-            parser.LoadFile("TestIniFile.ini");
-
-            //Get parsed data
-            IniData parsedData = parser.ParsedData;
+            IniData parsedData = parser.LoadFile("TestIniFile.ini");
 
             //Write down the contents of the ini file to the console
             Console.WriteLine("---- Printing contents of the INI file ----\n");
-            Console.WriteLine(ElaboratedParsing(parser));
+            Console.WriteLine(ElaboratedParsing(parsedData, parser));
 
             //Get concrete data from the ini file
             Console.WriteLine("---- Printing contents concrete data from the INI file ----");
@@ -36,15 +33,15 @@ namespace ExampleProject
             Console.WriteLine();
             //Write down the contents of the modified ini file to the console
             Console.WriteLine("---- Printing contents of the new INI file ----\n");
-            Console.WriteLine(ModifyINIData(parser));
+            IniData modifiedParsedData = ModifyINIData(parsedData);
+            Console.WriteLine(ElaboratedParsing(modifiedParsedData, parser));
 
             //Save to a file
-            parser.SaveFile("NewTestIniFile.ini");
+            parser.SaveFile("NewTestIniFile.ini", modifiedParsedData);
         }
 
-        private static string ElaboratedParsing(FileIniDataParser parser)
+        private static string ElaboratedParsing(IniData parsedData, FileIniDataParser parser)
         {
-            IniData parsedData = parser.ParsedData;
             StringBuilder sb = new StringBuilder();
 
             //Process data: print contents of the file into screen
@@ -79,11 +76,8 @@ namespace ExampleProject
             return sb.ToString();
         }
 
-        private static string ModifyINIData(FileIniDataParser parser)
+        private static IniData ModifyINIData(IniData modifiedParsedData)
         {
-            //Save instance for safe modifications
-            IniData modifiedParsedData = parser.ParsedData;
-
             modifiedParsedData["GeneralConfiguration"]["setMaxErrors"] = "10";
             modifiedParsedData.Sections.AddSection("newSection");
             modifiedParsedData.Sections.GetSectionData("newSection").Comments
@@ -92,12 +86,7 @@ namespace ExampleProject
             modifiedParsedData.Sections.GetSectionData("newSection").Keys.GetKeyData("myNewKey").Comments
             .Add("new key comment");
 
-            //Send the modified data to the parser
-            parser.ParsedData = modifiedParsedData;
-
-
-
-            return ElaboratedParsing(parser);
+            return modifiedParsedData; modifiedParsedData;
         }
     }
 }

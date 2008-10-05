@@ -44,17 +44,17 @@ namespace IniParserTestNamespace
         [Test, Description("Checks correct parsing of an empty INI file")]
         public void CheckParseEmptyFileSuccess()
         {
-            iniParser.LoadFile(strEmptyINIFilePath);
+            IniData parsedData = iniParser.LoadFile(strEmptyINIFilePath);
             
-            Assert.That(iniParser.ParsedData, Is.Not.Null);
+            Assert.That(parsedData, Is.Not.Null);
         }
 
         [Test, Description("Checks correct parsing of a well formed INI file")]
         public void CheckParseGoodFileSuccess()
         {
-            iniParser.LoadFile(strGoodINIFilePath);
+            IniData parsedData = iniParser.LoadFile(strGoodINIFilePath);
 
-            Assert.That(iniParser.ParsedData, Is.Not.Null);
+            Assert.That(parsedData, Is.Not.Null);
         }
 
         [Test, Description("Checks error when parsing a bad formed INI file")]
@@ -69,8 +69,8 @@ namespace IniParserTestNamespace
         {
             string fileString = strGoodINIFilePath + "_test.ini";
 
-            iniParser.LoadFile(strGoodINIFilePath);
-            iniParser.SaveFile(fileString);
+            IniData parsedData = iniParser.LoadFile(strGoodINIFilePath);
+            iniParser.SaveFile(fileString, parsedData);
 
             Assert.That(File.Exists(fileString));
         }

@@ -29,7 +29,7 @@ namespace IniParser
         /// Implements loading a file from disk.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        public void LoadFile(string fileName)
+        public IniData LoadFile(string fileName)
         {
             FileStream fs = null;
             StreamReader sr = null;
@@ -38,11 +38,10 @@ namespace IniParser
             {
                 fs = File.Open(fileName, FileMode.Open);
                 sr = new StreamReader(fs);
-                ParsedData = ReadData(sr);
+                return ReadData(sr);
             }
             catch ( IOException ex )
             {
-                ParsedData = null;
                 throw new ParsingException(String.Format("Could not parse file {0}", fileName), ex);
             }
             finally
@@ -56,8 +55,14 @@ namespace IniParser
         /// Implements saving a file from disk.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        public void SaveFile(string fileName)
+        public void SaveFile(string fileName, IniData parsedData)
         {
+            if (fileName == string.Empty)
+                throw new ArgumentException("Bad filename.");
+
+            if (parsedData == null)
+                throw new ArgumentNullException("Parsed data is null");
+
             FileStream fs = null;
             StreamWriter sw = null;
 
@@ -67,12 +72,11 @@ namespace IniParser
 
                 sw = new StreamWriter(fs);
 
-                WriteData(sw, ParsedData);
+                WriteData(sw, parsedData);
 
             }
             catch ( IOException ex)
             {
-                ParsedData = null;
                 throw new ParsingException(String.Format("Could not save to file {0}", fileName), ex);
             }
             finally
@@ -81,22 +85,6 @@ namespace IniParser
                 if ( fs != null ) fs.Close();
             }
 
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the parsed data.
-        /// </summary>
-        /// <value>
-        /// An object with the parsed data or <c>null</c> 
-        /// if either no data parsing was done, or was terminated with errors.</value>
-        public IniData ParsedData
-        {
-            get { return _data; }
-            set { _data = value; }
         }
 
         #endregion

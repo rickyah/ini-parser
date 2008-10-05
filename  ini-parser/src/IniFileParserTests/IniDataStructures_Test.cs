@@ -71,8 +71,7 @@ namespace IniParserTestNamespace
 
             //Assert not null and empty
             Assert.That(sd.Comments, Is.Empty );
-            Assert.That(sd.Keys, Is.Not.Empty);
-            Assert.That(sd.Keys.Count, Is.EqualTo(0));
+            Assert.That(sd.Keys, Is.Empty);
 
             //Change name
             sd.SectionName = "";
@@ -141,8 +140,7 @@ namespace IniParserTestNamespace
 
             //Creation
             SectionDataCollection sdc = new SectionDataCollection();
-            Assert.That(sdc, Is.Not.Empty);
-            Assert.That(sdc.Count, Is.EqualTo(0));
+            Assert.That(sdc, Is.Empty);
 
             //Add sectoin
             sdc.AddSection(strSectionTest);
