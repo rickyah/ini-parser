@@ -764,6 +764,12 @@ namespace IniParser
 
         #region ICloneable Members
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
         public object Clone()
         {
             return new IniData(this.Sections);
