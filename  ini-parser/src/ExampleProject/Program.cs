@@ -86,7 +86,7 @@ namespace ExampleProject
             modifiedParsedData.Sections.GetSectionData("newSection").Keys.GetKeyData("myNewKey").Comments
             .Add("new key comment");
 
-            return modifiedParsedData; modifiedParsedData;
+            return modifiedParsedData;
         }
     }
 }
