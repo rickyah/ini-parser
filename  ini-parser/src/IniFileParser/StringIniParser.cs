@@ -10,26 +10,49 @@ namespace IniParser
     /// </summary>
     public class StringIniParser : StreamIniDataParser
     {
+        /// <summary>
+        /// Parses a string containing data formatted as an INI file.
+        /// </summary>
+        /// <param name="dataStr">The string containing the data.</param>
+        /// <returns>
+        /// A new <see cref="IniData"/> instance with the data parsed from the string.
+        /// </returns>
         public IniData ParseString(string dataStr)
         {
-            StreamReader s =
-                new StreamReader(new MemoryStream(System.Text.ASCIIEncoding.Default.GetBytes(dataStr), false));
-            return this.ReadData(s);
+            using (MemoryStream ms = new MemoryStream(System.Text.ASCIIEncoding.Default.GetBytes(dataStr), false))
+            {
+                using (StreamReader s = new StreamReader(ms))
+                {
+                    return this.ReadData(s);
+                }
+            }
         }
 
+        /// <summary>
+        /// Creates a string from the INI data.
+        /// </summary>
+        /// <param name="iniData">An <see cref="IniData"/> instance.</param>
+        /// <returns>
+        /// A formatted string with the contents of the
+        /// <see cref="IniData"/> instance object.
+        /// </returns>
         public string WriteString(IniData iniData)
         {
-            MemoryStream ms = new MemoryStream();
-            StreamWriter sw = new StreamWriter( ms );
-            this.WriteData(sw, iniData);
-            sw.Flush();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (StreamWriter sw = new StreamWriter(ms))
+                {
+                    this.WriteData(sw, iniData);
+                    sw.Flush();
 
-            string result = System.Text.Encoding.UTF8.GetString(ms.ToArray());
+                    string result = System.Text.Encoding.UTF8.GetString(ms.ToArray());
 
-            ms.Close();
-            sw.Close();
+                    ms.Close();
+                    sw.Close();
 
-            return result;
+                    return result;
+                }
+            }
         }
     }
 }
