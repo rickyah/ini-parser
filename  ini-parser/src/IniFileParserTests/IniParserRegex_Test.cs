@@ -46,16 +46,17 @@ namespace IniParserTestNamespace
 
 
             string strGoodTest1 = "[section]";
-            string strGoodTest2 = "   [section]   ";
-            string strGoodTest3 = "[ section ]";
+            string strGoodTest2 = "   [sec-tion]   ";
+            string strGoodTest3 = "[ .section ]";
+            string strGoodTest4 = "[ s_ection ]";
 
             string strBadTest1 = "  bad [section]";
             string strBadTest2 = "[section] bad";
 
-
             Assert.That(strGoodTest1, Text.Matches(iniParser.SectionRegexString));
             Assert.That(strGoodTest2, Text.Matches(iniParser.SectionRegexString));
             Assert.That(strGoodTest3, Text.Matches(iniParser.SectionRegexString));
+            Assert.That(strGoodTest4, Text.Matches(iniParser.SectionRegexString));
 
             Assert.That(strBadTest1, Text.DoesNotMatch(iniParser.SectionRegexString));
             Assert.That(strBadTest2, Text.DoesNotMatch(iniParser.SectionRegexString));
