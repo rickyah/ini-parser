@@ -41,6 +41,7 @@
     <Compile Include="IniParserFile_Test.cs" />
     <Compile Include="IniParserRegex_Test.cs" />
     <Compile Include="IniStringParser_Test.cs" />
+    <Compile Include="Issues_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
