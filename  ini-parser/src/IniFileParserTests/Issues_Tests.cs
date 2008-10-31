@@ -80,9 +80,13 @@ namespace IniParserTestNamespace
         [Test, Description("Test for Issue 3: http://code.google.com/p/ini-parser/issues/detail?id=3")]
         public void Issue3_Tests()
         {
-            string strTest = "[section.issue3]\nkey.with.dots = value\n";
+            string strTest = "[section_issue.3]\nkey.with_dots = value\n";
 
-            IniData
+            IniData data = new StringIniParser().ParseString(strTest);
+
+            Assert.That(data.Sections.Count, Is.EqualTo(1));
+            Assert.That(data.Sections["section_issue.3"]["key.with_dots"], Is.Not.Null);
+
         }
 
 
