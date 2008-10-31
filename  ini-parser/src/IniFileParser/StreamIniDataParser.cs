@@ -17,7 +17,7 @@ namespace IniParser
         private readonly string strSectionRegexStart = @"^(\s*?)";
         private readonly string strSectionRegexMiddle = @"{1}\s*[_\.\-\w\d\s]+\s*";
         private readonly string strSectionRegexEnd = @"(\s*?)$";
-        private readonly string strKeyRegex = @"^(\s*[\.\d\w]*\s*)";
+        private readonly string strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
         private readonly string strValueRegex = @"([\s\d\w\W]*)$";
         private readonly string strSpecialRegexChars = @"[\^$.|?*+()";
 
