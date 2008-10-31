@@ -8,7 +8,7 @@ using NUnit.Framework.SyntaxHelpers;
 
 using IniParser;
 
-namespace IniFileParserTests
+namespace IniParserTestNamespace
 {
     [TestFixture, Category("String parsing/writing tests")]
     public class IniStringParser_Test
