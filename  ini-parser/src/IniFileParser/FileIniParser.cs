@@ -11,18 +11,6 @@ namespace IniParser
     /// </summary>
     public class FileIniDataParser : StreamIniDataParser
     {
-        #region Initialization
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FileIniDataParser"/> class.
-        /// </summary>
-        public FileIniDataParser()
-        {
-
-        }
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -30,25 +18,25 @@ namespace IniParser
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         public IniData LoadFile(string fileName)
-        {
-            FileStream fs = null;
-            StreamReader sr = null;
+        {            
+            if (fileName == string.Empty)
+                throw new ArgumentException("Bad filename.");
 
             try
             {
-                fs = File.Open(fileName, FileMode.Open);
-                sr = new StreamReader(fs);
-                return ReadData(sr);
+                using ( FileStream fs = File.Open(fileName,FileMode.Open, FileAccess.Read) )
+                {
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        return this.ReadData(sr);
+                    }
+                }
             }
             catch ( IOException ex )
             {
                 throw new ParsingException(String.Format("Could not parse file {0}", fileName), ex);
             }
-            finally
-            {
-               if ( sr != null ) sr.Close();
-               if ( fs != null ) fs.Close();
-            }
+
         }
 
         /// <summary>
@@ -63,26 +51,20 @@ namespace IniParser
             if (parsedData == null)
                 throw new ArgumentNullException("Parsed data is null");
 
-            FileStream fs = null;
-            StreamWriter sw = null;
-
             try
             {
-                fs = File.Create(fileName);
-
-                sw = new StreamWriter(fs);
-
-                WriteData(sw, parsedData);
-
+                using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
+                {
+                    using (StreamWriter sr = new StreamWriter(fs))
+                    {
+                        this.WriteData(sr, parsedData);
+                    }
+                }
+ 
             }
             catch ( IOException ex)
             {
                 throw new ParsingException(String.Format("Could not save to file {0}", fileName), ex);
-            }
-            finally
-            {
-                if ( sw != null ) sw.Close();
-                if ( fs != null ) fs.Close();
             }
 
         }
