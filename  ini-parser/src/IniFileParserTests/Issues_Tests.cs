@@ -67,14 +67,6 @@ namespace IniParserTestNamespace
             Assert.That(data.Sections["ExampleSection"].Count, Is.EqualTo(1));
             Assert.That(data.Sections["ExampleSection"]["key"], Is.EqualTo("value"));
 
-
-            FileIniDataParser fParser = new FileIniDataParser();
-            data = fParser.LoadFile(@"../../INIFileBAD_Issue2.ini");
-
-            Assert.That(data.Sections.Count, Is.EqualTo(1));
-            Assert.That(data.Sections["ExampleSection"], Is.Not.Null);
-            Assert.That(data.Sections["ExampleSection"].Count, Is.EqualTo(1));
-            Assert.That(data.Sections["ExampleSection"]["key"], Is.EqualTo("value"));
         }
 
         [Test, Description("Test for Issue 3: http://code.google.com/p/ini-parser/issues/detail?id=3")]
