@@ -11,6 +11,8 @@
     <AssemblyName>INIFileParser</AssemblyName>
     <StartupObject>
     </StartupObject>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +44,9 @@
     <Compile Include="StreamIniDataParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringIniParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\publickey.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
