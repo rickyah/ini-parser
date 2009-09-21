@@ -18,21 +18,31 @@ namespace IniParser
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         public IniData LoadFile(string fileName)
-        {            
+        {
+            return LoadFile(fileName, false);
+        }
+
+        /// <summary>
+        /// Implements loading a file from disk.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <param name="relaxedIniRead">True to try reading bad formed INI files</param>
+        public IniData LoadFile(string fileName, bool relaxedIniRead)
+        {
             if (fileName == string.Empty)
                 throw new ArgumentException("Bad filename.");
 
             try
             {
-                using ( FileStream fs = File.Open(fileName,FileMode.Open, FileAccess.Read) )
+                using (FileStream fs = File.Open(fileName, FileMode.Open, FileAccess.Read))
                 {
                     using (StreamReader sr = new StreamReader(fs))
                     {
-                        return this.ReadData(sr);
+                        return this.ReadData(sr, relaxedIniRead);
                     }
                 }
             }
-            catch ( IOException ex )
+            catch (IOException ex)
             {
                 throw new ParsingException(String.Format("Could not parse file {0}", fileName), ex);
             }
@@ -60,9 +70,9 @@ namespace IniParser
                         this.WriteData(sr, parsedData);
                     }
                 }
- 
+
             }
-            catch ( IOException ex)
+            catch (IOException ex)
             {
                 throw new ParsingException(String.Format("Could not save to file {0}", fileName), ex);
             }
@@ -73,7 +83,7 @@ namespace IniParser
 
         #region Non-public members
 
-        IniData _data = null; 
+        IniData _data = null;
 
         #endregion
     }

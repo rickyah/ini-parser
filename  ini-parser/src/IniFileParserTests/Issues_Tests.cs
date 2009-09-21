@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using IniParser;
@@ -13,6 +14,9 @@ namespace IniParserTestNamespace
     [TestFixture]
     public class Issues_Test
     {
+        public readonly string strBadSectionINIFilePath = @"../../INIFileBADSection.ini";
+        public readonly string strBadKeysINIFilePath = @"../../INIFileBADKeys.ini";
+
         #region Test Members
 
         //TODO: Add fields used in the tests
@@ -81,6 +85,22 @@ namespace IniParserTestNamespace
 
         }
 
+        [Test, Description("Test for Issue 4: http://code.google.com/p/ini-parser/issues/detail?id=4")]
+        public void Issue4_Tests()
+        {
+            FileIniDataParser fileParser = new FileIniDataParser();
+
+            IniData data = fileParser.LoadFile(strBadSectionINIFilePath, true);
+
+            Assert.That(data, Is.Not.Null);
+            Assert.That(data.Sections.Count, Is.EqualTo(1));
+            Assert.That(data.Sections.GetSectionData("seccion1").Keys.Count, Is.EqualTo(1));
+
+            data = fileParser.LoadFile(strBadKeysINIFilePath, true);
+
+            Assert.That(data, Is.Not.Null);
+            Assert.That(data.Sections.GetSectionData("seccion1").Keys.Count, Is.EqualTo(1));
+        }
 
 
         #endregion

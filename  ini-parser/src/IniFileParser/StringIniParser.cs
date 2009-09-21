@@ -10,20 +10,39 @@ namespace IniParser
     /// </summary>
     public class StringIniParser : StreamIniDataParser
     {
+
         /// <summary>
         /// Parses a string containing data formatted as an INI file.
         /// </summary>
         /// <param name="dataStr">The string containing the data.</param>
+        /// <param name="relaxedIniRead">
+        ///     True to try reading an invalid INI file.
+        /// </param>
         /// <returns>
         /// A new <see cref="IniData"/> instance with the data parsed from the string.
         /// </returns>
         public IniData ParseString(string dataStr)
         {
+            return ParseString(dataStr, false);
+        }
+
+        /// <summary>
+        /// Parses a string containing data formatted as an INI file.
+        /// </summary>
+        /// <param name="dataStr">The string containing the data.</param>
+        /// <param name="relaxedIniRead">
+        ///     True to try reading an invalid INI file.
+        /// </param>
+        /// <returns>
+        /// A new <see cref="IniData"/> instance with the data parsed from the string.
+        /// </returns>
+        public IniData ParseString(string dataStr, bool relaxedIniRead)
+        {
             using (MemoryStream ms = new MemoryStream(System.Text.ASCIIEncoding.Default.GetBytes(dataStr), false))
             {
                 using (StreamReader s = new StreamReader(ms))
                 {
-                    return this.ReadData(s);
+                    return this.ReadData(s, relaxedIniRead);
                 }
             }
         }

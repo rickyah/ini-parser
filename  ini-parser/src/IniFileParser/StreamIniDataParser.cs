@@ -64,27 +64,41 @@ namespace IniParser
         /// <returns></returns>
         public IniData ReadData(StreamReader reader)
         {
-            if ( reader == null )
+            return ReadData(reader, false);
+        }
+
+        /// <summary>
+        /// <para>Reads data in INI format from a stream.</para> 
+        /// </summary>
+        /// <param name="reader">Reader stream.</param>
+        /// <param name="relaxedIniFormat">
+        ///     True to allow loading an IniFile with non-unique section or key, in which
+        ///     case the repeating values are discarded
+        /// </param>
+        /// <returns></returns>
+        public IniData ReadData(StreamReader reader, bool relaxedIniFormat)
+        {
+            _relaxedIniFormat = relaxedIniFormat;
+
+            if (reader == null)
                 throw new ArgumentNullException("reader", "The StreamReader object is null");
 
             try
             {
-                while ( !reader.EndOfStream )
-                    ProcessLine( reader.ReadLine() );
+                while (!reader.EndOfStream)
+                    ProcessLine(reader.ReadLine());
 
-                return new IniData( (SectionDataCollection)_currentTmpData.Clone() );
+                return new IniData((SectionDataCollection)_currentTmpData.Clone());
             }
             catch (Exception ex)
             {
                 _currentTmpData.Clear();
-                throw new ParsingException( "Parsing error: " + ex.Message, ex);
+                throw new ParsingException("Parsing error: " + ex.Message, ex);
             }
             finally
             {
                 _currentTmpData.Clear();
-            }
-
-            
+            }  
         }
  
         /// <summary>
@@ -343,6 +357,8 @@ namespace IniParser
         /// <param name="s">The string to be processed</param>
         private void ProcessSection(string s)
         {
+            ProcessingSection = true;
+
             string tmp = _sectionRegex.Match(s).Value.Trim();
 
             //Check bad string
@@ -354,8 +370,19 @@ namespace IniParser
 
             //Checks correct ini format
             if (_currentTmpData.ContainsSection(tmp))
-                throw new ParsingException(
-                    "Error parsing section: Another section with the same name exists!");
+            {
+                if (_relaxedIniFormat)
+                {
+                    ProcessingSection = false;
+                    return;
+                }
+                else
+                {
+                    throw new ParsingException(string.Format(
+                        "Error parsing section: Another section with the name [{0}] exists!", s));
+                }
+            }
+                
 
             _currentSectionName = tmp;
 
@@ -367,12 +394,22 @@ namespace IniParser
            
         }
 
+        private bool _processingSecion;
+        private bool ProcessingSection
+        {
+            get { return _processingSecion; }
+            set { _processingSecion = value; }
+        }
+
         /// <summary>
         /// Processes a string containing a key/value pair.
         /// </summary>
         /// <param name="s">The string to be processed</param>
         private void ProcessKeyValuePair(string s)
         {
+            if (!ProcessingSection)
+                return;
+
             if (_currentSectionName == string.Empty)
                 throw new ParsingException(
                     "Bad file format: key doesn't match any section. String :" + s);
@@ -382,9 +419,18 @@ namespace IniParser
     
             //Checks correct ini format
             if (_currentTmpData.GetSectionData(_currentSectionName).Keys.ContainsKey(key))
-                throw new ParsingException(
-                    "Error parsing section: Another value with the same name in section "
-                    + _currentSectionName+ " exists!");
+            {
+                if (_relaxedIniFormat)
+                {
+                    return;
+                }
+                else
+                {
+                    throw new ParsingException(string.Format(
+                                                   "Error parsing section: Another key with the same name [{0}] already exists in section",
+                                                   _currentSectionName));
+                }
+            }
 
             _currentTmpData.GetSectionData(_currentSectionName).Keys.AddKey(key);
             _currentTmpData.GetSectionData(_currentSectionName).Keys.GetKeyData(key).Value = value;
@@ -473,6 +519,11 @@ namespace IniParser
         /// Regular expression for matching a key / value pair string
         /// </summary>
         private Regex _keyValuePairRegex;
+    
+        /// <summary>
+        ///     True to allow loading an IniFile with non-unique section or key
+        /// </summary>
+        private bool _relaxedIniFormat;
 
         #endregion
     }
