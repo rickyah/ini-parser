@@ -1,7 +1,4 @@
-using System;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
 
 namespace IniParser
 {
@@ -15,9 +12,6 @@ namespace IniParser
         /// Parses a string containing data formatted as an INI file.
         /// </summary>
         /// <param name="dataStr">The string containing the data.</param>
-        /// <param name="relaxedIniRead">
-        ///     True to try reading an invalid INI file.
-        /// </param>
         /// <returns>
         /// A new <see cref="IniData"/> instance with the data parsed from the string.
         /// </returns>
@@ -38,11 +32,11 @@ namespace IniParser
         /// </returns>
         public IniData ParseString(string dataStr, bool relaxedIniRead)
         {
-            using (MemoryStream ms = new MemoryStream(System.Text.ASCIIEncoding.Default.GetBytes(dataStr), false))
+            using (MemoryStream ms = new MemoryStream(System.Text.Encoding.Default.GetBytes(dataStr), false))
             {
                 using (StreamReader s = new StreamReader(ms))
                 {
-                    return this.ReadData(s, relaxedIniRead);
+                    return ReadData(s, relaxedIniRead);
                 }
             }
         }
@@ -61,7 +55,7 @@ namespace IniParser
             {
                 using (StreamWriter sw = new StreamWriter(ms))
                 {
-                    this.WriteData(sw, iniData);
+                    WriteData(sw, iniData);
                     sw.Flush();
 
                     string result = System.Text.Encoding.UTF8.GetString(ms.ToArray());

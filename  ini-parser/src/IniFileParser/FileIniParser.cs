@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace IniParser
 {
@@ -38,7 +35,7 @@ namespace IniParser
                 {
                     using (StreamReader sr = new StreamReader(fs))
                     {
-                        return this.ReadData(sr, relaxedIniRead);
+                        return ReadData(sr, relaxedIniRead);
                     }
                 }
             }
@@ -53,13 +50,14 @@ namespace IniParser
         /// Implements saving a file from disk.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
+        /// <param name="parsedData">IniData to be saved as an INI file.</param>
         public void SaveFile(string fileName, IniData parsedData)
         {
-            if (fileName == string.Empty)
+            if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentException("Bad filename.");
 
             if (parsedData == null)
-                throw new ArgumentNullException("Parsed data is null");
+                throw new ArgumentNullException("parsedData");
 
             try
             {
@@ -67,23 +65,17 @@ namespace IniParser
                 {
                     using (StreamWriter sr = new StreamWriter(fs))
                     {
-                        this.WriteData(sr, parsedData);
+                        WriteData(sr, parsedData);
                     }
                 }
 
             }
             catch (IOException ex)
             {
-                throw new ParsingException(String.Format("Could not save to file {0}", fileName), ex);
+                throw new ParsingException(String.Format("Could not save data to file {0}", fileName), ex);
             }
 
         }
-
-        #endregion
-
-        #region Non-public members
-
-        IniData _data = null;
 
         #endregion
     }

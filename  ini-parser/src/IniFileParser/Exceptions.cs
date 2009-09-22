@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace IniParser
 {
@@ -12,8 +10,7 @@ namespace IniParser
         /// <summary>
         /// Initializes a new instance of the <see cref="ParsingException"/> class.
         /// </summary>
-        public ParsingException()
-            : base() { }
+        public ParsingException(){ }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParsingException"/> class.

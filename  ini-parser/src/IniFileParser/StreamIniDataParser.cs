@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -52,7 +51,7 @@ namespace IniParser
             //Default delimiter values
             CommentDelimiter = ';';
             KeyValueDelimiter = '=';
-            SectionDelimiters = new char[2] { '[', ']' };
+            SectionDelimiters = new char[] { '[', ']' };
 
             _currentTmpData = new SectionDataCollection();
         }
@@ -98,9 +97,9 @@ namespace IniParser
             finally
             {
                 _currentTmpData.Clear();
-            }  
+            }
         }
- 
+
         /// <summary>
         /// Writes the ini data to a stream.
         /// </summary>
@@ -117,24 +116,24 @@ namespace IniParser
             {
                 //Write section comments
                 foreach (string sectionComment in sd.Comments)
-                    writer.WriteLine(string.Format("{0}{1}", this.CommentDelimiter, sectionComment));
+                    writer.WriteLine(string.Format("{0}{1}", CommentDelimiter, sectionComment));
 
                 //Write section name
                 writer.WriteLine(string.Format(
                     "{0}{1}{2}",
-                    this.SectionDelimiters[0], sd.SectionName, this.SectionDelimiters[1]));
+                    SectionDelimiters[0], sd.SectionName, SectionDelimiters[1]));
 
                 //Write section keys
                 foreach (KeyData kd in sd.Keys)
                 {
                     //Write key comments
                     foreach (string keyComment in kd.Comments)
-                        writer.WriteLine(string.Format("{0}{1}", this.CommentDelimiter, keyComment));
+                        writer.WriteLine(string.Format("{0}{1}", CommentDelimiter, keyComment));
 
                     //Write key and value
                     writer.WriteLine(string.Format(
                         "{0} {1} {2}",
-                        kd.KeyName, this.KeyValueDelimiter, kd.Value));
+                        kd.KeyName, KeyValueDelimiter, kd.Value));
                 }
 
                 writer.WriteLine();     //blank line
@@ -169,17 +168,17 @@ namespace IniParser
             get { return _sectionDelimiters; }
             set
             {
-                if ( value == null || value.Length != 2 )
+                if (value == null || value.Length != 2)
                     return;
 
                 string tmp = strSectionRegexStart;
-                if ( strSpecialRegexChars.Contains(new string(value[0], 1)) )
+                if (strSpecialRegexChars.Contains(new string(value[0], 1)))
                     tmp += "\\" + value[0];
                 else tmp += value[0];
 
                 tmp += strSectionRegexMiddle;
 
-                if ( strSpecialRegexChars.Contains(new string(value[1], 1)) )
+                if (strSpecialRegexChars.Contains(new string(value[1], 1)))
                     tmp += "\\" + value[1];
                 else
                     tmp += value[1];
@@ -204,7 +203,7 @@ namespace IniParser
                 _keyValueDelimiter = value;
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the regular expression for matching
         /// a comment substring.
@@ -212,8 +211,8 @@ namespace IniParser
         /// <value>A string containing the regular expression.</value>
         public string CommentRegexString
         {
-            get 
-            { 
+            get
+            {
                 if (_commentRegex == null)
                     return string.Empty;
 
@@ -228,12 +227,12 @@ namespace IniParser
         /// <value>A string containing the regular expression.</value>
         public string SectionRegexString
         {
-            get 
+            get
             {
                 if (_sectionRegex == null)
                     return string.Empty;
 
-                return _sectionRegex.ToString(); 
+                return _sectionRegex.ToString();
             }
         }
 
@@ -244,10 +243,10 @@ namespace IniParser
         /// <value>A string containing the regular expression.</value>
         public string KeyValuePairRegexString
         {
-            get 
+            get
             {
                 if (_keyValuePairRegex == null)
-                    return string.Empty; 
+                    return string.Empty;
                 return _keyValuePairRegex.ToString();
             }
         }
@@ -265,7 +264,7 @@ namespace IniParser
         /// </returns>
         private bool MatchComment(string s)
         {
-            if ( s == null || s == string.Empty )
+            if (string.IsNullOrEmpty(s))
                 return false;
 
             return _commentRegex.Match(s).Success;
@@ -280,7 +279,7 @@ namespace IniParser
         /// </returns>
         private bool MatchSection(string s)
         {
-            if ( s == null || s == string.Empty )
+            if (string.IsNullOrEmpty(s))
                 return false;
 
             return _sectionRegex.Match(s).Success;
@@ -295,12 +294,12 @@ namespace IniParser
         /// </returns>
         private bool MatchKeyValuePair(string s)
         {
-            if ( s == null || s == string.Empty )
+            if (string.IsNullOrEmpty(s))
                 return false;
 
             return _keyValuePairRegex.Match(s).Success;
         }
-       
+
         /// <summary>
         /// Removes a comment from a string if exist, and returns the string without
         /// the comment substring.
@@ -311,7 +310,7 @@ namespace IniParser
         {
             string tmp = _commentRegex.Match(s).Value.Trim();
 
-            _currentCommentList.Add(tmp.Substring(1, tmp.Length-1));
+            _currentCommentList.Add(tmp.Substring(1, tmp.Length - 1));
 
             return s.Replace(tmp, "").Trim();
         }
@@ -340,15 +339,14 @@ namespace IniParser
             }
 
             //Process keys
-            else if (MatchKeyValuePair(currentLine))
+            if (MatchKeyValuePair(currentLine))
             {
                 ProcessKeyValuePair(currentLine);
                 return;
             }
 
-            else
-                throw new ParsingException(
-                    "Couldn't parse string: " + currentLine + ". Unknown file format.");
+            throw new ParsingException(
+                "Couldn't parse string: " + currentLine + ". Unknown file format.");
         }
 
         /// <summary>
@@ -376,13 +374,11 @@ namespace IniParser
                     ProcessingSection = false;
                     return;
                 }
-                else
-                {
-                    throw new ParsingException(string.Format(
-                        "Error parsing section: Another section with the name [{0}] exists!", s));
-                }
+
+                throw new ParsingException(string.Format(
+                    "Error parsing section: Another section with the name [{0}] exists!", s));
             }
-                
+
 
             _currentSectionName = tmp;
 
@@ -391,7 +387,7 @@ namespace IniParser
             _currentTmpData.GetSectionData(tmp).Comments = _currentCommentList;
             _currentCommentList.Clear();
 
-           
+
         }
 
         private bool _processingSecion;
@@ -416,7 +412,7 @@ namespace IniParser
             string key = ExtractKey(s);
             string value = ExtractValue(s);
 
-    
+
             //Checks correct ini format
             if (_currentTmpData.GetSectionData(_currentSectionName).Keys.ContainsKey(key))
             {
@@ -424,12 +420,10 @@ namespace IniParser
                 {
                     return;
                 }
-                else
-                {
-                    throw new ParsingException(string.Format(
+
+                throw new ParsingException(string.Format(
                                                    "Error parsing section: Another key with the same name [{0}] already exists in section",
                                                    _currentSectionName));
-                }
             }
 
             _currentTmpData.GetSectionData(_currentSectionName).Keys.AddKey(key);
@@ -478,17 +472,17 @@ namespace IniParser
         /// <summary>
         /// Temp list of comments
         /// </summary>
-        List<string> _currentCommentList = new List<string>();
+        private readonly List<string> _currentCommentList = new List<string>();
 
         /// <summary>
         /// Tmp var with the name of the seccion which is being process
         /// </summary>
-        string _currentSectionName;
+        private string _currentSectionName;
 
         /// <summary>
         /// Temporary data for the parsing
         /// </summary>
-        SectionDataCollection _currentTmpData;
+        private SectionDataCollection _currentTmpData;
 
         /// <summary>
         /// Defines the character used as comment delimiter.
@@ -519,7 +513,7 @@ namespace IniParser
         /// Regular expression for matching a key / value pair string
         /// </summary>
         private Regex _keyValuePairRegex;
-    
+
         /// <summary>
         ///     True to allow loading an IniFile with non-unique section or key
         /// </summary>
