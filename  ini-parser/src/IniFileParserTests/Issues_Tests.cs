@@ -118,7 +118,7 @@ namespace IniParserTestNamespace
             key.Comments.Add("This is a comment");
             inidata["TestSection"].SetKeyData(key);
 
-            Assert.That(inidata["TestSection"]["TestKey"]);
+            Assert.That(inidata["TestSection"].GetKeyData("TestKey").Comments[0], Is.EqualTo("This is a comment"));
         }
 
         #endregion
