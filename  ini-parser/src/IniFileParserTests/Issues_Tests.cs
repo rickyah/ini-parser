@@ -103,6 +103,24 @@ namespace IniParserTestNamespace
         }
 
 
+        /// <summary>
+        ///     Thanks to h.eriksson@artamir.org for the issue.
+        /// </summary>
+        [Test, Description("Test for Issue 5: http://code.google.com/p/ini-parser/issues/detail?id=5")]
+        public void Issue5_Tests()
+        {
+            
+            IniData inidata = new IniData();
+            inidata.Sections.AddSection("TestSection");
+
+            KeyData key = new KeyData("TestKey");
+            key.Value = "TestValue";
+            key.Comments.Add("This is a comment");
+            inidata["TestSection"].SetKeyData(key);
+
+            Assert.That(inidata["TestSection"]["TestKey"]);
+        }
+
         #endregion
     }
 }
