@@ -12,7 +12,8 @@ namespace IniParser
     {
         #region Default regular expression strings
 
-        private readonly string strCommentRegex = @".[^\r^\n]*";
+        //private readonly string strCommentRegex = @".[^\r^\n]*";
+        private readonly string strCommentRegex = @".*";
         private readonly string strSectionRegexStart = @"^(\s*?)";
         private readonly string strSectionRegexMiddle = @"{1}\s*[_\.\-\w\d\s]+\s*";
         private readonly string strSectionRegexEnd = @"(\s*?)$";
