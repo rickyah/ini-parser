@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 using IniParser;
@@ -12,7 +11,7 @@ namespace ExampleProject
         public static void Main()
         {
             //Create an instance of a ini file parser
-            IniParser.FileIniDataParser parser = new FileIniDataParser();
+            FileIniDataParser parser = new FileIniDataParser();
 
             if (File.Exists("NewTestIniFile.ini"))
                 File.Delete("NewTestIniFile.ini");
@@ -40,7 +39,7 @@ namespace ExampleProject
             parser.SaveFile("NewTestIniFile.ini", modifiedParsedData);
         }
 
-        private static string ElaboratedParsing(IniData parsedData, FileIniDataParser parser)
+        private static string ElaboratedParsing(IniData parsedData, StreamIniDataParser parser)
         {
             StringBuilder sb = new StringBuilder();
 

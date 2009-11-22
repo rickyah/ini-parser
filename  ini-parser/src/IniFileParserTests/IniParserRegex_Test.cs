@@ -1,16 +1,10 @@
 using System;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using NUnit.Framework.SyntaxHelpers;
 
 using IniParser;
 
-namespace IniParserTestNamespace
+namespace IniFileParserTests
 {
     [TestFixture, Category("Regular expression tests")]
     public class IniParserRegexTest
@@ -65,7 +59,7 @@ namespace IniParserTestNamespace
         [Test, Description("Test a regular expression for matching a section in an INI file given an specific delimiter")]
         public void TestNewSectionDelimiter()
         {
-            iniParser.SectionDelimiters = new char[2] { '<', '>' };
+            iniParser.SectionDelimiters = new char[] { '<', '>' };
             Console.WriteLine("Regular expresion for sections: {0}", iniParser.SectionRegexString);
 
 
@@ -85,7 +79,7 @@ namespace IniParserTestNamespace
             Assert.That(strBadTest2, Text.DoesNotMatch(iniParser.SectionRegexString));
 
             //Restore default delimiters
-            iniParser.SectionDelimiters = new char[2] { '[', ']' };
+            iniParser.SectionDelimiters = new char[] { '[', ']' };
         }
 
         [Test, Description("Test a regular expression for matching a key=value pair in an ini file")]
@@ -106,7 +100,7 @@ namespace IniParserTestNamespace
             Assert.That(strGoodTest3, Text.Matches(iniParser.KeyValuePairRegexString));
             Assert.That(strGoodTest4, Text.Matches(iniParser.KeyValuePairRegexString));
 
-            Assert.That(strBadTest1, Text.DoesNotMatch(iniParser.KeyValuePairRegexString.ToString()));
+            Assert.That(strBadTest1, Text.DoesNotMatch(iniParser.KeyValuePairRegexString));
         }
 
         [Test, Description("Test a regular expression for matching a key in a key=value pair")]

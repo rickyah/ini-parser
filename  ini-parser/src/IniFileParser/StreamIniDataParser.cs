@@ -12,14 +12,13 @@ namespace IniParser
     {
         #region Default regular expression strings
 
-        //private readonly string strCommentRegex = @".[^\r^\n]*";
-        private readonly string strCommentRegex = @".*";
-        private readonly string strSectionRegexStart = @"^(\s*?)";
-        private readonly string strSectionRegexMiddle = @"{1}\s*[_\.\-\w\d\s]+\s*";
-        private readonly string strSectionRegexEnd = @"(\s*?)$";
-        private readonly string strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
-        private readonly string strValueRegex = @"([\s\d\w\W]*)$";
-        private readonly string strSpecialRegexChars = @"[\^$.|?*+()";
+        private const string strCommentRegex = @".*";
+        private const string strSectionRegexStart = @"^(\s*?)";
+        private const string strSectionRegexMiddle = @"{1}\s*[_\.\-\w\d\s]+\s*";
+        private const string strSectionRegexEnd = @"(\s*?)$";
+        private const string strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
+        private const string strValueRegex = @"([\s\d\w\W]*)$";
+        private const string strSpecialRegexChars = @"[\^$.|?*+()";
 
         #endregion
 
@@ -483,7 +482,7 @@ namespace IniParser
         /// <summary>
         /// Temporary data for the parsing
         /// </summary>
-        private SectionDataCollection _currentTmpData;
+        private readonly SectionDataCollection _currentTmpData;
 
         /// <summary>
         /// Defines the character used as comment delimiter.

@@ -73,7 +73,7 @@ namespace IniParser
         /// </returns>
         public object Clone()
         {
-            return new IniData(this.Sections);
+            return new IniData(Sections);
         }
 
         #endregion

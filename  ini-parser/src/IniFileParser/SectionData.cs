@@ -16,9 +16,9 @@ namespace IniParser
         /// </summary>
         public SectionData(string sectionName)
         {
-            this._comments = new List<string>();
-            this._keyDataCollection = new KeyDataCollection();
-            this.SectionName = sectionName;
+            _comments = new List<string>();
+            _keyDataCollection = new KeyDataCollection();
+            SectionName = sectionName;
         }
 
         /// <summary>
@@ -33,8 +33,8 @@ namespace IniParser
         /// used to create the new instance.</param>
         public SectionData(SectionData ori)
         {
-            this._comments = new List<string>(ori._comments);
-            this._keyDataCollection = new KeyDataCollection(ori._keyDataCollection);
+            _comments = new List<string>(ori._comments);
+            _keyDataCollection = new KeyDataCollection(ori._keyDataCollection);
         }
 
         #endregion

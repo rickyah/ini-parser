@@ -6,7 +6,7 @@ using NUnit.Framework.SyntaxHelpers;
 
 using IniParser;
 
-namespace IniParserTestNamespace
+namespace IniFileParserTests
 {
     [TestFixture, Category("String parsing/writing tests")]
     public class IniStringParser_Test
@@ -22,7 +22,7 @@ namespace IniParserTestNamespace
             ";comment for myKey1 " + Environment.NewLine +
             "mykey1 = value1 " + Environment.NewLine;
 
-        private StringIniParser sip = null;
+        private StringIniParser sip;
 
         [SetUp]
         public void SetUp()
@@ -48,8 +48,7 @@ namespace IniParserTestNamespace
             data.Sections["newSection1"].AddKey("newKey1", "newValue1");
             data.Sections["newSection1"].AddKey("newKey2", "newValue5");
 
-            string result = string.Empty;
-            result = sip.WriteString(data);
+            string result = sip.WriteString(data);
 
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Length, Is.Not.EqualTo(0));

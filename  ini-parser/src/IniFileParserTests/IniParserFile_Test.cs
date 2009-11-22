@@ -1,15 +1,10 @@
-using System;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
-
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using NUnit.Framework.SyntaxHelpers;
 
 using IniParser;
 
-namespace IniParserTestNamespace
+namespace IniFileParserTests
 {
     [TestFixture, Category("File loading/saving tests")]
     public class IniParserFileTest
