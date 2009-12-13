@@ -154,7 +154,7 @@ namespace IniParser
         {
             if (AddKey(keyName))
             {
-                _keyData[keyName] = new KeyData(keyValue);
+                _keyData[keyName].Value = keyValue;
                 return true;
             }
 
