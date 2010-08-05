@@ -55,7 +55,7 @@ namespace IniParserTestNamespace
         #region Tests
 
         [Test, Description("Test for Issue 2: http://code.google.com/p/ini-parser/issues/detail?id=2")]
-        public void Issue2Test()
+        public void Issue2_Test3()
         {
             string test = "[ExampleSection]\nkey = value;value\n";
 
@@ -132,6 +132,35 @@ namespace IniParserTestNamespace
             Assert.That(inidata["data"]["key"],Is.EqualTo("value") );
         }
 
+        /// <summary>
+        ///     Thanks to  for the issue.
+        /// </summary>
+        [Test, Description("Test for Issue 7: http://code.google.com/p/ini-parser/issues/detail?id=7")]
+        public void Issue7_Tests_1()
+        {
+
+            IniData newData = new IniData();
+
+            newData.Sections.AddSection("newSection");
+            newData["newSection"].AddKey("newKey1", "value1");
+
+            Assert.That(newData["newSection"]["newKey1"], Is.EqualTo("value1"));
+        }
+
+        /// <summary>
+        ///     Thanks to  for the issue.
+        /// </summary>
+        [Test, Description("Test for Issue 7: http://code.google.com/p/ini-parser/issues/detail?id=7")]
+        public void Issue7_Tests_2()
+        {
+            IniData newData = new IniData();
+
+            newData.Sections.AddSection("newSection");
+            newData["newSection"].AddKey("newKey1");
+            newData["newSection"]["newKey1"] = "value1";
+
+            Assert.That(newData["newSection"]["newKey1"], Is.EqualTo("value1"));
+        }
         #endregion
     }
 }
