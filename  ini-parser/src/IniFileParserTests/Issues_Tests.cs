@@ -161,6 +161,20 @@ namespace IniParserTestNamespace
 
             Assert.That(newData["newSection"]["newKey1"], Is.EqualTo("value1"));
         }
+
+        [Test, Description("Test for Issue 10: http://code.google.com/p/ini-parser/issues/detail?id=10")]
+        public void Issue10_Tests()
+        {
+            string data = @"[http://example.com/page] 
+key1 = value1";
+ 
+            var parser = new StringIniParser();
+            var newData = parser.ParseString(data);
+
+            Assert.That(newData.Sections[@"http://example.com/page"]["key1"], Is.EqualTo("value1"));
+        }
+
+
         #endregion
     }
 }
