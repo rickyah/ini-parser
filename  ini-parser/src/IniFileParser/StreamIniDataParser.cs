@@ -19,7 +19,7 @@ namespace IniParser
         private const string strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
         private const string strValueRegex = @"([\s\d\w\W]*)$";
         private const string strSpecialRegexChars = @"[\^$.|?*+()";
-
+        
         #endregion
 
         #region Public Methods
@@ -54,6 +54,7 @@ namespace IniParser
             SectionDelimiters = new char[] { '[', ']' };
 
             _currentTmpData = new SectionDataCollection();
+            
         }
 
         /// <summary>
@@ -82,6 +83,11 @@ namespace IniParser
             if (reader == null)
                 throw new ArgumentNullException("reader", "The StreamReader object is null");
 
+            if (relaxedIniFormat)
+            {
+                _currentTmpData.AddSection(IniData.GlobalSectionName);
+            }
+
             try
             {
                 while (!reader.EndOfStream)
@@ -91,7 +97,6 @@ namespace IniParser
             }
             catch (Exception ex)
             {
-                _currentTmpData.Clear();
                 throw new ParsingException("Parsing error: " + ex.Message, ex);
             }
             finally
@@ -253,7 +258,7 @@ namespace IniParser
 
         #endregion
 
-        #region Non-public methods
+        #region Helpers
 
         /// <summary>
         /// Checks if a given string contains a comment.
@@ -297,6 +302,7 @@ namespace IniParser
             if (string.IsNullOrEmpty(s))
                 return false;
 
+            return s.Contains("=");
             return _keyValuePairRegex.Match(s).Success;
         }
 
@@ -390,7 +396,6 @@ namespace IniParser
 
         }
 
-        private bool _processingSecion;
         private bool ProcessingSection
         {
             get { return _processingSecion; }
@@ -403,34 +408,56 @@ namespace IniParser
         /// <param name="s">The string to be processed</param>
         private void ProcessKeyValuePair(string s)
         {
-            if (!ProcessingSection)
-                return;
+            string sectionToUse = _currentSectionName;
 
-            if (_currentSectionName == string.Empty)
-                throw new ParsingException(
-                    "Bad file format: key doesn't match any section. String :" + s);
+            if (!ProcessingSection)
+            {
+                if (_relaxedIniFormat)
+                {
+                    sectionToUse = IniData.GlobalSectionName;
+                }
+                else
+                {
+                    return;
+                }
+            } 
+
+            if (sectionToUse == string.Empty)
+            {
+                throw new ParsingException("Bad file format: key doesn't match any section. String :" + s);
+            }
+
+
             string key = ExtractKey(s);
             string value = ExtractValue(s);
 
 
             //Checks correct ini format
-            if (_currentTmpData.GetSectionData(_currentSectionName).Keys.ContainsKey(key))
+            if (_currentTmpData.GetSectionData(sectionToUse).Keys.ContainsKey(key))
             {
                 if (_relaxedIniFormat)
                 {
                     return;
                 }
 
-                throw new ParsingException(string.Format(
-                                                   "Error parsing section: Another key with the same name [{0}] already exists in section",
-                                                   _currentSectionName));
+                throw new ParsingException(
+                    string.Format(
+                        "Error parsing section: Another key with the same name [{0}] already exists in section",
+                        sectionToUse));
             }
 
-            _currentTmpData.GetSectionData(_currentSectionName).Keys.AddKey(key);
-            _currentTmpData.GetSectionData(_currentSectionName).Keys.GetKeyData(key).Value = value;
-            _currentTmpData.GetSectionData(_currentSectionName).Keys.GetKeyData(key).Comments = _currentCommentList;
+
+            _currentTmpData.GetSectionData(sectionToUse).Keys.AddKey(key);
+            _currentTmpData.GetSectionData(sectionToUse).Keys.GetKeyData(key).Value = value;
+            _currentTmpData.GetSectionData(sectionToUse).Keys.GetKeyData(key).Comments = _currentCommentList;
             _currentCommentList.Clear();
 
+        }
+
+        protected bool OneSectionHasBeenProcessed
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -440,13 +467,13 @@ namespace IniParser
         /// <returns>The name of the extracted key.</returns>
         private string ExtractKey(string s)
         {
-            string tmp = _keyValuePairRegex.Match(s).Value;
-            if (tmp == string.Empty)
-                throw new ParsingException("Error extracting key. String: \"" + s + "\"");
+            //string tmp = _keyValuePairRegex.Match(s).Value;
+            //if (tmp == string.Empty)
+            //    throw new ParsingException("Error extracting key. String: \"" + s + "\"");
 
-            int index = tmp.IndexOf(_keyValueDelimiter, 0);
+            int index = s.IndexOf(_keyValueDelimiter, 0);
 
-            return tmp.Substring(0, index).Trim();
+            return s.Substring(0, index).Trim();
         }
 
         /// <summary>
@@ -456,18 +483,18 @@ namespace IniParser
         /// <returns>The name of the extracted value.</returns>
         private string ExtractValue(string s)
         {
-            string tmp = _keyValuePairRegex.Match(s).Value.Trim();
-            if (tmp == string.Empty)
-                throw new ParsingException("Error extracting value. String: \"" + s + "\"");
+            //string tmp = _keyValuePairRegex.Match(s).Value.Trim();
+            //if (tmp == string.Empty)
+            //    throw new ParsingException("Error extracting value. String: \"" + s + "\"");
 
-            int index = tmp.IndexOf(_keyValueDelimiter, 0);
+            int index = s.IndexOf(_keyValueDelimiter, 0);
 
-            return tmp.Substring(index + 1, tmp.Length - index - 1).Trim();
+            return s.Substring(index + 1, s.Length - index - 1).Trim();
         }
 
         #endregion
 
-        #region Non-public members
+        #region Fields
 
         /// <summary>
         /// Temp list of comments
@@ -519,6 +546,9 @@ namespace IniParser
         /// </summary>
         private bool _relaxedIniFormat;
 
+        private bool _processingSecion;
+
+        
         #endregion
     }
 

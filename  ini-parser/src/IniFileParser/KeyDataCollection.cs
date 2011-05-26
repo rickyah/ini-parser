@@ -100,8 +100,8 @@ namespace IniParser
         public bool AddKey(string keyName)
         {
             //Checks valid key name
-            if ( !Assert.StringHasNoBlankSpaces(keyName) )
-                throw new ArgumentException("Key name is not valid");
+            //if ( !Assert.StringHasNoBlankSpaces(keyName) )
+            //    throw new ArgumentException("Key name is not valid");
 
             if ( !_keyData.ContainsKey(keyName) )
             {

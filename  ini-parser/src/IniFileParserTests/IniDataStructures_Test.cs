@@ -101,27 +101,27 @@ namespace IniParserTestNamespace
             Assert.That(sd.Keys.Count, Is.EqualTo(0));
             Assert.That(sd.Keys.ContainsKey(strKeyTest), Is.False);
 
-            //Add invalid key
-            try
-            {
-                sd.Keys.AddKey("invalid key");
-                Assert.That(false);
-            }
-            catch ( Exception ex )
-            {
-                Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
-            }
+            ////Add invalid key
+            //try
+            //{
+            //    sd.Keys.AddKey("invalid key");
+            //    Assert.That(false);
+            //}
+            //catch ( Exception ex )
+            //{
+            //    Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
+            //}
 
-            //Add invalid key
-            try
-            {
-                sd.Keys.AddKey(" invalidKey");
-                Assert.That(false);
-            }
-            catch ( Exception ex )
-            {
-                Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
-            }
+            ////Add invalid key
+            //try
+            //{
+            //    sd.Keys.AddKey(" invalidKey");
+            //    Assert.That(false);
+            //}
+            //catch ( Exception ex )
+            //{
+            //    Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
+            //}
 
             //Access invalid keydata
             Assert.That(sd.Keys["asdf"], Is.Null);

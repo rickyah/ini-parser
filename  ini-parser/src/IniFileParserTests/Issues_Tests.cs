@@ -90,7 +90,7 @@ namespace IniParserTestNamespace
             IniData data = fileParser.LoadFile(strBadSectionINIFilePath, true);
 
             Assert.That(data, Is.Not.Null);
-            Assert.That(data.Sections.Count, Is.EqualTo(1));
+            Assert.That(data.Sections.Count, Is.EqualTo(2));
             Assert.That(data.Sections.GetSectionData("seccion1").Keys.Count, Is.EqualTo(1));
 
             data = fileParser.LoadFile(strBadKeysINIFilePath, true);
@@ -169,9 +169,9 @@ namespace IniParserTestNamespace
             string data = @"[test]
 connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Password=password";
 
-            var parser = new StringIniParser();
+            StringIniParser parser = new StringIniParser();
             parser.CommentDelimiter = '#';
-            var iniData = parser.ParseString(data);
+            IniData iniData = parser.ParseString(data);
 
             Assert.That(
                 iniData["test"]["connectionString"],
@@ -184,9 +184,19 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
             string data = @"[http://example.com/page] 
 key1 = value1";
  
-            var newData = new StringIniParser().ParseString(data);
+            IniData newData = new StringIniParser().ParseString(data);
 
             Assert.That(newData.Sections[@"http://example.com/page"]["key1"], Is.EqualTo("value1"));
+        }
+
+        [Test, Description("Test for Issue 11: http://code.google.com/p/ini-parser/issues/detail?id=11")]
+        public void Issue11_Tests()
+        {
+            FileIniDataParser parser = new FileIniDataParser();
+            
+            IniData parsedData = parser.LoadFile("Issue11_example.ini",true);
+
+            Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
         }
 
 

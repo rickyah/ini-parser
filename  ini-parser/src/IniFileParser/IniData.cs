@@ -36,6 +36,11 @@ namespace IniParser
 
         #region Properties
 
+        public KeyDataCollection Global
+        {
+            get { return this[GlobalSectionName]; }
+        }
+
         /// <summary>
         /// Gets the <see cref="IniParser.KeyDataCollection"/> instance 
         /// with the specified section name.
@@ -76,6 +81,10 @@ namespace IniParser
             return new IniData(Sections);
         }
 
+        #endregion
+
+        #region static private members
+        internal static readonly string GlobalSectionName = "__global__section__";
         #endregion
     }
 }
