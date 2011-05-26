@@ -162,14 +162,29 @@ namespace IniParserTestNamespace
             Assert.That(newData["newSection"]["newKey1"], Is.EqualTo("value1"));
         }
 
+        [Test, Description("Test for Issue 9: http://code.google.com/p/ini-parser/issues/detail?id=9")]
+        public void Issue9_Tests()
+        {
+
+            string data = @"[test]
+connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Password=password";
+
+            var parser = new StringIniParser();
+            parser.CommentDelimiter = '#';
+            var iniData = parser.ParseString(data);
+
+            Assert.That(
+                iniData["test"]["connectionString"],
+                Is.EqualTo("Server=sqlserver.domain.com;Database=main;User ID=user;Password=password"));
+        }
+
         [Test, Description("Test for Issue 10: http://code.google.com/p/ini-parser/issues/detail?id=10")]
         public void Issue10_Tests()
         {
             string data = @"[http://example.com/page] 
 key1 = value1";
  
-            var parser = new StringIniParser();
-            var newData = parser.ParseString(data);
+            var newData = new StringIniParser().ParseString(data);
 
             Assert.That(newData.Sections[@"http://example.com/page"]["key1"], Is.EqualTo("value1"));
         }
