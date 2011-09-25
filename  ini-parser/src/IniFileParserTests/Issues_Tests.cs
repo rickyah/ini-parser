@@ -91,7 +91,7 @@ namespace IniParserTestNamespace
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
-            Assert.That(data.Sections.GetSectionData("seccion1").Keys.Count, Is.EqualTo(1));
+            Assert.That(data.Sections.GetSectionData("seccion1").Keys.Count, Is.EqualTo(2));
 
             data = fileParser.LoadFile(strBadKeysINIFilePath, true);
 
@@ -197,6 +197,24 @@ key1 = value1";
             IniData parsedData = parser.LoadFile("Issue11_example.ini",true);
 
             Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
+        }
+
+        [Test, Description("Test for Issue 15: http://code.google.com/p/ini-parser/issues/detail?id=15")]
+        public void Issue15_Tests()
+        {
+            string data = @"[123_1]
+key1=value1
+key2=value2
+[123_2]
+key3 = value3
+[123_1]
+key4=value4";
+            IniData iniData = new StringIniParser().ParseString(data, true);
+
+            Assert.That(iniData.Sections.ContainsSection("123_1"), Is.True);
+            Assert.That(iniData.Sections.ContainsSection("123_2"), Is.True);
+            Assert.That(iniData["123_1"]["key4"], Is.EqualTo("value4"));
+
         }
 
 

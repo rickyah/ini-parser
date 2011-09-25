@@ -17,7 +17,7 @@ namespace IniParser
         private const string strSectionRegexMiddle = @"{1}\s*[_\#\+\;\%\(\)\=\?\&\$\,\:\/\.\-\w\d\s]+\s*";
         private const string strSectionRegexEnd = @"(\s*?)$";
         private const string strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
-        private const string strValueRegex = @"([\s\d\w\W]*)$";
+        private const string strValueRegex = @"([\s\d\w\W\.]*)$";
         private const string strSpecialRegexChars = @"[\^$.|?*+()";
         
         #endregion
@@ -302,8 +302,7 @@ namespace IniParser
             if (string.IsNullOrEmpty(s))
                 return false;
 
-            return s.Contains("=");
-            return _keyValuePairRegex.Match(s).Success;
+            return s.Contains(KeyValueDelimiter.ToString());
         }
 
         /// <summary>
@@ -361,7 +360,7 @@ namespace IniParser
         /// <param name="s">The string to be processed</param>
         private void ProcessSection(string s)
         {
-            ProcessingSection = true;
+            OneSectionWasAlreadyProcessed = true;
 
             string tmp = _sectionRegex.Match(s).Value.Trim();
 
@@ -377,7 +376,8 @@ namespace IniParser
             {
                 if (_relaxedIniFormat)
                 {
-                    ProcessingSection = false;
+                    //OneSectionWasAlreadyProcessed = false;
+                    _currentSectionName = tmp;
                     return;
                 }
 
@@ -396,10 +396,10 @@ namespace IniParser
 
         }
 
-        private bool ProcessingSection
+        private bool OneSectionWasAlreadyProcessed
         {
-            get { return _processingSecion; }
-            set { _processingSecion = value; }
+            get { return _oneSecion; }
+            set { _oneSecion = value; }
         }
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace IniParser
         {
             string sectionToUse = _currentSectionName;
 
-            if (!ProcessingSection)
+            if (!OneSectionWasAlreadyProcessed)
             {
                 if (_relaxedIniFormat)
                 {
@@ -546,7 +546,7 @@ namespace IniParser
         /// </summary>
         private bool _relaxedIniFormat;
 
-        private bool _processingSecion;
+        private bool _oneSecion;
 
         
         #endregion
