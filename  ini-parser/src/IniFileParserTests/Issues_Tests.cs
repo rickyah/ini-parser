@@ -217,7 +217,19 @@ key4=value4";
 
         }
 
-
+		[Test, Description("Test for Issue 17: http://code.google.com/p/ini-parser/issues/detail?id=17")]
+        public void Issue17_Tests()
+		{
+            FileIniDataParser parser = new FileIniDataParser();
+            
+            IniData parsedData = parser.LoadFile("Issue17_example.ini");
+			
+			Assert.That(parsedData.Sections.Count, Is.EqualTo(1));
+			Assert.That(parsedData.Sections.ContainsSection("{E3729302-74D1-11D3-B43A-00AA00CAD128}"), Is.True);
+			Assert.That(parsedData.Sections["{E3729302-74D1-11D3-B43A-00AA00CAD128}"].ContainsKey("key"), Is.True);
+			Assert.That(parsedData.Sections["{E3729302-74D1-11D3-B43A-00AA00CAD128}"]["key"], Is.EqualTo("value"));
+		}
+		
         #endregion
     }
 }

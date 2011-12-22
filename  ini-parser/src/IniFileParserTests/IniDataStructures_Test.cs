@@ -132,8 +132,6 @@ namespace IniParserTestNamespace
         public void CreateSectionDataCollectionProgramaticlyTest()
         {
             string strSectionTest = "MySection";
-            string strKeyTest = "Mykey";
-            string strValueTest = "My value";
             string strComment = "comment";
             List<string> commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
 
