@@ -13,18 +13,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Release|Any CPU.Build.0 = Release|Any CPU
 		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ExampleProject\ExampleProject.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		version = 1.7.1
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

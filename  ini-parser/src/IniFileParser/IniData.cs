@@ -35,7 +35,12 @@ namespace IniParser
         }
 
         #region Properties
-
+		
+		/// <summary>
+		/// 	Global sections. Contains key/value pairs which are not
+		/// 	enclosed in any section (i.e. they are defined at the beginning 
+		/// 	of the file, before any section.
+		/// </summary>
         public KeyDataCollection Global
         {
             get { return this[GlobalSectionName]; }

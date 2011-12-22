@@ -453,7 +453,10 @@ namespace IniParser
             _currentCommentList.Clear();
 
         }
-
+		
+		/// <summary>
+		/// 	Gets or sets a value indicating whether one section has been processed.
+		/// </summary>
         protected bool OneSectionHasBeenProcessed
         {
             get;
