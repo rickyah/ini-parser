@@ -5,13 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5E46DCF4-C473-4171-9F9B-F3910B5EC407}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{D4CF6996-5C75-46D1-A75B-22731ED16058}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IniParser</RootNamespace>
-    <AssemblyName>INIFileParser</AssemblyName>
-    <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
+    <RootNamespace>INIFileParser.Example</RootNamespace>
+    <AssemblyName>INIFileParser.Example</AssemblyName>
+    <StartupObject>ExampleProject.MainProgram</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -36,9 +35,9 @@
     <ReleaseVersion>1.7.1</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -47,14 +46,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
-    <OutputPath>..\..\build\</OutputPath>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\build\INIFileParser.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <GenerateDocumentation>True</GenerateDocumentation>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -62,24 +59,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\Assert.cs" />
-    <Compile Include="FileIniParser.cs" />
-    <Compile Include="Model\IniData.cs" />
-    <Compile Include="Model\KeyData.cs" />
-    <Compile Include="Model\KeyDataCollection.cs" />
-    <Compile Include="Model\Configuration\DefaultIniParserConfiguration.cs" />
-    <Compile Include="Model\Configuration\IIniParserConfiguration.cs" />
-    <Compile Include="Parser\IniDataParser.cs" />
-    <Compile Include="Model\Configuration\BaseIniParserConfiguration.cs" />
-    <Compile Include="Model\SectionData.cs" />
-    <Compile Include="Model\SectionDataCollection.cs" />
-    <Compile Include="StreamIniDataParser.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringIniParser.cs" />
-    <Compile Include="Exceptions\ParsingException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\publickey.snk" />
+    <ProjectReference Include="..\IniFileParser\INIFileParser.csproj">
+      <Project>{5E46DCF4-C473-4171-9F9B-F3910B5EC407}</Project>
+      <Name>INIFileParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestIniFile.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -98,7 +90,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
