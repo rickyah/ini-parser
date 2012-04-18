@@ -1,0 +1,5 @@
+src/**/bin
+src/**/obj
+src/_ReSharper.*/**
+src/**/*.csproj.user
+
