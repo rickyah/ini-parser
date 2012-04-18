@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests\IniFileParserTestProject.nunit</TopNode>
+  <SelectedNode>[0-1000]C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests\IniFileParserTestProject.nunit</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests\IniFileParserTestProject.nunit" Expanded="true">
+      <Nodes>
+        <Node UniqueName="[0-1020]C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests\bin\Release\IniFileParserTests.dll" Expanded="true">
+          <Nodes>
+            <Node UniqueName="[0-1021]IniParserTestNamespace" Expanded="true">
+              <Nodes>
+                <Node UniqueName="[0-1016]IniParserTestNamespace.IniDataStructuresTest" Expanded="true">
+                  <Nodes>
+                    <Node UniqueName="[0-1017]IniParserTestNamespace.IniDataStructuresTest.CreateKeyDataProgramaticlyTest" />
+                    <Node UniqueName="[0-1019]IniParserTestNamespace.IniDataStructuresTest.CreateSectionDataCollectionProgramaticlyTest" />
+                    <Node UniqueName="[0-1018]IniParserTestNamespace.IniDataStructuresTest.CreateSectionDataProgramaticlyTest" />
+                  </Nodes>
+                </Node>
+                <Node UniqueName="[0-1008]IniParserTestNamespace.IniParserFileTest" Expanded="true">
+                  <Nodes>
+                    <Node UniqueName="[0-1015]IniParserTestNamespace.IniParserFileTest.CheckCollideKeysNames" />
+                    <Node UniqueName="[0-1014]IniParserTestNamespace.IniParserFileTest.CheckCollideSectionNames" />
+                    <Node UniqueName="[0-1013]IniParserTestNamespace.IniParserFileTest.CheckCorrectSave" />
+                    <Node UniqueName="[0-1010]IniParserTestNamespace.IniParserFileTest.CheckParseEmptyFileSuccess" />
+                    <Node UniqueName="[0-1011]IniParserTestNamespace.IniParserFileTest.CheckParseGoodFileSuccess" />
+                    <Node UniqueName="[0-1012]IniParserTestNamespace.IniParserFileTest.CheckParsingFailure" />
+                    <Node UniqueName="[0-1009]IniParserTestNamespace.IniParserFileTest.CheckTestFilesExists" />
+                  </Nodes>
+                </Node>
+                <Node UniqueName="[0-1001]IniParserTestNamespace.IniParserRegexTest" Expanded="true">
+                  <Nodes>
+                    <Node UniqueName="[0-1006]IniParserTestNamespace.IniParserRegexTest.KeyRegex" />
+                    <Node UniqueName="[0-1005]IniParserTestNamespace.IniParserRegexTest.KeyValuePairRegex" />
+                    <Node UniqueName="[0-1002]IniParserTestNamespace.IniParserRegexTest.TestCommentRegex" />
+                    <Node UniqueName="[0-1004]IniParserTestNamespace.IniParserRegexTest.TestNewSectionDelimiter" />
+                    <Node UniqueName="[0-1003]IniParserTestNamespace.IniParserRegexTest.TestSectionRegex" />
+                    <Node UniqueName="[0-1007]IniParserTestNamespace.IniParserRegexTest.ValueRegex" />
+                  </Nodes>
+                </Node>
+              </Nodes>
+            </Node>
+          </Nodes>
+        </Node>
+      </Nodes>
+    </Node>
+  </Nodes>
+</VisualState>

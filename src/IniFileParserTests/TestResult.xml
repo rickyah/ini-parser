@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests\IniFileParserTestProject.nunit" total="16" failures="0" not-run="0" date="2008-03-24" time="12:44:55">
+  <environment nunit-version="2.4.3.0" clr-version="2.0.50727.42" os-version="Microsoft Windows NT 5.1.2600 Service Pack 2" platform="Win32NT" cwd="C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests" machine-name="ES-01" user="rah" user-domain="PRODINTEC" />
+  <culture-info current-culture="es-ES" current-uiculture="es-ES" />
+  <test-suite name="C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests\IniFileParserTestProject.nunit" success="True" time="0.438" asserts="0">
+    <results>
+      <test-suite name="C:\Documents and Settings\rah\Mis documentos\Proyectos\IniFileParser\IniFileParserTests\bin\Release\IniFileParserTests.dll" success="True" time="0.422" asserts="0">
+        <results>
+          <test-suite name="IniParserTestNamespace" success="True" time="0.422" asserts="0">
+            <results>
+              <test-suite name="IniDataStructuresTest" success="True" time="0.078" asserts="0">
+                <categories>
+                  <category name="Test of data structures used to hold information retrieved for an INI file" />
+                </categories>
+                <results>
+                  <test-case name="IniParserTestNamespace.IniDataStructuresTest.CreateKeyDataProgramaticlyTest" executed="True" success="True" time="0.016" asserts="14" />
+                  <test-case name="IniParserTestNamespace.IniDataStructuresTest.CreateSectionDataCollectionProgramaticlyTest" executed="True" success="True" time="0.016" asserts="11" />
+                  <test-case name="IniParserTestNamespace.IniDataStructuresTest.CreateSectionDataProgramaticlyTest" executed="True" success="True" time="0.016" asserts="16" />
+                </results>
+              </test-suite>
+              <test-suite name="IniParserFileTest" success="True" time="0.219" asserts="0">
+                <categories>
+                  <category name="File loading/saving tests" />
+                </categories>
+                <results>
+                  <test-case name="IniParserTestNamespace.IniParserFileTest.CheckCollideKeysNames" description="Checks bad formed INI file: Two keys in the same section with same name" executed="True" success="True" time="0.078" asserts="0" />
+                  <test-case name="IniParserTestNamespace.IniParserFileTest.CheckCollideSectionNames" description="Checks bad formed INI file: Two sections with same name" executed="True" success="True" time="0.000" asserts="0" />
+                  <test-case name="IniParserTestNamespace.IniParserFileTest.CheckCorrectSave" description="Checks correct saving of a file" executed="True" success="True" time="0.016" asserts="1" />
+                  <test-case name="IniParserTestNamespace.IniParserFileTest.CheckParseEmptyFileSuccess" description="Checks correct parsing of an empty INI file" executed="True" success="True" time="0.000" asserts="1" />
+                  <test-case name="IniParserTestNamespace.IniParserFileTest.CheckParseGoodFileSuccess" description="Checks correct parsing of a well formed INI file" executed="True" success="True" time="0.000" asserts="1" />
+                  <test-case name="IniParserTestNamespace.IniParserFileTest.CheckParsingFailure" description="Checks error when parsing a bad formed INI file" executed="True" success="True" time="0.000" asserts="0" />
+                  <test-case name="IniParserTestNamespace.IniParserFileTest.CheckTestFilesExists" description="Checks existence of test INI files" executed="True" success="True" time="0.000" asserts="3" />
+                </results>
+              </test-suite>
+              <test-suite name="IniParserRegexTest" success="True" time="0.078" asserts="0">
+                <categories>
+                  <category name="Regular expression tests" />
+                </categories>
+                <results>
+                  <test-case name="IniParserTestNamespace.IniParserRegexTest.KeyRegex" description="Test a regular expression for matching a key in a key=value pair" executed="True" success="True" time="0.016" asserts="5" />
+                  <test-case name="IniParserTestNamespace.IniParserRegexTest.KeyValuePairRegex" description="Test a regular expression for matching a key=value pair in an ini file" executed="True" success="True" time="0.000" asserts="5" />
+                  <test-case name="IniParserTestNamespace.IniParserRegexTest.TestCommentRegex" description="Test a regular expression for matching a comment in an INI file" executed="True" success="True" time="0.016" asserts="4" />
+                  <test-case name="IniParserTestNamespace.IniParserRegexTest.TestNewSectionDelimiter" description="Test a regular expression for matching a section in an INI file given an specific delimiter" executed="True" success="True" time="0.000" asserts="5" />
+                  <test-case name="IniParserTestNamespace.IniParserRegexTest.TestSectionRegex" description="Test a regular expression for matching a section in an INI file" executed="True" success="True" time="0.000" asserts="5" />
+                  <test-case name="IniParserTestNamespace.IniParserRegexTest.ValueRegex" description="Test a regular expression for matching a value in a key=value pair" executed="True" success="True" time="0.016" asserts="5" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
