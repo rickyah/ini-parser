@@ -2,4 +2,5 @@ src/**/bin
 src/**/obj
 src/_ReSharper.*/**
 src/**/*.csproj.user
-
+src/*.ReSharper.user
+src/*.suo
