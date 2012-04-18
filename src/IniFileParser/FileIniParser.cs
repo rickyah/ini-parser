@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace IniParser
 {
@@ -38,7 +39,7 @@ namespace IniParser
         /// </param>
         public IniData LoadFile(string fileName, bool relaxedIniRead)
         {
-            return LoadFile(fileName, relaxedIniRead, System.Text.ASCIIEncoding);
+            return LoadFile(fileName, relaxedIniRead, Encoding.ASCII);
         }
         
         /// <summary>
@@ -89,7 +90,7 @@ namespace IniParser
         /// </param>
         public void SaveFile(string fileName, IniData parsedData)
         {
-            SaveFile(fileName, parsedData, System.Text.ASCIIEncoding);
+            SaveFile(fileName, parsedData, System.Text.Encoding.ASCII);
         }
                              
         /// <summary>
