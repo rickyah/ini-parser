@@ -1,5 +1,5 @@
 using System;
-
+using IniParser.Model;
 using NUnit.Framework;
 
 using NUnit.Framework.SyntaxHelpers;

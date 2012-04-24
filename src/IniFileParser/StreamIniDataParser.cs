@@ -2,9 +2,23 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using IniParser.Exceptions;
+using IniParser.Model;
+using IniParser.Parser;
 
 namespace IniParser
 {
+
+    public abstract class BaseIniDataReader
+    {
+        public IniDataParser Parser { get; protected set; }
+
+        public BaseIniDataReader(IniDataParser parser)
+        {
+            Parser = parser;
+        }
+    }
+
     /// <summary>
     /// Represents an INI data parser for streams.
     /// </summary>
@@ -87,6 +101,7 @@ namespace IniParser
             {
                 _currentTmpData.AddSection(IniData.GlobalSectionName);
             }
+
 
             try
             {

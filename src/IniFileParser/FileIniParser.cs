@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using IniParser.Exceptions;
+using IniParser.Model;
 
 namespace IniParser
 {

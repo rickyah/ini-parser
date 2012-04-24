@@ -3,6 +3,7 @@ using System.Text;
 
 using IniParser;
 using System.IO;
+using IniParser.Model;
 
 namespace ExampleProject
 {

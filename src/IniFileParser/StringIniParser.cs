@@ -1,9 +1,10 @@
 using System.IO;
+using IniParser.Model;
 
 namespace IniParser
 {
     /// <summary>
-    /// Represents an INI data parser for strings.
+    ///     Represents an INI data parser for strings.
     /// </summary>
     public class StringIniParser : StreamIniDataParser
     {

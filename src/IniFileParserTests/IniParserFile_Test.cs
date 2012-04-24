@@ -1,4 +1,6 @@
 using System.IO;
+using IniParser.Exceptions;
+using IniParser.Model;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
