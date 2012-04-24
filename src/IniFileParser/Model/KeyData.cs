@@ -16,6 +16,9 @@ namespace IniParser.Model
         /// </summary>
         public KeyData(string keyName)
         {
+            if(string.IsNullOrEmpty(keyName))
+                throw new ArgumentException("key name can not be empty");
+
             _comments = new List<string>();
             _value = string.Empty;
             _keyName = keyName;

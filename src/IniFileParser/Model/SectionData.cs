@@ -16,6 +16,9 @@ namespace IniParser.Model
         /// </summary>
         public SectionData(string sectionName)
         {
+            if (string.IsNullOrEmpty(sectionName))
+                throw new ArgumentException("section name can not be empty");
+
             _comments = new List<string>();
             _keyDataCollection = new KeyDataCollection();
             SectionName = sectionName;
@@ -54,7 +57,7 @@ namespace IniParser.Model
 
             set
             {
-                if (value != string.Empty)
+                if (!string.IsNullOrEmpty(value))
                     _sectionName = value;
             }
         }

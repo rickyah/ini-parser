@@ -9,7 +9,7 @@ namespace IniParser.Model
     /// </summary>
     public class KeyDataCollection : ICloneable, IEnumerable<KeyData>
     {
-        #region Initialization
+        #region Initialization
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyDataCollection"/> class.
@@ -99,10 +99,6 @@ namespace IniParser.Model
         /// <exception cref="ArgumentException">If the key name is not valid.</exception>
         public bool AddKey(string keyName)
         {
-            //Checks valid key name
-            //if ( !Assert.StringHasNoBlankSpaces(keyName) )
-            //    throw new ArgumentException("Key name is not valid");
-
             if ( !_keyData.ContainsKey(keyName) )
             {
                 _keyData.Add(keyName, new KeyData(keyName));
