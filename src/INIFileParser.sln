@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INIFileParser", "IniFileParser\INIFileParser.csproj", "{5E46DCF4-C473-4171-9F9B-F3910B5EC407}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IniFileParserTests", "IniFileParserTests\IniFileParserTests.csproj", "{553AD4A0-946C-436D-8135-5ADBA97D246E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IniFileParser.Tests", "IniFileParser.Tests\IniFileParser.Tests.csproj", "{553AD4A0-946C-436D-8135-5ADBA97D246E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleProject", "ExampleProject\ExampleProject.csproj", "{D4CF6996-5C75-46D1-A75B-22731ED16058}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IniFileParser.Example", "IniFileParser.Example\IniFileParser.Example.csproj", "{D4CF6996-5C75-46D1-A75B-22731ED16058}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
