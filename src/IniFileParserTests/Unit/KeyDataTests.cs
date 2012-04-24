@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using IniParser.Model;
 using NUnit.Framework;
@@ -7,10 +8,10 @@ using NUnit.Framework.SyntaxHelpers;
 namespace IniFileParserTests.Unit
 {
     [TestFixture]
-    public class KeyDataTest
+    public class KeyDataTests
     {
         [Test]
-        public void test_default_values()
+        public void check_default_values()
         {
             var kd = new KeyData("key_name");
 
@@ -20,9 +21,15 @@ namespace IniFileParserTests.Unit
             Assert.That(kd.Value, Is.Empty);
         }
 
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void create_key_with_invalid_name()
+        {
+            new KeyData("");
+            Assert.Fail("I shouldn't be able to create a section with an empty section name");
+        }
 
         [Test]
-        public void test_creating_keydata_programatically()
+        public void creating_keydata_programatically()
         {
 
             var strValueTest = "Test String";
@@ -45,7 +52,7 @@ namespace IniFileParserTests.Unit
         }
 
         [Test]
-        public void test_clone()
+        public void check_clone_operation()
         {
             var strValueTest = "Test String";
             var strKeyTest = "Mykey";
