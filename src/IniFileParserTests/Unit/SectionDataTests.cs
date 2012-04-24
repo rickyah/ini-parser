@@ -6,7 +6,7 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParserTests.Unit
 {
-    [TestFixture]
+    [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
     public class SectionDataTests
     {
         [Test]
