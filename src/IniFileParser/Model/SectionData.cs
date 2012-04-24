@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IniParser
+namespace IniParser.Model
 {
     /// <summary>
     /// <para>Information associated to a section in a INI File</para>

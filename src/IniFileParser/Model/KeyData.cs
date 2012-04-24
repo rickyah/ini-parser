@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IniParser
+namespace IniParser.Model
 {
     /// <summary>
     /// <para>Information associated to a key from an INI file.</para>
@@ -34,8 +34,8 @@ namespace IniParser
         public KeyData(KeyData ori)
         {
             _value = ori._value;
-
-            _comments = new List<string>(_comments);
+            _keyName = ori._keyName;
+            _comments = new List<string>(ori._comments);
         }
 
         #endregion Constructors 

@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using IniParser.Lib;
 
-namespace IniParser
+namespace IniParser.Model
 {
     /// <summary>
     /// <para>Represents a collection of SectionData.</para>

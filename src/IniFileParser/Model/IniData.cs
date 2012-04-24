@@ -1,6 +1,6 @@
 using System;
 
-namespace IniParser
+namespace IniParser.Model
 {
     /// <summary>
     /// Represents all data from an INI file
@@ -35,12 +35,12 @@ namespace IniParser
         }
 
         #region Properties
-		
-		/// <summary>
-		/// 	Global sections. Contains key/value pairs which are not
-		/// 	enclosed in any section (i.e. they are defined at the beginning 
-		/// 	of the file, before any section.
-		/// </summary>
+        
+        /// <summary>
+        /// 	Global sections. Contains key/value pairs which are not
+        /// 	enclosed in any section (i.e. they are defined at the beginning 
+        /// 	of the file, before any section.
+        /// </summary>
         public KeyDataCollection Global
         {
             get { return this[GlobalSectionName]; }

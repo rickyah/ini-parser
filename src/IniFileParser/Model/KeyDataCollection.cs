@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace IniParser
+namespace IniParser.Model
 {
     /// <summary>
     /// <para>Represents a collection of Keydata.</para>
