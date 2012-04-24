@@ -6,7 +6,7 @@ namespace IniParser.Parser.Configurations
         {
             SectionStartChar = '[';
             SectionEndChar = ']';
-            CommentChar = '#';
+            CommentChar = ';';
             KeyValueAssigmentChar = '=';
 
             AllowKeysWithoutSection = true;

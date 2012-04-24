@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using IniParser.Model;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace IniFileParserTests.Unit
+namespace IniFileParserTests.Unit.Model
 {
     [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
     public class KeyDataTests

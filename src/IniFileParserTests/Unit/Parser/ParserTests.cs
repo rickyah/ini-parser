@@ -3,7 +3,7 @@ using IniParser.Parser;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace IniFileParserTests.Unit
+namespace IniFileParserTests.Unit.Parser
 {
     [TestFixture]
     public class ParserTests

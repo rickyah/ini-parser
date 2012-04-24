@@ -1,5 +1,5 @@
-using System;
 using IniParser.Model;
+using IniParser.Parser;
 using NUnit.Framework;
 
 using NUnit.Framework.SyntaxHelpers;
@@ -12,43 +12,50 @@ namespace IniFileParserTests
     public class IniStringParser_Test
     {
 
-        private string iniFileStr =
-            ";comment for section1" + Environment.NewLine +
-            "[section1]" + Environment.NewLine +
-            ";comment for key1" + Environment.NewLine +
-            "key1 = value1" + Environment.NewLine +
-            "key2 = value5" + Environment.NewLine +
-            "[section2] " + Environment.NewLine +
-            ";comment for myKey1 " + Environment.NewLine +
-            "mykey1 = value1 " + Environment.NewLine;
-
-        private StringIniParser sip;
-
-        [SetUp]
-        public void SetUp()
-        {
-            sip = new StringIniParser();
-        }
-
+        private string iniFileStr = 
+@";comment for section1
+[section1]
+;comment for key1
+key1 = value1
+key2 = value5
+[section2]
+;comment for myKey1 
+mykey1 = value1 
+";
         [Test]
-        public void ReadingFromString_Test()
+        public void parse_ini_string_with_default_configuration()
         {
-            IniData data = sip.ParseString(iniFileStr);
+            var parser = new IniDataParser();
+            IniData data = parser.Parse(iniFileStr);
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
+            var section1= data.Sections.GetSectionData("section1");
+
+            Assert.That(section1, Is.Not.Null);
+            Assert.That(section1.SectionName, Is.EqualTo("section1"));
+            Assert.That(section1.Comments, Is.Not.Empty);
+            Assert.That(section1.Comments.Count, Is.EqualTo(1));
+
+            Assert.That(section1.Keys, Is.Not.Null);
+            Assert.That(section1.Keys.Count, Is.EqualTo(2));
+            Assert.That(section1.Keys.GetKeyData("key1"), Is.Not.Null);
+            Assert.That(section1.Keys["key1"], Is.EqualTo("value1"));
+            Assert.That(section1.Keys.GetKeyData("key2"), Is.Not.Null);
+            Assert.That(section1.Keys["key2"], Is.EqualTo("value5"));
         }
 
-        [Test]
+        [Test, Ignore("new ini writer was not written yet")]
         public void WritingTotring_Test()
         {
+            StringIniParser parser = new StringIniParser();
             IniData data = new IniData();
 
             data.Sections.AddSection("newSection1");
             data.Sections["newSection1"].AddKey("newKey1", "newValue1");
             data.Sections["newSection1"].AddKey("newKey2", "newValue5");
 
-            string result = sip.WriteString(data);
+            string result = parser.WriteString(data);
 
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Length, Is.Not.EqualTo(0));
