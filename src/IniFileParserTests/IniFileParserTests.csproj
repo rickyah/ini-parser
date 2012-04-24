@@ -8,8 +8,8 @@
     <ProjectGuid>{553AD4A0-946C-436D-8135-5ADBA97D246E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IniFileParserTests</RootNamespace>
-    <AssemblyName>IniFileParserTests</AssemblyName>
+    <RootNamespace>IniFileParser.Tests</RootNamespace>
+    <AssemblyName>IniFileParser.Tests</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>

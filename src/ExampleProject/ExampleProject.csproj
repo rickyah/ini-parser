@@ -8,8 +8,8 @@
     <ProjectGuid>{D4CF6996-5C75-46D1-A75B-22731ED16058}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExampleProject</RootNamespace>
-    <AssemblyName>ExampleProject</AssemblyName>
+    <RootNamespace>INIFileParser.Example</RootNamespace>
+    <AssemblyName>INIFileParser.Example</AssemblyName>
     <StartupObject>ExampleProject.MainProgram</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
