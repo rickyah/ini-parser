@@ -1,12 +1,10 @@
 using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
-
 using NUnit.Framework.SyntaxHelpers;
-
 using IniParser;
 
-namespace IniFileParserTests
+namespace IniFileParser.Tests.Unit
 {
     [TestFixture, Category("String parsing/writing tests")]
     public class IniStringParser_Test

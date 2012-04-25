@@ -67,7 +67,7 @@ namespace IniParser
                 {
                     using (StreamReader sr = new StreamReader(fs, fileEncoding))
                     {
-                        return ReadData(sr, relaxedIniRead);
+                        return ReadData(sr);
                     }
                 }
             }

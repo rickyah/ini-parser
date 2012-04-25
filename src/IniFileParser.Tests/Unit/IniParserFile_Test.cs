@@ -3,10 +3,9 @@ using IniParser.Exceptions;
 using IniParser.Model;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-
 using IniParser;
 
-namespace IniFileParserTests
+namespace IniFileParser.Tests.Unit
 {
     [TestFixture, Category("File loading/saving tests")]
     public class IniParserFileTest

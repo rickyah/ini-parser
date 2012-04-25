@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using IniParser.Exceptions;
 using IniParser.Model;
-using IniParser.Parser.Configurations;
+using IniParser.Model.Configurations;
 
 namespace IniParser.Parser
 {
     public class IniDataParser
     {
-        public IniDataParser() : this(new DefaultParserConfiguration()) 
+        public IniDataParser() : this(new DefaultIniDataConfiguration()) 
         {}
 
-        public IniDataParser(IParserConfiguration configuration)
+        public IniDataParser(IIniDataConfiguration configuration)
         {
             if (configuration == null)
                 throw new ArgumentNullException("configuration");
@@ -19,27 +19,24 @@ namespace IniParser.Parser
             Configuration = configuration;
         }
 
-        public IParserConfiguration Configuration { get; set; }
+        public IIniDataConfiguration Configuration { get; set; }
 
         public IniData Parse(string iniDataString)
         {
-
+            IniData iniData = new IniData();
             if (string.IsNullOrEmpty(iniDataString))
             {
-                if(Configuration.ThrowExceptionsOnError)
-                    throw new ArgumentException("iniDataString", "data string is null or empty");
-
-                return null;
+                return iniData;
             }
 
 
-            IniData iniData = new IniData();
+            
             _currentCommentListTemp.Clear();
             _currentSectionNameTemp = null;
 
             try
             {
-                foreach (var line in iniDataString.Split(Environment.NewLine.ToCharArray()))
+                foreach (var line in iniDataString.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
                     ProcessLine(line, iniData);
             }
             catch
@@ -228,9 +225,12 @@ namespace IniParser.Parser
                     throw new ParsingException(string.Format("Duplicated key '{0}' found in section '{1}", key, sectionName));
                 }
             }
+            else
+            {
+                // Save the keys
+                keyDataCollection.AddKey(key, value);
+            }
 
-            // Save the keys
-            keyDataCollection.AddKey(key, value);
             keyDataCollection.GetKeyData(key).Comments = _currentCommentListTemp;
             _currentCommentListTemp.Clear();
         }

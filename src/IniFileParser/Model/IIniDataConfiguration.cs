@@ -1,14 +1,14 @@
+using System;
 using System.Text.RegularExpressions;
+using IniParser.Parser;
 
-namespace IniParser.Parser
+namespace IniParser.Model
 {
     /// <summary>
     ///     Defines data for a Parser configuration object.
-    ///     
     /// </summary>
-    public interface IParserConfiguration
+    public interface IIniDataConfiguration : ICloneable
     {
-
         /// <summary>
         ///     Regular expression for matching a comment string
         /// </summary>
@@ -22,7 +22,7 @@ namespace IniParser.Parser
         /// <summary>
         ///     Regular expression for matching a key / value pair string
         /// </summary>
-        Regex KeyValuePairRegex { get; set; }
+        //Regex KeyValuePairRegex { get; set; }
 
 
         /// <summary>

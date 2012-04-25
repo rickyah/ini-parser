@@ -29,11 +29,10 @@ namespace IniParser.Model
         /// <param name="ori">
         /// The instance of the <see cref="KeyDataCollection"/> class 
         /// used to create the new instance.</param>
-        public KeyDataCollection(KeyDataCollection ori)
+        public KeyDataCollection(KeyDataCollection ori) : this()
         {
-            _keyData = new Dictionary<string, KeyData>();
-            foreach ( string key in _keyData.Keys )
-                _keyData.Add(key, (KeyData)ori._keyData[key].Clone() );
+            foreach ( KeyData key in ori)
+                _keyData.Add(key.KeyName, key);
         }
 
         #endregion

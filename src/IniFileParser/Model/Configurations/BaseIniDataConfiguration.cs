@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using IniParser.Parser;
 
-namespace IniParser.Parser.Configurations
+namespace IniParser.Model.Configurations
 {
     /// <summary>
     ///     Configuration data used for a <see cref="IniDataParser"/> class instance.
@@ -9,8 +10,36 @@ namespace IniParser.Parser.Configurations
     /// 
     /// This class allows changing the behaviour of a <see cref="IniDataParser"/> instance. The <see cref="IniDataParser"/>
     /// exposes an instance of this class via property <see cref="IniDataParser.Configuration"/>
-    public abstract class BaseParserConfiguration : IParserConfiguration
+    public class BaseIniDataConfiguration : IIniDataConfiguration
     {
+        #region Initialization
+        /// <summary>
+        ///     Ctor.
+        /// </summary>
+        public BaseIniDataConfiguration() {}
+
+        /// <summary>
+        ///     Copy ctor.
+        /// </summary>
+        /// <param name="ori">
+        ///     Original instance to be copied.
+        /// </param>
+        public BaseIniDataConfiguration(IIniDataConfiguration ori)
+        {
+            AllowDuplicateKeys = ori.AllowDuplicateKeys;
+            AllowDuplicateSections = ori.AllowDuplicateSections;
+            AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
+
+            SectionStartChar = ori.SectionStartChar;
+            SectionEndChar = ori.SectionEndChar;
+            CommentChar = ori.CommentChar;
+            ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
+
+            // Regex values should recreate themselves.
+        }
+        #endregion
+
+        #region State
         /// <summary>
         ///     Regular expression for matching a comment string
         /// </summary>
@@ -21,12 +50,7 @@ namespace IniParser.Parser.Configurations
         /// </summary>
         public Regex SectionRegex { get; set; }
 
-        /// <summary>
-        ///     Regular expression for matching a key / value pair string
-        /// </summary>
-        public Regex KeyValuePairRegex { get; set; }
-
-
+ 
         /// <summary>
         ///     Sets the char that defines the start of a section name.
         /// </summary>
@@ -82,16 +106,7 @@ namespace IniParser.Parser.Configurations
         /// <remarks>
         ///     Defaults to character '='
         /// </remarks>
-        public char KeyValueAssigmentChar
-        {
-            get { return _keyValueAssigmentChar; }
-            set
-            {
-                KeyValuePairRegex = new Regex(_strKeyRegex + value + _strValueRegex);
-                
-                _keyValueAssigmentChar = value;
-            }
-        }
+        public char KeyValueAssigmentChar { get; set; }
 
         /// <summary>
         ///     Allows having keys in the file that don't belong to any section.
@@ -136,15 +151,12 @@ namespace IniParser.Parser.Configurations
         ///     Defaults to <c>false</c>.
         /// </remarks>
         public bool AllowDuplicateSections { get; set; }
+        #endregion
 
         #region Fields
-        
-
-        private char _keyValueAssigmentChar;
         private char _sectionStartChar;
         private char _sectionEndChar;
         private char _commentChar;
-
         #endregion
 
         #region Constants
@@ -183,6 +195,20 @@ namespace IniParser.Parser.Configurations
             builtRegexString += _strSectionRegexEnd;
 
             SectionRegex = new Regex(builtRegexString);
+        }
+        #endregion
+
+        #region ICloneable Members
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public object Clone()
+        {
+            return new BaseIniDataConfiguration(this);
         }
         #endregion
     }

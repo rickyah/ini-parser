@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
+using IniParser.Model.Configurations;
+using IniParser.Parser;
 
 namespace IniParser.Model
 {
@@ -14,12 +18,13 @@ namespace IniParser.Model
         private SectionDataCollection _sections;
         #endregion
 
+        #region Initialization
+        
         /// <summary>
         /// Initializes an empty IniData instance.
         /// </summary>
-        public IniData()
+        public IniData() : this (new SectionDataCollection())
         {
-            _sections = new SectionDataCollection();
         }
 
         /// <summary>
@@ -32,19 +37,48 @@ namespace IniParser.Model
         public IniData(SectionDataCollection sdc)
         {
             _sections = (SectionDataCollection)sdc.Clone();
+            Global = new KeyDataCollection();
         }
 
+        public IniData(IniData ori): this((SectionDataCollection) ori.Sections)
+        {
+            Global = (KeyDataCollection) ori.Global.Clone();
+        }
+        #endregion
+
         #region Properties
-        
+
+        /// <summary>
+        ///     Configuration used to write an ini file with the proper
+        ///     delimiter characters and data.
+        /// </summary>
+        /// <remarks>
+        ///     If the <see cref="IniData"/> instance was created by a parser,
+        ///     this instance is a copy of the <see cref="IIniDataConfiguration"/> used
+        ///     by the parser (i.e. different objects instances)
+        ///     If this instance is created programatically without using a parser, this
+        ///     property returns an instance of <see cref=" DefaultIniDataConfiguration"/>
+        /// </remarks>
+        public IIniDataConfiguration Configuration
+        {
+            get
+            {
+                // Lazy initialization
+                if (_configuration == null)
+                    _configuration = new DefaultIniDataConfiguration();
+
+                return _configuration;
+            }
+
+            set { _configuration = (IIniDataConfiguration) value.Clone(); }
+        }
+
         /// <summary>
         /// 	Global sections. Contains key/value pairs which are not
         /// 	enclosed in any section (i.e. they are defined at the beginning 
         /// 	of the file, before any section.
         /// </summary>
-        public KeyDataCollection Global
-        {
-            get { return this[GlobalSectionName]; }
-        }
+        public KeyDataCollection Global { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="IniParser.KeyDataCollection"/> instance 
@@ -72,6 +106,27 @@ namespace IniParser.Model
         }   
         #endregion
 
+        #region Object Methods
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            if (Configuration.AllowKeysWithoutSection)
+            {
+                // Write global key/value data
+                WriteKeyValueData(Global, sb);
+            }
+
+            //Write sections
+            foreach (SectionData section in Sections)
+            {
+                //Write current section
+                WriteSection(section, sb);
+            }
+
+            return sb.ToString();
+        }
+        #endregion
 
         #region ICloneable Members
 
@@ -83,13 +138,47 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new IniData(Sections);
+            return new IniData(this);
         }
 
         #endregion
 
-        #region static private members
-        internal static readonly string GlobalSectionName = "__global__section__";
+        #region Helpers
+
+        private void WriteSection(SectionData section, StringBuilder sb)
+        {
+            //Write section name
+            sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));
+
+            WriteKeyValueData(section.Keys, sb);
+        }
+
+        private void WriteKeyValueData(KeyDataCollection keyDataCollection, StringBuilder sb)
+        {
+
+
+            foreach (KeyData keyData in keyDataCollection)
+            {
+                //Write key comments
+                WriteComments(keyData.Comments, sb);
+
+                //Write key and value
+                sb.AppendLine(string.Format("{0} {1} {2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value));
+            }
+        }
+
+        private void WriteComments(List<string> comments, StringBuilder sb)
+        {
+            foreach (string comment in comments)
+                sb.AppendLine(string.Format("{0}{1}", Configuration.CommentChar, comment));
+        }
+        #endregion
+
+        #region Fields
+        /// <summary>
+        ///     See property <see cref="Configuration"/> for more information. 
+        /// </summary>
+        private IIniDataConfiguration _configuration;
         #endregion
     }
-}
+} 
