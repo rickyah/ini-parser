@@ -72,7 +72,6 @@ namespace IniParser.Model
         /// Creates a new section with empty data.
         /// </summary>
         /// <remarks>
-        /// <para>A valid section name is a string with NO blank spaces.</para>
         /// <para>If a section with the same name exists, this operation has no effect.</para>
         /// </remarks>
         /// <param name="keyName">Name of the section to be created</param>
@@ -82,8 +81,8 @@ namespace IniParser.Model
         public bool AddSection(string keyName)
         {
             //Checks valid section name
-            if ( !Assert.StringHasNoBlankSpaces(keyName) )
-                throw new ArgumentException("Key name is not valid");
+            //if ( !Assert.StringHasNoBlankSpaces(keyName) )
+            //    throw new ArgumentException("Section name contain whitespaces");
 
             if ( !ContainsSection(keyName) )
             {
