@@ -41,6 +41,7 @@ namespace IniParser.Model.Configurations
             AllowDuplicateKeys = false;
             AllowDuplicateSections = false;
             ThrowExceptionsOnError = true;
+            SkipInvalidLines = false;
         }
     }
 }
