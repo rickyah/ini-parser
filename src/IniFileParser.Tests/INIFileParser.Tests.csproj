@@ -73,7 +73,7 @@
     <Compile Include="issues\Issue4Tests.cs" />
     <Compile Include="issues\Issue3Tests.cs" />
     <Compile Include="issues\Issue2Tests.cs" />
-    <Compile Include="Unit\Model\IniDataConfigurationTests.cs" />
+    <Compile Include="Unit\Model\DefaultIniDataConfigurationTests.cs" />
     <Compile Include="Unit\Parser\ParserTests.cs" />
     <Compile Include="Unit\Model\SectionDataCollectionTests.cs" />
     <Compile Include="Unit\IniParserFile_Test.cs" />

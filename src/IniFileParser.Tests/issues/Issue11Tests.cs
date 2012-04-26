@@ -13,7 +13,7 @@ namespace IniFileParser.Tests.issues
         {
             FileIniDataParser parser = new FileIniDataParser();
 
-            IniData parsedData = parser.LoadFile("Issue11_example.ini", true);
+            IniData parsedData = parser.LoadFile("Issue11_example.ini");
 
             Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
         }
