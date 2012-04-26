@@ -151,6 +151,9 @@ namespace IniParser.Model.Configurations
         ///     Defaults to <c>false</c>.
         /// </remarks>
         public bool AllowDuplicateSections { get; set; }
+
+        public bool SkipInvalidLines { get; set; }
+
         #endregion
 
         #region Fields

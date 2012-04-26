@@ -102,6 +102,17 @@ namespace IniParser.Model
         /// </remarks>
         bool AllowDuplicateSections { get; set; }
 
+        /// <summary>
+        ///     IF set to <c>true</c>, when the parser finds an invalid line, it just skips it 
+        ///     instead of throwing a <see cref="ParseException"/> or returning null when parsing
+        ///     (if exceptions  are disabled because the property <seealso cref="ThrowExceptionsOnError"/>
+        ///     is set to <c>false</c>).
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>false</c>
+        /// </remarks>
+        bool SkipInvalidLines { get; set; }
+
 
         new IIniDataConfiguration Clone();
     }

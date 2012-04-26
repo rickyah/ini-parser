@@ -8,9 +8,23 @@ namespace IniParser.Parser
 {
     public class IniDataParser
     {
-        public IniDataParser() : this(new DefaultIniDataConfiguration()) 
-        {}
+        #region Initialization
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        /// <remarks>
+        ///     The parser uses a <see cref="DefaultIniDataConfiguration"/> by default
+        /// </remarks>
+        public IniDataParser()
+            : this(new DefaultIniDataConfiguration())
+        { }
 
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        /// <param name="configuration">
+        ///     Parser <see cref="IIniDataConfiguration"/> instance.
+        /// </param>
         public IniDataParser(IIniDataConfiguration configuration)
         {
             if (configuration == null)
@@ -19,8 +33,28 @@ namespace IniParser.Parser
             Configuration = configuration;
         }
 
+        #endregion
+
+        #region State
+        /// <summary>
+        ///     Configuration that defines the behaviour and constraints
+        ///     that the parser must follow.
+        /// </summary>
         public IIniDataConfiguration Configuration { get; set; }
 
+        /// <summary>
+        ///     Parses a string containing valid ini data
+        /// </summary>
+        /// <param name="iniDataString">
+        ///     String with data
+        /// </param>
+        /// <returns>
+        ///     An <see cref="IniData"/> instance with the data contained in
+        ///     the <paramref name="iniDataString"/> correctly parsed an structured.
+        /// </returns>
+        /// <exception cref="ParsingException">
+        ///     Thrown if the data could not be parsed
+        /// </exception>
         public IniData Parse(string iniDataString)
         {
             IniData iniData = new IniData();
@@ -47,12 +81,13 @@ namespace IniParser.Parser
 
             return (IniData)iniData.Clone();
         }
+        #endregion
 
-        #region Helpers
+        #region Template Method Design Pattern 
+        // All this methods controls the parsing behaviour, an that behaviour can be modified 
+        // in derived classes.
+        // See http://www.dofactory.com/Patterns/PatternTemplate.aspx for an explanation of this pattern.
 
-        #region Matchers
-        
-        
         /// <summary>
         /// Checks if a given string contains a comment.
         /// </summary>
@@ -60,7 +95,7 @@ namespace IniParser.Parser
         /// <returns>
         /// <c>true</c> if any substring from s is a comment, <c>false</c> otherwise.
         /// </returns>
-        private bool LineContainsAComment(string line)
+        protected bool LineContainsAComment(string line)
         {
             return !string.IsNullOrEmpty(line) && Configuration.CommentRegex.Match(line).Success;
         }
@@ -72,7 +107,7 @@ namespace IniParser.Parser
         /// <returns>
         /// <c>true</c> if the string represents a section, <c>false</c> otherwise.
         /// </returns>
-        private bool LineMatchesASection(string line)
+        protected bool LineMatchesASection(string line)
         {
             return !string.IsNullOrEmpty(line) && Configuration.SectionRegex.Match(line).Success;
         }
@@ -84,12 +119,10 @@ namespace IniParser.Parser
         /// <returns>
         /// <c>true</c> if the string represents a key / value pair, <c>false</c> otherwise.
         /// </returns>
-        private bool LineMatchesAKeyValuePair(string line)
+        protected bool LineMatchesAKeyValuePair(string line)
         {
             return !string.IsNullOrEmpty(line) && line.Contains(Configuration.KeyValueAssigmentChar.ToString());
         }
-
-        #endregion
 
         /// <summary>
         /// Removes a comment from a string if exist, and returns the string without
@@ -97,7 +130,7 @@ namespace IniParser.Parser
         /// </summary>
         /// <param name="line">The string we want to remove the comments from.</param>
         /// <returns>The string s without comments</returns>
-        private string ExtractComment(string line)
+        protected string ExtractComment(string line)
         {
             string comment = Configuration.CommentRegex.Match(line).Value.Trim();
 
@@ -107,10 +140,11 @@ namespace IniParser.Parser
         }
 
         /// <summary>
-        /// Processes one line and parses INI data.
+        ///     Processes one line and parses the data found in that line
+        ///     (section or key/value pair who may or may not have comments)
         /// </summary>
-        /// <param name="currentLine">The current line.</param>
-        private void ProcessLine(string currentLine, IniData currentIniData)
+        /// <param name="currentLine">The string with the line to process</param>
+        protected void ProcessLine(string currentLine, IniData currentIniData)
         {
             currentLine = currentLine.Trim();
 
@@ -137,15 +171,18 @@ namespace IniParser.Parser
                 return;
             }
 
+            if (Configuration.SkipInvalidLines)
+                return;
+
             throw new ParsingException(
                 "Unknown file format. Couldn't parse the line: '" + currentLine + "'.");
         }
 
         /// <summary>
-        /// Proccess a string defining a new section.
+        ///     Proccess a string which contains an ini section.
         /// </summary>
         /// <param name="line">The string to be processed</param>
-        private void ProcessSection(string line, IniData currentIniData)
+        protected void ProcessSection(string line, IniData currentIniData)
         {
             // Get section name with delimiters from line...
             string sectionName = Configuration.SectionRegex.Match(line).Value.Trim();
@@ -176,18 +213,18 @@ namespace IniParser.Parser
 
             // If the section does not exists, add it to the ini data
             currentIniData.Sections.AddSection(sectionName);
-            
+
             // Save comments read until now and assign them to this section
             currentIniData.Sections.GetSectionData(sectionName).Comments = _currentCommentListTemp;
             _currentCommentListTemp.Clear();
-            
+
         }
 
         /// <summary>
-        /// Processes a string containing a key/value pair.
+        /// Processes a string containing an ini key/value pair.
         /// </summary>
         /// <param name="line">The string to be processed</param>
-        private void ProcessKeyValuePair(string line, IniData currentIniData)
+        protected void ProcessKeyValuePair(string line, IniData currentIniData)
         {
             //string sectionToUse = _currentSectionNameTemp;
 
@@ -213,6 +250,50 @@ namespace IniParser.Parser
             }
         }
 
+        /// <summary>
+        /// Extracts the key portion of a string containing a key/value pair..
+        /// </summary>
+        /// <param name="s">The string to be processed, which contains a key/value pair</param>
+        /// <returns>The name of the extracted key.</returns>
+        protected string ExtractKey(string s)
+        {
+            int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
+
+            return s.Substring(0, index).Trim();
+        }
+
+        /// <summary>
+        /// Extracts the value portion of a string containing a key/value pair..
+        /// </summary>
+        /// <param name="s">The string to be processed, which contains a key/value pair</param>
+        /// <returns>The name of the extracted value.</returns>
+        protected string ExtractValue(string s)
+        {
+            int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
+
+            return s.Substring(index + 1, s.Length - index - 1).Trim();
+        }
+
+        #endregion
+
+        #region Helpers
+        /// <summary>
+        ///     Adds a key to a concrete <see cref="KeyDataCollection"/> instance, checking
+        ///     if duplicate keys are allowed in the configuration
+        /// </summary>
+        /// <param name="key">
+        ///     Key name
+        /// </param>
+        /// <param name="value">
+        ///     Key's value
+        /// </param>
+        /// <param name="keyDataCollection">
+        ///     <see cref="KeyData"/> collection where the key should be inserted
+        /// </param>
+        /// <param name="sectionName">
+        ///     Name of the section where the <see cref="KeyDataCollection"/> is contained. 
+        ///     Used only for logging purposes.
+        /// </param>
         private void AddKeyToKeyValueCollection(string key, string value, KeyDataCollection keyDataCollection, string sectionName)
         {
             // Check for duplicated keys
@@ -232,35 +313,10 @@ namespace IniParser.Parser
             keyDataCollection.GetKeyData(key).Comments = _currentCommentListTemp;
             _currentCommentListTemp.Clear();
         }
-
-        /// <summary>
-        /// Extracts the key portion of a string containing a key/value pair..
-        /// </summary>
-        /// <param name="s">The string to be processed, which contains a key/value pair</param>
-        /// <returns>The name of the extracted key.</returns>
-        private string ExtractKey(string s)
-        {
-            int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
-
-            return s.Substring(0, index).Trim();
-        }
-
-        /// <summary>
-        /// Extracts the value portion of a string containing a key/value pair..
-        /// </summary>
-        /// <param name="s">The string to be processed, which contains a key/value pair</param>
-        /// <returns>The name of the extracted value.</returns>
-        private string ExtractValue(string s)
-        {
-            int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
-
-            return s.Substring(index + 1, s.Length - index - 1).Trim();
-        }
-
         #endregion
 
         #region Fields
-        
+
         /// <summary>
         /// Temp list of comments
         /// </summary>
