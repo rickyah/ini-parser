@@ -165,7 +165,7 @@ namespace IniParser.Model.Configurations
         #region Constants
         protected const string _strCommentRegex = @".*";
         protected const string _strSectionRegexStart = @"^(\s*?)";
-        protected const string _strSectionRegexMiddle = @"{1}\s*[_\{\}\#\+\;\%\(\)\=\?\&\$\,\:\/\.\-\w\d\s\\]+\s*";
+        protected const string _strSectionRegexMiddle = @"{1}\s*[_\{\}\#\+\;\%\(\)\=\?\&\$\,\:\/\.\-\w\d\s\\\~]+\s*";
         protected const string _strSectionRegexEnd = @"(\s*?)$";
         protected const string _strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
         protected const string _strValueRegex = @"([\s\d\w\W\.]*)$";
