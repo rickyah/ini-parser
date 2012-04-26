@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="issues\Issue18Tests.cs" />
     <Compile Include="issues\Issue28Tests.cs" />
     <Compile Include="issues\Issue27Tests.cs" />
     <Compile Include="issues\Issue24Tests.cs" />
@@ -94,6 +95,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Issue18_example.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Issue11_example.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

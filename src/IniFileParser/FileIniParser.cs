@@ -30,14 +30,14 @@ namespace IniParser
         ///     Implements reading ini data from a file.
         /// </summary>
         /// <remarks>
-        ///     Expects an ASCII encoded file by default.
+        ///     Uses <see cref="Encoding.Default"/> codification for the file.
         /// </remarks>
         /// <param name="fileName">
         ///     Name of the file.
         /// </param>
         public IniData ReadFile(string fileName)
         {
-            return ReadFile(fileName, Encoding.ASCII);
+            return ReadFile(fileName, Encoding.Default);
         }
 
         /// <summary>
