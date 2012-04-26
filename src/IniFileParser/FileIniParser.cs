@@ -11,24 +11,23 @@ namespace IniParser
     /// </summary>
     public class FileIniDataParser : StreamIniDataParser
     {
-        #region Public Methods
+        #region Deprecated methods
 
-        /// <summary>
-        ///     Implements loading a file from disk.
-        /// </summary>
-        /// <remarks>
-        ///     Expects an ASCII encoded file by default.
-        /// </remarks>
-        /// <param name="fileName">
-        ///     Name of the file.
-        /// </param>
+        [Obsolete("Please, use ReadFile method instead of this one as is more semantically accurate")]
         public IniData LoadFile(string fileName)
         {
-            return LoadFile(fileName, false);
+            return ReadFile(fileName);
         }
 
+        [Obsolete("Please, use ReadFile method instead of this one as is more semantically accurate")]
+        public IniData LoadFile(string fileName, Encoding fileEncoding)
+        {
+            return ReadFile(fileName, fileEncoding);
+        }
+        #endregion
+
         /// <summary>
-        ///     Implements loading a file from disk.
+        ///     Implements reading ini data from a file.
         /// </summary>
         /// <remarks>
         ///     Expects an ASCII encoded file by default.
@@ -36,27 +35,21 @@ namespace IniParser
         /// <param name="fileName">
         ///     Name of the file.
         /// </param>
-        /// <param name="relaxedIniRead">
-        ///     True to try reading bad formed INI files
-        /// </param>
-        public IniData LoadFile(string fileName, bool relaxedIniRead)
+        public IniData ReadFile(string fileName)
         {
-            return LoadFile(fileName, relaxedIniRead, Encoding.ASCII);
+            return ReadFile(fileName, Encoding.ASCII);
         }
-        
+
         /// <summary>
-        ///     Implements loading a file from disk.
+        ///     Implements reading ini data from a file.
         /// </summary>
         /// <param name="fileName">
         ///     Name of the file.
-        /// </param>
-        /// <param name="relaxedIniRead">
-        ///     True to try reading bad formed INI files
         /// </param>
         /// <param name="fileEncoding">
         ///     File's encoding.
         /// </param>
-        public IniData LoadFile(string fileName, bool relaxedIniRead, Encoding fileEncoding)
+        public IniData ReadFile(string fileName, Encoding fileEncoding)
         {
             if (fileName == string.Empty)
                 throw new ArgumentException("Bad filename.");
@@ -92,7 +85,7 @@ namespace IniParser
         /// </param>
         public void SaveFile(string fileName, IniData parsedData)
         {
-            SaveFile(fileName, parsedData, System.Text.Encoding.ASCII);
+            SaveFile(fileName, parsedData, Encoding.ASCII);
         }
                              
         /// <summary>
@@ -115,24 +108,13 @@ namespace IniParser
             if (parsedData == null)
                 throw new ArgumentNullException("parsedData");
 
-            try
+            using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
             {
-                using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
+                using (StreamWriter sr = new StreamWriter(fs, fileEncoding))
                 {
-                    using (StreamWriter sr = new StreamWriter(fs, fileEncoding))
-                    {
-                        WriteData(sr, parsedData);
-                    }
+                    WriteData(sr, parsedData);
                 }
-
             }
-            catch (IOException ex)
-            {
-                throw new ParsingException(String.Format("Could not save data to file {0}", fileName), ex);
-            }
-
         }
-
-        #endregion
     }
 }

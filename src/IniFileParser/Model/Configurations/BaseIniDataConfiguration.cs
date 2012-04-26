@@ -206,10 +206,15 @@ namespace IniParser.Model.Configurations
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public object Clone()
+        public new IIniDataConfiguration Clone()
         {
             return new BaseIniDataConfiguration(this);
         }
         #endregion
+
+        object ICloneable.Clone()
+        {
+            return this.Clone();
+        }
     }
 }

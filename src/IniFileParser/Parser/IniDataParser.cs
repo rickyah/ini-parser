@@ -29,8 +29,6 @@ namespace IniParser.Parser
                 return iniData;
             }
 
-
-            
             _currentCommentListTemp.Clear();
             _currentSectionNameTemp = null;
 

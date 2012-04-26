@@ -101,5 +101,8 @@ namespace IniParser.Model
         ///     Defaults to <c>false</c>.
         /// </remarks>
         bool AllowDuplicateSections { get; set; }
+
+
+        new IIniDataConfiguration Clone();
     }
 }

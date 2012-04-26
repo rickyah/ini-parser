@@ -5,41 +5,44 @@ using IniParser.Parser;
 
 namespace IniParser
 {
-    public class StreamIniDataParser : StreamIniData
-    {
-        
-    }
 
     /// <summary>
-    /// Represents an INI data parser for streams.
+    ///     Represents an INI data parser for streams.
     /// </summary>
-    public class StreamIniData
-    {       
+    public class StreamIniDataParser
+    {
+        /// <summary>
+        ///     This instance will handle ini data parsing and writing
+        /// </summary>
         public IniDataParser Parser { get; protected set; }
 
-        public StreamIniData() : this (new IniDataParser())
-        {
-            
-        }
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        public StreamIniDataParser() : this (new IniDataParser()) {}
 
-
-        public StreamIniData(IniDataParser parser)
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        /// <param name="parser"></param>
+        public StreamIniDataParser(IniDataParser parser)
         {
             Parser = parser;
         }
         #region Public Methods
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StreamIniDataParser"/> class.
-        /// </summary>
-        /// <summary>
-        /// <para>Reads data in INI format from a stream.</para> 
+        /// Reads data in INI format from a stream.
         /// </summary>
         /// <param name="reader">Reader stream.</param>
-        /// <returns></returns>
+        /// <returns>
+        ///     And <see cref="IniData"/> instance with the readed ini data parsed.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="reader"/> is <c>null</c>.
+        /// </exception>
         public IniData ReadData(StreamReader reader)
         {
-     
             if (reader == null)
                 throw new ArgumentNullException("reader");
             
@@ -47,18 +50,19 @@ namespace IniParser
         }
 
         /// <summary>
-        /// Writes the ini data to a stream.
+        ///     Writes the ini data to a stream.
         /// </summary>
-        /// <param name="writer">The writer.</param>
-        /// <param name="iniData">An <see cref="IniData"/> instance .</param>
+        /// <param name="writer">A write stream where the ini data will be stored</param>
+        /// <param name="iniData">An <see cref="IniData"/> instance.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="writer"/> is <c>null</c>.
+        /// </exception>
         public void WriteData(StreamWriter writer, IniData iniData)
         {
-
-            SectionDataCollection sdc = iniData.Sections;
+            if (writer == null)
+                throw new ArgumentNullException("reader");
 
             writer.Write(iniData.ToString());
-
-            return;
         }
 
         #endregion

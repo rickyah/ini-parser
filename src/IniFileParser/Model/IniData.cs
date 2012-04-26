@@ -148,6 +148,8 @@ namespace IniParser.Model
         private void WriteSection(SectionData section, StringBuilder sb)
         {
             //Write section name
+            WriteComments(section.Comments, sb);
+            
             sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));
 
             WriteKeyValueData(section.Keys, sb);

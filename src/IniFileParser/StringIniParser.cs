@@ -1,18 +1,40 @@
 using System;
 using IniParser.Model;
+using IniParser.Parser;
 
 namespace IniParser
 {
-    [Obsolete("Use StringIniData class instead")]
-    public class StringIniParser : StringIniData
-    {
-    }
-
     /// <summary>
     ///     Represents an INI data parser for strings.
+    ///     
     /// </summary>
-    public class StringIniData : StreamIniData
+    /// <remarks>
+    ///     This class is deprecated and kept for backwards compatibility.
+    ///     It's just a wrapper around <see cref="IniDataParser"/> class.
+    ///     Please, replace your code
+    /// </remarks>
+    [Obsolete("Use class IniDataParser instead. See remarks.")]
+    public class StringIniParser
     {
+        /// <summary>
+        ///     This instance will handle ini data parsing and writing
+        /// </summary>
+        public IniDataParser Parser { get; protected set; }
+
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        public StringIniParser() : this (new IniDataParser()) {}
+
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        /// <param name="parser"></param>
+        public StringIniParser(IniDataParser parser)
+        {
+            Parser = parser;
+        }
+
         /// <summary>
         /// Parses a string containing data formatted as an INI file.
         /// </summary>
@@ -35,8 +57,6 @@ namespace IniParser
         /// </returns>
         public string WriteString(IniData iniData)
         {
-            iniData.Configuration = Parser.Configuration;
-
             return iniData.ToString();
         }
     }
