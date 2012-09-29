@@ -82,7 +82,7 @@ namespace IniParser.Model
 
         #endregion
 
-        #region Public Methods
+        #region Operations
 
         /// <summary>
         /// Adds a new key with the specified name and empty value and comments
@@ -156,6 +156,17 @@ namespace IniParser.Model
             return false;
 
         }
+        
+		/// <summary>
+        /// Gets if a specifyed key name exists in the collection.
+        /// </summary>
+        /// <param name="keyName">Key name to search</param>
+        /// <returns><c>true</c> if a key with the specified name exists in the collectoin
+        /// <c>false</c> otherwise</returns>
+        public bool ContainsKey(string keyName)
+        {
+            return _keyData.ContainsKey(keyName);
+        }
 
         /// <summary>
         /// Retrieves the data for a specified key given its name
@@ -173,29 +184,11 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Sets the key data associated to a specified key.
+        /// 	Deletes all keys in this collection.
         /// </summary>
-        /// <param name="data">The new <see cref="KeyData"/> for the key.</param>
-        public void SetKeyData(KeyData data)
+        public void RemoveAllKeys()
         {
-            if (data != null)
-            {
-                if (_keyData.ContainsKey(data.KeyName))
-                    RemoveKey(data.KeyName);
-
-                AddKey(data.KeyName, data);
-            }
-        }
-
-        /// <summary>
-        /// Gets if a specifyed key name exists in the collection.
-        /// </summary>
-        /// <param name="keyName">Key name to search</param>
-        /// <returns><c>true</c> if a key with the specified name exists in the collectoin
-        /// <c>false</c> otherwise</returns>
-        public bool ContainsKey(string keyName)
-        {
-            return _keyData.ContainsKey(keyName);
+            _keyData.Clear();
         }
 
         /// <summary>
@@ -209,6 +202,20 @@ namespace IniParser.Model
         public bool RemoveKey(string keyName)
         {
             return _keyData.Remove(keyName);
+        }
+        /// <summary>
+        /// Sets the key data associated to a specified key.
+        /// </summary>
+        /// <param name="data">The new <see cref="KeyData"/> for the key.</param>
+        public void SetKeyData(KeyData data)
+        {
+            if (data != null)
+            {
+                if (_keyData.ContainsKey(data.KeyName))
+                    RemoveKey(data.KeyName);
+
+                AddKey(data.KeyName, data);
+            }
         }
 
         #endregion

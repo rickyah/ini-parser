@@ -42,6 +42,13 @@ namespace IniParser.Model
 
         #endregion
 
+		#region Operations
+		public void ClearKeyData()
+		{
+			_keyDataCollection.RemoveAllKeys();
+		}
+		#endregion
+
         #region Properties
 
         /// <summary>
