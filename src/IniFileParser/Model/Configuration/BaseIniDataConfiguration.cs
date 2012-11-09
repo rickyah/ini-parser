@@ -8,8 +8,9 @@ namespace IniParser.Model.Configurations
     ///     Configuration data used for a <see cref="IniDataParser"/> class instance.
     /// </summary>
     /// 
-    /// This class allows changing the behaviour of a <see cref="IniDataParser"/> instance. The <see cref="IniDataParser"/>
-    /// exposes an instance of this class via property <see cref="IniDataParser.Configuration"/>
+    /// This class allows changing the behaviour of a <see cref="IniDataParser"/> instance.
+    /// The <see cref="IniDataParser"/> class exposes an instance of this class via 
+    /// <see cref="IniDataParser.Configuration"/>
     public class BaseIniDataConfiguration : IIniDataConfiguration
     {
         #region Initialization

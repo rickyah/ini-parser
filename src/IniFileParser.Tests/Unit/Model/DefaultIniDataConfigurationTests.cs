@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IniParser.Model;
-using IniParser.Model.Configurations;
+using IniParser.Model.Configuration;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
