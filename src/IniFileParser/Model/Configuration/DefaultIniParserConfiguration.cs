@@ -1,6 +1,6 @@
 using IniParser.Parser;
 
-namespace IniParser.Model.Configurations
+namespace IniParser.Model.Configuration
 {
     /// <summary>
     ///     Default values used if an instance of <see cref="IniDataParser"/>
@@ -25,12 +25,12 @@ namespace IniParser.Model.Configurations
     ///         </para>
     ///     </example>
     /// </remarks>
-    public class DefaultIniDataConfiguration : BaseIniDataConfiguration
+    public class DefaultIniParserConfiguration : BaseIniParserConfiguration
     {
         /// <summary>
         ///     Ctor.
         /// </summary>
-        public DefaultIniDataConfiguration()
+        public DefaultIniParserConfiguration()
         {
             SectionStartChar = '[';
             SectionEndChar = ']';

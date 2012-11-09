@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using IniParser.Parser;
 
-namespace IniParser.Model.Configurations
+namespace IniParser.Model.Configuration
 {
     /// <summary>
     ///     Configuration data used for a <see cref="IniDataParser"/> class instance.
@@ -11,13 +11,13 @@ namespace IniParser.Model.Configurations
     /// This class allows changing the behaviour of a <see cref="IniDataParser"/> instance.
     /// The <see cref="IniDataParser"/> class exposes an instance of this class via 
     /// <see cref="IniDataParser.Configuration"/>
-    public class BaseIniDataConfiguration : IIniDataConfiguration
+    public class BaseIniParserConfiguration : IIniParserConfiguration
     {
         #region Initialization
         /// <summary>
         ///     Ctor.
         /// </summary>
-        public BaseIniDataConfiguration() {}
+        public BaseIniParserConfiguration() { }
 
         /// <summary>
         ///     Copy ctor.
@@ -25,9 +25,10 @@ namespace IniParser.Model.Configurations
         /// <param name="ori">
         ///     Original instance to be copied.
         /// </param>
-        public BaseIniDataConfiguration(IIniDataConfiguration ori)
+        public BaseIniParserConfiguration(IIniParserConfiguration ori)
         {
             AllowDuplicateKeys = ori.AllowDuplicateKeys;
+            OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
             AllowDuplicateSections = ori.AllowDuplicateSections;
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
 
@@ -51,7 +52,7 @@ namespace IniParser.Model.Configurations
         /// </summary>
         public Regex SectionRegex { get; set; }
 
- 
+
         /// <summary>
         ///     Sets the char that defines the start of a section name.
         /// </summary>
@@ -94,8 +95,8 @@ namespace IniParser.Model.Configurations
         public char CommentChar
         {
             get { return _commentChar; }
-            set 
-            { 
+            set
+            {
                 CommentRegex = new Regex(value + _strCommentRegex);
                 _commentChar = value;
             }
@@ -130,6 +131,19 @@ namespace IniParser.Model.Configurations
         ///     Defaults to <c>false</c>.
         /// </remarks>
         public bool AllowDuplicateKeys { get; set; }
+
+        /// <summary>
+        ///     Only used if <see cref="IIniParserConfiguration.AllowDuplicateKeys"/> is also <c>true</c> 
+        ///     If set to <c>true</c> when the parser finds a duplicate key, it overrites
+        ///     the previous value, so the key will always contain the value of the 
+        ///     last key readed in the file
+        ///     If set to <c>false</c> the first readed value is preserved, so the key will
+        ///     always contain the value of the first key readed in the file
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>false</c>.
+        /// </remarks>
+        public bool OverrideDuplicateKeys { get; set; }
 
         /// <summary>
         ///     If <c>true</c> the <see cref="IniDataParser"/> instance will thrown an exception
@@ -172,7 +186,7 @@ namespace IniParser.Model.Configurations
         protected const string _strValueRegex = @"([\s\d\w\W\.]*)$";
         protected const string _strSpecialRegexChars = @"[\^$.|?*+()";
         #endregion
-        
+
         #region Helpers
         private void RecreateSectionRegex(char value)
         {
@@ -202,6 +216,30 @@ namespace IniParser.Model.Configurations
         }
         #endregion
 
+        public override bool Equals(object obj)
+        {
+            var copyObj = obj as BaseIniParserConfiguration;
+            if (copyObj == null) return false;
+
+            var copyType = copyObj.GetType();
+            var oriType = this.GetType();
+            try
+            {
+                foreach (var property in oriType.GetProperties())
+                {
+                    if (property.GetValue(copyObj, null).Equals(property.GetValue(this, null)))
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
+        }
         #region ICloneable Members
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -210,9 +248,10 @@ namespace IniParser.Model.Configurations
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public new IIniDataConfiguration Clone()
+        public new IIniParserConfiguration Clone()
         {
-            return new BaseIniDataConfiguration(this);
+            // Use metaprogramming to keep the IIniParserConfiguration original class type
+            return Activator.CreateInstance(this.GetType()) as IIniParserConfiguration;
         }
         #endregion
 

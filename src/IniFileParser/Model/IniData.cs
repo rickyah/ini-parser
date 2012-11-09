@@ -43,6 +43,7 @@ namespace IniParser.Model
         public IniData(IniData ori): this((SectionDataCollection) ori.Sections)
         {
             Global = (KeyDataCollection) ori.Global.Clone();
+            Configuration = ori.Configuration.Clone();
         }
         #endregion
 
@@ -54,23 +55,23 @@ namespace IniParser.Model
         /// </summary>
         /// <remarks>
         ///     If the <see cref="IniData"/> instance was created by a parser,
-        ///     this instance is a copy of the <see cref="IIniDataConfiguration"/> used
+        ///     this instance is a copy of the <see cref="IIniParserConfiguration"/> used
         ///     by the parser (i.e. different objects instances)
         ///     If this instance is created programatically without using a parser, this
-        ///     property returns an instance of <see cref=" DefaultIniDataConfiguration"/>
+        ///     property returns an instance of <see cref=" DefaultIniParserConfiguration"/>
         /// </remarks>
-        public IIniDataConfiguration Configuration
+        public IIniParserConfiguration Configuration
         {
             get
             {
                 // Lazy initialization
                 if (_configuration == null)
-                    _configuration = new DefaultIniDataConfiguration();
+                    _configuration = new DefaultIniParserConfiguration();
 
                 return _configuration;
             }
 
-            set { _configuration = (IIniDataConfiguration) value.Clone(); }
+            set { _configuration = (IIniParserConfiguration) value.Clone(); }
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace IniParser.Model
         /// <summary>
         ///     See property <see cref="Configuration"/> for more information. 
         /// </summary>
-        private IIniDataConfiguration _configuration;
+        private IIniParserConfiguration _configuration;
         #endregion
     }
 } 

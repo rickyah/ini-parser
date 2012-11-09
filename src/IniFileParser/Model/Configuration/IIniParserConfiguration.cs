@@ -2,12 +2,20 @@ using System;
 using System.Text.RegularExpressions;
 using IniParser.Parser;
 
-namespace IniParser.Model
+namespace IniParser.Model.Configuration
 {
     /// <summary>
     ///     Defines data for a Parser configuration object.
     /// </summary>
-    public interface IIniDataConfiguration : ICloneable
+    ///     With a configuration object you can redefine how the parser
+    ///     will detect special items in the ini file defining new regex
+    ///     (e.g. you can redefine the comment regex so it just treat text as
+    ///     a comment iff the comment caracter is the first in the line)
+    ///     or changing the set of characters used to define elements in    
+    ///     the ini file (e.g. change the 'comment' caracter from ';' to '#')
+    ///     You can also define how the parser should treat errors, or how liberal
+    ///     or conservative should it be when parsing files with "strange" formats.
+    public interface IIniParserConfiguration : ICloneable
     {
         /// <summary>
         ///     Regular expression for matching a comment string
@@ -81,6 +89,19 @@ namespace IniParser.Model
         bool AllowDuplicateKeys { get; set; }
 
         /// <summary>
+        ///     Only used if <see cref="AllowDuplicateKeys"/> is also <c>true</c> 
+        ///     If set to <c>true</c> when the parser finds a duplicate key, it overrites
+        ///     the previous value, so the key will always contain the value of the 
+        ///     last key readed in the file
+        ///     If set to <c>false</c> the first readed value is preserved, so the key will
+        ///     always contain the value of the first key readed in the file
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>false</c>.
+        /// </remarks>
+        bool OverrideDuplicateKeys { get; set; }
+
+        /// <summary>
         ///     If <c>true</c> the <see cref="IniDataParser"/> instance will thrown an exception
         ///     if an error is found. 
         ///     If <c>false</c> the parser will just stop execution and return a null value.
@@ -114,6 +135,6 @@ namespace IniParser.Model
         bool SkipInvalidLines { get; set; }
 
 
-        new IIniDataConfiguration Clone();
+        new IIniParserConfiguration Clone();
     }
 }

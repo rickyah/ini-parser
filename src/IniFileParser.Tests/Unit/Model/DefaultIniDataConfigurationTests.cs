@@ -13,7 +13,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_default_values()
         {
-            var config = new DefaultIniDataConfiguration();
+            var config = new DefaultIniParserConfiguration();
 
             Assert.That(config, Is.Not.Null);
             Assert.That(config.CommentRegex, Is.Not.Null);
@@ -24,12 +24,12 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_cloning()
         {
-            IIniDataConfiguration config1 = new DefaultIniDataConfiguration();
+            IIniParserConfiguration config1 = new DefaultIniParserConfiguration();
 
             config1.AllowDuplicateKeys = true;
             config1.CommentChar = '/';
 
-            IIniDataConfiguration config2 = config1.Clone();
+            IIniParserConfiguration config2 = config1.Clone();
 
             Assert.That(config2.AllowDuplicateKeys, Is.True);
             Assert.That(config2.CommentChar, Is.EqualTo('/'));

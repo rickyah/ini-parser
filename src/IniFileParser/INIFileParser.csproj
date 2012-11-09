@@ -68,10 +68,10 @@
     <Compile Include="Model\IniData.cs" />
     <Compile Include="Model\KeyData.cs" />
     <Compile Include="Model\KeyDataCollection.cs" />
-    <Compile Include="Model\Configurations\DefaultIniDataConfiguration.cs" />
-    <Compile Include="Model\IIniDataConfiguration.cs" />
+    <Compile Include="Model\Configuration\DefaultIniParserConfiguration.cs" />
+    <Compile Include="Model\Configuration\IIniParserConfiguration.cs" />
     <Compile Include="Parser\IniDataParser.cs" />
-    <Compile Include="Model\Configurations\BaseIniDataConfiguration.cs" />
+    <Compile Include="Model\Configuration\BaseIniParserConfiguration.cs" />
     <Compile Include="Model\SectionData.cs" />
     <Compile Include="Model\SectionDataCollection.cs" />
     <Compile Include="StreamIniDataParser.cs" />
