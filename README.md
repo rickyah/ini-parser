@@ -1,4 +1,4 @@
-drunken-octo-adventure
+Ini File Parser
 ======================
 
-Manage data from a an INI file format the easy way!
+.Net library for managing data from a an INI file format the easy way!
