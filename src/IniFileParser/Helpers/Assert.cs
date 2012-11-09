@@ -1,4 +1,4 @@
-namespace IniParser.Lib
+namespace IniParser.Helpers
 {
     internal static class Assert
     {
