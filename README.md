@@ -8,7 +8,7 @@ Allows reading / writing INI data to and from I/O streams, file streams and/or p
 
 The library is really simple to use. 
 Ini data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward:
-```
+```csharp
 // Load ini file
 IniData data = parser.LoadFile("TestIniFile.ini");
 
