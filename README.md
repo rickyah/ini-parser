@@ -32,7 +32,7 @@ if none is passed.
 
 Do you need to modify the default settings for the parser? That's easy, 
 just override some properties in the default configuration object:
-´´´csharp
+```csharp
 
 var iniStr = @"[section1]
 #data = 1
