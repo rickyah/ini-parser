@@ -1,13 +1,12 @@
 Ini File Parser
 ===============
 
-.Net library for managing data from a an INI file format the easy way!
+A Mono compatible .Net library for managing data from a an INI file format the easy way!
 
 Allows reading / writing INI data to and from I/O streams, file streams and/or plain strings.
 
 
-The library is really simple to use. 
-Ini data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward:
+The library is really simple to use; Ini data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward:
 ```csharp
 // Load ini file
 IniData data = parser.ReadFile("TestIniFile.ini");
@@ -22,6 +21,14 @@ data["ConfigSection"]["fullscreen"] = "true";
 // save a new ini file
 parser.WriteFile("NewTestIniFile.ini", data);
 ```
+
+## Version 2.0
+This version features a simpler way to customize the INI parsing. As the
+INI file format is not really a standard, an easier way to allow the library
+user to change the way INI data is parser is a must.
+Now you need to pass a configuration object to an IniParser instance, which will be
+used to set the behaviour of the parser. A default implementation is used
+if none is passed.
 
 Do you need to modify the default settings for the parser? That's easy, 
 just override some properties in the default configuration object:
