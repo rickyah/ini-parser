@@ -6,6 +6,10 @@ using IniParser.Model.Configuration;
 
 namespace IniParser.Parser
 {
+	/// <summary>
+	/// 	Responsible for parsing an string from an ini file, and creating
+	/// 	an <see cref="IniData"/> structure.
+	/// </summary>
     public class IniDataParser
     {
         #region Initialization
@@ -23,7 +27,7 @@ namespace IniParser.Parser
         ///     Ctor
         /// </summary>
         /// <param name="parserConfiguration">
-        ///     Parser <see cref="IIniParserConfiguration"/> instance.
+        ///     Parser's <see cref="IIniParserConfiguration"/> instance.
         /// </param>
         public IniDataParser(IIniParserConfiguration parserConfiguration)
         {
@@ -41,7 +45,9 @@ namespace IniParser.Parser
         ///     that the parser must follow.
         /// </summary>
         public IIniParserConfiguration Configuration { get; private set; }
+		#endregion
 
+		#region Operations
         /// <summary>
         ///     Parses a string containing valid ini data
         /// </summary>
@@ -91,7 +97,8 @@ namespace IniParser.Parser
         // See http://www.dofactory.com/Patterns/PatternTemplate.aspx for an explanation of this pattern.
         // Probably for the most common cases you can change the parsing behavior using a custom configuration
         // object rather than creating derived classes.
-        // See IIniParserConfiguration, and IniDataParser constructor to change default 
+        // See IIniParserConfiguration interface, and IniDataParser constructor to change the default
+		// configuration.
 
         /// <summary>
         ///     Checks if a given string contains a comment.

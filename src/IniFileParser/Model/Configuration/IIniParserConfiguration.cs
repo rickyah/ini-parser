@@ -8,7 +8,7 @@ namespace IniParser.Model.Configuration
     ///     Defines data for a Parser configuration object.
     /// </summary>
     ///     With a configuration object you can redefine how the parser
-    ///     will detect special items in the ini file defining new regex
+    ///     will detect special items in the ini file by defining new regex
     ///     (e.g. you can redefine the comment regex so it just treat text as
     ///     a comment iff the comment caracter is the first in the line)
     ///     or changing the set of characters used to define elements in    
@@ -18,20 +18,19 @@ namespace IniParser.Model.Configuration
     public interface IIniParserConfiguration : ICloneable
     {
         /// <summary>
-        ///     Regular expression for matching a comment string
+        ///     Regular expression used to match a comment string
         /// </summary>
         Regex CommentRegex { get; set; }
 
         /// <summary>
-        ///     Regular expression for matching a section string
+        ///     Regular expression used to match a section string
         /// </summary>
         Regex SectionRegex { get; set; }
 
         /// <summary>
-        ///     Regular expression for matching a key / value pair string
+		///     Regular expression used to match a key / value pair string
         /// </summary>
         //Regex KeyValuePairRegex { get; set; }
-
 
         /// <summary>
         ///     Sets the char that defines the start of a section name.

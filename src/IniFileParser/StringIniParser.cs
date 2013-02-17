@@ -11,9 +11,9 @@ namespace IniParser
     /// <remarks>
     ///     This class is deprecated and kept for backwards compatibility.
     ///     It's just a wrapper around <see cref="IniDataParser"/> class.
-    ///     Please, replace your code
+    ///     Please, replace your code.
     /// </remarks>
-    [Obsolete("Use class IniDataParser instead. See remarks.")]
+    [Obsolete("Use class IniDataParser instead. See remarks comments in this class.")]
     public class StringIniParser
     {
         /// <summary>
