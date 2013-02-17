@@ -10,7 +10,7 @@ The library is really simple to use.
 Ini data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward:
 ```csharp
 // Load ini file
-IniData data = parser.LoadFile("TestIniFile.ini");
+IniData data = parser.ReadFile("TestIniFile.ini");
 
 // Retrieve the value for the key with name 'fullscreen' inside a config section named 'ConfigSection'
 // values are always retrieved as an string
@@ -20,9 +20,53 @@ string useFullScreen = data["ConfigSection"]["fullscreen"];
 data["ConfigSection"]["fullscreen"] = "true";
 
 // save a new ini file
-parser.SaveFile("NewTestIniFile.ini", data);
+parser.WriteFile("NewTestIniFile.ini", data);
 ```
 
+Do you need to modify the default settings for the parser? That's easy, 
+just override some properties in the default configuration object:
+´´´csharp
+
+var iniStr = @"[section1]
+#data = 1
+;data = 2";
+
+var config = new DefaultIniParserConfiguration();
+
+config.CommentChar = '#';
+
+var parser = new IniDataParser(config);
+
+var iniData = parser.Parse(iniStr);
+
+Assert.That(iniData["section1"][";data"], Is.EqualTo("2"));
+            
+```
+
+If you want to reuse a particular complex configuration for the parser, just create a custom
+configuration class and reuse the same configuration everywhere:
+```csharp
+class MyTestConfiguration : DefaultIniParserConfiguration
+{
+  public MyTestConfiguration()
+  {
+    SectionStartChar = '<';
+    SectionEndChar = '>';
+    CommentChar = '#';
+    KeyValueAssigmentChar = '=';
+
+    AllowKeysWithoutSection = true;
+    AllowDuplicateKeys = true;
+    OverrideDuplicateKeys = true;
+    AllowDuplicateSections = true;
+    ThrowExceptionsOnError = false;
+    SkipInvalidLines = true;
+  }
+}
+
+var parser = new IniDataParser(new MyTestConfiguration());
+        
+```
 Enjoy!
 
 
