@@ -221,7 +221,6 @@ namespace IniParser.Model.Configuration
             var copyObj = obj as BaseIniParserConfiguration;
             if (copyObj == null) return false;
 
-            var copyType = copyObj.GetType();
             var oriType = this.GetType();
             try
             {
@@ -248,10 +247,9 @@ namespace IniParser.Model.Configuration
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public new IIniParserConfiguration Clone()
-        {
-            // Use metaprogramming to keep the IIniParserConfiguration original class type
-            return Activator.CreateInstance(this.GetType()) as IIniParserConfiguration;
+        public IIniParserConfiguration Clone()
+		{
+			return this.MemberwiseClone() as IIniParserConfiguration;
         }
         #endregion
 

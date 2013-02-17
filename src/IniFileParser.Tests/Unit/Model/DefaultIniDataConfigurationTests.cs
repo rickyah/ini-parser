@@ -29,7 +29,10 @@ namespace IniFileParser.Tests.Unit.Model
             config1.AllowDuplicateKeys = true;
             config1.CommentChar = '/';
 
-            IIniParserConfiguration config2 = config1.Clone();
+			Assert.That(config1.AllowDuplicateKeys, Is.True);
+			Assert.That(config1.CommentChar, Is.EqualTo('/'));
+
+			IIniParserConfiguration config2 = config1.Clone();
 
             Assert.That(config2.AllowDuplicateKeys, Is.True);
             Assert.That(config2.CommentChar, Is.EqualTo('/'));

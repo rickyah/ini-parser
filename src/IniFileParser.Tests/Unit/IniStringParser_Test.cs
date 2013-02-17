@@ -43,7 +43,7 @@ mykey1 = value1
             Assert.That(section1.Keys["key2"], Is.EqualTo("value5"));
         }
 
-        [Test, Ignore("new ini writer was not written yet")]
+        [Test]
         public void WritingTotring_Test()
         {
             StringIniParser parser = new StringIniParser();

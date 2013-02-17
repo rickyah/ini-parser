@@ -17,7 +17,7 @@ namespace IniFileParser.Tests.issues
 
             // Encoding.Default is now the default value used in the ReadFile method, but is 
             // specified in this call for consistency with the issue report
-            IniData parsedData = parser.ReadFile("./Issue18_example.ini", Encoding.Default);
+            IniData parsedData = parser.ReadFile("./Issue18_example.ini", Encoding.UTF8);
 
             Assert.That(parsedData.Sections.ContainsSection("Identität"));
             Assert.That(parsedData.Sections["Identität"]["key"], Is.EqualTo("value"));
