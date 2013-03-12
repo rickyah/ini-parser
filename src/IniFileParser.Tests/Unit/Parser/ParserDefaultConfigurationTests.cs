@@ -44,8 +44,8 @@ mykey1 = value1
 
             Assert.That(section1, Is.Not.Null);
             Assert.That(section1.SectionName, Is.EqualTo("section1"));
-            Assert.That(section1.Comments, Is.Not.Empty);
-            Assert.That(section1.Comments.Count, Is.EqualTo(1));
+            Assert.That(section1.LeadingComments, Is.Not.Empty);
+            Assert.That(section1.LeadingComments.Count, Is.EqualTo(1));
 
             Assert.That(section1.Keys, Is.Not.Null);
             Assert.That(section1.Keys.Count, Is.EqualTo(2));
@@ -69,9 +69,9 @@ mykey1 = value1
             section2 = data.Sections.GetSectionData("section 2");
             Assert.That(section2, Is.Not.Null);
             Assert.That(section2.SectionName, Is.EqualTo("section 2"));
-            Assert.That(section2.Comments, Is.Empty);
+            Assert.That(section2.LeadingComments, Is.Empty);
             Assert.That(section2.TrailingComments, Is.Not.Empty);
-            Assert.That(section2.AllComments, Is.Not.Empty);
+            Assert.That(section2.Comments, Is.Not.Empty);
 
             // Check comments at the end of the section are parsed and assigned to the section
             Assert.That(section2.TrailingComments.Count, Is.EqualTo(1));

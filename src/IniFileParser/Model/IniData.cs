@@ -151,7 +151,7 @@ namespace IniParser.Model
 			if (sb.Length > 0) sb.AppendLine();
 
             // Leading comments
-            WriteComments(section.Comments, sb);
+            WriteComments(section.LeadingComments, sb);
 
             //Write section name
             sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));

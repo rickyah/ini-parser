@@ -19,7 +19,7 @@ namespace IniParser.Model
             if (string.IsNullOrEmpty(sectionName))
                 throw new ArgumentException("section name can not be empty");
 
-            _comments = new List<string>();
+            _leadingComments = new List<string>();
             _keyDataCollection = new KeyDataCollection();
             SectionName = sectionName;
         }
@@ -36,7 +36,7 @@ namespace IniParser.Model
         /// used to create the new instance.</param>
         public SectionData(SectionData ori)
         {
-            _comments = new List<string>(ori._comments);
+            _leadingComments = new List<string>(ori._leadingComments);
             _keyDataCollection = new KeyDataCollection(ori._keyDataCollection);
         }
 
@@ -73,16 +73,16 @@ namespace IniParser.Model
         /// Gets or sets the comment list associated to this section.
         /// </summary>
         /// <value>A list of strings.</value>
-        public List<string> Comments
+        public List<string> LeadingComments
         {
             get
             {
-                return _comments;
+                return _leadingComments;
             }
 
             internal set
             {
-                _comments = new List<string>(value);
+                _leadingComments = new List<string>(value);
             }
         }
 
@@ -90,11 +90,11 @@ namespace IniParser.Model
         /// Gets or sets the comment list associated to this section.
         /// </summary>
         /// <value>A list of strings.</value>
-        public List<string> AllComments
+        public List<string> Comments
         {
             get
             {
-                var list = new List<string>(_comments);
+                var list = new List<string>(_leadingComments);
                 list.AddRange(_trailingComments);
                 return list;
             }
@@ -157,7 +157,7 @@ namespace IniParser.Model
         /// <summary>
         /// Comments associated to this section
         /// </summary>
-        private List<string> _comments;
+        private List<string> _leadingComments;
         private List<string> _trailingComments = new List<string>();
 
         /// <summary>
