@@ -82,7 +82,7 @@
     <Compile Include="issues\Issue32Tests.cs" />
     <Compile Include="Unit\Configuration\ConfigurationTests.cs" />
     <Compile Include="Unit\Model\DefaultIniDataConfigurationTests.cs" />
-    <Compile Include="Unit\Parser\ParserTests.cs" />
+    <Compile Include="Unit\Parser\ParserDefaultConfigurationTests.cs" />
     <Compile Include="Unit\Model\SectionDataCollectionTests.cs" />
     <Compile Include="Unit\IniParserFile_Test.cs" />
     <Compile Include="Unit\IniParserRegex_Test.cs" />
@@ -101,6 +101,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="INIfileBAD.ini" />
+    <None Include="INIfileBADKeys.ini" />
+    <None Include="INIfileBADSection.ini" />
+    <None Include="INIfileEMPTY.ini" />
+    <None Include="INIfileGOOD.ini" />
+    <None Include="INIFileGOOD.ini_test.ini" />
     <None Include="Issue18_example.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -15,13 +15,25 @@ namespace IniFileParser.Tests.issues
         ///     Thanks to h.eriksson@artamir.org for the issue.
         /// </summary>
         [Test, Description("Test for Issue 6: http://code.google.com/p/ini-parser/issues/detail?id=6")]
-        public void check_that_comment_char_is_not_stored_as_the_key()
+        [Ignore("Deprecated: parsing comment characters behaviour changed")]
+        public void check_that_comment_char_is_not_stored_as_the_key_old()
         {
             string data = "[data]" + Environment.NewLine + "key = value;";
 
             IniData inidata = new StringIniParser().ParseString(data);
 
             Assert.That(inidata["data"]["key"], Is.EqualTo("value"));
+        }
+
+
+        [Test, Description("Test for Issue 6: http://code.google.com/p/ini-parser/issues/detail?id=6")]
+        public void check_that_comment_char_is_not_stored_as_the_key()
+        {
+            string data = "[data]" + Environment.NewLine + "key = value;";
+
+            IniData inidata = new StringIniParser().ParseString(data);
+
+            Assert.That(inidata["data"]["key"], Is.EqualTo("value;"));
         }
     }
 }

@@ -80,12 +80,44 @@ namespace IniParser.Model
                 return _comments;
             }
 
-            set
+            internal set
             {
                 _comments = new List<string>(value);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the comment list associated to this section.
+        /// </summary>
+        /// <value>A list of strings.</value>
+        public List<string> AllComments
+        {
+            get
+            {
+                var list = new List<string>(_comments);
+                list.AddRange(_trailingComments);
+                return list;
+            }
+
+
+        }
+
+        /// <summary>
+        /// Gets or sets the comment list associated to this section.
+        /// </summary>
+        /// <value>A list of strings.</value>
+        public List<string> TrailingComments
+        {
+            get
+            {
+                return _trailingComments;
+            }
+
+            internal set
+            {
+                _trailingComments = new List<string>(value);
+            }
+        }
         /// <summary>
         /// Gets or sets the keys associated to this section.
         /// </summary>
@@ -126,6 +158,7 @@ namespace IniParser.Model
         /// Comments associated to this section
         /// </summary>
         private List<string> _comments;
+        private List<string> _trailingComments = new List<string>();
 
         /// <summary>
         /// Keys associated to this section

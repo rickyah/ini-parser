@@ -34,7 +34,8 @@ namespace IniFileParser.Tests.Unit.Model
             //Check add coments
             sdc.GetSectionData(strSectionTest).Comments.Add(strComment);
             Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(1));
-            sdc.GetSectionData(strSectionTest).Comments = commentListTest;
+            sdc.GetSectionData(strSectionTest).Comments.Clear();
+            sdc.GetSectionData(strSectionTest).Comments.AddRange(commentListTest);
 
             Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(commentListTest.Count));
 

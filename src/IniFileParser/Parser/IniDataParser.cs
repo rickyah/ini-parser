@@ -76,8 +76,20 @@ namespace IniParser.Parser
 
             try
             {
-                foreach (var line in iniDataString.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
+                var lines = iniDataString.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
                     ProcessLine(line, iniData);
+                }
+
+                // Orphan comments, assing to last section
+                if (_currentCommentListTemp.Count > 0)
+                {
+                    iniData.Sections.GetSectionData(_currentSectionNameTemp).TrailingComments
+                        .AddRange(_currentCommentListTemp);
+                    _currentCommentListTemp.Clear();
+                }
+
             }
             catch
             {
@@ -168,13 +180,28 @@ namespace IniParser.Parser
         /// <param name="currentLine">The string with the line to process</param>
         protected virtual void ProcessLine(string currentLine, IniData currentIniData)
         {
+            bool currentLineHasComments = false;
             currentLine = currentLine.Trim();
 
             // Extract comments from current line and store them in a tmp field
             if (LineContainsAComment(currentLine))
-                currentLine = ExtractComment(currentLine);
+            {
 
-            // If the entire line is a comment now should be empty,
+                currentLine = ExtractComment(currentLine);
+                currentLineHasComments = true;
+            }
+
+            // By default comments must spann a complete line (i.e. the comment character
+            // must be located at the beginning of a line, so it seems that the following
+            // check is not needed.
+            // But, if the comment parsing behaviour is changed in a derived class e.g. to
+            // to allow parsing comment characters in the middle of a line, the implementor
+            // will be forced to rewrite this complete method.
+            // That was actually the behaviour for parsing comments
+            // in earlier versions of the library, so checking if the current line is empty
+            // (meaning the complete line was a comment) is future-proof.
+
+            // If the entire line waas a comment now should be empty,
             // so no further processing is needed.
             if (currentLine == String.Empty)
                 return;

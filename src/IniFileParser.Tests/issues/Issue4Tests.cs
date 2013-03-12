@@ -15,7 +15,8 @@ namespace IniFileParser.Tests.issues
 
         private string ini_duplicated_keys =
 @";comentario1
-[seccion1] ;comentario 2
+[seccion1]
+;comentario 2
 
 ;valor de control
 value1 = 10.6
