@@ -1,10 +1,11 @@
 Ini File Parser
 ===============
 
-A Mono compatible .Net library for managing data from a an INI file format the easy way!
+A Mono compatible .Net open source library for managing data from a an INI file format the easy way!
 
 Allows reading / writing INI data to and from I/O streams, file streams and/or plain strings.
 
+MIT licensed (http://opensource.org/licenses/MIT or see LICENSE.txt)
 
 ## Introduction
 
@@ -36,6 +37,7 @@ if none is passed.
 - Create a derived class from `IniDataParser` and override some methods to a more fine-grained control about how to parse the ini data.
 
 Enjoy!
+
 
 
 Copyright (c) 2008 Ricardo Amores Hernández
