@@ -13,16 +13,16 @@ namespace IniParser
     {
         #region Deprecated methods
 
-        [Obsolete("Please, use ReadFile method instead of this one as is more semantically accurate")]
-        public IniData LoadFile(string fileName)
+        [Obsolete("Please use ReadFile method instead of this one as is more semantically accurate")]
+        public IniData LoadFile(string filePath)
         {
-            return ReadFile(fileName);
+            return ReadFile(filePath);
         }
 
-        [Obsolete("Please, use ReadFile method instead of this one as is more semantically accurate")]
-        public IniData LoadFile(string fileName, Encoding fileEncoding)
+        [Obsolete("Please use ReadFile method instead of this one as is more semantically accurate")]
+        public IniData LoadFile(string filePath, Encoding fileEncoding)
         {
-            return ReadFile(fileName, fileEncoding);
+            return ReadFile(filePath, fileEncoding);
         }
         #endregion
 
@@ -32,31 +32,31 @@ namespace IniParser
         /// <remarks>
         ///     Uses <see cref="Encoding.Default"/> codification for the file.
         /// </remarks>
-        /// <param name="fileName">
-        ///     Name of the file.
+        /// <param name="filePath">
+        ///     Path to the file
         /// </param>
-        public IniData ReadFile(string fileName)
+        public IniData ReadFile(string filePath)
         {
-            return ReadFile(fileName, Encoding.Default);
+            return ReadFile(filePath, Encoding.Default);
         }
 
         /// <summary>
         ///     Implements reading ini data from a file.
         /// </summary>
-        /// <param name="fileName">
-        ///     Name of the file.
+        /// <param name="filePath">
+        ///     Path to the file
         /// </param>
         /// <param name="fileEncoding">
         ///     File's encoding.
         /// </param>
-        public IniData ReadFile(string fileName, Encoding fileEncoding)
+        public IniData ReadFile(string filePath, Encoding fileEncoding)
         {
-            if (fileName == string.Empty)
+            if (filePath == string.Empty)
                 throw new ArgumentException("Bad filename.");
 
             try
             {
-                using (FileStream fs = File.Open(fileName, FileMode.Open, FileAccess.Read))
+                using (FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.Read))
                 {
                     using (StreamReader sr = new StreamReader(fs, fileEncoding))
                     {
@@ -66,7 +66,7 @@ namespace IniParser
             }
             catch (IOException ex)
             {
-                throw new ParsingException(String.Format("Could not parse file {0}", fileName), ex);
+                throw new ParsingException(String.Format("Could not parse file {0}", filePath), ex);
             }
 
         }
@@ -77,22 +77,23 @@ namespace IniParser
         /// <remarks>
         ///     Creats an ASCII encoded file by default.
         /// </remarks>
-        /// <param name="fileName">
-        ///     Name of the file.
+        /// <param name="filePath">
+        ///     Path to the file.
         /// </param>
         /// <param name="parsedData">
         ///     IniData to be saved as an INI file.
         /// </param>
-        public void SaveFile(string fileName, IniData parsedData)
+        [Obsolete("Please use WriteFile method instead of this one as is more semantically accurate")]
+        public void SaveFile(string filePath, IniData parsedData)
         {
-            SaveFile(fileName, parsedData, Encoding.ASCII);
+            WriteFile(filePath, parsedData, Encoding.ASCII);
         }
                              
         /// <summary>
-        ///     Saves INI data to a file.
+        ///     Writes INI data to a text file.
         /// </summary>
-        /// <param name="fileName">
-        ///     Name of the file.
+        /// <param name="filePath">
+        ///     Path to the file.
         /// </param>
         /// <param name="parsedData">
         ///     IniData to be saved as an INI file.
@@ -100,15 +101,20 @@ namespace IniParser
         /// <param name="fileEncoding">
         ///     Specifies the encoding used to create the file.
         /// </param>
-        public void SaveFile(string fileName, IniData parsedData, Encoding fileEncoding)
+        public void WriteFile(string filePath, IniData parsedData, Encoding fileEncoding = null)
         {
-            if (string.IsNullOrEmpty(fileName))
+            // The default value can't be assigned as a default parameter value because it is not
+            // a constant expression.
+			if (fileEncoding == null)
+				fileEncoding = Encoding.ASCII;
+
+            if (string.IsNullOrEmpty(filePath))
                 throw new ArgumentException("Bad filename.");
 
             if (parsedData == null)
                 throw new ArgumentNullException("parsedData");
 
-            using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
+            using (FileStream fs = File.Open(filePath, FileMode.Create, FileAccess.Write))
             {
                 using (StreamWriter sr = new StreamWriter(fs, fileEncoding))
                 {

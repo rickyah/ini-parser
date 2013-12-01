@@ -38,7 +38,7 @@ namespace ExampleProject
             Console.WriteLine(modifiedParsedData.ToString());
 
             //Save to a file
-            fileIniData.SaveFile("NewTestIniFile.ini", modifiedParsedData);
+            fileIniData.WriteFile("NewTestIniFile.ini", modifiedParsedData);
         }
 
         private static IniData ModifyINIData(IniData modifiedParsedData)
