@@ -147,7 +147,10 @@ namespace IniParser.Model
 
         private void WriteSection(SectionData section, StringBuilder sb)
         {
-            //Write section name
+			// Write blank line before section, but not if it is the first line
+			if (sb.Length > 0) sb.AppendLine();
+
+            // Write section name
             WriteComments(section.Comments, sb);
             
             sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));
@@ -158,13 +161,15 @@ namespace IniParser.Model
         private void WriteKeyValueData(KeyDataCollection keyDataCollection, StringBuilder sb)
         {
 
-
             foreach (KeyData keyData in keyDataCollection)
             {
-                //Write key comments
+                // Add a blank line if the key value pair has comments
+				if (keyData.Comments.Count > 0) sb.AppendLine();
+
+                // Write key comments
                 WriteComments(keyData.Comments, sb);
 
-                //Write key and value
+                // Write key and value
                 sb.AppendLine(string.Format("{0} {1} {2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value));
             }
         }

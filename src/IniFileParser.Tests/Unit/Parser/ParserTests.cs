@@ -12,10 +12,13 @@ namespace IniFileParser.Tests.Unit.Parser
         string iniFileStr =
 @";comment for section1
 [section1]
+
 ;comment for key1
 key1 = value1
 key2 = value5
+
 [section2]
+
 ;comment for myKey1
 mykey1 = value1
 ";
