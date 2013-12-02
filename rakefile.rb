@@ -33,7 +33,7 @@ end
 
 desc "Create the NuGet package"
 nugetpack :pack => [:clobber, :build, :output] do |cmd|
-  cmd.command = "nuget"
+  cmd.command = "nuget" #=> this is looking for nuget on the PATH, you can hardcode it if you checkin a nuget.exe
   cmd.nuspec = "ini-parser.nuspec"
   cmd.base_folder = "pack"
 end
