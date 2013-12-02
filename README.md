@@ -29,14 +29,14 @@ var data = parser.ReadFile("Configuration.ini");
 Retrieve the value for a key inside of a named section. Values are always retrieved as `string`s.
 
 ```csharp
-var useFullScreen = data["ConfigSection"]["fullscreen"];
+var useFullScreen = data["UI"]["fullscreen"];
 ```
 
 Modify the value in the dictionary, not the value retrieved, and save to a new file or overwrite.
 
 ```csharp
-data["ConfigSection"]["fullscreen"] = "true";
-parser.WriteFile("NewConfiguration.ini", data);
+data["UI"]["fullscreen"] = "true";
+parser.WriteFile("Configuration.ini", data);
 ```
 
 ## Coming Soon -- Version 2.0!
