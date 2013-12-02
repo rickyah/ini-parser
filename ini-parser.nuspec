@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <version>2.0</version>
-    <authors>Ricardo Amores</authors>
+    <authors>Ricardo Amores Hernández</authors>
     <owners>rickyah</owners>
     <licenseUrl>https://github.com/rickyah/ini-parser/blob/842ec9d33c1e8fed274ee0fc3c47b95b36958cb2/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/rickyah/ini-parser</projectUrl>
