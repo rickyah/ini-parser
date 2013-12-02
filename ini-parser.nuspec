@@ -1,27 +1,18 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>1.7.1</version>
+    <version>2.0</version>
     <authors>Ricardo Amores</authors>
-    <owners>Anthony Mastrean</owners>
-    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <projectUrl>http://code.google.com/p/ini-parser/</projectUrl>
-    <iconUrl>http://www.gstatic.com/codesite/ph/images/defaultlogo.png</iconUrl>
+    <owners>rickyah</owners>
+    <licenseUrl>https://github.com/rickyah/ini-parser/blob/842ec9d33c1e8fed274ee0fc3c47b95b36958cb2/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/rickyah/ini-parser</projectUrl>
     <id>ini-parser</id>
-    <title>ini-parser</title>
+    <title>INI Parser</title>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This library allows to read or create INI data programmatically. --- An implementation for reading/writing INI data to and from streams, files and strings is included.</description>
+    <description>A Mono compatible .NET open source library for managing data from an INI file format. Allows reading/writing INI data to and from I/O streams, file streams, and/or plain strings.</description>
     <summary>A simple C# library for reading and writing INI files</summary>
-    <releaseNotes>v1.7.1
-    
-    Features
-    * Configured project options for mono build
-    
-    Defects
-    * Fixed 13: Unreachable code in StreamIniDataParser.cs
-    * Fixed 14: Doesn't work with ini-files without sections
-    * Fixed 15: sections with same name
-    * Fixed 17: Parsing ini-file with curly brackets in section name fails</releaseNotes>
+    <releaseNotes>
+    </releaseNotes>
     <tags>ini</tags>
   </metadata>
 </package>
