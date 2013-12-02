@@ -1,3 +1,8 @@
+# various build & package patterns
+build
+pack
+*.nupkg
+
 # Visual Studio ignores
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
