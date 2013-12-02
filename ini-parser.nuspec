@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>1.7.1</version>
+    <authors>Ricardo Amores</authors>
+    <owners>Anthony Mastrean</owners>
+    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>http://code.google.com/p/ini-parser/</projectUrl>
+    <iconUrl>http://www.gstatic.com/codesite/ph/images/defaultlogo.png</iconUrl>
+    <id>ini-parser</id>
+    <title>ini-parser</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library allows to read or create INI data programmatically. --- An implementation for reading/writing INI data to and from streams, files and strings is included.</description>
+    <summary>A simple C# library for reading and writing INI files</summary>
+    <releaseNotes>v1.7.1
+    
+    Features
+    * Configured project options for mono build
+    
+    Defects
+    * Fixed 13: Unreachable code in StreamIniDataParser.cs
+    * Fixed 14: Doesn't work with ini-files without sections
+    * Fixed 15: sections with same name
+    * Fixed 17: Parsing ini-file with curly brackets in section name fails</releaseNotes>
+    <tags>ini</tags>
+  </metadata>
+</package>
