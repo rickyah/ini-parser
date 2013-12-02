@@ -1,44 +1,49 @@
-Ini File Parser
-===============
+# INI File Parser
 
-A Mono compatible .Net open source library for managing data from an INI file format.
+A Mono-compatible .NET library for reading/writing INI data from IO streams, file streams, and strings.
 
+## Installation
 
-Allows reading / writing INI data to and from I/O streams, file streams and/or plain strings.
+The library is published to [NuGet](https://www.nuget.org/packages/ini-parser/) and can be installed on the command-line from the directory containing your solution.
 
-MIT licensed (http://opensource.org/licenses/MIT or see LICENSE.txt)
-
-## Introduction
-
-The library is really simple to use: ini data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward:
-```csharp
-// Load ini file
-IniData data = parser.ReadFile("TestIniFile.ini");
-
-// Retrieve the value for the key with name 'fullscreen' inside a config section named 'ConfigSection'
-// values are always retrieved as an string
-string useFullScreen = data["ConfigSection"]["fullscreen"];
-
-// Modify that very same value
-data["ConfigSection"]["fullscreen"] = "true";
-
-// save a new ini file
-parser.WriteFile("NewTestIniFile.ini", data);
+```bat
+> nuget install ini-parser
 ```
 
-## Version 2.0
-This version features a simpler way to customize the INI parsing. As the
-INI file format is not really a standard it really helps to have an easier way to allow an user to change the way INI data is parser.
+Or, from the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console) in Visual Studio
 
-There are two ways to customize the INI data parsing:
+```powershell
+PM> Install-Package ini-parser
+```
 
-- pass a configuration object to an IniParser instance, which will be
-used to specify the behaviour of the parser. A default implementation is used
-if none is passed.
-- Create a derived class from `IniDataParser` and override some methods to a more fine-grained control about how to parse the ini data.
+Or from the [NuGet Package Manager](http://visualstudiogallery.msdn.microsoft.com/27077b70-9dad-4c64-adcf-c7cf6bc9970c) extension built available for most flavors of Visual Studio!
 
-Enjoy!
+## Getting Started
 
+INI data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward. Load the data using one of the provided methods.
 
+```csharp
+var data = parser.ReadFile("Configuration.ini");
+```
 
-Copyright (c) 2008 Ricardo Amores Hernández
+Retrieve the value for a key inside of a named section. Values are always retrieved as `string`s.
+
+```csharp
+var useFullScreen = data["ConfigSection"]["fullscreen"];
+```
+
+Modify the value in the dictionary, not the value retrieved, and save to a new file or overwrite.
+
+```csharp
+data["ConfigSection"]["fullscreen"] = "true";
+parser.WriteFile("NewConfiguration.ini", data);
+```
+
+## Coming Soon -- Version 2.0!
+
+Since the INI format isn't really a "standard", this version introduces a simpler way to customize INI parsing:
+
+ * Pass a configuration object to an `IniParser`, specifying the behaviour of the parser. A default implementation is used if none is provided.
+ 
+ * Derive from `IniDataParser` and override the fine-grained parsing methods.
+
