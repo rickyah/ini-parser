@@ -111,6 +111,14 @@ namespace IniParser.Model.Configuration
         public char KeyValueAssigmentChar { get; set; }
 
         /// <summary>
+        ///     Sets the string around KeyValuesAssignmentChar
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to string ' '
+        /// </remarks>
+        public string AssigmentSpacer { get; set; }
+
+        /// <summary>
         ///     Allows having keys in the file that don't belong to any section.
         ///     i.e. allows defining keys before defining a section.
         ///     If set to <c>false</c> and keys without a section are defined, 
