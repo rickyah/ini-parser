@@ -36,6 +36,7 @@ namespace IniParser.Model.Configuration
             SectionEndChar = ']';
             CommentChar = ';';
             KeyValueAssigmentChar = '=';
+            AssigmentSpacer = " ";
 
             AllowKeysWithoutSection = true;
             AllowDuplicateKeys = false;

@@ -165,7 +165,7 @@ namespace IniParser.Model
                 WriteComments(keyData.Comments, sb);
 
                 //Write key and value
-                sb.AppendLine(string.Format("{0} {1} {2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value));
+                sb.AppendLine(string.Format("{0}{3}{1}{3}{2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value, Configuration.AssigmentSpacer));
             }
         }
 
