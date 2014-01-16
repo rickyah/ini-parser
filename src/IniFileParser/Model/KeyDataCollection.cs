@@ -64,7 +64,9 @@ namespace IniParser.Model
             set
             {
                 if (!_keyData.ContainsKey(keyName))
-                    return;
+                {
+					this.AddKey(keyName);
+                }
 
                 _keyData[keyName].Value = value;
 
