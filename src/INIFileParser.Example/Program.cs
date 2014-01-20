@@ -18,27 +18,40 @@ namespace ExampleProject
             if (File.Exists("NewTestIniFile.ini"))
                 File.Delete("NewTestIniFile.ini");
 
+			// This is a special ini file where we use the '#' character for comment lines
+			// so we need to change the configuration of the parser
+			fileIniData.Parser.Configuration.CommentChar = '#';
+			
+			
             //Parse the ini file
-            IniData parsedData = fileIniData.LoadFile("TestIniFile.ini");
+            IniData parsedData = fileIniData.ReadFile("TestIniFile.ini");
 
             //Write down the contents of the ini file to the console
             Console.WriteLine("---- Printing contents of the INI file ----\n");
             Console.WriteLine(parsedData.ToString());
+            Console.WriteLine();
 
             //Get concrete data from the ini file
-            Console.WriteLine("---- Printing contents concrete data from the INI file ----");
+            Console.WriteLine("---- Printing setMaxErrors value from GeneralConfiguration section ----");
             Console.WriteLine("setMaxErrors = " + parsedData["GeneralConfiguration"]["setMaxErrors"]);
             Console.WriteLine();
 
             //Modify the INI contents and save
             Console.WriteLine();
-            //Write down the contents of the modified ini file to the console
-            Console.WriteLine("---- Printing contents of the new INI file ----\n");
+            
+			// Modify the loaded ini file
             IniData modifiedParsedData = ModifyINIData(parsedData);
+            
+            //Write down the contents of the modified ini file to the console
+            Console.WriteLine("---- Printing contents of the new INI file ----");
             Console.WriteLine(modifiedParsedData.ToString());
-
+			Console.WriteLine();
+			
             //Save to a file
-            fileIniData.SaveFile("NewTestIniFile.ini", modifiedParsedData);
+            Console.WriteLine("---- Saving the new ini file to the file NewTestIniFile.ini ----");
+            Console.WriteLine();
+            
+            fileIniData.WriteFile("NewTestIniFile.ini", modifiedParsedData);
         }
 
         private static IniData ModifyINIData(IniData modifiedParsedData)

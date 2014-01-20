@@ -80,6 +80,25 @@ key # = wops!
         }
 
         [Test]
+        public void simple_configuration()
+        {
+            var iniStr = @"[section1]
+#data = 1
+;data = 2";
+
+            var config = new DefaultIniParserConfiguration();
+
+            config.CommentChar = '#';
+
+            _parser = new IniDataParser(config);
+
+            var iniData = _parser.Parse(iniStr);
+
+            Assert.That(iniData["section1"][";data"], Is.EqualTo("2"));
+
+        }
+
+        [Test]
         public void check_configuration_is_correct()
         {
             Assert.That(_parser.Configuration, Is.InstanceOfType(typeof (LiberalTestConfiguration)));

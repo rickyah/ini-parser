@@ -45,8 +45,7 @@ See the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage exampl
 
 Do you have an idea to improve this library, or did you happen to run into a bug. Please share your idea or the bug you found in the issues page, or even better: feel free to fork and [contribute](https://github.com/rickyah/ini-parser/wiki/Contributing) to this project!
 
-## Coming Soon -- Version 2.0!
-
+## Version 2.0!
 Since the INI format isn't really a "standard", this version introduces a simpler way to customize INI parsing:
 
  * Pass a configuration object to an `IniParser`, specifying the behaviour of the parser. A default implementation is used if none is provided.

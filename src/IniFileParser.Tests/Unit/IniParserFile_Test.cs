@@ -66,7 +66,7 @@ namespace IniFileParser.Tests.Unit
             string fileString = strGoodINIFilePath + "_test.ini";
 
             IniData parsedData = iniParser.LoadFile(strGoodINIFilePath);
-            iniParser.SaveFile(fileString, parsedData);
+            iniParser.WriteFile(fileString, parsedData);
 
             Assert.That(File.Exists(fileString));
         }
