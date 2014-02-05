@@ -1,18 +1,23 @@
-<?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-  <metadata>
-    <version>2.0</version>
-    <authors>Ricardo Amores Hernández</authors>
-    <owners>rickyah</owners>
-    <licenseUrl>https://github.com/rickyah/ini-parser/master/blob/LICENSE.txt</licenseUrl>
-    <projectUrl>https://github.com/rickyah/ini-parser</projectUrl>
-    <id>ini-parser</id>
-    <title>INI Parser</title>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A Mono compatible .NET open source library for managing data from an INI file format. Allows reading/writing INI data to and from I/O streams, file streams, and/or plain strings.</description>
-    <summary>A simple C# library for reading and writing INI files</summary>
-    <releaseNotes>
-    </releaseNotes>
-    <tags>ini</tags>
-  </metadata>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>ini-parser</id>
+        <version>2.0.2</version>
+        <title>INI Parser</title>
+        <authors>Ricardo Amores Hernández</authors>
+        <owners>rickyah</owners>
+        <licenseUrl>https://github.com/rickyah/ini-parser/master/blob/LICENSE.txt</licenseUrl>
+        <projectUrl>https://github.com/rickyah/ini-parser</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A Mono compatible .NET open source library for managing data from an INI file format. Allows reading/writing INI data to and from I/O streams, file streams, and/or plain strings.</description>
+        <summary>A simple C# library for reading and writing INI files</summary>
+        <releaseNotes />
+        <tags>ini</tags>
+    </metadata>
+    <files>
+        <file src="lib\INIFileParser.dll" target="lib\INIFileParser.dll" />
+        <file src="lib\INIFileParser.pdb" target="lib\INIFileParser.pdb" />
+        <file src="lib\INIFileParser.XML" target="lib\INIFileParser.XML" />
+        <file src="README.md" target="README.md" />
+    </files>
 </package>
