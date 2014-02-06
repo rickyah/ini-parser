@@ -2,6 +2,8 @@
 
 A Mono-compatible .NET library for reading/writing INI data from IO streams, file streams, and strings.
 
+[![Build Status](https://travis-ci.org/rickyah/ini-parser.png?branch=master)](https://travis-ci.org/rickyah/ini-parser)
+
 ## Installation
 
 The library is published to [NuGet](https://www.nuget.org/packages/ini-parser/) and can be installed on the command-line from the directory containing your solution.
