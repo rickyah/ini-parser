@@ -1,5 +1,4 @@
-﻿using IniParser;
-using IniParser.Exceptions;
+﻿using IniParser.Exceptions;
 using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
@@ -24,7 +23,7 @@ key1 = value1";
         [Test, ExpectedException(typeof(ParsingException))]
         public void allow_skiping_unparsable_lines_disabled_by_default()
         {
-            IniData newData = parser.Parse(data);
+            parser.Parse(data);
         }
 
         [Test]

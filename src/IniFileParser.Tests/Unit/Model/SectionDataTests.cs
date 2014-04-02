@@ -72,7 +72,6 @@ namespace IniFileParser.Tests.Unit.Model
         public void try_adding_duplicated_keys_to_section()
         {
             string strKeyTest = "Mykey";
-            string strValueTest = "My value";
 
             var sd = new SectionData("section_test");
 
@@ -90,7 +89,6 @@ namespace IniFileParser.Tests.Unit.Model
         public void remove_key_from_section()
         {
             string strKeyTest = "Mykey";
-            string strValueTest = "My value";
 
             var sd = new SectionData("section_test");
 
