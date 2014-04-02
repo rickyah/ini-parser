@@ -109,7 +109,7 @@ namespace IniParser.Parser
         /// <returns>
         ///     <c>true</c> if any substring from s is a comment, <c>false</c> otherwise.
         /// </returns>
-        protected bool LineContainsAComment(string line)
+        protected virtual bool LineContainsAComment(string line)
         {
             return !string.IsNullOrEmpty(line) && Configuration.CommentRegex.Match(line).Success;
         }
@@ -123,7 +123,7 @@ namespace IniParser.Parser
         /// <returns>
         ///     <c>true</c> if the string represents a section, <c>false</c> otherwise.
         /// </returns>
-        protected bool LineMatchesASection(string line)
+        protected virtual bool LineMatchesASection(string line)
         {
             return !string.IsNullOrEmpty(line) && Configuration.SectionRegex.Match(line).Success;
         }
@@ -137,7 +137,7 @@ namespace IniParser.Parser
         /// <returns>
         ///     <c>true</c> if the string represents a key / value pair, <c>false</c> otherwise.
         /// </returns>
-        protected bool LineMatchesAKeyValuePair(string line)
+        protected virtual bool LineMatchesAKeyValuePair(string line)
         {
             return !string.IsNullOrEmpty(line) && line.Contains(Configuration.KeyValueAssigmentChar.ToString());
         }
@@ -152,7 +152,7 @@ namespace IniParser.Parser
         /// <returns>
         ///     The string s without comments.
         /// </returns>
-        protected string ExtractComment(string line)
+        protected virtual string ExtractComment(string line)
         {
             string comment = Configuration.CommentRegex.Match(line).Value.Trim();
 
@@ -166,7 +166,7 @@ namespace IniParser.Parser
         ///     (section or key/value pair who may or may not have comments)
         /// </summary>
         /// <param name="currentLine">The string with the line to process</param>
-        protected void ProcessLine(string currentLine, IniData currentIniData)
+        protected virtual void ProcessLine(string currentLine, IniData currentIniData)
         {
             currentLine = currentLine.Trim();
 
@@ -206,7 +206,7 @@ namespace IniParser.Parser
         /// <param name="line">
         ///     The string to be processed
         /// </param>
-        protected void ProcessSection(string line, IniData currentIniData)
+        protected virtual void ProcessSection(string line, IniData currentIniData)
         {
             // Get section name with delimiters from line...
             string sectionName = Configuration.SectionRegex.Match(line).Value.Trim();
@@ -250,7 +250,7 @@ namespace IniParser.Parser
         /// <param name="line">
         ///     The string to be processed
         /// </param>
-        protected void ProcessKeyValuePair(string line, IniData currentIniData)
+        protected virtual void ProcessKeyValuePair(string line, IniData currentIniData)
         {
             //string sectionToUse = _currentSectionNameTemp;
 
@@ -285,7 +285,7 @@ namespace IniParser.Parser
         /// <returns>
         ///     The name of the extracted key.
         /// </returns>
-        protected string ExtractKey(string s)
+        protected virtual string ExtractKey(string s)
         {
             int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
 
@@ -301,7 +301,7 @@ namespace IniParser.Parser
         /// <returns>
         ///     The name of the extracted value.
         /// </returns>
-        protected string ExtractValue(string s)
+        protected virtual string ExtractValue(string s)
         {
             int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
 
