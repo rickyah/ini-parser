@@ -27,18 +27,18 @@ namespace IniFileParser.Tests.Unit.Model
             IIniParserConfiguration config1 = new DefaultIniParserConfiguration();
 
             config1.AllowDuplicateKeys = true;
-            config1.CommentChar = '/';
+            config1.CommentString = "/";
 
 			Assert.That(config1.AllowDuplicateKeys, Is.True);
-			Assert.That(config1.CommentChar, Is.EqualTo('/'));
+			Assert.That(config1.CommentString, Is.EqualTo("/"));
 
 			IIniParserConfiguration config2 = config1.Clone();
 
             Assert.That(config2.AllowDuplicateKeys, Is.True);
-            Assert.That(config2.CommentChar, Is.EqualTo('/'));
+            Assert.That(config2.CommentString, Is.EqualTo("/"));
 
-            config1.CommentChar = '#';
-            Assert.That(config2.CommentChar, Is.EqualTo('/'));
+            config1.CommentString = "#";
+            Assert.That(config2.CommentString, Is.EqualTo("/"));
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]

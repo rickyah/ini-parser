@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{553AD4A0-946C-436D-8135-5ADBA97D246E}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -31,7 +31,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <ReleaseVersion>1.7.1</ReleaseVersion>
+    <ReleaseVersion>
+    </ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -91,6 +92,7 @@
     <Compile Include="Unit\Model\SectionDataTests.cs" />
     <Compile Include="issues\Issue29Tests.cs" />
     <Compile Include="Unit\Model\IniDataTests.cs" />
+    <Compile Include="issues\Issue43Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniFileParser\INIFileParser.csproj">

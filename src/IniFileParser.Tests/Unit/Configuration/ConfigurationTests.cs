@@ -19,7 +19,7 @@ namespace IniFileParser.Tests.Unit.Configuration
             {
                 SectionStartChar = '<';
                 SectionEndChar = '>';
-                CommentChar = '#';
+                CommentString = "#";
                 KeyValueAssigmentChar = '=';
 
                 AllowKeysWithoutSection = true;
@@ -88,7 +88,7 @@ key # = wops!
 
             var config = new DefaultIniParserConfiguration();
 
-            config.CommentChar = '#';
+            config.CommentString = "#";
 
             _parser = new IniDataParser(config);
 

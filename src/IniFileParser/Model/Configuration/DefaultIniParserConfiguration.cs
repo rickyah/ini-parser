@@ -32,9 +32,9 @@ namespace IniParser.Model.Configuration
         /// </summary>
         public DefaultIniParserConfiguration()
         {
+            CommentString = ";";
             SectionStartChar = '[';
             SectionEndChar = ']';
-            CommentChar = ';';
             KeyValueAssigmentChar = '=';
             AssigmentSpacer = " ";
 
