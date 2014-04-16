@@ -72,8 +72,19 @@ namespace IniParser.Model.Configuration
         /// <remarks>
         ///     Defaults to character '#'
         /// </remarks>
+        [Obsolete("Please use the CommentString property")]
         char CommentChar { get; set; }
         
+        /// <summary>
+        ///     Sets the string that defines the start of a comment.
+        ///     A comment spans from the mirst matching comment string
+        ///     to the end of the line.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to string ";"
+        /// </remarks>
+        string CommentString { get; set; }
+
         /// <summary>
         ///     Sets the char that defines a value assigned to a key
         /// </summary>

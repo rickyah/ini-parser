@@ -177,7 +177,7 @@ namespace IniParser.Model
         private void WriteComments(List<string> comments, StringBuilder sb)
         {
             foreach (string comment in comments)
-                sb.AppendLine(string.Format("{0}{1}", Configuration.CommentChar, comment));
+                sb.AppendLine(string.Format("{0}{1}", Configuration.CommentString, comment));
         }
         #endregion
 

@@ -21,7 +21,7 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
 
 
             StringIniParser parser = new StringIniParser();
-            parser.Parser.Configuration.CommentChar = '#';
+            parser.Parser.Configuration.CommentString = "#";
             IniData iniData = parser.ParseString(data);
 
             Assert.That(
