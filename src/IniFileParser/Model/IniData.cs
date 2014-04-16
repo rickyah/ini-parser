@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using IniParser.Model.Configuration;
+using IniParser.Model.Formatting;
 
 namespace IniParser.Model
 {
+    
     /// <summary>
     /// Represents all data from an INI file
     /// </summary>
@@ -39,39 +39,14 @@ namespace IniParser.Model
             Global = new KeyDataCollection();
         }
 
-        public IniData(IniData ori): this((SectionDataCollection) ori.Sections)
+        public IniData(IniData ori): this(ori.Sections)
         {
             Global = (KeyDataCollection) ori.Global.Clone();
-            Configuration = ori.Configuration.Clone();
         }
         #endregion
 
         #region Properties
 
-        /// <summary>
-        ///     Configuration used to write an ini file with the proper
-        ///     delimiter characters and data.
-        /// </summary>
-        /// <remarks>
-        ///     If the <see cref="IniData"/> instance was created by a parser,
-        ///     this instance is a copy of the <see cref="IIniParserConfiguration"/> used
-        ///     by the parser (i.e. different objects instances)
-        ///     If this instance is created programatically without using a parser, this
-        ///     property returns an instance of <see cref=" DefaultIniParserConfiguration"/>
-        /// </remarks>
-        public IIniParserConfiguration Configuration
-        {
-            get
-            {
-                // Lazy initialization
-                if (_configuration == null)
-                    _configuration = new DefaultIniParserConfiguration();
-
-                return _configuration;
-            }
-
-            set { _configuration = (IIniParserConfiguration) value.Clone(); }
-        }
 
         /// <summary>
         /// 	Global sections. Contains key/value pairs which are not
@@ -109,23 +84,16 @@ namespace IniParser.Model
         #region Object Methods
         public override string ToString()
         {
-            var sb = new StringBuilder();
-
-            if (Configuration.AllowKeysWithoutSection)
-            {
-                // Write global key/value data
-                WriteKeyValueData(Global, sb);
-            }
-
-            //Write sections
-            foreach (SectionData section in Sections)
-            {
-                //Write current section
-                WriteSection(section, sb);
-            }
-
-            return sb.ToString();
+            return this.ToString(new DefaultIniDataFormatter(new DefaultIniParserConfiguration()));
         }
+        
+       
+        public virtual string ToString(IIniDataFormatter formatter)
+        {
+            return formatter.IniDataToString(this);
+        }
+        
+
         #endregion
 
         #region ICloneable Members
@@ -143,53 +111,5 @@ namespace IniParser.Model
 
         #endregion
 
-        #region Helpers
-
-        private void WriteSection(SectionData section, StringBuilder sb)
-        {
-			// Write blank line before section, but not if it is the first line
-			if (sb.Length > 0) sb.AppendLine();
-
-            // Leading comments
-            WriteComments(section.LeadingComments, sb);
-
-            //Write section name
-            sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));
-
-            WriteKeyValueData(section.Keys, sb);
-
-            // Trailing comments
-            WriteComments(section.TrailingComments, sb);
-        }
-
-        private void WriteKeyValueData(KeyDataCollection keyDataCollection, StringBuilder sb)
-        {
-
-            foreach (KeyData keyData in keyDataCollection)
-            {
-                // Add a blank line if the key value pair has comments
-				if (keyData.Comments.Count > 0) sb.AppendLine();
-
-                // Write key comments
-                WriteComments(keyData.Comments, sb);
-
-                //Write key and value
-                sb.AppendLine(string.Format("{0}{3}{1}{3}{2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value, Configuration.AssigmentSpacer));
-            }
-        }
-
-        private void WriteComments(List<string> comments, StringBuilder sb)
-        {
-            foreach (string comment in comments)
-                sb.AppendLine(string.Format("{0}{1}", Configuration.CommentString, comment));
-        }
-        #endregion
-
-        #region Fields
-        /// <summary>
-        ///     See property <see cref="Configuration"/> for more information. 
-        /// </summary>
-        private IIniParserConfiguration _configuration;
-        #endregion
     }
 } 

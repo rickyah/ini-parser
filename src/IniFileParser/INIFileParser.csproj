@@ -77,6 +77,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringIniParser.cs" />
     <Compile Include="Exceptions\ParsingException.cs" />
+    <Compile Include="Model\Formatting\DefaultIniDataFormatter.cs" />
+    <Compile Include="Model\Formatting\IIniDataFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\publickey.snk" />
@@ -107,4 +109,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Model\Formatting\" />
+  </ItemGroup>
 </Project>
