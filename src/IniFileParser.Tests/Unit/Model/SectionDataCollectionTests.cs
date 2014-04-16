@@ -28,15 +28,16 @@ namespace IniFileParser.Tests.Unit.Model
 
             //Check access
             Assert.That(sdc.GetSectionData(strSectionTest), Is.Not.Null);
-            Assert.That(sdc.GetSectionData(strSectionTest).Comments, Is.Empty);
+            Assert.That(sdc.GetSectionData(strSectionTest).LeadingComments, Is.Empty);
             Assert.That(sdc.GetSectionData(strSectionTest).Keys.Count, Is.EqualTo(0));
 
             //Check add coments
-            sdc.GetSectionData(strSectionTest).Comments.Add(strComment);
-            Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(1));
-            sdc.GetSectionData(strSectionTest).Comments = commentListTest;
+            sdc.GetSectionData(strSectionTest).LeadingComments.Add(strComment);
+            Assert.That(sdc.GetSectionData(strSectionTest).LeadingComments.Count, Is.EqualTo(1));
+            sdc.GetSectionData(strSectionTest).LeadingComments.Clear();
+            sdc.GetSectionData(strSectionTest).LeadingComments.AddRange(commentListTest);
 
-            Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(commentListTest.Count));
+            Assert.That(sdc.GetSectionData(strSectionTest).LeadingComments.Count, Is.EqualTo(commentListTest.Count));
 
 
             //Remove section

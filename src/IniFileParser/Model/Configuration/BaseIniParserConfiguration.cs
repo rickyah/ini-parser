@@ -112,7 +112,7 @@ namespace IniParser.Model.Configuration
             get { return _commentString ?? string.Empty; }
             set
             {
-                CommentRegex = new Regex(value + _strCommentRegex);
+                CommentRegex = new Regex(string.Format(_strCommentRegex, value));
                 _commentString = value;
             }
         }
@@ -201,7 +201,7 @@ namespace IniParser.Model.Configuration
         #endregion
 
         #region Constants
-        protected const string _strCommentRegex = @".*";
+        protected const string _strCommentRegex = @"^{0}(.*)";
         protected const string _strSectionRegexStart = @"^(\s*?)";
         protected const string _strSectionRegexMiddle = @"{1}\s*[_\{\}\#\+\;\%\(\)\=\?\&\$\,\:\/\.\-\w\d\s\\\~]+\s*";
         protected const string _strSectionRegexEnd = @"(\s*?)$";
