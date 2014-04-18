@@ -81,6 +81,7 @@
     <Compile Include="Model\Formatting\IIniDataFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="INIFileParser.nuspec" />
     <None Include="Properties\publickey.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +110,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Model\Formatting\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
