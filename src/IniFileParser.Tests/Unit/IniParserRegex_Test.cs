@@ -27,9 +27,9 @@ namespace IniFileParser.Tests.Unit
             string strGoodTest4 = " dfasdfasf ; comment Test ";
 
             Assert.That(strGoodTest1, Text.Matches(iniParser.Parser.Configuration.CommentRegex.ToString()));
-            Assert.That(strGoodTest2, Text.Matches(iniParser.Parser.Configuration.CommentRegex.ToString()));
-            Assert.That(strGoodTest3, Text.Matches(iniParser.Parser.Configuration.CommentRegex.ToString()));
-            Assert.That(strGoodTest4, Text.Matches(iniParser.Parser.Configuration.CommentRegex.ToString()));
+            Assert.That(strGoodTest2, ! Text.Matches(iniParser.Parser.Configuration.CommentRegex.ToString()));
+            Assert.That(strGoodTest3, ! Text.Matches(iniParser.Parser.Configuration.CommentRegex.ToString()));
+            Assert.That(strGoodTest4, ! Text.Matches(iniParser.Parser.Configuration.CommentRegex.ToString()));
         }
 
         [Test, Description("Test a regular expression for matching a section in an INI file")]

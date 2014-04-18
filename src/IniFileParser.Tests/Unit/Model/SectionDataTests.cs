@@ -16,7 +16,7 @@ namespace IniFileParser.Tests.Unit.Model
 
             Assert.That(sd, Is.Not.Null);
             Assert.That(sd.SectionName, Is.EqualTo("section_test"));
-            Assert.That(sd.Comments, Is.Empty);
+            Assert.That(sd.LeadingComments, Is.Empty);
             Assert.That(sd.Keys, Is.Empty);
         }
 
@@ -46,7 +46,7 @@ namespace IniFileParser.Tests.Unit.Model
 
             Assert.That(sd, Is.Not.Null);
             Assert.That(sd.SectionName, Is.EqualTo("section_test_2"));
-            Assert.That(sd.Comments, Is.Empty);
+            Assert.That(sd.LeadingComments, Is.Empty);
             Assert.That(sd.Keys, Is.Empty);
         }
 

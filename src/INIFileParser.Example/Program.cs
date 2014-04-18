@@ -6,7 +6,7 @@ using System.IO;
 using IniParser.Model;
 
 
-namespace ExampleProject
+namespace INIFileParser.Example
 {
     public class MainProgram
     {
@@ -19,8 +19,8 @@ namespace ExampleProject
                 File.Delete("NewTestIniFile.ini");
 
 			// This is a special ini file where we use the '#' character for comment lines
-			// so we need to change the configuration of the parser
-			fileIniData.Parser.Configuration.CommentChar = '#';
+			// instead of ';' so we need to change the configuration of the parser:
+			fileIniData.Parser.Configuration.CommentString = "#";
 			
 			
             //Parse the ini file
@@ -28,7 +28,7 @@ namespace ExampleProject
 
             //Write down the contents of the ini file to the console
             Console.WriteLine("---- Printing contents of the INI file ----\n");
-            Console.WriteLine(parsedData.ToString());
+            Console.WriteLine(parsedData);
             Console.WriteLine();
 
             //Get concrete data from the ini file
@@ -44,7 +44,7 @@ namespace ExampleProject
             
             //Write down the contents of the modified ini file to the console
             Console.WriteLine("---- Printing contents of the new INI file ----");
-            Console.WriteLine(modifiedParsedData.ToString());
+            Console.WriteLine(modifiedParsedData);
 			Console.WriteLine();
 			
             //Save to a file
@@ -54,11 +54,11 @@ namespace ExampleProject
             fileIniData.WriteFile("NewTestIniFile.ini", modifiedParsedData);
         }
 
-        private static IniData ModifyINIData(IniData modifiedParsedData)
+        static IniData ModifyINIData(IniData modifiedParsedData)
         {
             modifiedParsedData["GeneralConfiguration"]["setMaxErrors"] = "10";
             modifiedParsedData.Sections.AddSection("newSection");
-            modifiedParsedData.Sections.GetSectionData("newSection").Comments
+            modifiedParsedData.Sections.GetSectionData("newSection").LeadingComments
                 .Add("This is a new comment for the section");
             modifiedParsedData.Sections.GetSectionData("newSection").Keys.AddKey("myNewKey", "value");
             modifiedParsedData.Sections.GetSectionData("newSection").Keys.GetKeyData("myNewKey").Comments

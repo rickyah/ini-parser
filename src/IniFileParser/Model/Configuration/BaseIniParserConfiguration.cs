@@ -34,7 +34,7 @@ namespace IniParser.Model.Configuration
 
             SectionStartChar = ori.SectionStartChar;
             SectionEndChar = ori.SectionEndChar;
-            CommentChar = ori.CommentChar;
+            CommentString = ori.CommentString;
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
 
             // Regex values should recreate themselves.
@@ -51,7 +51,6 @@ namespace IniParser.Model.Configuration
         ///     Regular expression for matching a section string
         /// </summary>
         public Regex SectionRegex { get; set; }
-
 
         /// <summary>
         ///     Sets the char that defines the start of a section name.
@@ -90,15 +89,31 @@ namespace IniParser.Model.Configuration
         ///     A comment spans from the comment character to the end of the line.
         /// </summary>
         /// <remarks>
-        ///     Defaults to character '#'
+        ///     Defaults to character ';'
         /// </remarks>
+        [Obsolete("Please use the CommentString property")]
         public char CommentChar
         {
-            get { return _commentChar; }
+            get { return CommentString[0]; }
+            set { CommentString = value.ToString(); }
+        }
+
+        /// <summary>
+        ///     Sets the string that defines the start of a comment.
+        ///     A comment spans from the mirst matching comment string
+        ///     to the end of the line.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to string ";"
+        /// </remarks>
+        public string CommentString
+        {
+
+            get { return _commentString ?? string.Empty; }
             set
             {
-                CommentRegex = new Regex(value + _strCommentRegex);
-                _commentChar = value;
+                CommentRegex = new Regex(string.Format(_strCommentRegex, value));
+                _commentString = value;
             }
         }
 
@@ -182,11 +197,11 @@ namespace IniParser.Model.Configuration
         #region Fields
         private char _sectionStartChar;
         private char _sectionEndChar;
-        private char _commentChar;
+        private string _commentString;
         #endregion
 
         #region Constants
-        protected const string _strCommentRegex = @".*";
+        protected const string _strCommentRegex = @"^{0}(.*)";
         protected const string _strSectionRegexStart = @"^(\s*?)";
         protected const string _strSectionRegexMiddle = @"{1}\s*[_\{\}\#\+\;\%\(\)\=\?\&\$\,\:\/\.\-\w\d\s\\\~]+\s*";
         protected const string _strSectionRegexEnd = @"(\s*?)$";
@@ -198,9 +213,10 @@ namespace IniParser.Model.Configuration
         #region Helpers
         private void RecreateSectionRegex(char value)
         {
+            CommentString.Contains(new string(new [] {value}));
             if (char.IsControl(value)
                 || char.IsWhiteSpace(value)
-                || value == CommentChar
+                || CommentString.Contains(new string(new [] {value}))
                 || value == KeyValueAssigmentChar)
                 throw new Exception(string.Format("Invalid character for section delimiter: '{0}",
                                                               value));

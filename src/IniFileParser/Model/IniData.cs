@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using IniParser.Model.Configuration;
+using IniParser.Model.Formatting;
 
 namespace IniParser.Model
 {
+    
     /// <summary>
     /// Represents all data from an INI file
     /// </summary>
@@ -70,7 +70,7 @@ namespace IniParser.Model
                 return _configuration;
             }
 
-            set { _configuration = (IIniParserConfiguration) value.Clone(); }
+            set { _configuration = value.Clone(); }
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace IniParser.Model
         public KeyDataCollection Global { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="IniParser.KeyDataCollection"/> instance 
+        /// Gets the <see cref="KeyDataCollection"/> instance 
         /// with the specified section name.
         /// </summary>
         public KeyDataCollection this[string sectionName]
@@ -109,23 +109,16 @@ namespace IniParser.Model
         #region Object Methods
         public override string ToString()
         {
-            var sb = new StringBuilder();
-
-            if (Configuration.AllowKeysWithoutSection)
-            {
-                // Write global key/value data
-                WriteKeyValueData(Global, sb);
-            }
-
-            //Write sections
-            foreach (SectionData section in Sections)
-            {
-                //Write current section
-                WriteSection(section, sb);
-            }
-
-            return sb.ToString();
+            return ToString(new DefaultIniDataFormatter(Configuration));
         }
+        
+       
+        public virtual string ToString(IIniDataFormatter formatter)
+        {
+            return formatter.IniDataToString(this);
+        }
+        
+
         #endregion
 
         #region ICloneable Members
@@ -141,44 +134,6 @@ namespace IniParser.Model
             return new IniData(this);
         }
 
-        #endregion
-
-        #region Helpers
-
-        private void WriteSection(SectionData section, StringBuilder sb)
-        {
-			// Write blank line before section, but not if it is the first line
-			if (sb.Length > 0) sb.AppendLine();
-
-            // Write section name
-            WriteComments(section.Comments, sb);
-            
-            sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));
-
-            WriteKeyValueData(section.Keys, sb);
-        }
-
-        private void WriteKeyValueData(KeyDataCollection keyDataCollection, StringBuilder sb)
-        {
-
-            foreach (KeyData keyData in keyDataCollection)
-            {
-                // Add a blank line if the key value pair has comments
-				if (keyData.Comments.Count > 0) sb.AppendLine();
-
-                // Write key comments
-                WriteComments(keyData.Comments, sb);
-
-                //Write key and value
-                sb.AppendLine(string.Format("{0}{3}{1}{3}{2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value, Configuration.AssigmentSpacer));
-            }
-        }
-
-        private void WriteComments(List<string> comments, StringBuilder sb)
-        {
-            foreach (string comment in comments)
-                sb.AppendLine(string.Format("{0}{1}", Configuration.CommentChar, comment));
-        }
         #endregion
 
         #region Fields
