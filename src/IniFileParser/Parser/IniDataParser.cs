@@ -64,6 +64,7 @@ namespace IniParser.Parser
         public IniData Parse(string iniDataString)
         {
             IniData iniData = new IniData();
+            iniData.Configuration = this.Configuration.Clone();
 
             if (string.IsNullOrEmpty(iniDataString))
             {

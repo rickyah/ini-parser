@@ -39,14 +39,39 @@ namespace IniParser.Model
             Global = new KeyDataCollection();
         }
 
-        public IniData(IniData ori): this(ori.Sections)
+        public IniData(IniData ori): this((SectionDataCollection) ori.Sections)
         {
             Global = (KeyDataCollection) ori.Global.Clone();
+            Configuration = ori.Configuration.Clone();
         }
         #endregion
 
         #region Properties
 
+        /// <summary>
+        ///     Configuration used to write an ini file with the proper
+        ///     delimiter characters and data.
+        /// </summary>
+        /// <remarks>
+        ///     If the <see cref="IniData"/> instance was created by a parser,
+        ///     this instance is a copy of the <see cref="IIniParserConfiguration"/> used
+        ///     by the parser (i.e. different objects instances)
+        ///     If this instance is created programatically without using a parser, this
+        ///     property returns an instance of <see cref=" DefaultIniParserConfiguration"/>
+        /// </remarks>
+        public IIniParserConfiguration Configuration
+        {
+            get
+            {
+                // Lazy initialization
+                if (_configuration == null)
+                    _configuration = new DefaultIniParserConfiguration();
+
+                return _configuration;
+            }
+
+            set { _configuration = value.Clone(); }
+        }
 
         /// <summary>
         /// 	Global sections. Contains key/value pairs which are not
@@ -56,7 +81,7 @@ namespace IniParser.Model
         public KeyDataCollection Global { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="IniParser.KeyDataCollection"/> instance 
+        /// Gets the <see cref="KeyDataCollection"/> instance 
         /// with the specified section name.
         /// </summary>
         public KeyDataCollection this[string sectionName]
@@ -84,7 +109,7 @@ namespace IniParser.Model
         #region Object Methods
         public override string ToString()
         {
-            return this.ToString(new DefaultIniDataFormatter(new DefaultIniParserConfiguration()));
+            return ToString(new DefaultIniDataFormatter(Configuration));
         }
         
        
@@ -111,5 +136,11 @@ namespace IniParser.Model
 
         #endregion
 
+        #region Fields
+        /// <summary>
+        ///     See property <see cref="Configuration"/> for more information. 
+        /// </summary>
+        private IIniParserConfiguration _configuration;
+        #endregion
     }
 } 
