@@ -66,6 +66,27 @@ namespace IniParser.Parser
             IniData iniData = new IniData();
             iniData.Configuration = this.Configuration.Clone();
 
+            iniData = ParseInto(iniDataString, iniData);
+            if (iniData == null) return null;
+            return (IniData)(iniData).Clone();
+        }
+
+        /// <summary>
+        ///     Parses a string containing valid ini data and put the data into an existing ini data.
+        ///     Depending on the configuration the parser will throw errors on duplicate keys/sections.
+        /// </summary>
+        /// <param name="iniDataString">
+        ///     String with data
+        /// </param>
+        /// <returns>
+        ///     An <see cref="IniData"/> instance with the data contained in
+        ///     the <paramref name="iniDataString"/> correctly parsed an structured.
+        /// </returns>
+        /// <exception cref="ParsingException">
+        ///     Thrown if the data could not be parsed
+        /// </exception>
+        public IniData ParseInto(string iniDataString, IniData iniData)
+        {
             if (string.IsNullOrEmpty(iniDataString))
             {
                 return iniData;
@@ -99,8 +120,45 @@ namespace IniParser.Parser
                 return null;
             }
 
-            return (IniData)iniData.Clone();
+            return (IniData)iniData;
         }
+
+        /// <summary>
+        ///     Parses a string containing valid ini data and put the data into an existing ini file
+        ///     by overwriting the existing content
+        /// </summary>
+        /// <param name="iniDataString">
+        ///     String with data
+        /// </param>
+        /// <returns>
+        ///     An <see cref="IniData"/> instance with the data contained in
+        ///     the <paramref name="iniDataString"/> correctly parsed an structured.
+        /// </returns>
+        /// <exception cref="ParsingException">
+        ///     Thrown if the data could not be parsed
+        /// </exception>
+        public IniData ParseAndOverwrite(string iniDataString, IniData iniData)
+        {
+            // store old config
+            bool oldAllowDuplicateKeys = Configuration.AllowDuplicateKeys;
+            bool oldAllowDuplicateSections = Configuration.AllowDuplicateSections;
+            bool oldOverrideDuplicateKeys = Configuration.OverrideDuplicateKeys;
+
+            // allow to overwrite everything
+            Configuration.AllowDuplicateKeys = true;
+            Configuration.AllowDuplicateSections = true;
+            Configuration.OverrideDuplicateKeys = true;
+
+            ParseInto(iniDataString, iniData);
+
+            // restore old config
+            Configuration.AllowDuplicateKeys = oldAllowDuplicateKeys;
+            Configuration.AllowDuplicateSections = oldAllowDuplicateSections;
+            Configuration.OverrideDuplicateKeys = oldOverrideDuplicateKeys;
+
+            return iniData;
+        }
+
         #endregion
 
         #region Template Method Design Pattern 
