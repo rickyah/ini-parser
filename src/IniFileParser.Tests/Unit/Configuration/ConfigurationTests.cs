@@ -3,7 +3,6 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 using IniParser.Parser;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.Unit.Configuration
 {
