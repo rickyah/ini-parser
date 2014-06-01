@@ -47,6 +47,27 @@ namespace IniParser.Model
 		{
 			_keyDataCollection.RemoveAllKeys();
 		}
+
+        /// <summary>
+        ///     Merges otherSection into this, adding new keys if they don't exists
+        ///     or overwriting values if the key already exists.
+        /// Comments get appended.
+        /// </summary>
+        /// <remarks>
+        ///     Comments are also merged but they are always added, not overwritten.
+        /// </remarks>
+        /// <param name="toMergeSection"></param>
+        public void Merge(SectionData toMergeSection)
+        {
+            foreach (var comment in toMergeSection.LeadingComments) 
+                LeadingComments.Add(comment);
+                
+            Keys.Merge(toMergeSection.Keys);
+
+            foreach(var comment in toMergeSection.TrailingComments) 
+                TrailingComments.Add(comment);
+        }
+
 		#endregion
 
         #region Properties
@@ -172,21 +193,6 @@ namespace IniParser.Model
         #endregion
 
 
-        /// <summary>
-        /// Merges the other section into this one by overwriting values.
-        /// Comments get appended.
-        /// </summary>
-        /// <param name="otherSection"></param>
-        public void Merge(SectionData otherSection)
-        {
-            // comments
-            foreach (var comment in otherSection._leadingComments) _leadingComments.Add(comment);
-            foreach (var comment in otherSection._trailingComments) _trailingComments.Add(comment);
-            // values
-            foreach (var pair in otherSection._keyDataCollection)
-            {
-                _keyDataCollection[pair.KeyName] = pair.Value;
-            }
-        }
+
     }
 }

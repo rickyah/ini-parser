@@ -124,5 +124,32 @@ namespace IniFileParser.Tests.Unit.Model
             //Access invalid keydata
             Assert.That(sd.Keys["asdf"], Is.Null);
         }
+
+        [Test]
+        public void check_you_can_merge_sections()
+        {
+            var destinySection = new SectionData("destiny_section");
+            var newSection= new SectionData("new_section");
+
+
+
+            //Add key
+            destinySection.Keys.AddKey("key1","value1");
+            destinySection.Keys.AddKey("key2","value2");
+
+            newSection.Keys.AddKey("key2","newvalue2");
+            newSection.Keys.AddKey("key3","value3");
+
+
+            destinySection.Merge(newSection);
+
+            Assert.That(destinySection.Keys["key1"], Is.EqualTo("value1"));
+            Assert.That(destinySection.Keys["key2"], Is.EqualTo("newvalue2"));
+            Assert.That(destinySection.Keys.ContainsKey("key3"));
+            Assert.That(destinySection.Keys["key3"], Is.EqualTo("value3"));
+
+
+        }
+       
     }
 }

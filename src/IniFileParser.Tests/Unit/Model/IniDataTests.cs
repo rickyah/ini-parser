@@ -53,34 +53,14 @@ c = 55
 ";
 
         [Test]
-        public void merge_multiple_inis()
+        public void merge_inidata()
         {
             var parser = new IniParser.Parser.IniDataParser();
 
             IniData dataA = parser.Parse(iniFileStrA);
-
-            Assert.That(dataA, Is.Not.Null);
-
-            {
-                // first file
-                Assert.That(dataA.Global["g"], Is.EqualTo("1"));
-                Assert.That(dataA.Sections.Count, Is.EqualTo(2), "Expected two (2) sections");
-
-                var s0 = dataA.Sections.GetSectionData("s0");
-
-                Assert.That(s0, Is.Not.Null);
-                Assert.That(s0.SectionName, Is.EqualTo("s0"));
-                Assert.That(s0.Keys["a"], Is.EqualTo("2"));
-
-                var s1 = dataA.Sections.GetSectionData("s1");
-
-                Assert.That(s1, Is.Not.Null);
-                Assert.That(s1.SectionName, Is.EqualTo("s1"));
-                Assert.That(s1.Keys["a"], Is.EqualTo("3"));
-                Assert.That(s1.Keys["b"], Is.EqualTo("4"));
-            }
-
+           
             IniData dataB = parser.Parse(iniFileStrB);
+           
             dataA.Merge(dataB);
 
             {

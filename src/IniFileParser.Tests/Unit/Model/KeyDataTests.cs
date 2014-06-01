@@ -71,6 +71,26 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
         }
+
+        [Test]
+        public void check_merge_keys()
+        {
+            var keys1 = new KeyDataCollection();
+            keys1.AddKey( "key1", "value1");
+            keys1.AddKey( "key2", "value2");
+            keys1.AddKey( "key3", "value3");
+
+            var keys2 = new KeyDataCollection();
+            keys2.AddKey("key1", "value11");
+            keys2.AddKey("key4", "value4");
+
+            keys1.Merge(keys2);
+
+            Assert.That(keys1["key1"], Is.EqualTo("value11"));
+            Assert.That(keys1["key2"], Is.EqualTo("value2"));
+            Assert.That(keys1["key3"], Is.EqualTo("value3"));
+            Assert.That(keys1["key4"], Is.EqualTo("value4"));
+        }
          
     }
 }

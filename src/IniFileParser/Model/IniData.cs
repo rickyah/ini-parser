@@ -147,18 +147,19 @@ namespace IniParser.Model
         /// Merges the other iniData into this one by overwriting existing values.
         /// Comments get appended.
         /// </summary>
-        /// <param name="other"></param>
-        public void Merge(IniData other)
+        /// <param name="toMergeIniData">
+        ///     IniData instance to merge into this. 
+        ///     If it is null this operation does nothing.
+        /// </param>
+        public void Merge(IniData toMergeIniData)
         {
-            if (other != null)
-            {
-                MergeGlobal(other.Global);
 
-                foreach(var otherSection in other._sections)
-                {
-                    MergeSection(otherSection);
-                }
-            }
+            if (toMergeIniData == null) return;
+
+            Global.Merge(toMergeIniData.Global);
+
+            Sections.Merge(toMergeIniData.Sections);
+
         }
 
         /// <summary>
