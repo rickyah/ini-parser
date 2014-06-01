@@ -93,6 +93,15 @@ namespace IniParser.Model
         }
 
         /// <summary>
+        /// Removes all entries from this collection
+        /// </summary>
+        public void Clear()
+        {
+            _sectionData.Clear();
+        }
+
+
+        /// <summary>
         /// Gets if a section with a specified name exists in the collection.
         /// </summary>
         /// <param name="keyName">Name of the section to search</param>
@@ -121,6 +130,20 @@ namespace IniParser.Model
             return null;
         }
 
+        public void Merge(SectionDataCollection sectionsToMerge)
+        {
+            foreach(var sectionDataToMerge in sectionsToMerge)
+            {
+                var sectionDataInThis = GetSectionData(sectionDataToMerge.SectionName);
+
+                if (sectionDataInThis == null)
+                {
+                    AddSection(sectionDataToMerge.SectionName);
+                }
+
+                this[sectionDataToMerge.SectionName].Merge(sectionDataToMerge.Keys);
+            }
+        }
 
         /// <summary>
         /// Sets the section data for given a section name.
@@ -144,13 +167,6 @@ namespace IniParser.Model
             return _sectionData.Remove(keyName);
         }
 
-        /// <summary>
-        /// Removes all entries from this collection
-        /// </summary>
-        public void Clear()
-        {
-            _sectionData.Clear();
-        }
 
         #endregion
 

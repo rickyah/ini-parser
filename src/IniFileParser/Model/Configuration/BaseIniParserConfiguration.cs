@@ -240,6 +240,17 @@ namespace IniParser.Model.Configuration
         }
         #endregion
 
+        public override int GetHashCode()
+        {
+            var hash = 27;
+            foreach (var property in GetType().GetProperties())
+            {
+                hash = (hash * 7) + property.GetValue(this, null).GetHashCode();
+            }
+
+            return hash;
+        }
+
         public override bool Equals(object obj)
         {
             var copyObj = obj as BaseIniParserConfiguration;

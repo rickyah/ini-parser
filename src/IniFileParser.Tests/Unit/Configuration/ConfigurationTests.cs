@@ -3,7 +3,6 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 using IniParser.Parser;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.Unit.Configuration
 {
@@ -101,8 +100,8 @@ key # = wops!
         [Test]
         public void check_configuration_is_correct()
         {
-            Assert.That(_parser.Configuration, Is.InstanceOfType(typeof (LiberalTestConfiguration)));
-            Assert.That(_parser.Parse(iniFileStr).Configuration, Is.InstanceOfType(typeof(LiberalTestConfiguration)));
+            Assert.That(_parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
+            Assert.That(_parser.Parse(iniFileStr).Configuration, Is.InstanceOf(typeof(LiberalTestConfiguration)));
         }
 
         [Test]
