@@ -180,15 +180,12 @@ namespace IniParser.Parser
         /// <param name="currentLine">The string with the line to process</param>
         protected virtual void ProcessLine(string currentLine, IniData currentIniData)
         {
-            bool currentLineHasComments = false;
             currentLine = currentLine.Trim();
 
             // Extract comments from current line and store them in a tmp field
             if (LineContainsAComment(currentLine))
             {
-
                 currentLine = ExtractComment(currentLine);
-                currentLineHasComments = true;
             }
 
             // By default comments must spann a complete line (i.e. the comment character
