@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using IniParser.Model;
 using IniParser.Model.Configuration;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.Unit.Model
 {
@@ -65,7 +64,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
-            Assert.That(kd.Comments, Has.Count(2));
+            Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
 
@@ -89,7 +88,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
-            Assert.That(kd.Comments, Has.Count(2));
+            Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
         }
