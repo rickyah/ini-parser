@@ -54,7 +54,7 @@ See the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage exampl
 ## Merging ini files
 Merging ini files is a one-method operation:
 
-``csharp
+```csharp
 
    var parser = new IniParser.Parser.IniDataParser();
 
