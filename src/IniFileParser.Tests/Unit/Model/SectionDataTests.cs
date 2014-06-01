@@ -105,7 +105,6 @@ namespace IniFileParser.Tests.Unit.Model
         public void try_removing_non_existing_key_from_section()
         {
             string strKeyTest = "Mykey";
-            string strValueTest = "My value";
 
             var sd = new SectionData("section_test");
 
