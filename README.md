@@ -69,7 +69,7 @@ Merging ini files is a one-method operation:
    // sections that also existed in the user config file
 ```
 
-Keep in mind that you merge individual sections if you like:
+Keep in mind that you can merge individual sections if you like:
 
 ```csharp
 config["user_settings"].Merge(user_config["user_settings"]);
