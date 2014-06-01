@@ -23,7 +23,9 @@ Or, from the [Package Manager Console](http://docs.nuget.org/docs/start-here/usi
 PM> Install-Package ini-parser
 ```
 
-Or from the [NuGet Package Manager](http://visualstudiogallery.msdn.microsoft.com/27077b70-9dad-4c64-adcf-c7cf6bc9970c) extension built available for most flavors of Visual Studio!
+If you are using Visual Studio, you can download the [NuGet Package Manager](http://visualstudiogallery.msdn.microsoft.com/27077b70-9dad-4c64-adcf-c7cf6bc9970c) extension that will allow adding the NuGet dependency for your project.
+
+If you use MonoDevelop / Xamarin Studio, you can install the [MonoDevelop NuGet AddIn](https://github.com/mrward/monodevelop-nuget-addin) to also be able to add this library as dependency from the IDE.
 
 ## Getting Started
 
