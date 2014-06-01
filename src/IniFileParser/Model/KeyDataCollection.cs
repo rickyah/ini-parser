@@ -38,8 +38,7 @@ namespace IniParser.Model
         #endregion
 
         #region Properties
-
-        /// <summary>
+           /// <summary>
         /// Gets or sets the value of a concrete key.
         /// </summary>
         /// <remarks>
@@ -183,6 +182,17 @@ namespace IniParser.Model
             if (_keyData.ContainsKey(keyName))
                 return _keyData[keyName];
             return null;
+        }
+
+        public void Merge(KeyDataCollection keyDataToMerge)
+        {
+            foreach(var keyData in keyDataToMerge)
+            {
+                AddKey(keyData.KeyName);
+                GetKeyData(keyData.KeyName).Comments.AddRange(keyData.Comments);
+                this[keyData.KeyName] = keyData.Value;
+            }
+
         }
 
         /// <summary>
