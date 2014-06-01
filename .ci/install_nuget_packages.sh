@@ -1,1 +1,1 @@
-mono --runtime=v4.0 .ci/NuGet.exe update src/IniFileParser.Tests/packages.config
+mono .ci/NuGet.exe restore src/IniFileParser.sln 
