@@ -171,5 +171,22 @@ namespace IniParser.Model
         private string _sectionName;
         #endregion
 
+
+        /// <summary>
+        /// Merges the other section into this one by overwriting values.
+        /// Comments get appended.
+        /// </summary>
+        /// <param name="otherSection"></param>
+        public void Merge(SectionData otherSection)
+        {
+            // comments
+            foreach (var comment in otherSection._leadingComments) _leadingComments.Add(comment);
+            foreach (var comment in otherSection._trailingComments) _trailingComments.Add(comment);
+            // values
+            foreach (var pair in otherSection._keyDataCollection)
+            {
+                _keyDataCollection[pair.KeyName] = pair.Value;
+            }
+        }
     }
 }

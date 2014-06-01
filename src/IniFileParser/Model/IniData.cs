@@ -142,5 +142,51 @@ namespace IniParser.Model
         /// </summary>
         private IIniParserConfiguration _configuration;
         #endregion
+
+        /// <summary>
+        /// Merges the other iniData into this one by overwriting existing values.
+        /// Comments get appended.
+        /// </summary>
+        /// <param name="other"></param>
+        public void Merge(IniData other)
+        {
+            if (other != null)
+            {
+                MergeGlobal(other.Global);
+
+                foreach(var otherSection in other._sections)
+                {
+                    MergeSection(otherSection);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Merge the sections into this by overwriting this sections.
+        /// </summary>
+        /// <param name="otherSection"></param>
+        private void MergeSection(SectionData otherSection)
+        {
+            // no overlap -> create no section
+            if (!Sections.ContainsSection(otherSection.SectionName))
+            {
+                Sections.AddSection(otherSection.SectionName);
+            }
+
+            // merge section into the new one
+            Sections.GetSectionData(otherSection.SectionName).Merge(otherSection);
+        }
+
+        /// <summary>
+        /// Merges the given global values into this globals by overwriting existing values.
+        /// </summary>
+        /// <param name="globals"></param>
+        private void MergeGlobal(KeyDataCollection globals)
+        {
+            foreach(var globalValue in globals)
+            {
+                Global[globalValue.KeyName] = globalValue.Value;
+            }
+        }
     }
 } 
