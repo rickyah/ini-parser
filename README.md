@@ -1,6 +1,11 @@
 # INI File Parser
 
-A Mono-compatible .NET library for reading/writing INI data from IO streams, file streams, and strings.
+A Mono-compatible(*) .NET library for reading/writing INI data from IO streams, file streams, and strings written in C#.
+
+Also implements merging operations, both for complete ini files, sections, or even just a subset of the keys contained by the files.
+
+
+(*) This library is 100% .NET code and does not have any dependencies on Windows API calls in order to be portable.
 
 [![Build Status](https://travis-ci.org/rickyah/ini-parser.png?branch=master)](https://travis-ci.org/rickyah/ini-parser)
 
@@ -42,6 +47,24 @@ parser.WriteFile("Configuration.ini", data);
 ```
 
 See the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage examples.
+
+
+## Merging ini files
+Merging ini files is super-easy:
+``csharp
+
+   var parser = new IniParser.Parser.IniDataParser();
+
+   IniData config = parser.Parse("global_config.ini");        
+   IniData user_config = parser.Parse("user_config.ini");
+
+   
+   config.Merge(user_config);
+
+   // config now contains that data from both ini files, and the values of
+   // the keys and sections are overwritten with the values of the keys and
+   // sections that also existed in the user config file
+```
 
 ## Contributing
 
