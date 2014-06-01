@@ -52,7 +52,8 @@ See the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage exampl
 
 
 ## Merging ini files
-Merging ini files is super-easy:
+Merging ini files is a one-method operation:
+
 ``csharp
 
    var parser = new IniParser.Parser.IniDataParser();
@@ -66,6 +67,12 @@ Merging ini files is super-easy:
    // config now contains that data from both ini files, and the values of
    // the keys and sections are overwritten with the values of the keys and
    // sections that also existed in the user config file
+```
+
+Keep in mind that you merge individual sections if you like:
+
+```csharp
+config["user_settings"].Merge(user_config["user_settings"]);
 ```
 
 ## Contributing
