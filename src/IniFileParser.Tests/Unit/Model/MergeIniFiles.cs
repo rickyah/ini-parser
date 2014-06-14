@@ -1,32 +1,33 @@
 using NUnit.Framework;
 using System;
 using IniParser.Model;
+using IniParser.Parser;
 
 namespace IniFileParser.Tests.Unit.Model
 {
-    [TestFixture()]
-    public class IniDataTests
+    [TestFixture]
+    public class MergeIniFiles
     {
-        [Test()]
-        public void CreateIniFileProgramatically()
+        [Test]
+        public void merge_programatically_created_ini_files()
         {
 			var iniData = new IniData();
 			iniData.Global.AddKey("UseSeparateRepositoryForAssets", true.ToString());
-			
+
 			iniData.Sections.AddSection("MainRepository");
 			iniData["MainRepository"]["Type"] = "git";
 			iniData["MainRepository"]["RelativePath"] = ".";
-			
+
 			Assert.That(iniData["MainRepository"].ContainsKey("Type"));
 			Assert.That(iniData["MainRepository"].ContainsKey("RelativePath"));
-			
+
 			iniData.Sections.AddSection("AssetsRepository");
 			iniData["AssetsRepository"]["Type"] = "svn";
 			iniData["AssetsRepository"]["RelativePath"] = "./Assets";
-			
+
 			Assert.That(iniData["AssetsRepository"].ContainsKey("Type"));
 			Assert.That(iniData["AssetsRepository"].ContainsKey("RelativePath"));
-			
+
 			Console.WriteLine(iniData.ToString());
         }
 
@@ -53,14 +54,14 @@ c = 55
 ";
 
         [Test]
-        public void merge_inidata()
+        public void merge_parsed_ini_files()
         {
-            var parser = new IniParser.Parser.IniDataParser();
+            var parser = new IniDataParser();
 
             IniData dataA = parser.Parse(iniFileStrA);
-           
+
             IniData dataB = parser.Parse(iniFileStrB);
-           
+
             dataA.Merge(dataB);
 
             {
@@ -90,9 +91,7 @@ c = 55
                 Assert.That(s2.Keys["c"], Is.EqualTo("55"));
             }
 
-
-
         }
+
     }
 }
-
