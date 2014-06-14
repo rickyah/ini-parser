@@ -9,7 +9,7 @@ namespace IniFileParser.Tests.Unit.Model
     public class MergeIniFiles
     {
         [Test]
-        public void CreateIniFileProgramatically()
+        public void merge_programatically_created_ini_files()
         {
 			var iniData = new IniData();
 			iniData.Global.AddKey("UseSeparateRepositoryForAssets", true.ToString());
@@ -54,9 +54,9 @@ c = 55
 ";
 
         [Test]
-        public void merge_inidata()
+        public void merge_parsed_ini_files()
         {
-            var parser = new IniParser.Parser.IniDataParser();
+            var parser = new IniDataParser();
 
             IniData dataA = parser.Parse(iniFileStrA);
 
