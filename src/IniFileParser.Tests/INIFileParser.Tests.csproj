@@ -91,8 +91,9 @@
     <Compile Include="Unit\Model\KeyDataTests.cs" />
     <Compile Include="Unit\Model\SectionDataTests.cs" />
     <Compile Include="issues\Issue29Tests.cs" />
-    <Compile Include="Unit\Model\IniDataTests.cs" />
     <Compile Include="issues\Issue43Tests.cs" />
+    <Compile Include="issues\Issue53Tests.cs" />
+    <Compile Include="Unit\Model\MergeIniFiles.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniFileParser\INIFileParser.csproj">
