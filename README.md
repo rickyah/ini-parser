@@ -40,13 +40,16 @@ If you use MonoDevelop / Xamarin Studio, you can install the [MonoDevelop NuGet 
 INI data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward. Load the data using one of the provided methods.
 
 ```csharp
-var data = parser.ReadFile("Configuration.ini");
+var parser = new FileIniDataParser();
+IniData data = parser.ReadFile("Configuration.ini");
 ```
 
 Retrieve the value for a key inside of a named section. Values are always retrieved as `string`s.
 
 ```csharp
-var useFullScreen = data["UI"]["fullscreen"];
+string useFullScreenStr = data["UI"]["fullscreen"];
+// useFullScreenStr contains "true"
+bool useFullScreen = bool.Parse(useFullScreenStr);
 ```
 
 Modify the value in the dictionary, not the value retrieved, and save to a new file or overwrite.
@@ -56,7 +59,7 @@ data["UI"]["fullscreen"] = "true";
 parser.WriteFile("Configuration.ini", data);
 ```
 
-See the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage examples.
+Head to the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage examples, or [check out the code of the example project](https://github.com/rickyah/ini-parser/blob/development/src/INIFileParser.Example/Program.cs)
 
 
 ## Merging ini files
