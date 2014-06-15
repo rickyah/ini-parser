@@ -1,6 +1,6 @@
 # INI File Parser
 
-A Mono-compatible(*) .NET library for reading/writing INI data from IO streams, file streams, and strings written in C#.
+A .NET, Mono and Unity3d compatible(*) library for reading/writing INI data from IO streams, file streams, and strings written in C#.
 
 Also implements merging operations, both for complete ini files, sections, or even just a subset of the keys contained by the files.
 
@@ -8,6 +8,14 @@ Also implements merging operations, both for complete ini files, sections, or ev
 (*) This library is 100% .NET code and does not have any dependencies on Windows API calls in order to be portable.
 
 [![Build Status](https://travis-ci.org/rickyah/ini-parser.png?branch=master)](https://travis-ci.org/rickyah/ini-parser)
+
+## Version 2.0
+Since the INI format isn't really a "standard", version 2 introduces a simpler way to customize INI parsing:
+
+ * Pass a configuration object to an `IniParser`, specifying the behaviour of the parser. A default implementation is used if none is provided.
+ 
+ * Derive from `IniDataParser` and override the fine-grained parsing methods.
+
 
 ## Installation
 
@@ -75,14 +83,12 @@ Keep in mind that you can merge individual sections if you like:
 config["user_settings"].Merge(user_config["user_settings"]);
 ```
 
+
+## Unity3D
+You can easily use this library in your Unity3D projects. Just drop either the code or the DLL inside your project's Assets folder and you're ready to go!
+
+ini-parser is actually being used in [ProjectPrefs](http://u3d.as/content/garrafote/project-prefs/5so) a free add-on available in the Unity Assets Store that allows you to set custom preferences for your project. I'm not affiliated with this project: Kudos to Garrafote for making this add-on.
+
 ## Contributing
 
-Do you have an idea to improve this library, or did you happen to run into a bug. Please share your idea or the bug you found in the issues page, or even better: feel free to fork and [contribute](https://github.com/rickyah/ini-parser/wiki/Contributing) to this project!
-
-## Version 2.0!
-Since the INI format isn't really a "standard", this version introduces a simpler way to customize INI parsing:
-
- * Pass a configuration object to an `IniParser`, specifying the behaviour of the parser. A default implementation is used if none is provided.
- 
- * Derive from `IniDataParser` and override the fine-grained parsing methods.
-
+Do you have an idea to improve this library, or did you happen to run into a bug? Please share your idea or the bug you found in the [issues page](https://github.com/rickyah/ini-parser/issues), or even better: feel free to fork and [contribute](https://github.com/rickyah/ini-parser/wiki/Contributing) to this project with a Pull Request.
