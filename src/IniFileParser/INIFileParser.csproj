@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="Helpers\Assert.cs" />
     <Compile Include="FileIniParser.cs" />
+    <Compile Include="Model\Data.cs" />
     <Compile Include="Model\IniData.cs" />
     <Compile Include="Model\KeyData.cs" />
     <Compile Include="Model\KeyDataCollection.cs" />
