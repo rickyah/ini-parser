@@ -23,7 +23,12 @@ build :build => [:restore] do |b|
   b.logging = :normal
 end
 
+# Commands to execute with nuget.exe
+#/bin/bash
 
+#mkdir ../build
+# mono ./NuGet.exe Pack -OutputDirectory ../build ../src/INIFileParser/INIFileParser.nuspec -NoDefaultExcludes
+#
 desc "Create the nuget package"
 nugets_pack :pack => [:build] do |cmd|
   cmd.files   = FileList['src/INIFileParser/INIFileParser.nuspec']
