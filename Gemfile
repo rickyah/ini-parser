@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
-gem "albacore", "~> 1.0.rc"
+gem 'albacore', '2.0.0.rc.7'
 gem "rake"

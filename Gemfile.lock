@@ -1,19 +1,34 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    albacore (1.0.0.rc.2)
+    ProcessPilot (2.0.0.20120301)
+      rUtilAnts (>= 1.0)
+    albacore (2.0.0.rc.7)
+      ProcessPilot (~> 2.0)
+      facter (~> 1.7)
+      highline (~> 1.6)
+      map (~> 6.5)
       nokogiri (~> 1.5)
-      rake
-      rubyzip (~> 1.0)
-    mini_portile (0.5.2)
-    nokogiri (1.6.0-x86-mingw32)
-      mini_portile (~> 0.5.0)
+      rake (> 10)
+      rubyzip (= 0.9.9)
+      semver2 (~> 3.3)
+    facter (1.7.6)
+    highline (1.6.21)
+    map (6.5.4)
+    mini_portile (0.6.0)
+    nokogiri (1.6.2.1)
+      mini_portile (= 0.6.0)
+    nokogiri (1.6.2.1-x86-mingw32)
+      mini_portile (= 0.6.0)
+    rUtilAnts (2.0.0.20130827)
     rake (10.1.0)
-    rubyzip (1.1.0)
+    rubyzip (0.9.9)
+    semver2 (3.3.3)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
-  albacore (~> 1.0.rc)
+  albacore (= 2.0.0.rc.7)
   rake

@@ -1,1 +1,1 @@
-mono .ci/NuGet.exe restore src/IniFileParser.sln 
+mono tools/NuGet.exe restore src/IniFileParser.sln 
