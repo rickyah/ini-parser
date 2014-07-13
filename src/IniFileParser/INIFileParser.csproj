@@ -55,6 +55,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\lib\INIFileParser.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
