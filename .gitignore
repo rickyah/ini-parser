@@ -2,6 +2,8 @@
 build
 pack
 *.nupkg
+lib
+*.symbols.nuspec
 
 # Visual Studio ignores
 
