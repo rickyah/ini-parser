@@ -7,7 +7,7 @@ using IniParser.Model;
 namespace IniParser
 {
     /// <summary>
-    /// Represents an INI data parser for files.
+    ///     Represents an INI data parser for files.
     /// </summary>
     public class FileIniDataParser : StreamIniDataParser
     {

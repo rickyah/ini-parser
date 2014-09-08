@@ -157,6 +157,17 @@ namespace IniParser.Model
             return false;
 
         }
+
+        /// <summary>
+        ///     Clears all comments of this section
+        /// </summary>
+        public void ClearComments()
+        {
+            foreach(var keydata in this)
+            {
+                keydata.Comments.Clear();
+            }
+        }
         
 		/// <summary>
         /// Gets if a specifyed key name exists in the collection.

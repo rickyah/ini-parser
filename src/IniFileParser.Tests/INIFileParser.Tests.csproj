@@ -94,6 +94,7 @@
     <Compile Include="issues\Issue43Tests.cs" />
     <Compile Include="issues\Issue53Tests.cs" />
     <Compile Include="Unit\Model\MergeIniFiles.cs" />
+    <Compile Include="Unit\Model\INIDataTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniFileParser\INIFileParser.csproj">

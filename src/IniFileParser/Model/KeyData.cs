@@ -4,15 +4,15 @@ using System.Collections.Generic;
 namespace IniParser.Model
 {
     /// <summary>
-    /// <para>Information associated to a key from an INI file.</para>
-    /// <para>Includes both the value and the comments associated to the key.</para>
+    ///     Information associated to a key from an INI file.
+    ///     Includes both the value and the comments associated to the key.
     /// </summary>
     public class KeyData : ICloneable
     {
         #region Initialization
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyData"/> class.
+        ///     Initializes a new instance of the <see cref="KeyData"/> class.
         /// </summary>
         public KeyData(string keyName)
         {
@@ -25,15 +25,16 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyData"/> class
-        /// from a previous instance of <see cref="KeyData"/>.
+        ///     Initializes a new instance of the <see cref="KeyData"/> class
+        ///     from a previous instance of <see cref="KeyData"/>.
         /// </summary>
         /// <remarks>
-        /// Data is deeply copied
+        ///     Data is deeply copied
         /// </remarks>
         /// <param name="ori">
-        /// The instance of the <see cref="KeyData"/> class 
-        /// used to create the new instance.</param>
+        ///     The instance of the <see cref="KeyData"/> class 
+        ///     used to create the new instance.
+        /// </param>
         public KeyData(KeyData ori)
         {
             _value = ori._value;
@@ -55,7 +56,7 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Gets or sets the value associated to this key.
+        ///     Gets or sets the value associated to this key.
         /// </summary>
         public string Value
         {
@@ -64,7 +65,7 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Gets or sets the name of the key.
+        ///     Gets or sets the name of the key.
         /// </summary>
         public string KeyName
         {
@@ -86,10 +87,10 @@ namespace IniParser.Model
         #region ICloneable Members
 
         /// <summary>
-        /// Creates a new object that is a copy of the current instance.
+        ///     Creates a new object that is a copy of the current instance.
         /// </summary>
         /// <returns>
-        /// A new object that is a copy of this instance.
+        ///     A new object that is a copy of this instance.
         /// </returns>
         public object Clone()
         {
@@ -100,19 +101,13 @@ namespace IniParser.Model
 
         #region Non-public Members
 
-        /// <summary>
-        /// List with comment lines associated to this key 
-        /// </summary>
+        // List with comment lines associated to this key 
         private List<string> _comments;
 
-        /// <summary>
-        /// Unique value associated to this key
-        /// </summary>
+        // Unique value associated to this key
         private string _value;
 
-        /// <summary>
-        /// Name of the current key
-        /// </summary>
+        // Name of the current key
         private string _keyName;
 
         #endregion
