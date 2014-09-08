@@ -93,6 +93,21 @@ namespace IniParser.Model
         }
 
         /// <summary>
+        ///     Adds a new SectionData instance to the collection
+        /// </summary>
+        /// <param name="data">Data.</param>
+        public void Add(SectionData data)
+        {
+            if (ContainsSection(data.SectionName))
+            {
+                SetSectionData(data.SectionName, data);
+            }
+            else
+            {
+                _sectionData.Add(data.SectionName, data);
+            }
+        }
+        /// <summary>
         /// Removes all entries from this collection
         /// </summary>
         public void Clear()
