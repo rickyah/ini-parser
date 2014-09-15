@@ -42,9 +42,9 @@ namespace IniParser.Model
             _comments = new List<string>(ori._comments);
         }
 
-        #endregion Constructors 
+        #endregion Constructors 
 
-        #region Properties 
+        #region Properties 
 
         /// <summary>
         /// Gets or sets the comment list associated to this key.
@@ -82,7 +82,7 @@ namespace IniParser.Model
 
         }
 
-        #endregion Properties 
+        #endregion Properties 
 
         #region ICloneable Members
 
