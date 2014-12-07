@@ -82,11 +82,24 @@ namespace IniParser.Parser
                     ProcessLine(line, iniData);
                 }
 
-                // Orphan comments, assing to last section
+                // Orphan comments, assing to last section/key value
                 if (_currentCommentListTemp.Count > 0)
                 {
-                    iniData.Sections.GetSectionData(_currentSectionNameTemp).TrailingComments
-                        .AddRange(_currentCommentListTemp);
+                    // Check if there are actually sections in the file
+                    if (iniData.Sections.Count > 0)
+                    {
+                        iniData.Sections.GetSectionData(_currentSectionNameTemp).TrailingComments
+                            .AddRange(_currentCommentListTemp);
+                    }
+                    // No sections, put the comment in the last key value pair
+                    // but only if the ini file contains at least one key-value pair
+                    else if (iniData.Global.Count > 0) 
+                    {
+                        iniData.Global.GetLast().Comments
+                            .AddRange(_currentCommentListTemp);
+                    }
+                    
+                    
                     _currentCommentListTemp.Clear();
                 }
 
@@ -188,7 +201,7 @@ namespace IniParser.Parser
                 currentLine = ExtractComment(currentLine);
             }
 
-            // By default comments must spann a complete line (i.e. the comment character
+            // By default comments must span a complete line (i.e. the comment character
             // must be located at the beginning of a line, so it seems that the following
             // check is not needed.
             // But, if the comment parsing behaviour is changed in a derived class e.g. to
@@ -198,7 +211,7 @@ namespace IniParser.Parser
             // in earlier versions of the library, so checking if the current line is empty
             // (meaning the complete line was a comment) is future-proof.
 
-            // If the entire line waas a comment now should be empty,
+            // If the entire line was a comment now should be empty,
             // so no further processing is needed.
             if (currentLine == String.Empty)
                 return;

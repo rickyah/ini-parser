@@ -287,6 +287,16 @@ namespace IniParser.Model
         #endregion
 
         #region Non-public Members
+        // Horrible hack for getting the last key value (if exists) w/out using LINQ
+        internal KeyData GetLast()
+        {
+            KeyData result = null;
+            if (_keyData.Keys.Count <=0) return result;
+
+
+            foreach( var k in _keyData.Keys) result = _keyData[k];
+            return result;
+        }
 
         /// <summary>
         /// Collection of KeyData for a given section
