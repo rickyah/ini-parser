@@ -56,7 +56,9 @@ namespace IniParser
 
             try
             {
-                using (FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.Read))
+                // (FileAccess.Read) we want to open the ini only for reading 
+                // (FileShare.ReadWrite) any other process should still have access to the ini file 
+                using (FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     using (StreamReader sr = new StreamReader(fs, fileEncoding))
                     {
