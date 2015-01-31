@@ -169,6 +169,23 @@ namespace IniParser.Model.Configuration
         public bool OverrideDuplicateKeys { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether duplicate keys are concatenate 
+        ///     together by <see cref="ConcatenateSeparator"/>.
+        /// </summary>
+        /// <value>
+        ///     Defaults to <c>false</c>.
+        /// </value>
+        public bool ConcatenateDuplicateKeys { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the concategnate separator.
+        /// </summary>
+        /// <value>
+        ///     Defaults to ';'.
+        /// </value>
+        public string ConcatenateSeparator { get; set; }
+
+        /// <summary>
         ///     If <c>true</c> the <see cref="IniDataParser"/> instance will thrown an exception
         ///     if an error is found. 
         ///     If <c>false</c> the parser will just stop execution and return a null value.

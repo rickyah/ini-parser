@@ -37,7 +37,8 @@ namespace IniParser.Model.Configuration
             SectionEndChar = ']';
             KeyValueAssigmentChar = '=';
             AssigmentSpacer = " ";
-
+            ConcatenateSeparator = ";";
+            ConcatenateDuplicateKeys = false;
             AllowKeysWithoutSection = true;
             AllowDuplicateKeys = false;
             AllowDuplicateSections = false;

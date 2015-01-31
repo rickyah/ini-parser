@@ -380,6 +380,10 @@ namespace IniParser.Parser
                 {
                     keyDataCollection[key] = value;
                 }
+                else if (Configuration.ConcatenateDuplicateKeys)
+                {
+                    keyDataCollection[key] += Configuration.ConcatenateSeparator + value;
+                }
             }
             else
             {
