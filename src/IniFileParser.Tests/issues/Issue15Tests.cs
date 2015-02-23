@@ -1,7 +1,6 @@
 ﻿using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.issues
 {
@@ -30,7 +29,7 @@ key4=value4";
 
             Assert.That(iniData.Sections.ContainsSection("123_1"), Is.True);
             Assert.That(iniData.Sections.ContainsSection("123_2"), Is.True);
-            Assert.That(iniData.Sections.GetSectionData("123_1").Keys, Has.Count(3));
+            Assert.That(iniData.Sections.GetSectionData("123_1").Keys, Has.Count.EqualTo(3));
             Assert.That(iniData["123_1"]["key4"], Is.EqualTo("value4"));
 
         }

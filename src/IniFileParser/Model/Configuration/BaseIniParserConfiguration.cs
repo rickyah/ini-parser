@@ -203,7 +203,7 @@ namespace IniParser.Model.Configuration
         #region Constants
         protected const string _strCommentRegex = @"^{0}(.*)";
         protected const string _strSectionRegexStart = @"^(\s*?)";
-        protected const string _strSectionRegexMiddle = @"{1}\s*[_\{\}\#\+\;\%\(\)\=\?\&\$\,\:\/\.\-\w\d\s\\\~]+\s*";
+        protected const string _strSectionRegexMiddle = @"{1}\s*[_\{\}\#\+\;\*\%\(\)\=\?\&\$\,\:\/\.\-\w\d\s\\\~]+\s*";
         protected const string _strSectionRegexEnd = @"(\s*?)$";
         protected const string _strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
         protected const string _strValueRegex = @"([\s\d\w\W\.]*)$";
@@ -239,6 +239,17 @@ namespace IniParser.Model.Configuration
             SectionRegex = new Regex(builtRegexString);
         }
         #endregion
+
+        public override int GetHashCode()
+        {
+            var hash = 27;
+            foreach (var property in GetType().GetProperties())
+            {
+                hash = (hash * 7) + property.GetValue(this, null).GetHashCode();
+            }
+
+            return hash;
+        }
 
         public override bool Equals(object obj)
         {

@@ -6,13 +6,13 @@ namespace IniParser.Model
 {
     
     /// <summary>
-    /// Represents all data from an INI file
+    ///     Represents all data from an INI file
     /// </summary>
     public class IniData : ICloneable
     {
         #region Non-Public Members
         /// <summary>
-        /// Represents all sections from an INI file
+        ///     Represents all sections from an INI file
         /// </summary>
         private SectionDataCollection _sections;
         #endregion
@@ -20,19 +20,20 @@ namespace IniParser.Model
         #region Initialization
         
         /// <summary>
-        /// Initializes an empty IniData instance.
+        ///     Initializes an empty IniData instance.
         /// </summary>
         public IniData() : this (new SectionDataCollection())
         {
         }
 
         /// <summary>
-        /// Initializes a new IniData instance using a previous
-        /// <see cref="SectionDataCollection"/>.
+        ///     Initializes a new IniData instance using a previous
+        ///     <see cref="SectionDataCollection"/>.
         /// </summary>
         /// <param name="sdc">
-        /// <see cref="SectionDataCollection"/> object containing the
-        /// data with the sections of the file</param>
+        ///     <see cref="SectionDataCollection"/> object containing the
+        ///     data with the sections of the file
+        /// </param>
         public IniData(SectionDataCollection sdc)
         {
             _sections = (SectionDataCollection)sdc.Clone();
@@ -111,23 +112,20 @@ namespace IniParser.Model
         {
             return ToString(new DefaultIniDataFormatter(Configuration));
         }
-        
        
         public virtual string ToString(IIniDataFormatter formatter)
         {
             return formatter.IniDataToString(this);
         }
-        
-
         #endregion
 
         #region ICloneable Members
 
         /// <summary>
-        /// Creates a new object that is a copy of the current instance.
+        ///     Creates a new object that is a copy of the current instance.
         /// </summary>
         /// <returns>
-        /// A new object that is a copy of this instance.
+        ///     A new object that is a copy of this instance.
         /// </returns>
         public object Clone()
         {
@@ -142,5 +140,63 @@ namespace IniParser.Model
         /// </summary>
         private IIniParserConfiguration _configuration;
         #endregion
+
+        /// <summary>
+        ///     Deletes all comments in all sections and key values
+        /// </summary>
+        public void ClearAllComments()
+        {
+            Global.ClearComments();
+
+            foreach(var section in Sections)
+            {
+                section.ClearComments();
+            }
+        }
+
+        /// <summary>
+        ///     Merges the other iniData into this one by overwriting existing values.
+        ///     Comments get appended.
+        /// </summary>
+        /// <param name="toMergeIniData">
+        ///     IniData instance to merge into this. 
+        ///     If it is null this operation does nothing.
+        /// </param>
+        public void Merge(IniData toMergeIniData)
+        {
+
+            if (toMergeIniData == null) return;
+
+            Global.Merge(toMergeIniData.Global);
+
+            Sections.Merge(toMergeIniData.Sections);
+
+        }
+
+        /// <summary>
+        ///     Merge the sections into this by overwriting this sections.
+        /// </summary>
+        private void MergeSection(SectionData otherSection)
+        {
+            // no overlap -> create no section
+            if (!Sections.ContainsSection(otherSection.SectionName))
+            {
+                Sections.AddSection(otherSection.SectionName);
+            }
+
+            // merge section into the new one
+            Sections.GetSectionData(otherSection.SectionName).Merge(otherSection);
+        }
+
+        /// <summary>
+        ///     Merges the given global values into this globals by overwriting existing values.
+        /// </summary>
+        private void MergeGlobal(KeyDataCollection globals)
+        {
+            foreach(var globalValue in globals)
+            {
+                Global[globalValue.KeyName] = globalValue.Value;
+            }
+        }
     }
 } 

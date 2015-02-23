@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using IniParser.Model;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.Unit.Model
 {

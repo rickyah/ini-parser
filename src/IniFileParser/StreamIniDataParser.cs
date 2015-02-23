@@ -33,7 +33,7 @@ namespace IniParser
         #region Public Methods
 
         /// <summary>
-        /// Reads data in INI format from a stream.
+        ///     Reads data in INI format from a stream.
         /// </summary>
         /// <param name="reader">Reader stream.</param>
         /// <returns>

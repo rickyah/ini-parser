@@ -32,7 +32,7 @@ Global
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
 		$1.ResourceNamePolicy = FileFormatDefault
-		version =
+		version = 
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
