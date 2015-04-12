@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using IniParser.Exceptions;
 using IniParser.Model;
 using IniParser.Model.Configuration;
+using System.Collections.ObjectModel;
 
 namespace IniParser.Parser
 {
@@ -12,6 +13,11 @@ namespace IniParser.Parser
 	/// </summary>
     public class IniDataParser
     {
+        #region Private
+        // Holds a list of the exceptions catched while parsing
+        private List<Exception> _errorExceptions;
+        #endregion
+
         #region Initialization
         /// <summary>
         ///     Ctor
@@ -35,6 +41,8 @@ namespace IniParser.Parser
                 throw new ArgumentNullException("parserConfiguration");
 
             Configuration = parserConfiguration;
+
+            _errorExceptions = new List<Exception>();
         }
 
         #endregion
@@ -45,9 +53,29 @@ namespace IniParser.Parser
         ///     that the parser must follow.
         /// </summary>
         public IIniParserConfiguration Configuration { get; private set; }
+
+        /// <summary>
+        /// True is the parsing operation encounter any problem
+        /// </summary>
+        public bool HasError { get { return _errorExceptions.Count > 0; } }
+
+        /// <summary>
+        /// Returns the list of errors found while parsing the ini file.
+        /// </summary>
+        /// <remarks>
+        /// If the configuration option ThrowExceptionOnError is false it can contain one element
+        /// for each problem found while parsing; otherwise it will only contain the very same 
+        /// exception that was raised.
+        /// </remarks>
+
+        public ReadOnlyCollection<Exception> Errors {get {return _errorExceptions.AsReadOnly();} }
 		#endregion
 
 		#region Operations
+
+
+
+
         /// <summary>
         ///     Parses a string containing valid ini data
         /// </summary>
@@ -71,15 +99,36 @@ namespace IniParser.Parser
                 return iniData;
             }
 
+            _errorExceptions.Clear();
             _currentCommentListTemp.Clear();
             _currentSectionNameTemp = null;
 
             try
             {
-                var lines = iniDataString.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                foreach (var line in lines)
+                var lines = iniDataString.Split(Environment.NewLine.ToCharArray());
+                for (int lineNumber = 0; lineNumber < lines.Length; lineNumber++)
                 {
-                    ProcessLine(line, iniData);
+                    var line = lines[lineNumber];
+
+                    if (line.Trim() == String.Empty) continue;
+
+                    try
+                    {
+                        ProcessLine(line, iniData);
+                    }
+                    catch (Exception ex)
+                    {
+                        var errorEx = new ParsingException(ex.Message, lineNumber+1, line, ex);
+                        if (Configuration.ThrowExceptionsOnError) 
+                        {
+                            throw errorEx;
+                        }
+                        else
+                        {
+                            _errorExceptions.Add(errorEx);
+                        }
+
+                    }
                 }
 
                 // Orphan comments, assing to last section/key value
@@ -104,14 +153,17 @@ namespace IniParser.Parser
                 }
 
             }
-            catch
+            catch(Exception ex)
             {
-                if (Configuration.ThrowExceptionsOnError)
+                _errorExceptions.Add(ex);
+                if (Configuration.ThrowExceptionsOnError) 
+                { 
                     throw;
-
-                return null;
+                }
             }
 
+
+            if (HasError) return null;
             return (IniData)iniData.Clone();
         }
         #endregion
@@ -289,8 +341,6 @@ namespace IniParser.Parser
         /// </param>
         protected virtual void ProcessKeyValuePair(string line, IniData currentIniData)
         {
-            //string sectionToUse = _currentSectionNameTemp;
-
             // get key and value data
             string key = ExtractKey(line);
             string value = ExtractValue(line);

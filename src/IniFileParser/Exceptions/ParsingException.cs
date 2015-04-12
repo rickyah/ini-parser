@@ -7,19 +7,26 @@ namespace IniParser.Exceptions
     /// </summary>
     public class ParsingException : Exception
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ParsingException"/> class.
-        /// </summary>
-        /// <param name="msg">The message describing the exception cause.</param>
-        public ParsingException(string msg)
-            : base("Parsing Error: " + msg) { }
+        public int LineNumber {get; private set;}
+        public string LineValue {get; private set;}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ParsingException"/> class.
-        /// </summary>
-        /// <param name="msg">The message describing the exception cause.</param>
-        /// <param name="innerException">An inner exception.</param>
+        public ParsingException(string msg)
+            :this(msg, 0, string.Empty, null) 
+        {}
+
         public ParsingException(string msg, Exception innerException)
-            : base("Parsing Error: " + msg, innerException) { }
+            :this(msg, 0, string.Empty, innerException) 
+        {}
+
+        public ParsingException(string msg, int lineNumber, string lineValue)
+            :this(msg, lineNumber, lineValue, null)
+        {}
+            
+        public ParsingException(string msg, int lineNumber, string lineValue, Exception innerException)
+            : base(string.Format("Error \'{2}\' while parsing line {1}: \'{0}\'", lineValue, lineNumber, msg), innerException) 
+        { 
+            LineNumber = lineNumber;
+            LineValue = lineValue;
+        }
     }
 }
