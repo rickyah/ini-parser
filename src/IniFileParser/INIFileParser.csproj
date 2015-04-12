@@ -81,6 +81,7 @@
     <Compile Include="Model\Formatting\IIniDataFormatter.cs" />
     <Compile Include="Model\IniDataCaseInsensitive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Parser\ConcatenateDuplicatedKeysIniDataParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="INIFileParser.nuspec" />
