@@ -9,14 +9,23 @@ namespace IniParser.Model
     /// </summary>
     public class KeyDataCollection : ICloneable, IEnumerable<KeyData>
     {
+        IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyDataCollection"/> class.
         /// </summary>
-        public KeyDataCollection()
+        public KeyDataCollection() 
+            :this(EqualityComparer<string>.Default)
+        {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyDataCollection"/> class.
+        /// </summary>
+        public KeyDataCollection(IEqualityComparer<string> searchComparer)
         {
-            _keyData = new Dictionary<string, KeyData>();
+            _searchComparer = searchComparer;
+            _keyData = new Dictionary<string, KeyData>(_searchComparer);
         }
 
         /// <summary>
@@ -29,10 +38,20 @@ namespace IniParser.Model
         /// <param name="ori">
         /// The instance of the <see cref="KeyDataCollection"/> class 
         /// used to create the new instance.</param>
-        public KeyDataCollection(KeyDataCollection ori) : this()
+        public KeyDataCollection(KeyDataCollection ori, IEqualityComparer<string> searchComparer)
+            : this(searchComparer)
         {
             foreach ( KeyData key in ori)
-                _keyData.Add(key.KeyName, key);
+            {
+                if (_keyData.ContainsKey(key.KeyName))
+                {
+                    _keyData[key.KeyName] = key;
+                }
+                else
+                {
+                    _keyData.Add(key.KeyName, key);
+                }
+            }
         }
 
         #endregion
@@ -281,13 +300,14 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new KeyDataCollection(this);
+            return new KeyDataCollection(this, _searchComparer);
         }
 
         #endregion
 
         #region Non-public Members
-        // Horrible hack for getting the last key value (if exists) w/out using LINQ
+        // Hack for getting the last key value (if exists) w/out using LINQ
+        // and maintain support for earlier versions of .NET
         internal KeyData GetLast()
         {
             KeyData result = null;

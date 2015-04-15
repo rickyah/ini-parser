@@ -79,6 +79,7 @@
     <Compile Include="Exceptions\ParsingException.cs" />
     <Compile Include="Model\Formatting\DefaultIniDataFormatter.cs" />
     <Compile Include="Model\Formatting\IIniDataFormatter.cs" />
+    <Compile Include="Model\IniDataCaseInsensitive.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="INIFileParser.nuspec" />

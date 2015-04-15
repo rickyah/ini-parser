@@ -61,6 +61,12 @@ namespace IniParser.Model.Configuration
         string AssigmentSpacer { get; set; }
         
         /// <summary>
+        ///     Retrieving section / keys by name is done with a case-insensitive
+        ///     search.
+        /// </summary>
+        bool CaseInsensitive {get; set;}
+
+        /// <summary>
         ///     Regular expression used to match a comment string
         /// </summary>
         Regex CommentRegex { get; set; }
