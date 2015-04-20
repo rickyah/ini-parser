@@ -13,6 +13,7 @@ namespace IniParser.Model.Configuration
     /// <see cref="IniDataParser.Configuration"/>
     public class BaseIniParserConfiguration : IIniParserConfiguration
     {
+    
         #region Initialization
         /// <summary>
         ///     Ctor.
@@ -41,15 +42,10 @@ namespace IniParser.Model.Configuration
         }
         #endregion
 
-        #region State
-        /// <summary>
-        ///     Regular expression for matching a comment string
-        /// </summary>
+        #region IIniParserConfiguration
+        
         public Regex CommentRegex { get; set; }
 
-        /// <summary>
-        ///     Regular expression for matching a section string
-        /// </summary>
         public Regex SectionRegex { get; set; }
 
         /// <summary>
@@ -83,6 +79,15 @@ namespace IniParser.Model.Configuration
                 RecreateSectionRegex(_sectionEndChar);
             }
         }
+
+        /// <summary>
+        ///     Retrieving section / keys by name is done with a case-insensitive
+        ///     search.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to false (case sensitive search)
+        /// </remarks>
+        public bool CaseInsensitive{ get; set; }
 
         /// <summary>
         ///     Sets the char that defines the start of a comment.
@@ -283,8 +288,8 @@ namespace IniParser.Model.Configuration
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public IIniParserConfiguration Clone()
-		{
-			return this.MemberwiseClone() as IIniParserConfiguration;
+        {
+            return this.MemberwiseClone() as IIniParserConfiguration;
         }
         #endregion
 

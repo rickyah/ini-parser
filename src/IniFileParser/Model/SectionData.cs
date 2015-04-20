@@ -9,20 +9,29 @@ namespace IniParser.Model
     /// </summary>
     public class SectionData : ICloneable
     {
+        IEqualityComparer<string> _searchComparer;
         #region Initialization
 
+        public SectionData(string sectionName)
+            :this(sectionName, EqualityComparer<string>.Default)
+        {
+            
+        }
         /// <summary>
         ///     Initializes a new instance of the <see cref="SectionData"/> class.
         /// </summary>
-        public SectionData(string sectionName)
+        public SectionData(string sectionName, IEqualityComparer<string> searchComparer)
         {
+            _searchComparer = searchComparer;
+
             if (string.IsNullOrEmpty(sectionName))
                 throw new ArgumentException("section name can not be empty");
 
             _leadingComments = new List<string>();
-            _keyDataCollection = new KeyDataCollection();
+            _keyDataCollection = new KeyDataCollection(_searchComparer);
             SectionName = sectionName;
         }
+
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SectionData"/> class
@@ -35,10 +44,13 @@ namespace IniParser.Model
         ///     The instance of the <see cref="SectionData"/> class 
         ///     used to create the new instance.
         /// </param>
-        public SectionData(SectionData ori)
+        /// <param name="searchComparer">
+        ///     Search comparer.
+        /// </param>
+        public SectionData(SectionData ori, IEqualityComparer<string> searchComparer = null)
         {
             _leadingComments = new List<string>(ori._leadingComments);
-            _keyDataCollection = new KeyDataCollection(ori._keyDataCollection);
+            _keyDataCollection = new KeyDataCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
         }
 
         #endregion

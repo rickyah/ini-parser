@@ -4,7 +4,6 @@ using IniParser.Model.Formatting;
 
 namespace IniParser.Model
 {
-    
     /// <summary>
     ///     Represents all data from an INI file
     /// </summary>
@@ -22,9 +21,9 @@ namespace IniParser.Model
         /// <summary>
         ///     Initializes an empty IniData instance.
         /// </summary>
-        public IniData() : this (new SectionDataCollection())
-        {
-        }
+        public IniData() 
+            :this(new SectionDataCollection())
+        { }
 
         /// <summary>
         ///     Initializes a new IniData instance using a previous
@@ -79,7 +78,7 @@ namespace IniParser.Model
         /// 	enclosed in any section (i.e. they are defined at the beginning 
         /// 	of the file, before any section.
         /// </summary>
-        public KeyDataCollection Global { get; private set; }
+        public KeyDataCollection Global { get; protected set; }
 
         /// <summary>
         /// Gets the <see cref="KeyDataCollection"/> instance 
@@ -89,11 +88,10 @@ namespace IniParser.Model
         {
             get
             {
-                if (_sections.ContainsSection(sectionName))
-                    return _sections[sectionName];
+                if (_sections.ContainsSection(sectionName)) return _sections[sectionName];
+
                 return null;
             }
-
         }
 
         /// <summary>

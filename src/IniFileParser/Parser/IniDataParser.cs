@@ -73,9 +73,6 @@ namespace IniParser.Parser
 
 		#region Operations
 
-
-
-
         /// <summary>
         ///     Parses a string containing valid ini data
         /// </summary>
@@ -91,7 +88,8 @@ namespace IniParser.Parser
         /// </exception>
         public IniData Parse(string iniDataString)
         {
-            IniData iniData = new IniData();
+            
+            IniData iniData = Configuration.CaseInsensitive ? new IniDataCaseInsensitive() : new IniData();
             iniData.Configuration = this.Configuration.Clone();
 
             if (string.IsNullOrEmpty(iniDataString))
@@ -171,24 +169,26 @@ namespace IniParser.Parser
         #region Template Method Design Pattern 
         // All this methods controls the parsing behaviour, so it can be modified 
         // in derived classes.
-        // See http://www.dofactory.com/Patterns/PatternTemplate.aspx for an explanation of this pattern.
-        // Probably for the most common cases you can change the parsing behavior using a custom configuration
-        // object rather than creating derived classes.
-        // See IIniParserConfiguration interface, and IniDataParser constructor to change the default
-		// configuration.
+        // See http://www.dofactory.com/Patterns/PatternTemplate.aspx for an
+        // explanation of this pattern.
+        // Probably for the most common cases you can change the parsing behavior
+        //  using a custom configuration object rather than creating derived classes.
+        // See IIniParserConfiguration interface, and IniDataParser constructor
+		//  to change the default configuration.
 
         /// <summary>
         ///     Checks if a given string contains a comment.
         /// </summary>
         /// <param name="line">
-        ///     The string to be checked.
+        ///     String with a line to be checked.
         /// </param>
         /// <returns>
         ///     <c>true</c> if any substring from s is a comment, <c>false</c> otherwise.
         /// </returns>
         protected virtual bool LineContainsAComment(string line)
         {
-            return !string.IsNullOrEmpty(line) && Configuration.CommentRegex.Match(line).Success;
+            return !string.IsNullOrEmpty(line) 
+                && Configuration.CommentRegex.Match(line).Success;
         }
 
         /// <summary>
@@ -202,7 +202,8 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual bool LineMatchesASection(string line)
         {
-            return !string.IsNullOrEmpty(line) && Configuration.SectionRegex.Match(line).Success;
+            return !string.IsNullOrEmpty(line) 
+                && Configuration.SectionRegex.Match(line).Success;
         }
 
         /// <summary>
