@@ -111,6 +111,23 @@ namespace IniParser.Model.Configuration
         ///     Defaults to <c>false</c>.
         /// </remarks>
         bool OverrideDuplicateKeys { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether duplicate keys are concatenate 
+        ///     together by <see cref="ConcatenateSeparator"/>.
+        /// </summary>
+        /// <value>
+        ///     Defaults to <c>false</c>.
+        /// </value>
+        bool ConcatenateDuplicateKeys { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the concategnate separator.
+        /// </summary>
+        /// <value>
+        ///     Defaults to ';'.
+        /// </value>
+        string ConcatenateSeparator { get; set; }
         
         /// <summary>
         ///     Sets the char that defines the end of a section name.
