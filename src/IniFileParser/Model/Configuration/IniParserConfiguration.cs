@@ -4,6 +4,9 @@ using IniParser.Parser;
 
 namespace IniParser.Model.Configuration
 {
+    [Obsolete("Kept for backward compatibility, just use IniParserConfiguration class")]
+    public class DefaultIniParserConfiguration : ConcatenateDuplicatedKeysIniParserConfiguration {}
+
     /// <summary>
     ///     Defines data for a Parser configuration object.
     /// </summary>
