@@ -5,20 +5,56 @@ using IniParser.Parser;
 namespace IniParser.Model.Configuration
 {
     /// <summary>
-    ///     Configuration data used for a <see cref="IniDataParser"/> class instance.
+    ///     Defines data for a Parser configuration object.
     /// </summary>
-    /// 
-    /// This class allows changing the behaviour of a <see cref="IniDataParser"/> instance.
-    /// The <see cref="IniDataParser"/> class exposes an instance of this class via 
-    /// <see cref="IniDataParser.Configuration"/>
-    public class BaseIniParserConfiguration : IIniParserConfiguration
+    ///     With a configuration object you can redefine how the parser
+    ///     will detect special items in the ini file by defining new regex
+    ///     (e.g. you can redefine the comment regex so it just treat text as
+    ///     a comment iff the comment caracter is the first in the line)
+    ///     or changing the set of characters used to define elements in
+    ///     the ini file (e.g. change the 'comment' caracter from ';' to '#')
+    ///     You can also define how the parser should treat errors, or how liberal
+    ///     or conservative should it be when parsing files with "strange" formats.
+    public class IniParserConfiguration : ICloneable
     {
-    
         #region Initialization
         /// <summary>
-        ///     Ctor.
+        ///     Default values used if an instance of <see cref="IniDataParser"/>
+        ///     is created without specifying a configuration.
         /// </summary>
-        public BaseIniParserConfiguration() { }
+        /// <remarks>
+        ///     By default the various delimiters for the data are setted:
+        ///     <para>';' for one-line comments</para>
+        ///     <para>'[' ']' for delimiting a section</para>
+        ///     <para>'=' for linking key / value pairs</para>
+        ///     <example>
+        ///         An example of well formed data with the default values:
+        ///         <para>
+        ///         ;section comment<br/>
+        ///         [section] ; section comment<br/>
+        ///         <br/>
+        ///         ; key comment<br/>
+        ///         key = value ;key comment<br/>
+        ///         <br/>
+        ///         ;key2 comment<br/>
+        ///         key2 = value<br/>
+        ///         </para>
+        ///     </example>
+        /// </remarks>
+        public IniParserConfiguration()
+        {
+            CommentString = ";";
+            SectionStartChar = '[';
+            SectionEndChar = ']';
+            KeyValueAssigmentChar = '=';
+            AssigmentSpacer = " ";
+            ConcatenateDuplicateKeys = false;
+            AllowKeysWithoutSection = true;
+            AllowDuplicateKeys = false;
+            AllowDuplicateSections = false;
+            ThrowExceptionsOnError = true;
+            SkipInvalidLines = false;
+        }
 
         /// <summary>
         ///     Copy ctor.
@@ -26,7 +62,7 @@ namespace IniParser.Model.Configuration
         /// <param name="ori">
         ///     Original instance to be copied.
         /// </param>
-        public BaseIniParserConfiguration(IIniParserConfiguration ori)
+        public IniParserConfiguration(IniParserConfiguration ori)
         {
             AllowDuplicateKeys = ori.AllowDuplicateKeys;
             OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
@@ -42,8 +78,8 @@ namespace IniParser.Model.Configuration
         }
         #endregion
 
-        #region IIniParserConfiguration
-        
+        #region IniParserConfiguration
+
         public Regex CommentRegex { get; set; }
 
         public Regex SectionRegex { get; set; }
@@ -147,7 +183,7 @@ namespace IniParser.Model.Configuration
         /// <summary>
         ///     Allows having keys in the file that don't belong to any section.
         ///     i.e. allows defining keys before defining a section.
-        ///     If set to <c>false</c> and keys without a section are defined, 
+        ///     If set to <c>false</c> and keys without a section are defined,
         ///     the <see cref="IniDataParser"/> will stop with an error.
         /// </summary>
         /// <remarks>
@@ -167,9 +203,9 @@ namespace IniParser.Model.Configuration
         public bool AllowDuplicateKeys { get; set; }
 
         /// <summary>
-        ///     Only used if <see cref="IIniParserConfiguration.AllowDuplicateKeys"/> is also <c>true</c> 
+        ///     Only used if <see cref="IniParserConfiguration.AllowDuplicateKeys"/> is also <c>true</c>
         ///     If set to <c>true</c> when the parser finds a duplicate key, it overrites
-        ///     the previous value, so the key will always contain the value of the 
+        ///     the previous value, so the key will always contain the value of the
         ///     last key readed in the file
         ///     If set to <c>false</c> the first readed value is preserved, so the key will
         ///     always contain the value of the first key readed in the file
@@ -189,16 +225,8 @@ namespace IniParser.Model.Configuration
         public bool ConcatenateDuplicateKeys { get; set; }
 
         /// <summary>
-        ///     Gets or sets the concategnate separator.
-        /// </summary>
-        /// <value>
-        ///     Defaults to ';'.
-        /// </value>
-        public string ConcatenateSeparator { get; set; }
-
-        /// <summary>
         ///     If <c>true</c> the <see cref="IniDataParser"/> instance will thrown an exception
-        ///     if an error is found. 
+        ///     if an error is found.
         ///     If <c>false</c> the parser will just stop execution and return a null value.
         /// </summary>
         /// <remarks>
@@ -209,7 +237,7 @@ namespace IniParser.Model.Configuration
         /// <summary>
         ///     If set to <c>false</c> and the <see cref="IniDataParser"/> finds a duplicate section
         ///     the parser will stop with an error.
-        ///     If set to <c>true</c>, duplicated sections are allowed in the file, but only a 
+        ///     If set to <c>true</c>, duplicated sections are allowed in the file, but only a
         ///     <see cref="SectionData"/> element will be created in the <see cref="IniData.Sections"/>
         ///     collection.
         /// </summary>
@@ -279,7 +307,7 @@ namespace IniParser.Model.Configuration
 
         public override bool Equals(object obj)
         {
-            var copyObj = obj as BaseIniParserConfiguration;
+            var copyObj = obj as IniParserConfiguration;
             if (copyObj == null) return false;
 
             var oriType = this.GetType();
@@ -300,6 +328,7 @@ namespace IniParser.Model.Configuration
 
             return true;
         }
+
         #region ICloneable Members
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -308,15 +337,16 @@ namespace IniParser.Model.Configuration
         /// A new object that is a copy of this instance.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public IIniParserConfiguration Clone()
+        public IniParserConfiguration Clone()
         {
-            return this.MemberwiseClone() as IIniParserConfiguration;
+            return this.MemberwiseClone() as IniParserConfiguration;
         }
-        #endregion
 
         object ICloneable.Clone()
         {
             return this.Clone();
         }
+
+        #endregion
     }
 }

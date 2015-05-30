@@ -37,7 +37,7 @@ namespace IniFileParser.Tests.Unit.Model
             KEY1 = value1
             KEY2 = value2";
 
-            var config = new DefaultIniParserConfiguration();
+            var config = new IniParserConfiguration();
             config.CaseInsensitive = true;
             var data = new IniDataParser(config).Parse(iniData);
 

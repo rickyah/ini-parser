@@ -54,18 +54,18 @@ namespace IniParser.Model
         /// </summary>
         /// <remarks>
         ///     If the <see cref="IniData"/> instance was created by a parser,
-        ///     this instance is a copy of the <see cref="IIniParserConfiguration"/> used
+        ///     this instance is a copy of the <see cref="IniParserConfiguration"/> used
         ///     by the parser (i.e. different objects instances)
         ///     If this instance is created programatically without using a parser, this
-        ///     property returns an instance of <see cref=" DefaultIniParserConfiguration"/>
+        ///     property returns an instance of <see cref=" IniParserConfiguration"/>
         /// </remarks>
-        public IIniParserConfiguration Configuration
+        public IniParserConfiguration Configuration
         {
             get
             {
                 // Lazy initialization
                 if (_configuration == null)
-                    _configuration = new DefaultIniParserConfiguration();
+                    _configuration = new IniParserConfiguration();
 
                 return _configuration;
             }
@@ -136,7 +136,7 @@ namespace IniParser.Model
         /// <summary>
         ///     See property <see cref="Configuration"/> for more information. 
         /// </summary>
-        private IIniParserConfiguration _configuration;
+        private IniParserConfiguration _configuration;
         #endregion
 
         /// <summary>

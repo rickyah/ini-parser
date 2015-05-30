@@ -68,10 +68,7 @@
     <Compile Include="Model\IniData.cs" />
     <Compile Include="Model\KeyData.cs" />
     <Compile Include="Model\KeyDataCollection.cs" />
-    <Compile Include="Model\Configuration\DefaultIniParserConfiguration.cs" />
-    <Compile Include="Model\Configuration\IIniParserConfiguration.cs" />
     <Compile Include="Parser\IniDataParser.cs" />
-    <Compile Include="Model\Configuration\BaseIniParserConfiguration.cs" />
     <Compile Include="Model\SectionData.cs" />
     <Compile Include="Model\SectionDataCollection.cs" />
     <Compile Include="StreamIniDataParser.cs" />
@@ -82,6 +79,8 @@
     <Compile Include="Model\IniDataCaseInsensitive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\ConcatenateDuplicatedKeysIniDataParser.cs" />
+    <Compile Include="Model\Configuration\IniParserConfiguration.cs" />
+    <Compile Include="Model\Configuration\ConcatenateDuplicatedKeysIniParserConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="INIFileParser.nuspec" />

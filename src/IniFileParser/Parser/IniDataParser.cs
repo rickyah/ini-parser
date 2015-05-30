@@ -23,19 +23,19 @@ namespace IniParser.Parser
         ///     Ctor
         /// </summary>
         /// <remarks>
-        ///     The parser uses a <see cref="DefaultIniParserConfiguration"/> by default
+        ///     The parser uses a <see cref="IniParserConfiguration"/> by default
         /// </remarks>
         public IniDataParser()
-            : this(new DefaultIniParserConfiguration())
+            : this(new IniParserConfiguration())
         { }
 
         /// <summary>
         ///     Ctor
         /// </summary>
         /// <param name="parserConfiguration">
-        ///     Parser's <see cref="IIniParserConfiguration"/> instance.
+        ///     Parser's <see cref="IniParserConfiguration"/> instance.
         /// </param>
-        public IniDataParser(IIniParserConfiguration parserConfiguration)
+        public IniDataParser(IniParserConfiguration parserConfiguration)
         {
             if (parserConfiguration == null)
                 throw new ArgumentNullException("parserConfiguration");
@@ -52,7 +52,7 @@ namespace IniParser.Parser
         ///     Configuration that defines the behaviour and constraints
         ///     that the parser must follow.
         /// </summary>
-        public IIniParserConfiguration Configuration { get; private set; }
+        public virtual IniParserConfiguration Configuration { get; protected set; }
 
         /// <summary>
         /// True is the parsing operation encounter any problem
@@ -173,7 +173,7 @@ namespace IniParser.Parser
         // explanation of this pattern.
         // Probably for the most common cases you can change the parsing behavior
         //  using a custom configuration object rather than creating derived classes.
-        // See IIniParserConfiguration interface, and IniDataParser constructor
+        // See IniParserConfiguration interface, and IniDataParser constructor
 		//  to change the default configuration.
 
         /// <summary>
@@ -408,10 +408,6 @@ namespace IniParser.Parser
             else if(Configuration.OverrideDuplicateKeys)
             {
                 keyDataCollection[key] = value;
-            }
-            else if (Configuration.ConcatenateDuplicateKeys)
-            {
-                keyDataCollection[key] += Configuration.ConcatenateSeparator + value;
             }
         }
         #endregion
