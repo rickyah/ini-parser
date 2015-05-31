@@ -12,5 +12,6 @@ before_install:
  - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg" -target /
 
 script:
- - xbuild src/INIFileParser.sln 
- - .ci/run_tests.sh src/IniFileParser.Tests/bin/Debug/IniFileParser.Tests.dll
+ - .ci/install_nuget_packages.sh
+ - xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release /p:OutputFile=build
+ - .ci/run_tests.sh src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll

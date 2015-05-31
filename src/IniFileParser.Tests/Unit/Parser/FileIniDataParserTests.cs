@@ -1,16 +1,14 @@
 ﻿using System.Text;
 using IniParser;
 using IniParser.Model;
-using IniParser.Parser;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
-namespace IniFileParser.Tests.issues
+namespace IniFileParser.Tests.Unit.Parser
 {
-    [TestFixture, Description("Tests for Issue 18: http://code.google.com/p/ini-parser/issues/detail?id=18")]
-    public class Issue18Tests
+    [TestFixture]
+    public class FileIniDataParserTests
     {
-        [Test]
+        [Test,  Description("Tests for Issue 18: http://code.google.com/p/ini-parser/issues/detail?id=18")]
         public void test_multiple_file_encodings()
         {
             var parser = new FileIniDataParser();
@@ -21,6 +19,16 @@ namespace IniFileParser.Tests.issues
 
             Assert.That(parsedData.Sections.ContainsSection("Identität"));
             Assert.That(parsedData.Sections["Identität"]["key"], Is.EqualTo("value"));
+        }
+
+        [Test, Description("Test for Issue 26: http://code.google.com/p/ini-parser/issues/detail?id=26")]
+        public void allow_duplicated_sections()
+        {
+            FileIniDataParser parser = new FileIniDataParser();
+
+            IniData parsedData = parser.LoadFile("Issue11_example.ini");
+
+            Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
         }
     }
 }

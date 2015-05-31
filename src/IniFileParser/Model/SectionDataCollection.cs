@@ -9,14 +9,27 @@ namespace IniParser.Model
     /// </summary>
     public class SectionDataCollection : ICloneable, IEnumerable<SectionData>
     {
+        IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SectionDataCollection"/> class.
         /// </summary>
         public SectionDataCollection()
+            :this(EqualityComparer<string>.Default)
+        {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IniParser.Model.SectionDataCollection"/> class.
+        /// </summary>
+        /// <param name="searchComparer">
+        ///     StringComparer used when accessing section names
+        /// </param>
+        public SectionDataCollection(IEqualityComparer<string> searchComparer)
         {
-            _sectionData = new Dictionary<string, SectionData>();
+            _searchComparer = searchComparer;
+
+            _sectionData = new Dictionary<string, SectionData>(_searchComparer);
         }
 
         /// <summary>
@@ -29,9 +42,11 @@ namespace IniParser.Model
         /// <param name="ori">
         /// The instance of the <see cref="SectionDataCollection"/> class 
         /// used to create the new instance.</param>
-        public SectionDataCollection(SectionDataCollection ori)
+        public SectionDataCollection(SectionDataCollection ori, IEqualityComparer<string> searchComparer)
         {
-            _sectionData = new Dictionary<string, SectionData> (ori._sectionData);
+            _searchComparer = searchComparer ?? EqualityComparer<string>.Default;
+                
+            _sectionData = new Dictionary<string, SectionData> (ori._sectionData, _searchComparer);
         }
 
         #endregion
@@ -41,10 +56,7 @@ namespace IniParser.Model
         /// <summary>
         /// Returns the number of SectionData elements in the collection
         /// </summary>
-        public int Count
-        {
-            get { return _sectionData.Count; }
-        }
+        public int Count { get { return _sectionData.Count; } }
 
         /// <summary>
         /// Gets the key data associated to a specified section name.
@@ -85,12 +97,36 @@ namespace IniParser.Model
 
             if ( !ContainsSection(keyName) )
             {
-                _sectionData.Add( keyName, new SectionData(keyName) );
+                _sectionData.Add( keyName, new SectionData(keyName, _searchComparer) );
                 return true;
             }
 
             return false;
         }
+
+        /// <summary>
+        ///     Adds a new SectionData instance to the collection
+        /// </summary>
+        /// <param name="data">Data.</param>
+        public void Add(SectionData data)
+        {
+            if (ContainsSection(data.SectionName))
+            {
+                SetSectionData(data.SectionName, new SectionData(data, _searchComparer));
+            }
+            else
+            {
+                _sectionData.Add(data.SectionName, new SectionData(data, _searchComparer));
+            }
+        }
+        /// <summary>
+        /// Removes all entries from this collection
+        /// </summary>
+        public void Clear()
+        {
+            _sectionData.Clear();
+        }
+
 
         /// <summary>
         /// Gets if a section with a specified name exists in the collection.
@@ -121,13 +157,27 @@ namespace IniParser.Model
             return null;
         }
 
+        public void Merge(SectionDataCollection sectionsToMerge)
+        {
+            foreach(var sectionDataToMerge in sectionsToMerge)
+            {
+                var sectionDataInThis = GetSectionData(sectionDataToMerge.SectionName);
+
+                if (sectionDataInThis == null)
+                {
+                    AddSection(sectionDataToMerge.SectionName);
+                }
+
+                this[sectionDataToMerge.SectionName].Merge(sectionDataToMerge.Keys);
+            }
+        }
 
         /// <summary>
         /// Sets the section data for given a section name.
         /// </summary>
         /// <param name="sectionName"></param>
         /// <param name="data">The new <see cref="SectionData"/>instance.</param>
-        public void SetSectionData( string sectionName, SectionData data)
+        public void SetSectionData(string sectionName, SectionData data)
         {
             if ( data != null )
                 _sectionData[sectionName] = data;
@@ -144,13 +194,6 @@ namespace IniParser.Model
             return _sectionData.Remove(keyName);
         }
 
-        /// <summary>
-        /// Removes all entries from this collection
-        /// </summary>
-        public void Clear()
-        {
-            _sectionData.Clear();
-        }
 
         #endregion
 
@@ -195,7 +238,7 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new SectionDataCollection(this);
+            return new SectionDataCollection(this, _searchComparer);
         }
 
         #endregion

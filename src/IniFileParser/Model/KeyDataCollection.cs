@@ -9,14 +9,23 @@ namespace IniParser.Model
     /// </summary>
     public class KeyDataCollection : ICloneable, IEnumerable<KeyData>
     {
+        IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyDataCollection"/> class.
         /// </summary>
-        public KeyDataCollection()
+        public KeyDataCollection() 
+            :this(EqualityComparer<string>.Default)
+        {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyDataCollection"/> class.
+        /// </summary>
+        public KeyDataCollection(IEqualityComparer<string> searchComparer)
         {
-            _keyData = new Dictionary<string, KeyData>();
+            _searchComparer = searchComparer;
+            _keyData = new Dictionary<string, KeyData>(_searchComparer);
         }
 
         /// <summary>
@@ -29,17 +38,26 @@ namespace IniParser.Model
         /// <param name="ori">
         /// The instance of the <see cref="KeyDataCollection"/> class 
         /// used to create the new instance.</param>
-        public KeyDataCollection(KeyDataCollection ori) : this()
+        public KeyDataCollection(KeyDataCollection ori, IEqualityComparer<string> searchComparer)
+            : this(searchComparer)
         {
             foreach ( KeyData key in ori)
-                _keyData.Add(key.KeyName, key);
+            {
+                if (_keyData.ContainsKey(key.KeyName))
+                {
+                    _keyData[key.KeyName] = key;
+                }
+                else
+                {
+                    _keyData.Add(key.KeyName, key);
+                }
+            }
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
+           /// <summary>
         /// Gets or sets the value of a concrete key.
         /// </summary>
         /// <remarks>
@@ -158,6 +176,17 @@ namespace IniParser.Model
             return false;
 
         }
+
+        /// <summary>
+        ///     Clears all comments of this section
+        /// </summary>
+        public void ClearComments()
+        {
+            foreach(var keydata in this)
+            {
+                keydata.Comments.Clear();
+            }
+        }
         
 		/// <summary>
         /// Gets if a specifyed key name exists in the collection.
@@ -183,6 +212,17 @@ namespace IniParser.Model
             if (_keyData.ContainsKey(keyName))
                 return _keyData[keyName];
             return null;
+        }
+
+        public void Merge(KeyDataCollection keyDataToMerge)
+        {
+            foreach(var keyData in keyDataToMerge)
+            {
+                AddKey(keyData.KeyName);
+                GetKeyData(keyData.KeyName).Comments.AddRange(keyData.Comments);
+                this[keyData.KeyName] = keyData.Value;
+            }
+
         }
 
         /// <summary>
@@ -260,12 +300,23 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new KeyDataCollection(this);
+            return new KeyDataCollection(this, _searchComparer);
         }
 
         #endregion
 
         #region Non-public Members
+        // Hack for getting the last key value (if exists) w/out using LINQ
+        // and maintain support for earlier versions of .NET
+        internal KeyData GetLast()
+        {
+            KeyData result = null;
+            if (_keyData.Keys.Count <=0) return result;
+
+
+            foreach( var k in _keyData.Keys) result = _keyData[k];
+            return result;
+        }
 
         /// <summary>
         /// Collection of KeyData for a given section

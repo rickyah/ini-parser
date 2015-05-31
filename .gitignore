@@ -2,12 +2,15 @@
 build
 pack
 *.nupkg
+lib
+*.symbols.nuspec
 
 # Visual Studio ignores
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/
 [Oo]bj/
+[Ll]ib/
 
 # mstest test results
 TestResults

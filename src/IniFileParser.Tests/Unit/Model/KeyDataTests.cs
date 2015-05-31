@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using IniParser.Model;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.Unit.Model
 {
@@ -44,7 +43,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
-            Assert.That(kd.Comments, Has.Count(2));
+            Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
 
@@ -68,10 +67,46 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
-            Assert.That(kd.Comments, Has.Count(2));
+            Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
         }
+
+        [Test]
+        public void check_merge_keys()
+        {
+            var keys1 = new KeyDataCollection();
+            keys1.AddKey( "key1", "value1");
+            keys1.AddKey( "key2", "value2");
+            keys1.AddKey( "key3", "value3");
+
+            var keys2 = new KeyDataCollection();
+            keys2.AddKey("key1", "value11");
+            keys2.AddKey("key4", "value4");
+
+            keys1.Merge(keys2);
+
+            Assert.That(keys1["key1"], Is.EqualTo("value11"));
+            Assert.That(keys1["key2"], Is.EqualTo("value2"));
+            Assert.That(keys1["key3"], Is.EqualTo("value3"));
+            Assert.That(keys1["key4"], Is.EqualTo("value4"));
+        }
          
+        /// <summary>
+        ///     Thanks to h.eriksson@artamir.org for the issue.
+        /// </summary>
+        [Test, Description("Test for Issue 5: http://code.google.com/p/ini-parser/issues/detail?id=5")]
+        public void correct_comment_assigment_to_keydata()
+        {
+            IniData inidata = new IniData();
+            inidata.Sections.AddSection("TestSection");
+
+            KeyData key = new KeyData("TestKey");
+            key.Value = "TestValue";
+            key.Comments.Add("This is a comment");
+            inidata["TestSection"].SetKeyData(key);
+
+            Assert.That(inidata["TestSection"].GetKeyData("TestKey").Comments[0], Is.EqualTo("This is a comment"));
+        }
     }
 }

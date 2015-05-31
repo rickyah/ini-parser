@@ -1,5 +1,5 @@
 #!/bin/sh -x
-mono --runtime=v4.0 .ci/NuGet.exe install NUnit.Runners -Version 2.6.1 -OutputDirectory .ci/packages
+mono --runtime=v4.0 tools/NuGet.exe install NUnit.Runners -Version 2.6.1 -OutputDirectory .ci/packages
 
 runTest(){
     mono --runtime=v4.0 .ci/packages/NUnit.Runners.2.6.1/tools/nunit-console.exe -noxml -nodots -labels -stoponerror $@

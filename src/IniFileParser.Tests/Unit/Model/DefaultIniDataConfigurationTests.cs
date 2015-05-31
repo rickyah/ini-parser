@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using IniParser.Model;
 using IniParser.Model.Configuration;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.Unit.Model
 {
@@ -13,7 +12,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_default_values()
         {
-            var config = new DefaultIniParserConfiguration();
+            var config = new IniParserConfiguration();
 
             Assert.That(config, Is.Not.Null);
             Assert.That(config.CommentRegex, Is.Not.Null);
@@ -24,7 +23,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_cloning()
         {
-            IIniParserConfiguration config1 = new DefaultIniParserConfiguration();
+            IniParserConfiguration config1 = new IniParserConfiguration();
 
             config1.AllowDuplicateKeys = true;
             config1.CommentString = "/";
@@ -32,7 +31,7 @@ namespace IniFileParser.Tests.Unit.Model
 			Assert.That(config1.AllowDuplicateKeys, Is.True);
 			Assert.That(config1.CommentString, Is.EqualTo("/"));
 
-			IIniParserConfiguration config2 = config1.Clone();
+			IniParserConfiguration config2 = config1.Clone();
 
             Assert.That(config2.AllowDuplicateKeys, Is.True);
             Assert.That(config2.CommentString, Is.EqualTo("/"));
@@ -65,7 +64,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
-            Assert.That(kd.Comments, Has.Count(2));
+            Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
 
@@ -89,7 +88,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
-            Assert.That(kd.Comments, Has.Count(2));
+            Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
         }

@@ -2,10 +2,10 @@
 using IniParser.Model;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.issues
+namespace IniFileParser.Tests.Unit.Parser
 {
     [TestFixture]
-    public class Issue32Tests
+    public class StreamIniDataParserTests
     {
 
         [Test, Description("Test for Issue 32: https://github.com/rickyah/ini-parser/issues/32")]

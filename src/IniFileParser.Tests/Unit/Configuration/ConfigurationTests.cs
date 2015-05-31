@@ -3,14 +3,15 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 using IniParser.Parser;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace IniFileParser.Tests.Unit.Configuration
 {
     [TestFixture]
     public class ConfigurationTests
     {
-        internal class LiberalTestConfiguration : DefaultIniParserConfiguration
+
+        #region test data
+        internal class LiberalTestConfiguration : IniParserConfiguration
         {
             /// <summary>
             ///     Ctor.
@@ -72,6 +73,7 @@ name = Marble Zone
 key # = wops!
 = value
 ";
+        #endregion 
 
         [SetUp]
         public void setup()
@@ -86,7 +88,7 @@ key # = wops!
 #data = 1
 ;data = 2";
 
-            var config = new DefaultIniParserConfiguration();
+            var config = new IniParserConfiguration();
 
             config.CommentString = "#";
 
@@ -101,8 +103,8 @@ key # = wops!
         [Test]
         public void check_configuration_is_correct()
         {
-            Assert.That(_parser.Configuration, Is.InstanceOfType(typeof (LiberalTestConfiguration)));
-            Assert.That(_parser.Parse(iniFileStr).Configuration, Is.InstanceOfType(typeof(LiberalTestConfiguration)));
+            Assert.That(_parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
+            Assert.That(_parser.Parse(iniFileStr).Configuration, Is.InstanceOf(typeof(LiberalTestConfiguration)));
         }
 
         [Test]
@@ -159,6 +161,35 @@ key # = wops!
             Assert.That(
                 data.ToString().Replace(Environment.NewLine, string.Empty), 
                 Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+        }
+
+        [Test]
+        public void escape_comment_regex_special_characters()
+        {
+            var iniStr = @"[Section]
+                \Backslash Bcomment
+                Key=Value";
+         
+            var parser = new IniDataParser();
+            parser.Configuration.CommentString = @"\";
+
+            parser.Parse(iniStr);
+        }
+
+        [Test]
+        public void escape_section_regex_special_characters()
+        {
+            var iniStr = @"\section\
+                ;comment
+                key=value";
+
+            var parser = new IniDataParser();
+            parser.Configuration.SectionStartChar = '\\';
+            parser.Configuration.SectionEndChar = '\\';
+
+            var iniData = parser.Parse(iniStr);
+
+            Assert.That(iniData["section"]["key"], Is.EqualTo("value"));
         }
     }
 }
