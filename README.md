@@ -9,6 +9,9 @@ Also implements merging operations, both for complete ini files, sections, or ev
 
 [![Build Status](https://travis-ci.org/rickyah/ini-parser.png?branch=master)](https://travis-ci.org/rickyah/ini-parser)
 
+
+Get the latest version: https://github.com/rickyah/ini-parser/releases/latest
+
 ## Version 2.0
 Since the INI format isn't really a "standard", version 2 introduces a simpler way to customize INI parsing:
 
