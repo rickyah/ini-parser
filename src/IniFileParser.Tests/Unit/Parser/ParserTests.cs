@@ -66,7 +66,7 @@ mykey1 = value1
         {
             var parser = new IniDataParser();
 			
-			IniParser.Model.Configuration.IIniParserConfiguration config = parser.Configuration;
+			IniParser.Model.Configuration.IniParserConfiguration config = parser.Configuration;
 			
 			config.CommentString = "#";
 			config.SectionStartChar = '<';
