@@ -117,6 +117,12 @@ namespace IniParser.Model.Configuration
             get { return _commentString ?? string.Empty; }
             set
             {
+                // Sanitarize special characters for a regex
+                foreach (var specialChar in _strSpecialRegexChars)
+                {
+                    value = value.Replace(new String(specialChar, 1), @"\" + specialChar);
+                }
+
                 CommentRegex = new Regex(string.Format(_strCommentRegex, value));
                 _commentString = value;
             }
@@ -218,13 +224,11 @@ namespace IniParser.Model.Configuration
         #region Helpers
         private void RecreateSectionRegex(char value)
         {
-            CommentString.Contains(new string(new [] {value}));
             if (char.IsControl(value)
                 || char.IsWhiteSpace(value)
                 || CommentString.Contains(new string(new [] {value}))
                 || value == KeyValueAssigmentChar)
-                throw new Exception(string.Format("Invalid character for section delimiter: '{0}",
-                                                              value));
+                throw new Exception(string.Format("Invalid character for section delimiter: '{0}", value));
 
             string builtRegexString = _strSectionRegexStart;
 

@@ -62,24 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="issues\Issue18Tests.cs" />
-    <Compile Include="issues\Issue28Tests.cs" />
-    <Compile Include="issues\Issue27Tests.cs" />
-    <Compile Include="issues\Issue24Tests.cs" />
-    <Compile Include="issues\Issue19Tests.cs" />
-    <Compile Include="issues\Issue17Tests.cs" />
-    <Compile Include="issues\Issue15Tests.cs" />
-    <Compile Include="issues\Issue26Tests.cs" />
-    <Compile Include="issues\Issue10Tests.cs" />
-    <Compile Include="issues\Issue9Tests.cs" />
-    <Compile Include="issues\Issue14Tests.cs" />
-    <Compile Include="issues\Issue7Tests.cs" />
-    <Compile Include="issues\Issue6Tests.cs" />
-    <Compile Include="issues\Issue5Tests.cs" />
-    <Compile Include="issues\Issue4Tests.cs" />
-    <Compile Include="issues\Issue3Tests.cs" />
-    <Compile Include="issues\Issue2Tests.cs" />
-    <Compile Include="issues\Issue32Tests.cs" />
     <Compile Include="Unit\Configuration\ConfigurationTests.cs" />
     <Compile Include="Unit\Model\DefaultIniDataConfigurationTests.cs" />
     <Compile Include="Unit\Parser\ParserDefaultConfigurationTests.cs" />
@@ -90,14 +72,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Model\KeyDataTests.cs" />
     <Compile Include="Unit\Model\SectionDataTests.cs" />
-    <Compile Include="issues\Issue29Tests.cs" />
-    <Compile Include="issues\Issue43Tests.cs" />
-    <Compile Include="issues\Issue53Tests.cs" />
     <Compile Include="Unit\Model\MergeIniFiles.cs" />
     <Compile Include="Unit\Model\INIDataTests.cs" />
-    <Compile Include="issues\Issue66Tests.cs" />
-    <Compile Include="issues\Issue67Tests.cs" />
-    <Compile Include="issues\Issue76Tests.cs" />
+    <Compile Include="Unit\Parser\ParserTests.cs" />
+    <Compile Include="Unit\Parser\FileIniDataParserTests.cs" />
+    <Compile Include="Unit\Parser\StreamIniDataParserTests.cs" />
+    <Compile Include="Unit\Parser\StringIniDataParserTests.cs" />
+    <Compile Include="Unit\Model\IniDataCaseInsensitiveTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniFileParser\INIFileParser.csproj">

@@ -9,6 +9,8 @@ namespace IniFileParser.Tests.Unit.Configuration
     [TestFixture]
     public class ConfigurationTests
     {
+
+        #region test data
         internal class LiberalTestConfiguration : DefaultIniParserConfiguration
         {
             /// <summary>
@@ -71,6 +73,7 @@ name = Marble Zone
 key # = wops!
 = value
 ";
+        #endregion 
 
         [SetUp]
         public void setup()
@@ -158,6 +161,35 @@ key # = wops!
             Assert.That(
                 data.ToString().Replace(Environment.NewLine, string.Empty), 
                 Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+        }
+
+        [Test]
+        public void escape_comment_regex_special_characters()
+        {
+            var iniStr = @"[Section]
+                \Backslash Bcomment
+                Key=Value";
+         
+            var parser = new IniDataParser();
+            parser.Configuration.CommentString = @"\";
+
+            parser.Parse(iniStr);
+        }
+
+        [Test]
+        public void escape_section_regex_special_characters()
+        {
+            var iniStr = @"\section\
+                ;comment
+                key=value";
+
+            var parser = new IniDataParser();
+            parser.Configuration.SectionStartChar = '\\';
+            parser.Configuration.SectionEndChar = '\\';
+
+            var iniData = parser.Parse(iniStr);
+
+            Assert.That(iniData["section"]["key"], Is.EqualTo("value"));
         }
     }
 }

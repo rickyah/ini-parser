@@ -4,10 +4,10 @@ using NUnit.Framework;
 using IniParser.Parser;
 using IniParser.Model.Configuration;
 
-namespace IniFileParser.Tests.Unit
+namespace IniFileParser.Tests.Unit.Model
 {
     [TestFixture]
-    public class Issue76Tests
+    public class IniDataCaseInsensitiveTests
     {
         [Test, Description("Test for Issue 76: https://github.com/rickyah/ini-parser/issues/76")]
         public void resolve_case_insensitive_names()

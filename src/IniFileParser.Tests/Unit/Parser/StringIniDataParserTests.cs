@@ -2,10 +2,10 @@
 using IniParser.Model;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.issues
+namespace IniFileParser.Tests.Unit.Parser
 {
     [TestFixture]
-    public class Issue2Tests
+    public class StringIniDataParserTests
     {
         [Test, Description("Test for Issue 2: http://code.google.com/p/ini-parser/issues/detail?id=2")]
         public void not_reproduced_error_tests()
@@ -20,6 +20,19 @@ namespace IniFileParser.Tests.issues
             Assert.That(data.Sections["ExampleSection"], Is.Not.Null);
             Assert.That(data.Sections["ExampleSection"].Count, Is.EqualTo(1));
             Assert.That(data.Sections["ExampleSection"]["key"], Is.EqualTo("value;value"));
+        }
+
+        /// <summary>
+        ///     Thanks to h.eriksson@artamir.org for the issue.
+        /// </summary>
+        [Test, Description("Test for Issue 6: http://code.google.com/p/ini-parser/issues/detail?id=6")]
+        public void check_that_comment_char_is_not_stored_as_the_key()
+        {
+            string data = "[data]" + System.Environment.NewLine + "key = value;";
+
+            IniData inidata = new StringIniParser().ParseString(data);
+
+            Assert.That(inidata["data"]["key"], Is.EqualTo("value;"));
         }
     }
 }
