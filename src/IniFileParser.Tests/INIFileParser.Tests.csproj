@@ -79,6 +79,7 @@
     <Compile Include="Unit\Parser\StreamIniDataParserTests.cs" />
     <Compile Include="Unit\Parser\StringIniDataParserTests.cs" />
     <Compile Include="Unit\Model\IniDataCaseInsensitiveTests.cs" />
+    <Compile Include="Unit\Parser\ConcatenateDuplicatedKeysIniDataParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniFileParser\INIFileParser.csproj">

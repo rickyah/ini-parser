@@ -8,12 +8,12 @@ namespace IniParser.Model.Formatting
     
     public class DefaultIniDataFormatter : IIniDataFormatter
     {
-        IIniParserConfiguration _configuration;
+        IniParserConfiguration _configuration;
         
         #region Initialization
-        public DefaultIniDataFormatter():this(new DefaultIniParserConfiguration()) {}
+        public DefaultIniDataFormatter():this(new IniParserConfiguration()) {}
         
-        public DefaultIniDataFormatter(IIniParserConfiguration configuration)
+        public DefaultIniDataFormatter(IniParserConfiguration configuration)
         {
             if (configuration == null)
                 throw new ArgumentNullException("configuration");
@@ -47,12 +47,12 @@ namespace IniParser.Model.Formatting
         /// </summary>
         /// <remarks>
         ///     If the <see cref="IniData"/> instance was created by a parser,
-        ///     this instance is a copy of the <see cref="IIniParserConfiguration"/> used
+        ///     this instance is a copy of the <see cref="IniParserConfiguration"/> used
         ///     by the parser (i.e. different objects instances)
         ///     If this instance is created programatically without using a parser, this
-        ///     property returns an instance of <see cref=" DefaultIniParserConfiguration"/>
+        ///     property returns an instance of <see cref=" IniParserConfiguration"/>
         /// </remarks>
-        public IIniParserConfiguration Configuration
+        public IniParserConfiguration Configuration
         {
             get { return _configuration; }
             set { _configuration = value.Clone(); }

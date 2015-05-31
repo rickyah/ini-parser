@@ -23,19 +23,19 @@ namespace IniParser.Parser
         ///     Ctor
         /// </summary>
         /// <remarks>
-        ///     The parser uses a <see cref="DefaultIniParserConfiguration"/> by default
+        ///     The parser uses a <see cref="IniParserConfiguration"/> by default
         /// </remarks>
         public IniDataParser()
-            : this(new DefaultIniParserConfiguration())
+            : this(new IniParserConfiguration())
         { }
 
         /// <summary>
         ///     Ctor
         /// </summary>
         /// <param name="parserConfiguration">
-        ///     Parser's <see cref="IIniParserConfiguration"/> instance.
+        ///     Parser's <see cref="IniParserConfiguration"/> instance.
         /// </param>
-        public IniDataParser(IIniParserConfiguration parserConfiguration)
+        public IniDataParser(IniParserConfiguration parserConfiguration)
         {
             if (parserConfiguration == null)
                 throw new ArgumentNullException("parserConfiguration");
@@ -52,7 +52,7 @@ namespace IniParser.Parser
         ///     Configuration that defines the behaviour and constraints
         ///     that the parser must follow.
         /// </summary>
-        public IIniParserConfiguration Configuration { get; private set; }
+        public virtual IniParserConfiguration Configuration { get; protected set; }
 
         /// <summary>
         /// True is the parsing operation encounter any problem
@@ -173,7 +173,7 @@ namespace IniParser.Parser
         // explanation of this pattern.
         // Probably for the most common cases you can change the parsing behavior
         //  using a custom configuration object rather than creating derived classes.
-        // See IIniParserConfiguration interface, and IniDataParser constructor
+        // See IniParserConfiguration interface, and IniDataParser constructor
 		//  to change the default configuration.
 
         /// <summary>
@@ -396,6 +396,20 @@ namespace IniParser.Parser
             return s.Substring(index + 1, s.Length - index - 1).Trim();
         }
 
+        /// <summary>
+        ///     Abstract Method that decides what to do in case we are trying to add a duplicated key to a section
+        /// </summary>
+        protected virtual void HandleDuplicatedKeyInCollection(string key, string value, KeyDataCollection keyDataCollection, string sectionName)
+        {
+            if (!Configuration.AllowDuplicateKeys)
+            {
+                throw new ParsingException(string.Format("Duplicated key '{0}' found in section '{1}", key, sectionName));
+            }
+            else if(Configuration.OverrideDuplicateKeys)
+            {
+                keyDataCollection[key] = value;
+            }
+        }
         #endregion
 
         #region Helpers
@@ -422,15 +436,7 @@ namespace IniParser.Parser
             if (keyDataCollection.ContainsKey(key))
             {
                 // We already have a key with the same name defined in the current section
-
-                if (!Configuration.AllowDuplicateKeys)
-                {
-                    throw new ParsingException(string.Format("Duplicated key '{0}' found in section '{1}", key, sectionName));
-                }
-                else if(Configuration.OverrideDuplicateKeys)
-                {
-                    keyDataCollection[key] = value;
-                }
+                HandleDuplicatedKeyInCollection(key, value, keyDataCollection, sectionName);
             }
             else
             {

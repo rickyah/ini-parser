@@ -11,7 +11,7 @@ namespace IniFileParser.Tests.Unit.Configuration
     {
 
         #region test data
-        internal class LiberalTestConfiguration : DefaultIniParserConfiguration
+        internal class LiberalTestConfiguration : IniParserConfiguration
         {
             /// <summary>
             ///     Ctor.
@@ -88,7 +88,7 @@ key # = wops!
 #data = 1
 ;data = 2";
 
-            var config = new DefaultIniParserConfiguration();
+            var config = new IniParserConfiguration();
 
             config.CommentString = "#";
 
