@@ -2,4 +2,5 @@
 .ci/build_release.sh
 .ci/run_tests.sh src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
 
+mkdir -p build
 mono --runtime=v4.0 ~/bin/NuGet.exe pack ./src/IniFileParser/INIFileParser.nuspec -NoDefaultExcludes -OutputDirectory ./build -Version $1
