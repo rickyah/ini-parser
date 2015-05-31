@@ -13,5 +13,5 @@ before_install:
 
 script:
  - .ci/install_nuget_packages.sh
- - xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release /p:OutputFile=build
+ - .ci/build_release.sh
  - .ci/run_tests.sh src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
