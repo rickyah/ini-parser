@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>2.1.0</version>
+    <version>1.0</version>
     <authors>Ricardo Amores Hernández</authors>
     <owners>rickyah</owners>
     <licenseUrl>https://github.com/rickyah/ini-parser/master/blob/LICENSE.txt</licenseUrl>
