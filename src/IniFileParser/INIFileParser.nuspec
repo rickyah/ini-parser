@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>2.1.0</version>
+    <version>1.0</version>
     <authors>Ricardo Amores Hernández</authors>
     <owners>rickyah</owners>
     <licenseUrl>https://github.com/rickyah/ini-parser/master/blob/LICENSE.txt</licenseUrl>
@@ -19,4 +19,9 @@ Also implements merging operations, both for complete ini files, sections, or ev
     </releaseNotes>
     <tags>ini</tags>
   </metadata>
+  <files>
+    <file src="../../lib/INIFileParser.dll" target="lib/net20"/>
+    <file src="../../lib/INIFileParser.xml" target="lib/net20"/>
+    <file src="../../lib/INIFileParser.dll.mdb" target="lib/net20"/>
+  </files>
 </package>
