@@ -103,7 +103,7 @@ namespace IniParser.Parser
 
             try
             {
-                var lines = iniDataString.Split(Environment.NewLine.ToCharArray());
+                var lines = iniDataString.Split(new []{"\n", "\r\n"}, StringSplitOptions.None);
                 for (int lineNumber = 0; lineNumber < lines.Length; lineNumber++)
                 {
                     var line = lines[lineNumber];
