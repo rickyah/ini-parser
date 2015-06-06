@@ -16,11 +16,12 @@ fi
 VERSION=$1
 VERSION_REGEX1='\[assembly: AssemblyVersion\("(.*)"\)\]'
 VERSION_REGEX2='\[assembly: AssemblyFileVersion\("(.*)"\)\]'
-NEW_VERSION_REPLACE='\[assembly: AssemblyVersion\("'$VERSION'"\)\]'
+NEW_VERSION_REPLACE1='\[assembly: AssemblyVersion\("'$VERSION'"\)\]'
+NEW_VERSION_REPLACE2='\[assembly: AssemblyFileVersion\("'$VERSION'"\)\]'
 
 echo "Changing file $FILE_PATH to version $VERSION"
 
-eval "sed -r --in-place 's/$VERSION_REGEX1/$NEW_VERSION_REPLACE/g;' $FILE_PATH"
-eval "sed -r --in-place 's/$VERSION_REGEX2/$NEW_VERSION_REPLACE/g;' $FILE_PATH"
+eval "sed -r --in-place 's/$VERSION_REGEX1/$NEW_VERSION_REPLACE1/g;' $FILE_PATH"
+eval "sed -r --in-place 's/$VERSION_REGEX2/$NEW_VERSION_REPLACE2/g;' $FILE_PATH"
 
 exit 0
