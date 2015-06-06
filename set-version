@@ -1,17 +1,26 @@
-if [ $# -ne 2 ]
+if [ $# -eq 0 ]
 then
     echo "Usage: $0 <new_version> <AssemblyInfo file path>"
     exit -1
 fi
 
+
 FILE_PATH=$2
+
+# set a default value for FILE_PATH if none passed as argument
+if [ -z "$2" ]
+then
+    FILE_PATH="./src/IniFileParser/Properties/AssemblyInfo.cs"
+fi
+
 VERSION=$1
 VERSION_REGEX1='\[assembly: AssemblyVersion\("(.*)"\)\]'
 VERSION_REGEX2='\[assembly: AssemblyFileVersion\("(.*)"\)\]'
-NEW_VERSION='\[assembly: AssemblyVersion\("'$VERSION'"\)\]'
+NEW_VERSION_REPLACE='\[assembly: AssemblyVersion\("'$VERSION'"\)\]'
 
+echo "Changing file $FILE_PATH to version $VERSION"
 
-eval "sed -r --in-place 's/$VERSION_REGEX1/$NEW_VERSION/g;' $FILE_PATH"
-eval "sed -r --in-place 's/$VERSION_REGEX2/$NEW_VERSION/g;' $FILE_PATH"
+eval "sed -r --in-place 's/$VERSION_REGEX1/$NEW_VERSION_REPLACE/g;' $FILE_PATH"
+eval "sed -r --in-place 's/$VERSION_REGEX2/$NEW_VERSION_REPLACE/g;' $FILE_PATH"
 
 exit 0
