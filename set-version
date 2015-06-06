@@ -1,0 +1,17 @@
+if [ $# -ne 2 ]
+then
+    echo "Usage: $0 <new_version> <AssemblyInfo file path>"
+    exit -1
+fi
+
+FILE_PATH=$2
+VERSION=$1
+VERSION_REGEX1='\[assembly: AssemblyVersion\("(.*)"\)\]'
+VERSION_REGEX2='\[assembly: AssemblyFileVersion\("(.*)"\)\]'
+NEW_VERSION='\[assembly: AssemblyVersion\("'$VERSION'"\)\]'
+
+
+eval "sed -r --in-place 's/$VERSION_REGEX1/$NEW_VERSION/g;' $FILE_PATH"
+eval "sed -r --in-place 's/$VERSION_REGEX2/$NEW_VERSION/g;' $FILE_PATH"
+
+exit 0
