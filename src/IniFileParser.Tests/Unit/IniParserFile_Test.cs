@@ -1,3 +1,4 @@
+
 using System.IO;
 using IniParser.Exceptions;
 using IniParser.Model;
@@ -11,10 +12,10 @@ namespace IniFileParser.Tests.Unit
     {
 
         public readonly string strGoodINIFilePath = @"../../INIFileGOOD.ini";
-        public readonly string strBadINIFilePath = @"../../INIFileBAD.ini";
-        public readonly string strEmptyINIFilePath = @"../../INIFileEmpty.ini";
+        public readonly string strBadINIFilePath = @"../../INIfileBAD.ini";
+        public readonly string strEmptyINIFilePath = @"../../INIFileEMPTY.ini";
         public readonly string strBadSectionINIFilePath = @"../../INIFileBADSection.ini";
-        public readonly string strBadKeysINIFilePath = @"../../INIFileBADKeys.ini";
+        public readonly string strBadKeysINIFilePath = @"../../INIfileBADKeys.ini";
 
         public FileIniDataParser iniParser = new FileIniDataParser();
 
