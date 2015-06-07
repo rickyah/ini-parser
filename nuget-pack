@@ -1,6 +1,13 @@
-#build the project first 
-.ci/build_release.sh
-.ci/run_tests.sh src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
+# Install dependencies
+nuget restore src/INIFileParser.sln
+
+# Build release
+xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
+
+# run tests
+mono ./src/packages/NUnit.Runners.2.6.4/tools/nunit-console.exe -noxml -nodots -labels ./src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
 
 mkdir -p build
+
+# generate the nuget package
 mono --runtime=v4.0 ~/bin/NuGet.exe pack ./src/IniFileParser/INIFileParser.nuspec -NoDefaultExcludes -OutputDirectory ./build -Version $1
