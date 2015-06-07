@@ -1,17 +1,9 @@
-# Kudos to http://stackoverflow.com/questions/16751772/how-do-i-use-travis-ci-with-c-sharp-or-f
-language: objective-c
-
-env:
- global:
-  - EnableNuGetPackageRestore=true 
- matrix:
-  - MONO_VERSION="3.2.5"
-
-before_install:
- - wget "http://download.xamarin.com/MonoFrameworkMDK/Macx86/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg"
- - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg" -target /
-
+language: csharp
+solution: src/INIFileParser.sln
 script:
- - .ci/install_nuget_packages.sh
- - .ci/build_release.sh
- - .ci/run_tests.sh src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
+  - nuget restore src/INIFileParser.sln
+  - xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
+  - mono ./src/packages/NUnit.Runners.2.6.4/tools/nunit-console.exe -noxml -nodots -labels ./src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
+mono:
+  - latest
+  - 3.12.0

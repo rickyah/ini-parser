@@ -30,5 +30,17 @@ namespace IniFileParser.Tests.Unit.Parser
 
             Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
         }
+
+        [Test, Description("Check on real files")]
+        public void check_parses_real_test_files()
+        {
+            var parser = new FileIniDataParser();
+            parser.Parser.Configuration.ThrowExceptionsOnError = true;
+
+            var iniFileData = parser.ReadFile("aircraft.cfg");
+
+            parser.Parser.Configuration.CommentString = "//";
+            iniFileData = parser.ReadFile("aircraft2.cfg");
+        }
     }
 }

@@ -34,5 +34,6 @@ namespace IniFileParser.Tests.Unit.Parser
 
             Assert.That(inidata["data"]["key"], Is.EqualTo("value;"));
         }
+
     }
 }

@@ -69,7 +69,6 @@
     <Compile Include="Unit\IniParserFile_Test.cs" />
     <Compile Include="Unit\IniParserRegex_Test.cs" />
     <Compile Include="Unit\IniStringParser_Test.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Model\KeyDataTests.cs" />
     <Compile Include="Unit\Model\SectionDataTests.cs" />
     <Compile Include="Unit\Model\MergeIniFiles.cs" />
@@ -80,6 +79,9 @@
     <Compile Include="Unit\Parser\StringIniDataParserTests.cs" />
     <Compile Include="Unit\Model\IniDataCaseInsensitiveTests.cs" />
     <Compile Include="Unit\Parser\ConcatenateDuplicatedKeysIniDataParserTests.cs" />
+    <Compile Include="..\IniFileParser\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniFileParser\INIFileParser.csproj">
@@ -101,6 +103,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="aircraft.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft2.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -128,4 +136,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
 </Project>
