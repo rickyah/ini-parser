@@ -57,6 +57,7 @@ namespace IniParser.Model.Configuration
             AllowDuplicateSections = false;
             ThrowExceptionsOnError = true;
             SkipInvalidLines = false;
+            SectionKeySeparator = ':';
         }
 
         /// <summary>
@@ -77,7 +78,9 @@ namespace IniParser.Model.Configuration
             CommentString = ori.CommentString;
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
 
-            // Regex values should recreate themselves.
+            SectionKeySeparator = ori.SectionKeySeparator;
+
+          // Regex values should recreate themselves.
         }
         #endregion
 
@@ -250,6 +253,15 @@ namespace IniParser.Model.Configuration
         public bool AllowDuplicateSections { get; set; }
 
         public bool SkipInvalidLines { get; set; }
+
+        /// <summary>
+        ///     Used to mark the separation between the section name and the key name 
+        ///     when using <see cref="IniData.TryGetKey"/>. 
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to ':'.
+        /// </remarks>
+        public char SectionKeySeparator { get; set; }
 
         #endregion
 
