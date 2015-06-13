@@ -49,6 +49,9 @@ namespace IniParser.Model
         /// </param>
         public SectionData(SectionData ori, IEqualityComparer<string> searchComparer = null)
         {
+            SectionName = ori.SectionName;
+
+            _searchComparer = searchComparer;
             _leadingComments = new List<string>(ori._leadingComments);
             _keyDataCollection = new KeyDataCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
         }
