@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace IniParser.Model
 {
     /// <summary>
-    /// <para>Represents a collection of Keydata.</para>
+    ///     Represents a collection of Keydata.
     /// </summary>
     public class KeyDataCollection : ICloneable, IEnumerable<KeyData>
     {
@@ -13,15 +13,19 @@ namespace IniParser.Model
         #region Initialization
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyDataCollection"/> class.
+        ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class.
         /// </summary>
         public KeyDataCollection() 
             :this(EqualityComparer<string>.Default)
         {}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyDataCollection"/> class.
+        ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class with a given
+        ///     search comparer
         /// </summary>
+        /// <param name="searchComparer">
+        ///     Search comparer used to find the key by name in the collection
+        /// </param>
         public KeyDataCollection(IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer;
@@ -29,15 +33,16 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="KeyDataCollection"/> class
-        /// from a previous instance of <see cref="KeyDataCollection"/>.
+        ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class
+        ///     from a previous instance of <see cref="KeyDataCollection"/>.
         /// </summary>
         /// <remarks>
-        /// Data is deeply copied
+        ///     Data from the original KeyDataCollection instance is deeply copied
         /// </remarks>
         /// <param name="ori">
-        /// The instance of the <see cref="KeyDataCollection"/> class 
-        /// used to create the new instance.</param>
+        ///     The instance of the <see cref="KeyDataCollection"/> class 
+        ///     used to create the new instance.
+        /// </param>
         public KeyDataCollection(KeyDataCollection ori, IEqualityComparer<string> searchComparer)
             : this(searchComparer)
         {
@@ -57,17 +62,19 @@ namespace IniParser.Model
         #endregion
 
         #region Properties
-           /// <summary>
-        /// Gets or sets the value of a concrete key.
+          
+        /// <summary>
+        ///     Gets or sets the value of a concrete key.
         /// </summary>
         /// <remarks>
-        /// If we try to assign the value of a key which doesn't exists,
-        /// a new key is added with the name and the value is assigned to it.
+        ///     If we try to assign the value of a key which doesn't exists,
+        ///     a new key is added with the name and the value is assigned to it.
         /// </remarks>
-        /// <param name="keyName">Name of the key</param>
+        /// <param name="keyName">
+        ///     Name of the key
+        /// </param>
         /// <returns>
-        /// The string with key's value or null
-        /// if the key was not found.
+        ///     The string with key's value or null if the key was not found.
         /// </returns>
         public string this[string keyName]
         {
@@ -92,9 +99,8 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Return the number of keys in the collection
+        ///     Return the number of keys in the collection
         /// </summary>
-        /// <value>An integer with the number of keys in the collection.</value>
         public int Count
         {
             get { return _keyData.Count; }
@@ -105,17 +111,14 @@ namespace IniParser.Model
         #region Operations
 
         /// <summary>
-        /// Adds a new key with the specified name and empty value and comments
+        ///     Adds a new key with the specified name and empty value and comments
         /// </summary>
-        /// <remarks>
-        /// A valid key name is a string with NO blank spaces.
-        /// </remarks>
-        /// <param name="keyName">New key to be added.</param>
-        /// <returns>
-        /// <c>true</c> if a new empty key was added 
-        /// <c>false</c> otherwise.
+        /// <param name="keyName">
+        ///     New key to be added.
+        /// </param>
+        ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist 
+        ///     in the collection
         /// </returns>
-        /// <exception cref="ArgumentException">If the key name is not valid.</exception>
         public bool AddKey(string keyName)
         {
             if ( !_keyData.ContainsKey(keyName) )
@@ -130,7 +133,7 @@ namespace IniParser.Model
         [Obsolete("Pottentially buggy method! Use AddKey(KeyData keyData) instead (See comments in code for an explanation of the bug)")]
         public bool AddKey(string keyName, KeyData keyData)
         {
-            // BUG: this actually can allow you to add the keyData having
+            // BUG: this actually can allow you to add the keyData having 
             // keyData.KeyName different from the argument 'keyName' in this method
             // which doesn't make any sense
             if (AddKey(keyName))
@@ -150,7 +153,7 @@ namespace IniParser.Model
         ///     KeyData instance.
         /// </param>
         /// <returns>
-        ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist
+        ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist 
         ///     in the collection
         /// </returns>
         public bool AddKey(KeyData keyData)
@@ -173,7 +176,7 @@ namespace IniParser.Model
         ///     Value associated to the key.
         /// </param>
         /// <returns>
-        ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist
+        ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist 
         ///     in the collection.
         /// </returns>
         public bool AddKey(string keyName, string keyValue)
@@ -262,13 +265,12 @@ namespace IniParser.Model
         /// <param name="data">The new <see cref="KeyData"/> for the key.</param>
         public void SetKeyData(KeyData data)
         {
-            if (data != null)
-            {
-                if (_keyData.ContainsKey(data.KeyName))
-                    RemoveKey(data.KeyName);
+            if (data == null) return;
 
-                AddKey(data.KeyName, data);
-            }
+            if (_keyData.ContainsKey(data.KeyName))
+                RemoveKey(data.KeyName);
+
+            AddKey(data);
         }
 
         #endregion
