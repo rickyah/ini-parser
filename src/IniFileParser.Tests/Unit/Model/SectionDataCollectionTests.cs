@@ -79,5 +79,25 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(data["test2"].ContainsKey("key4"), Is.False);
 
         }
+
+        [Test]
+        public void check_adding_sections_to_collection()
+        {
+            var col = new SectionDataCollection();
+
+            var exampleSection = new SectionData("section1");
+            exampleSection.Keys.AddKey("examplekey");
+            exampleSection.Keys["examplekey"] = "examplevalue";
+
+            col.Add(exampleSection);
+
+            Assert.That(col["section1"], Is.Not.Null);
+
+            // Add sections directly to the collection
+            Assert.That(col.AddSection("section2"), Is.True);
+            Assert.That(col.AddSection("section2"), Is.False);
+
+            Assert.That(col["section2"], Is.Not.Null);
+        }
     }
 }
