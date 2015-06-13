@@ -127,21 +127,12 @@ namespace IniParser.Model
             return false;
         }
 
-        /// <summary>
-        /// Adds a new key with the specified name and value and comments
-        /// </summary>
-        /// <remarks>
-        /// A valid key name is a string with NO blank spaces.
-        /// </remarks>
-        /// <param name="keyName">New key to be added.</param>
-        /// <param name="keyData">KeyData instance.</param>
-        /// <returns>
-        /// <c>true</c> if a new empty key was added 
-        /// <c>false</c> otherwise.
-        /// </returns>
-        /// <exception cref="ArgumentException">If the key name is not valid.</exception>
+        [Obsolete("Pottentially buggy method! Use AddKey(KeyData keyData) instead (See comments in code for an explanation of the bug)")]
         public bool AddKey(string keyName, KeyData keyData)
         {
+            // BUG: this actually can allow you to add the keyData having
+            // keyData.KeyName different from the argument 'keyName' in this method
+            // which doesn't make any sense
             if (AddKey(keyName))
             {
                 _keyData[keyName] = keyData;
@@ -153,18 +144,38 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Adds a new key with the specified name and value and comments
+        ///     Adds a new key to the collection
         /// </summary>
-        /// <remarks>
-        /// A valid key name is a string with NO blank spaces.
-        /// </remarks>
-        /// <param name="keyName">New key to be added.</param>
-        /// <param name="keyValue">Value associated to the kyy.</param>
+        /// <param name="keyData">
+        ///     KeyData instance.
+        /// </param>
         /// <returns>
-        /// <c>true</c> if a new empty key was added 
-        /// <c>false</c> otherwise.
+        ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist
+        ///     in the collection
         /// </returns>
-        /// <exception cref="ArgumentException">If the key name is not valid.</exception>
+        public bool AddKey(KeyData keyData)
+        {
+            if (AddKey(keyData.KeyName))
+            {
+                _keyData[keyData.KeyName] = keyData;
+                return true;
+            }
+
+            return false;
+        }
+        /// <summary>
+        ///     Adds a new key with the specified name and value to the collection
+        /// </summary>
+        /// <param name="keyName">
+        ///     Name of the new key to be added.
+        /// </param>
+        /// <param name="keyValue">
+        ///     Value associated to the key.
+        /// </param>
+        /// <returns>
+        ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist
+        ///     in the collection.
+        /// </returns>
         public bool AddKey(string keyName, string keyValue)
         {
             if (AddKey(keyName))
