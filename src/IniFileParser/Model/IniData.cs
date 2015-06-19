@@ -228,11 +228,16 @@ namespace IniParser.Model
         /// <param name="key">
         ///     The section and key name to retrieve, separated by <see cref="IniParserConfiguration.SectionKeySeparator"/>.
         /// 
-        ///     Has the same requirements as the <c>key</c> parameter of <see cref="TryGetKey"/>
+        ///     If key contains no separator, it is treated as a key in the <see cref="Global"/> section.
+        /// 
+        ///     Key may contain no more than one separator character.
         /// </param>
         /// <returns>
         ///     The key's value if it was found, otherwise null.
         /// </returns>
+        /// <exception cref="ArgumentException">
+        ///     key contained multiple separators.
+        /// </exception>
         public string GetKey(string key)
         {
           string result;
