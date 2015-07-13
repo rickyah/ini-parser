@@ -77,7 +77,7 @@ namespace IniParser.Model.Configuration
             CommentString = ori.CommentString;
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
 
-            // Regex values should recreate themselves.
+          // Regex values should recreate themselves.
         }
         #endregion
 
