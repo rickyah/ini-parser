@@ -38,6 +38,7 @@ namespace IniParser.Model
         {
             _sections = (SectionDataCollection)sdc.Clone();
             Global = new KeyDataCollection();
+            SectionKeySeparator = '.';
         }
 
         public IniData(IniData ori): this((SectionDataCollection) ori.Sections)
@@ -104,6 +105,15 @@ namespace IniParser.Model
             get { return _sections; }
             set { _sections = value; }
         }   
+            
+        /// <summary>
+        ///     Used to mark the separation between the section name and the key name 
+        ///     when using <see cref="IniData.TryGetKey"/>. 
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to '.'.
+        /// </remarks>
+        public char SectionKeySeparator { get; set; }
         #endregion
 
         #region Object Methods
@@ -195,31 +205,35 @@ namespace IniParser.Model
         /// </exception>
         public bool TryGetKey(string key, out string value)
         {
-          value = string.Empty;
-          if (string.IsNullOrEmpty(key)) return false;
+            value = string.Empty;
+            if (string.IsNullOrEmpty(key))
+                return false;
 
-          var splitKey = key.Split(Configuration.SectionKeySeparator);
-          var separatorCount = splitKey.Length - 1;
-          if (separatorCount > 1) 
-            throw new ArgumentException("key contains multiple separators", "key");
+            var splitKey = key.Split(SectionKeySeparator);
+            var separatorCount = splitKey.Length - 1;
+            if (separatorCount > 1)
+                throw new ArgumentException("key contains multiple separators", "key");
 
-          if (separatorCount == 0)
-          {
-            if (!Global.ContainsKey(key)) return false;
+            if (separatorCount == 0)
+            {
+                if (!Global.ContainsKey(key))
+                    return false;
 
-            value = Global[key];
+                value = Global[key];
+                return true;
+            }
+
+            var section = splitKey[0];
+            key = splitKey[1];
+
+            if (!_sections.ContainsSection(section))
+                return false;
+            var sectionData = _sections[section];
+            if (!sectionData.ContainsKey(key))
+                return false;
+
+            value = sectionData[key];
             return true;
-          }
-
-          var section = splitKey[0];
-          key = splitKey[1];
-
-          if (!_sections.ContainsSection(section)) return false;
-          var sectionData = _sections[section];
-          if (!sectionData.ContainsKey(key)) return false;
-
-          value = sectionData[key];
-          return true;
         }
 
         /// <summary>
@@ -240,8 +254,8 @@ namespace IniParser.Model
         /// </exception>
         public string GetKey(string key)
         {
-          string result;
-          return TryGetKey(key, out result) ? result : null;
+            string result;
+            return TryGetKey(key, out result) ? result : null;
         }
 
         /// <summary>

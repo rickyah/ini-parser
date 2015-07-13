@@ -50,7 +50,7 @@ value1 = 10.6";
       public void TryGetKey_preconditions()
       {
         var data = new IniDataParser().Parse("");
-        var separator = data.Configuration.SectionKeySeparator;
+        var separator = data.SectionKeySeparator;
         string result;
         
         // ensure that various good keys aren't rejected
@@ -78,7 +78,7 @@ key1 = 2
 key2 = 3
 ";
         var data = new IniDataParser().Parse(input);
-        var separator = data.Configuration.SectionKeySeparator;
+        var separator = data.SectionKeySeparator;
         string key;
         string result;
 
@@ -119,7 +119,7 @@ global = 1
 key = 2
 ";
         var data = new IniDataParser().Parse(input);
-        var separator = data.Configuration.SectionKeySeparator;
+        var separator = data.SectionKeySeparator;
         string key;
 
         // should succeed
