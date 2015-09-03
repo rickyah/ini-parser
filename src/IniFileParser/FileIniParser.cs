@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using IniParser.Exceptions;
 using IniParser.Model;
+using IniParser.Parser;
 
 namespace IniParser
 {
@@ -11,6 +12,20 @@ namespace IniParser
     /// </summary>
     public class FileIniDataParser : StreamIniDataParser
     {
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        public FileIniDataParser() {}
+
+        /// <summary>
+        ///     Ctor
+        /// </summary>
+        /// <param name="parser"></param>
+        public FileIniDataParser(IniDataParser parser) : base(parser)
+        {
+            Parser = parser;
+        }
+
         #region Deprecated methods
 
         [Obsolete("Please use ReadFile method instead of this one as is more semantically accurate")]
