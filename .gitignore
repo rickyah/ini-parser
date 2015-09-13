@@ -4,6 +4,7 @@ pack
 *.nupkg
 lib
 *.symbols.nuspec
+.vscode
 
 # Visual Studio ignores
 
