@@ -494,6 +494,19 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
 
         }
 
+		[Test, Description("Test for Issue 88: https://github.com/rickyah/ini-parser/issues/88")]
+		public void allow_quotes_in_sections()
+		{
+			var parser = new IniDataParser();
 
+			var iniDataString = @"[W101 0.5"" wc]
+key = value
+[W103 0.5' wc]
+key2 = value2";
+			IniData parsedData = parser.Parse(iniDataString);
+
+			Assert.That(parsedData.Sections["W101 0.5\" wc"], Is.Not.Empty);
+			Assert.That(parsedData.Sections["W103 0.5' wc"], Is.Not.Empty);
+		}
     }
 }
