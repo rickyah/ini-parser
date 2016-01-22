@@ -4,7 +4,7 @@
     <version>1.0</version>
     <authors>Ricardo Amores Hernández</authors>
     <owners>rickyah</owners>
-    <licenseUrl>https://github.com/rickyah/ini-parser/master/blob/LICENSE.txt</licenseUrl>
+    <licenseUrl>https://github.com/rickyah/ini-parser/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/rickyah/ini-parser</projectUrl>
     <id>ini-parser</id>
     <title>INI Parser</title>
