@@ -69,12 +69,13 @@ mykey1 = value1
             Assert.That(section2, Is.Not.Null);
             Assert.That(section2.SectionName, Is.EqualTo("section 2"));
             Assert.That(section2.LeadingComments, Is.Empty);
-            Assert.That(section2.TrailingComments, Is.Not.Empty);
-            Assert.That(section2.Comments, Is.Not.Empty);
+            Assert.That(section2.TrailingComments, Is.Empty);
+            Assert.That(section2.Comments, Is.Empty);
 
             // Check comments at the end of the section are parsed and assigned to the section
-            Assert.That(section2.TrailingComments.Count, Is.EqualTo(1));
-            Assert.That(section2.TrailingComments[0], Is.EqualTo("comment for section2"));
+            Assert.That(section2.Keys.GetKeyData("mykey1").Comments, Is.Not.Empty);
+            Assert.That(section2.Keys.GetKeyData("mykey1").Comments.Count, Is.EqualTo(1));
+            Assert.That(section2.Keys.GetKeyData("mykey1").Comments[0], Is.EqualTo("comment for myKey1"));
         }
 
         [Test]
