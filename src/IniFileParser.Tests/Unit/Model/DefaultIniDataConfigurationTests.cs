@@ -71,7 +71,7 @@ namespace IniFileParser.Tests.Unit.Model
         }
 
         [Test]
-        public void check_clone_operation()
+        public void check_clone_copies_data()
         {
             var strValueTest = "Test String";
             var strKeyTest = "Mykey";
@@ -84,6 +84,7 @@ namespace IniFileParser.Tests.Unit.Model
 
             KeyData kd = kd2.Clone() as KeyData;
 
+
             //Assert not null and empty
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
@@ -91,6 +92,12 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
             Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
+
+
+            kd.Value = "t";
+            Assert.That(kd2.Value, Is.EqualTo(strValueTest));
+            Assert.That(kd.Value, Is.EqualTo("t"));
+
         }
          
     }

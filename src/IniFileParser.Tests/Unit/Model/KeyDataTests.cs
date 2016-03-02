@@ -50,7 +50,7 @@ namespace IniFileParser.Tests.Unit.Model
         }
 
         [Test]
-        public void check_clone_operation()
+        public void check_deep_clone()
         {
             var strValueTest = "Test String";
             var strKeyTest = "Mykey";

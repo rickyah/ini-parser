@@ -139,6 +139,28 @@ key = 2
         key = string.Format("badsection{0}badkey", separator);
         Assert.IsNull(data.GetKey(key));
       }
+
+        [Test]
+        public void check_deep_clone()
+        {
+            var input = @"
+global = 1
+[section]
+key = 1
+";
+            var ori = new IniDataParser().Parse(input);
+
+            var copy = (IniData)ori.Clone();
+
+            copy.Global["global"] = "2";
+            copy["section"]["key"] = "2";
+
+
+            Assert.That(ori.Global["global"], Is.EqualTo("1"));
+            Assert.That(ori["section"]["key"], Is.EqualTo("1"));
+
+
+        }
     }
 }
 
