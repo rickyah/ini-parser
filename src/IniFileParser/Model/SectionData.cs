@@ -98,6 +98,16 @@ namespace IniParser.Model
                 TrailingComments.Add(comment);
         }
 
+		/// <summary>
+		/// Sets the value of <see cref="_searchComparer"/>
+		/// </summary>
+		/// <param name="comparer">Value</param>
+		internal SectionData SetSearchComparer(IEqualityComparer<string> comparer)
+		{
+			_searchComparer = comparer;
+			return this;
+		}
+
 		#endregion
 
         #region Properties
