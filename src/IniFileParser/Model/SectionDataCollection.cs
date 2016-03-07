@@ -116,11 +116,11 @@ namespace IniParser.Model
         {
             if (ContainsSection(data.SectionName))
             {
-                SetSectionData(data.SectionName, new SectionData(data, _searchComparer));
+                SetSectionData(data.SectionName, data.SetSearchComparer(_searchComparer));
             }
             else
             {
-                _sectionData.Add(data.SectionName, new SectionData(data, _searchComparer));
+                _sectionData.Add(data.SectionName, data.SetSearchComparer(_searchComparer));
             }
         }
         /// <summary>
