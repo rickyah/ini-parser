@@ -83,6 +83,7 @@
     <Compile Include="Model\Configuration\ConcatenateDuplicatedKeysIniParserConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="INIFileParser.nuspec" />
     <None Include="Properties\publickey.snk" />
   </ItemGroup>
