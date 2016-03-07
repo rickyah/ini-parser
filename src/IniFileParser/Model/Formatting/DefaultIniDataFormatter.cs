@@ -65,13 +65,22 @@ namespace IniParser.Model.Formatting
             // Write blank line before section, but not if it is the first line
             if (sb.Length > 0) sb.AppendLine();
 
-            // Leading comments
-            WriteComments(section.LeadingComments, sb);
+			if (!Configuration.CommentsAfterLine)
+			{
+				// Leading comments before section
+				WriteComments(section.LeadingComments, sb);
+			}
 
             //Write section name
             sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));
 
-            WriteKeyValueData(section.Keys, sb);
+			if (Configuration.CommentsAfterLine)
+			{
+				// Leading comments after section
+				WriteComments(section.LeadingComments, sb);
+			}
+
+			WriteKeyValueData(section.Keys, sb);
 
             // Trailing comments
             WriteComments(section.TrailingComments, sb);
@@ -82,14 +91,23 @@ namespace IniParser.Model.Formatting
 
             foreach (KeyData keyData in keyDataCollection)
             {
-                // Add a blank line if the key value pair has comments
-                if (keyData.Comments.Count > 0) sb.AppendLine();
+                if (!Configuration.CommentsAfterLine)
+                {
+                    // Add a blank line if the key value pair has comments
+                    if (keyData.Comments.Count > 0) sb.AppendLine();
 
-                // Write key comments
-                WriteComments(keyData.Comments, sb);
+                    // Write key comments
+                    WriteComments(keyData.Comments, sb);
+                }
 
                 //Write key and value
                 sb.AppendLine(string.Format("{0}{3}{1}{3}{2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value, Configuration.AssigmentSpacer));
+
+                if (Configuration.CommentsAfterLine)
+                {
+                    // Write key comments
+                    WriteComments(keyData.Comments, sb);
+                }
             }
         }
 

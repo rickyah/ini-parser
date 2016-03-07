@@ -57,7 +57,9 @@ namespace IniParser.Model.Configuration
             AllowDuplicateSections = false;
             ThrowExceptionsOnError = true;
             SkipInvalidLines = false;
-        }
+			CommentsAfterLine = false;
+
+		}
 
         /// <summary>
         ///     Copy ctor.
@@ -76,9 +78,10 @@ namespace IniParser.Model.Configuration
             SectionEndChar = ori.SectionEndChar;
             CommentString = ori.CommentString;
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
+			CommentsAfterLine = ori.CommentsAfterLine;
 
-          // Regex values should recreate themselves.
-        }
+		  // Regex values should recreate themselves.
+		}
         #endregion
 
         #region IniParserConfiguration
@@ -167,13 +170,18 @@ namespace IniParser.Model.Configuration
             }
         }
 
-        /// <summary>
-        ///     Sets the char that defines a value assigned to a key
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to character '='
-        /// </remarks>
-        public char KeyValueAssigmentChar { get; set; }
+		/// <summary>
+		///    If set to true the leading comments of the sections are placed after the section's declaration and the comments of the key-value pair are placed after each line
+		/// </summary>
+		public bool CommentsAfterLine { get; set; }
+
+		/// <summary>
+		///     Sets the char that defines a value assigned to a key
+		/// </summary>
+		/// <remarks>
+		///     Defaults to character '='
+		/// </remarks>
+		public char KeyValueAssigmentChar { get; set; }
 
         /// <summary>
         ///     Sets the string around KeyValuesAssignmentChar
