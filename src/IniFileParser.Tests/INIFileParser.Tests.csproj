@@ -110,8 +110,8 @@
     <None Include="aircraft2.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="chinese.ini">
-      <Link>chinese.ini</Link>
+    <None Include="unicode_chinese.ini">
+      <Link>unicode_chinese.ini</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
