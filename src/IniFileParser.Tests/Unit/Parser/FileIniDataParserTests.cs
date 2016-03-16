@@ -42,5 +42,17 @@ namespace IniFileParser.Tests.Unit.Parser
             parser.Parser.Configuration.CommentString = "//";
             iniFileData = parser.ReadFile("aircraft2.cfg");
         }
+
+        [Test, Description("Check unicode characters")]
+        public void check_parse_unicode_chinese_characters()
+        {
+            var parser = new FileIniDataParser();
+            parser.Parser.Configuration.ThrowExceptionsOnError = true;
+
+            var iniFileData = parser.ReadFile("unicode_chinese.ini");
+
+            // If you want to write the file you must specify the encoding
+            //parser.WriteFile("unicode_chinese_copy.ini", iniFileData, Encoding.UTF8);
+        }
     }
 }
