@@ -164,6 +164,19 @@ key # = wops!
         }
 
         [Test]
+        public void check_new_line_confige_on_ini_writing()
+        {
+            IniData data = new IniDataParser(new LiberalTestConfiguration()).Parse(iniFileStr);
+
+            data.Configuration.NewLineStr = "^_^";
+
+            Assert.That(
+                data.ToString().Replace("^_^", string.Empty), 
+                Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+        }
+
+
+        [Test]
         public void escape_comment_regex_special_characters()
         {
             var iniStr = @"[Section]

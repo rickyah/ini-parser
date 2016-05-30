@@ -63,13 +63,17 @@ namespace IniParser.Model.Formatting
         private void WriteSection(SectionData section, StringBuilder sb)
         {
             // Write blank line before section, but not if it is the first line
-            if (sb.Length > 0) sb.AppendLine();
+            if (sb.Length > 0) sb.Append(Configuration.NewLineStr);
 
             // Leading comments
             WriteComments(section.LeadingComments, sb);
 
             //Write section name
-            sb.AppendLine(string.Format("{0}{1}{2}", Configuration.SectionStartChar, section.SectionName, Configuration.SectionEndChar));
+            sb.Append(string.Format("{0}{1}{2}{3}", 
+                Configuration.SectionStartChar, 
+                section.SectionName, 
+                Configuration.SectionEndChar, 
+                Configuration.NewLineStr));
 
             WriteKeyValueData(section.Keys, sb);
 
@@ -83,20 +87,25 @@ namespace IniParser.Model.Formatting
             foreach (KeyData keyData in keyDataCollection)
             {
                 // Add a blank line if the key value pair has comments
-                if (keyData.Comments.Count > 0) sb.AppendLine();
+                if (keyData.Comments.Count > 0) sb.Append(Configuration.NewLineStr);
 
                 // Write key comments
                 WriteComments(keyData.Comments, sb);
 
                 //Write key and value
-                sb.AppendLine(string.Format("{0}{3}{1}{3}{2}", keyData.KeyName, Configuration.KeyValueAssigmentChar, keyData.Value, Configuration.AssigmentSpacer));
+                sb.Append(string.Format("{0}{3}{1}{3}{2}{4}", 
+                    keyData.KeyName,
+                    Configuration.KeyValueAssigmentChar, 
+                    keyData.Value, 
+                    Configuration.AssigmentSpacer, 
+                    Configuration.NewLineStr));
             }
         }
 
         private void WriteComments(List<string> comments, StringBuilder sb)
         {
             foreach (string comment in comments)
-                sb.AppendLine(string.Format("{0}{1}", Configuration.CommentString, comment));
+                sb.Append(string.Format("{0}{1}{2}", Configuration.CommentString, comment, Configuration.NewLineStr));
         }
         #endregion
         
