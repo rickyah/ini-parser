@@ -50,7 +50,10 @@ namespace INIFileParser.Example
             //Save to a file
             Console.WriteLine("---- Saving the new ini file to the file NewTestIniFile.ini ----");
             Console.WriteLine();
-            
+
+            // Uncomment this to change the new line string used to write the ini file to disk to 
+            // force use the windows style new line
+            //modifiedParsedData.Configuration.NewLineStr = "\r\n";
             fileIniData.WriteFile("NewTestIniFile.ini", modifiedParsedData);
         }
 
