@@ -44,7 +44,11 @@ fi
 
 case $COMMAND in
     list)
-
+        if [ -z "$FILE_PATH" ]
+        then
+            FILE_PATH="./src/IniFileParser/Properties/AssemblyInfo.cs"
+        fi
+        
         eval $LIST_CMD
     ;;
 
