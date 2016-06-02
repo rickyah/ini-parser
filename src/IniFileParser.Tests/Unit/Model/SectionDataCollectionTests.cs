@@ -99,5 +99,18 @@ namespace IniFileParser.Tests.Unit.Model
 
             Assert.That(col["section2"], Is.Not.Null);
         }
+
+        [Test]
+        public void check_deep_clone()
+        {
+            var ori = new SectionDataCollection();
+            ori.AddSection("section1");
+            ori["section1"]["key1"] = "value1";
+
+            var copy = (SectionDataCollection)ori.Clone();
+            copy["section1"]["key1"] = "value2";
+
+            Assert.That(ori["section1"]["key1"], Is.EqualTo("value1"));
+        }
     }
 }

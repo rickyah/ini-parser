@@ -50,11 +50,11 @@ namespace IniParser.Model
             {
                 if (_keyData.ContainsKey(key.KeyName))
                 {
-                    _keyData[key.KeyName] = key;
+                    _keyData[key.KeyName] = (KeyData)key.Clone();
                 }
                 else
                 {
-                    _keyData.Add(key.KeyName, key);
+                    _keyData.Add(key.KeyName, (KeyData)key.Clone());
                 }
             }
         }

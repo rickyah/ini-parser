@@ -6,6 +6,10 @@ lib
 *.symbols.nuspec
 .vscode
 
+# jetbrains
+.idea
+*.sln.iml
+
 # Visual Studio ignores
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)

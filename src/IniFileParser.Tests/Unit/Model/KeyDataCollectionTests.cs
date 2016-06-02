@@ -27,6 +27,21 @@ namespace IniFileParser.Tests.Unit.Model
 
             Assert.That(col["key3"], Is.EqualTo("value3"));
         }
+
+        [Test]
+        public void check_deep_clone()
+        {
+            var ori = new KeyDataCollection();
+
+            ori.AddKey("key1", "value1");
+
+            var copy = (KeyDataCollection)ori.Clone();
+
+            copy["key1"] = "Value2";
+
+            Assert.That(ori["key1"], Is.EqualTo("value1"));
+
+        }
     }
     
 }

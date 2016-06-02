@@ -146,5 +146,21 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(destinySection.Keys["key3"], Is.EqualTo("value3"));
         }
 
+        [Test]
+        public void check_deep_clone()
+        {
+            var section = new SectionData("ori_section");
+            section.Keys.AddKey("key1", "value1");
+            section.Keys.AddKey("key2", "value2");
+
+            var copy = (SectionData)section.Clone();
+
+            copy.Keys["key1"] = "value3";
+            copy.Keys["key2"] = "value4";
+
+            Assert.That(section.Keys["key1"], Is.EqualTo("value1"));
+            Assert.That(section.Keys["key2"], Is.EqualTo("value2"));
+
+        }
     }
 }

@@ -1,27 +1,83 @@
+function print_help_and_quit {
+    echo "Usage: $0 --update <new_version> [<AssemblyInfo file path>]"
+    echo "Usage: $0 --list [<AssemblyInfo file path>]"
+    exit -1
+}
+
 if [ $# -eq 0 ]
 then
-    echo "Usage: $0 <new_version> <AssemblyInfo file path>"
-    exit -1
+    print_help_and_quit
 fi
 
+while [[ $# > 0 ]]
+do
+    key="$1"
 
-FILE_PATH=$2
+    case $key in
+        --list)
+        COMMAND="list"
+        FILE_PATH=$2
+        shift;
+        ;;
 
-# set a default value for FILE_PATH if none passed as argument
-if [ -z "$2" ]
-then
-    FILE_PATH="./src/IniFileParser/Properties/AssemblyInfo.cs"
-fi
+        --update)
+        COMMAND="update"
+        NEW_VERSION=$2
+        FILE_PATH=$3
 
-VERSION=$1
+        ;;
+    esac
+
+    shift # past argument or value
+done
+
+LIST_CMD='grep -E "\[assembly: AssemblyVersion(".*")\]" $FILE_PATH'
 VERSION_REGEX1='\[assembly: AssemblyVersion\("(.*)"\)\]'
 VERSION_REGEX2='\[assembly: AssemblyFileVersion\("(.*)"\)\]'
-NEW_VERSION_REPLACE1='\[assembly: AssemblyVersion\("'$VERSION'"\)\]'
-NEW_VERSION_REPLACE2='\[assembly: AssemblyFileVersion\("'$VERSION'"\)\]'
 
-echo "Changing file $FILE_PATH to version $VERSION"
+if [ -z "$COMMAND" ]
+then
+    print_help_and_quit
+fi
 
-eval "sed -r --in-place 's/$VERSION_REGEX1/$NEW_VERSION_REPLACE1/g;' $FILE_PATH"
-eval "sed -r --in-place 's/$VERSION_REGEX2/$NEW_VERSION_REPLACE2/g;' $FILE_PATH"
+# set a default value for FILE_PATH if none passed as argument
+
+case $COMMAND in
+    list)
+        if [ -z "$FILE_PATH" ]
+        then
+            FILE_PATH="./src/IniFileParser/Properties/AssemblyInfo.cs"
+        fi
+        
+        eval $LIST_CMD
+    ;;
+
+    update)
+
+        if [ -z "$NEW_VERSION" ] && [ -z "$FILE_PATH" ] 
+        then 
+            print_help_and_quit
+        fi
+
+        if [ -z "$FILE_PATH" ]
+        then
+            FILE_PATH="./src/IniFileParser/Properties/AssemblyInfo.cs"
+        fi
+
+        NEW_VERSION_REPLACE1='\[assembly: AssemblyVersion\("'$NEW_VERSION'"\)\]'
+        NEW_VERSION_REPLACE2='\[assembly: AssemblyFileVersion\("'$NEW_VERSION'"\)\]'
+
+        echo "Changing file $FILE_PATH to version $NEW_VERSION"
+
+        printf "Old value: "
+        eval $LIST_CMD 
+
+        eval "sed -r --in-place 's/$VERSION_REGEX1/$NEW_VERSION_REPLACE1/g;' $FILE_PATH"
+        eval "sed -r --in-place 's/$VERSION_REGEX2/$NEW_VERSION_REPLACE2/g;' $FILE_PATH"
+
+        printf "New value: "
+        eval $LIST_CMD
+    ;;
+esac
 
 exit 0

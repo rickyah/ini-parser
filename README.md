@@ -41,6 +41,13 @@ If you use MonoDevelop / Xamarin Studio, you can install the [MonoDevelop NuGet 
 
 ## Getting Started
 
+All code examples expect the following using clauses:
+
+```csharp
+using IniParser;
+using IniParser.Model;
+```
+
 INI data is stored in nested dictionaries, so accessing the value associated to a key in a section is straightforward. Load the data using one of the provided methods.
 
 ```csharp

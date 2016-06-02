@@ -52,7 +52,7 @@ namespace IniParser
         /// </param>
         public IniData ReadFile(string filePath)
         {
-            return ReadFile(filePath, Encoding.Default);
+            return ReadFile(filePath, Encoding.ASCII);
         }
 
         /// <summary>

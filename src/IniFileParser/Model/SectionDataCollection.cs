@@ -46,7 +46,11 @@ namespace IniParser.Model
         {
             _searchComparer = searchComparer ?? EqualityComparer<string>.Default;
                 
-            _sectionData = new Dictionary<string, SectionData> (ori._sectionData, _searchComparer);
+            _sectionData = new Dictionary<string, SectionData>(_searchComparer);
+            foreach(var sectionData in ori)
+            {
+                _sectionData.Add(sectionData.SectionName, (SectionData)sectionData.Clone());
+            };
         }
 
         #endregion
