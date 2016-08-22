@@ -279,7 +279,7 @@ namespace IniParser.Model.Configuration
         protected const string _strSectionRegexEnd = @"(\s*?)$";
         protected const string _strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
         protected const string _strValueRegex = @"([\s\d\w\W\.]*)$";
-        protected const string _strSpecialRegexChars = @"[\^$.|?*+()";
+        protected const string _strSpecialRegexChars = @"[]\^$.|?*+()";
         #endregion
 
         #region Helpers
