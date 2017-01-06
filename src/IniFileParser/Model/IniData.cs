@@ -1,7 +1,6 @@
-using System;
-using System.Net;
 using IniParser.Model.Configuration;
 using IniParser.Model.Formatting;
+using System;
 
 namespace IniParser.Model
 {
@@ -18,12 +17,12 @@ namespace IniParser.Model
         #endregion
 
         #region Initialization
-        
+
         /// <summary>
         ///     Initializes an empty IniData instance.
         /// </summary>
-        public IniData() 
-            :this(new SectionDataCollection())
+        public IniData()
+            : this(new SectionDataCollection())
         { }
 
         /// <summary>
@@ -41,9 +40,9 @@ namespace IniParser.Model
             SectionKeySeparator = '.';
         }
 
-        public IniData(IniData ori): this((SectionDataCollection) ori.Sections)
+        public IniData(IniData ori) : this((SectionDataCollection)ori.Sections)
         {
-            Global = (KeyDataCollection) ori.Global.Clone();
+            Global = (KeyDataCollection)ori.Global.Clone();
             Configuration = ori.Configuration.Clone();
         }
         #endregion
@@ -90,9 +89,9 @@ namespace IniParser.Model
         {
             get
             {
-                if (_sections.ContainsSection(sectionName)) return _sections[sectionName];
+                if (!_sections.ContainsSection(sectionName)) _sections.AddSection(sectionName);
 
-                return null;
+                return _sections[sectionName];
             }
         }
 
@@ -104,8 +103,8 @@ namespace IniParser.Model
         {
             get { return _sections; }
             set { _sections = value; }
-        }   
-            
+        }
+
         /// <summary>
         ///     Used to mark the separation between the section name and the key name 
         ///     when using <see cref="IniData.TryGetKey"/>. 
@@ -121,7 +120,7 @@ namespace IniParser.Model
         {
             return ToString(new DefaultIniDataFormatter(Configuration));
         }
-       
+
         public virtual string ToString(IIniDataFormatter formatter)
         {
             return formatter.IniDataToString(this);
@@ -157,7 +156,7 @@ namespace IniParser.Model
         {
             Global.ClearComments();
 
-            foreach(var section in Sections)
+            foreach (var section in Sections)
             {
                 section.ClearComments();
             }
@@ -278,10 +277,10 @@ namespace IniParser.Model
         /// </summary>
         private void MergeGlobal(KeyDataCollection globals)
         {
-            foreach(var globalValue in globals)
+            foreach (var globalValue in globals)
             {
                 Global[globalValue.KeyName] = globalValue.Value;
             }
         }
     }
-} 
+}
