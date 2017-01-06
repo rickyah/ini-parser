@@ -115,7 +115,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(sd.Keys.ContainsKey("asdf"), Is.False);
         }
 
-        [Test]
+        [Test, Ignore("The default behaviour of INI should be empty string, not null")]
         public void try_accessing_non_existing_key()
         {
             var sd = new SectionData("section_test");
