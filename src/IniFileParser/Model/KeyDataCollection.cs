@@ -15,9 +15,9 @@ namespace IniParser.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class.
         /// </summary>
-        public KeyDataCollection() 
-            :this(EqualityComparer<string>.Default)
-        {}
+        public KeyDataCollection()
+            : this(EqualityComparer<string>.Default)
+        { }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class with a given
@@ -46,7 +46,7 @@ namespace IniParser.Model
         public KeyDataCollection(KeyDataCollection ori, IEqualityComparer<string> searchComparer)
             : this(searchComparer)
         {
-            foreach ( KeyData key in ori)
+            foreach (KeyData key in ori)
             {
                 if (_keyData.ContainsKey(key.KeyName))
                 {
@@ -62,7 +62,7 @@ namespace IniParser.Model
         #endregion
 
         #region Properties
-          
+
         /// <summary>
         ///     Gets or sets the value of a concrete key.
         /// </summary>
@@ -83,14 +83,14 @@ namespace IniParser.Model
                 if (_keyData.ContainsKey(keyName))
                     return _keyData[keyName].Value;
 
-                return null;
+                return "";
             }
 
             set
             {
                 if (!_keyData.ContainsKey(keyName))
                 {
-					this.AddKey(keyName);
+                    this.AddKey(keyName);
                 }
 
                 _keyData[keyName].Value = value;
@@ -121,7 +121,7 @@ namespace IniParser.Model
         /// </returns>
         public bool AddKey(string keyName)
         {
-            if ( !_keyData.ContainsKey(keyName) )
+            if (!_keyData.ContainsKey(keyName))
             {
                 _keyData.Add(keyName, new KeyData(keyName));
                 return true;
@@ -196,13 +196,13 @@ namespace IniParser.Model
         /// </summary>
         public void ClearComments()
         {
-            foreach(var keydata in this)
+            foreach (var keydata in this)
             {
                 keydata.Comments.Clear();
             }
         }
-        
-		/// <summary>
+
+        /// <summary>
         /// Gets if a specifyed key name exists in the collection.
         /// </summary>
         /// <param name="keyName">Key name to search</param>
@@ -230,7 +230,7 @@ namespace IniParser.Model
 
         public void Merge(KeyDataCollection keyDataToMerge)
         {
-            foreach(var keyData in keyDataToMerge)
+            foreach (var keyData in keyDataToMerge)
             {
                 AddKey(keyData.KeyName);
                 GetKeyData(keyData.KeyName).Comments.AddRange(keyData.Comments);
@@ -283,7 +283,7 @@ namespace IniParser.Model
         /// <returns>A strong-typed IEnumerator </returns>
         public IEnumerator<KeyData> GetEnumerator()
         {
-            foreach ( string key in _keyData.Keys )
+            foreach (string key in _keyData.Keys)
                 yield return _keyData[key];
         }
 
@@ -324,10 +324,10 @@ namespace IniParser.Model
         internal KeyData GetLast()
         {
             KeyData result = null;
-            if (_keyData.Keys.Count <=0) return result;
+            if (_keyData.Keys.Count <= 0) return result;
 
 
-            foreach( var k in _keyData.Keys) result = _keyData[k];
+            foreach (var k in _keyData.Keys) result = _keyData[k];
             return result;
         }
 

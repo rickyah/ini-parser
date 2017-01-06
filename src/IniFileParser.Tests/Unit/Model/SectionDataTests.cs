@@ -1,7 +1,6 @@
-﻿using System;
-
-using IniParser.Model;
+﻿using IniParser.Model;
 using NUnit.Framework;
+using System;
 
 namespace IniFileParser.Tests.Unit.Model
 {
@@ -129,14 +128,14 @@ namespace IniFileParser.Tests.Unit.Model
         public void check_you_can_merge_sections()
         {
             var destinySection = new SectionData("destiny_section");
-            var newSection= new SectionData("new_section");
+            var newSection = new SectionData("new_section");
 
             //Add key
-            destinySection.Keys.AddKey("key1","value1");
-            destinySection.Keys.AddKey("key2","value2");
+            destinySection.Keys.AddKey("key1", "value1");
+            destinySection.Keys.AddKey("key2", "value2");
 
-            newSection.Keys.AddKey("key2","newvalue2");
-            newSection.Keys.AddKey("key3","value3");
+            newSection.Keys.AddKey("key2", "newvalue2");
+            newSection.Keys.AddKey("key3", "value3");
 
             destinySection.Merge(newSection);
 
@@ -161,6 +160,13 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(section.Keys["key1"], Is.EqualTo("value1"));
             Assert.That(section.Keys["key2"], Is.EqualTo("value2"));
 
+        }
+
+        [Test]
+        public void avoiding_nullexception()
+        {
+            var data = new IniData();
+            data["Section1"]["key1"] = "value1";
         }
     }
 }
