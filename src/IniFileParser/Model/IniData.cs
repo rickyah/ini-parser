@@ -1,6 +1,6 @@
+using System;
 using IniParser.Model.Configuration;
 using IniParser.Model.Formatting;
-using System;
 
 namespace IniParser.Model
 {
@@ -40,7 +40,7 @@ namespace IniParser.Model
             SectionKeySeparator = '.';
         }
 
-        public IniData(IniData ori) : this((SectionDataCollection)ori.Sections)
+        public IniData(IniData ori): this((SectionDataCollection)ori.Sections)
         {
             Global = (KeyDataCollection)ori.Global.Clone();
             Configuration = ori.Configuration.Clone();
@@ -89,7 +89,7 @@ namespace IniParser.Model
         {
             get
             {
-                if (!_sections.ContainsSection(sectionName)) _sections.AddSection(sectionName);
+                if (!_sections.ContainsSection(sectionName)) return null;
 
                 return _sections[sectionName];
             }
@@ -156,7 +156,7 @@ namespace IniParser.Model
         {
             Global.ClearComments();
 
-            foreach (var section in Sections)
+            foreach(var section in Sections)
             {
                 section.ClearComments();
             }
