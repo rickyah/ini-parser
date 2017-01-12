@@ -83,7 +83,7 @@ namespace IniParser.Model
                 if (_keyData.ContainsKey(keyName))
                     return _keyData[keyName].Value;
 
-                return string.Empty;
+                return null;
             }
 
             set
