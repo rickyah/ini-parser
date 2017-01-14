@@ -89,7 +89,11 @@ namespace IniParser.Model
         {
             get
             {
-                if (!_sections.ContainsSection(sectionName)) return null;
+                if (!_sections.ContainsSection(sectionName))
+                    if (Configuration.AllowSectionsOnFly)
+                        _sections.AddSection(sectionName);
+                    else
+                        return null;
 
                 return _sections[sectionName];
             }
