@@ -277,7 +277,7 @@ namespace IniParser.Model
         /// </summary>
         private void MergeGlobal(KeyDataCollection globals)
         {
-            foreach (var globalValue in globals)
+            foreach(var globalValue in globals)
             {
                 Global[globalValue.KeyName] = globalValue.Value;
             }
