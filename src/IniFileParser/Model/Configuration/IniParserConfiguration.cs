@@ -208,7 +208,7 @@ namespace IniParser.Model.Configuration
         ///     Defaults to <c>true</c>.
         /// </remarks>
         public bool AllowKeysWithoutSection { get; set; }
-
+			
         /// <summary>
         ///     If set to <c>false</c> and the <see cref="IniDataParser"/> finds duplicate keys in a
         ///     section the parser will stop with an error.

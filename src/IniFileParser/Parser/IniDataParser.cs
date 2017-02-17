@@ -344,6 +344,9 @@ namespace IniParser.Parser
         {
             // get key and value data
             string key = ExtractKey(line);
+
+			if (string.IsNullOrEmpty(key) && Configuration.SkipInvalidLines) return;
+
             string value = ExtractValue(line);
 
             // Check if we haven't read any section yet

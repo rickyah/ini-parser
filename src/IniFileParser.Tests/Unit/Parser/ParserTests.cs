@@ -262,7 +262,8 @@ key1 = value1";
         {
             string data =
                 @"win] 
-key1 = value1";
+key1 = value1
+ = value2";
 
             var parser = new IniDataParser();
 
@@ -508,5 +509,7 @@ key2 = value2";
 			Assert.That(parsedData.Sections["W101 0.5\" wc"], Is.Not.Empty);
 			Assert.That(parsedData.Sections["W103 0.5' wc"], Is.Not.Empty);
 		}
+
+
     }
 }
