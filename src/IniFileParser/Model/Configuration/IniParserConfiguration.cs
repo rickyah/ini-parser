@@ -56,6 +56,7 @@ namespace IniParser.Model.Configuration
             AllowKeysWithoutSection = true;
             AllowDuplicateKeys = false;
             AllowDuplicateSections = false;
+            AllowSectionsOnFly = true;
             ThrowExceptionsOnError = true;
             SkipInvalidLines = false;
         }
@@ -72,6 +73,7 @@ namespace IniParser.Model.Configuration
             OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
             AllowDuplicateSections = ori.AllowDuplicateSections;
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
+            AllowSectionsOnFly = ori.AllowSectionsOnFly;
 
             SectionStartChar = ori.SectionStartChar;
             SectionEndChar = ori.SectionEndChar;
@@ -261,6 +263,17 @@ namespace IniParser.Model.Configuration
         ///     Defaults to <c>false</c>.
         /// </remarks>
         public bool AllowDuplicateSections { get; set; }
+
+        /// <summary>
+        ///     If set to <c>false</c>, the <see cref="IniDataParser"/> stop with a error if you try
+        ///     to access a section that was not created previously and the parser will stop with an error.
+        ///     If set to <c>true</c>, inexistents sections are created, always returning a valid
+        ///     <see cref="SectionData"/> element.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>false</c>.
+        /// </remarks>
+        public bool AllowSectionsOnFly { get; set; }
 
         public bool SkipInvalidLines { get; set; }
 

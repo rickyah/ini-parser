@@ -175,7 +175,6 @@ key # = wops!
                 Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
         }
 
-
         [Test]
         public void escape_comment_regex_special_characters()
         {
@@ -203,6 +202,16 @@ key # = wops!
             var iniData = parser.Parse(iniStr);
 
             Assert.That(iniData["section"]["key"], Is.EqualTo("value"));
+        }
+
+        [Test]
+        public void alway_returns_a_valid_section()
+        {
+            var parser = new IniDataParser();
+            parser.Configuration.AllowSectionsOnFly = true;
+
+            var iniData = parser.Parse("");
+            Assert.IsNotNull(iniData["noname"]);
         }
     }
 }
