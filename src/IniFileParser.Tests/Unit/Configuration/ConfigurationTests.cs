@@ -196,7 +196,7 @@ name = Marble Zone
         public void alway_returns_a_valid_section()
         {
             var parser = new IniDataParser();
-            parser.Configuration.AllowSectionsOnFly = true;
+            parser.Configuration.AllowCreateSectionsOnFly = true;
 
             var iniData = parser.Parse("");
             Assert.IsNotNull(iniData["noname"]);

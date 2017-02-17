@@ -90,7 +90,7 @@ namespace IniParser.Model
             get
             {
                 if (!_sections.ContainsSection(sectionName))
-                    if (Configuration.AllowSectionsOnFly)
+                    if (Configuration.AllowCreateSectionsOnFly)
                         _sections.AddSection(sectionName);
                     else
                         return null;

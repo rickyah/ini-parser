@@ -56,7 +56,7 @@ namespace IniParser.Model.Configuration
             AllowKeysWithoutSection = true;
             AllowDuplicateKeys = false;
             AllowDuplicateSections = false;
-            AllowSectionsOnFly = true;
+            AllowCreateSectionsOnFly = true;
             ThrowExceptionsOnError = true;
             SkipInvalidLines = false;
         }
@@ -73,7 +73,7 @@ namespace IniParser.Model.Configuration
             OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
             AllowDuplicateSections = ori.AllowDuplicateSections;
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
-            AllowSectionsOnFly = ori.AllowSectionsOnFly;
+            AllowCreateSectionsOnFly = ori.AllowCreateSectionsOnFly;
 
             SectionStartChar = ori.SectionStartChar;
             SectionEndChar = ori.SectionEndChar;
@@ -273,7 +273,7 @@ namespace IniParser.Model.Configuration
         /// <remarks>
         ///     Defaults to <c>false</c>.
         /// </remarks>
-        public bool AllowSectionsOnFly { get; set; }
+        public bool AllowCreateSectionsOnFly { get; set; }
 
         public bool SkipInvalidLines { get; set; }
 
