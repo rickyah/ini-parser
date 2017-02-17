@@ -67,12 +67,6 @@ this_is_not_a_comment = ;no comment
 name = Marble Zone
 ";
 
-        string iniFileReallyBad =
-@"
-{no section}
-key # = wops!
-= value
-";
         #endregion 
 
         [SetUp]
@@ -105,12 +99,6 @@ key # = wops!
         {
             Assert.That(_parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
             Assert.That(_parser.Parse(iniFileStr).Configuration, Is.InstanceOf(typeof(LiberalTestConfiguration)));
-        }
-
-        [Test]
-        public void parser_really_bad_ini_format()
-        {
-            Assert.That(_parser.Parse(iniFileReallyBad), Is.Null);    
         }
 
         [Test]
