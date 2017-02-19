@@ -14,6 +14,11 @@ namespace IniParser.Model
         ///     Represents all sections from an INI file
         /// </summary>
         private SectionDataCollection _sections;
+
+		/// <summary>
+		/// 	Formatter applied by default when calling ToString() in this instance.
+		/// </summary>
+		IniDataFormatter _defaultIniDataFormatter;
         #endregion
 
         #region Initialization
@@ -22,8 +27,14 @@ namespace IniParser.Model
         ///     Initializes an empty IniData instance.
         /// </summary>
         public IniData()
-            : this(new SectionDataCollection())
-        { }
+        {
+			Global = new KeyDataCollection();
+			SchemeInternal = new IniScheme();
+			_sections = new SectionDataCollection();
+			_defaultIniDataFormatter = new IniDataFormatter(new IniFormattingConfiguration(SchemeInternal));
+			//TODO remove this
+			SectionKeySeparator = '.';
+		}
 
         /// <summary>
         ///     Initializes a new IniData instance using a previous
@@ -33,46 +44,24 @@ namespace IniParser.Model
         ///     <see cref="SectionDataCollection"/> object containing the
         ///     data with the sections of the file
         /// </param>
-        public IniData(SectionDataCollection sdc)
+		public IniData(SectionDataCollection sdc): this()
         {
             _sections = (SectionDataCollection)sdc.Clone();
-            Global = new KeyDataCollection();
-            SectionKeySeparator = '.';
         }
 
-        public IniData(IniData ori): this((SectionDataCollection)ori.Sections)
+        public IniData(IniData ori)
         {
+			SchemeInternal = (IniScheme)ori.SchemeInternal.Clone();
             Global = (KeyDataCollection)ori.Global.Clone();
-            Configuration = ori.Configuration.Clone();
+			_sections = (SectionDataCollection)ori._sections.Clone();
+			_defaultIniDataFormatter = new IniDataFormatter(ori._defaultIniDataFormatter);
         }
         #endregion
 
         #region Properties
 
-        /// <summary>
-        ///     Configuration used to write an ini file with the proper
-        ///     delimiter characters and data.
-        /// </summary>
-        /// <remarks>
-        ///     If the <see cref="IniData"/> instance was created by a parser,
-        ///     this instance is a copy of the <see cref="IniParserConfiguration"/> used
-        ///     by the parser (i.e. different objects instances)
-        ///     If this instance is created programatically without using a parser, this
-        ///     property returns an instance of <see cref=" IniParserConfiguration"/>
-        /// </remarks>
-        public IniParserConfiguration Configuration
-        {
-            get
-            {
-                // Lazy initialization
-                if (_configuration == null)
-                    _configuration = new IniParserConfiguration();
-
-                return _configuration;
-            }
-
-            set { _configuration = value.Clone(); }
-        }
+		public IIniScheme Scheme { get { return SchemeInternal; } }
+		internal IniScheme SchemeInternal { get; set; }
 
         /// <summary>
         /// 	Global sections. Contains key/value pairs which are not
@@ -90,10 +79,9 @@ namespace IniParser.Model
             get
             {
                 if (!_sections.ContainsSection(sectionName))
-                    if (Configuration.AllowCreateSectionsOnFly)
-                        _sections.AddSection(sectionName);
-                    else
-                        return null;
+                {
+                    _sections.AddSection(sectionName);
+                }
 
                 return _sections[sectionName];
             }
@@ -122,35 +110,34 @@ namespace IniParser.Model
         #region Object Methods
         public override string ToString()
         {
-            return ToString(new DefaultIniDataFormatter(Configuration));
+			return ToString(_defaultIniDataFormatter);
         }
 
         public virtual string ToString(IIniDataFormatter formatter)
         {
             return formatter.IniDataToString(this);
         }
-        #endregion
 
-        #region ICloneable Members
+		public virtual string ToString(IniFormattingConfiguration format)
+		{
+			return ToString(new IniDataFormatter(format));
+		}
 
-        /// <summary>
-        ///     Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        ///     A new object that is a copy of this instance.
-        /// </returns>
-        public object Clone()
+		#endregion
+
+		#region ICloneable Members
+
+		/// <summary>
+		///     Creates a new object that is a copy of the current instance.
+		/// </summary>
+		/// <returns>
+		///     A new object that is a copy of this instance.
+		/// </returns>
+		public object Clone()
         {
             return new IniData(this);
         }
 
-        #endregion
-
-        #region Fields
-        /// <summary>
-        ///     See property <see cref="Configuration"/> for more information. 
-        /// </summary>
-        private IniParserConfiguration _configuration;
         #endregion
 
         /// <summary>

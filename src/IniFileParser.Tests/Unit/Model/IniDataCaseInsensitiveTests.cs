@@ -5,6 +5,8 @@ using IniParser.Model.Configuration;
 
 namespace IniFileParser.Tests.Unit.Model
 {
+
+	//TODO Move all this to IniDataTests
     [TestFixture]
     public class IniDataCaseInsensitiveTests
     {
@@ -36,7 +38,7 @@ namespace IniFileParser.Tests.Unit.Model
             KEY1 = value1
             KEY2 = value2";
 
-            var config = new IniParserConfiguration();
+			var config = new IniParserConfiguration(new IniScheme() );
             config.CaseInsensitive = true;
             var data = new IniDataParser(config).Parse(iniData);
 

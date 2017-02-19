@@ -18,7 +18,7 @@ namespace IniParser.Model.Formatting
         ///     Configuration used by this formatter when converting IniData
         ///     to an string
         /// </summary>
-        IniParserConfiguration Configuration {get;set;}
+        IniFormattingConfiguration Format {get;set;}
     }
     
 } 

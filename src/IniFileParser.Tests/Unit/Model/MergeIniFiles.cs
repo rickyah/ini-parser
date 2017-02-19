@@ -5,6 +5,8 @@ using IniParser.Parser;
 
 namespace IniFileParser.Tests.Unit.Model
 {
+
+	//TODO move these tests to inidataTests
     [TestFixture]
     public class MergeIniFiles
     {

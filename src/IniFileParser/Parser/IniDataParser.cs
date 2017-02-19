@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using IniParser.Exceptions;
 using IniParser.Model;
@@ -26,7 +26,7 @@ namespace IniParser.Parser
         ///     The parser uses a <see cref="IniParserConfiguration"/> by default
         /// </remarks>
         public IniDataParser()
-            : this(new IniParserConfiguration())
+            : this(new IniParserConfiguration( new IniScheme() ))
         { }
 
         /// <summary>
@@ -90,7 +90,8 @@ namespace IniParser.Parser
         {
             
             IniData iniData = Configuration.CaseInsensitive ? new IniDataCaseInsensitive() : new IniData();
-            iniData.Configuration = this.Configuration.Clone();
+
+			iniData.SchemeInternal = Configuration.Scheme.Clone();
 
             if (string.IsNullOrEmpty(iniDataString))
             {
@@ -107,8 +108,6 @@ namespace IniParser.Parser
                 for (int lineNumber = 0; lineNumber < lines.Length; lineNumber++)
                 {
                     var line = lines[lineNumber];
-
-                    if (line.Trim() == String.Empty) continue;
 
                     try
                     {
@@ -188,7 +187,7 @@ namespace IniParser.Parser
         protected virtual bool LineContainsAComment(string line)
         {
             return !string.IsNullOrEmpty(line) 
-                && Configuration.CommentRegex.Match(line).Success;
+                && Configuration.Scheme.CommentRegex.Match(line).Success;
         }
 
         /// <summary>
@@ -203,7 +202,7 @@ namespace IniParser.Parser
         protected virtual bool LineMatchesASection(string line)
         {
             return !string.IsNullOrEmpty(line) 
-                && Configuration.SectionRegex.Match(line).Success;
+                          && Configuration.Scheme.SectionRegex.Match(line).Success;
         }
 
         /// <summary>
@@ -217,7 +216,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual bool LineMatchesAKeyValuePair(string line)
         {
-            return !string.IsNullOrEmpty(line) && line.Contains(Configuration.KeyValueAssigmentChar.ToString());
+            return !string.IsNullOrEmpty(line) && line.Contains(Configuration.Scheme.KeyValueAssigmentString);
         }
 
         /// <summary>
@@ -232,7 +231,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual string ExtractComment(string line)
         {
-            string comment = Configuration.CommentRegex.Match(line).Value.Trim();
+            string comment = Configuration.Scheme.CommentRegex.Match(line).Value.Trim();
 
             _currentCommentListTemp.Add(comment.Substring(1, comment.Length - 1));
 
@@ -247,6 +246,12 @@ namespace IniParser.Parser
         protected virtual void ProcessLine(string currentLine, IniData currentIniData)
         {
             currentLine = currentLine.Trim();
+
+			// Skip empty lines
+			if (currentLine == String.Empty)
+			{
+				return;
+			}
 
             // Extract comments from current line and store them in a tmp field
             if (LineContainsAComment(currentLine))
@@ -299,7 +304,7 @@ namespace IniParser.Parser
         protected virtual void ProcessSection(string line, IniData currentIniData)
         {
             // Get section name with delimiters from line...
-            string sectionName = Configuration.SectionRegex.Match(line).Value.Trim();
+            string sectionName = Configuration.Scheme.SectionRegex.Match(line).Value.Trim();
 
             // ... and remove section's delimiters to get just the name
             sectionName = sectionName.Substring(1, sectionName.Length - 2).Trim();
@@ -378,7 +383,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual string ExtractKey(string s)
         {
-            int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
+            int index = s.IndexOf(Configuration.Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
 
             return s.Substring(0, index).Trim();
         }
@@ -394,7 +399,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual string ExtractValue(string s)
         {
-            int index = s.IndexOf(Configuration.KeyValueAssigmentChar, 0);
+            int index = s.IndexOf(Configuration.Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
 
             return s.Substring(index + 1, s.Length - index - 1).Trim();
         }
