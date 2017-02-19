@@ -2,6 +2,7 @@ using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
 
+//todo: those are integration tests
 namespace IniFileParser.Tests.Unit
 {
     [TestFixture, Category("String parsing/writing tests")]

@@ -4,6 +4,7 @@ using System;
 using IniParser.Parser;
 using IniParser.Model;
 
+// TODO change namespaces and keep consistency (see Unit Test explorer)
 namespace IniFileParser.Tests.Model
 {
     [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
@@ -46,6 +47,8 @@ value1 = 10.6";
             Assert.That(newData["newSection"]["newKey1"], Is.EqualTo("value1"));
         }
 
+
+		// TODO: check if we should keep this API for version 3.0 (probably not)
       [Test, Description("Tests preconditions for TryGetKey")]
       public void TryGetKey_preconditions()
       {
@@ -65,7 +68,7 @@ value1 = 10.6";
         var badKey = string.Format("section{0}subsection{0}key", separator);
         Assert.Throws<ArgumentException>(() => data.TryGetKey(badKey, out result));
       }
-
+		// TODO: check if we should keep this API for version 3.0 (probably not)
       [Test, Description("Tests retrieving data with TryGetKey")]
       public void TryGetKey_data_retrieval()
       {
@@ -109,6 +112,7 @@ key2 = 3
         Assert.That(result, Is.Empty);
       }
 
+		// TODO: check if we should keep this API for version 3.0 (probably not)
       // GetKey shares preconditions with TryGetKey, so tests are not duplicated
       [Test, Description("Tests retrieving data with GetKey")]
       public void GeyKey_data_retrieval()

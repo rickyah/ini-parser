@@ -74,13 +74,15 @@
     <Compile Include="StreamIniDataParser.cs" />
     <Compile Include="StringIniParser.cs" />
     <Compile Include="Exceptions\ParsingException.cs" />
-    <Compile Include="Model\Formatting\DefaultIniDataFormatter.cs" />
+    <Compile Include="Model\Formatting\IniDataFormatter.cs" />
     <Compile Include="Model\Formatting\IIniDataFormatter.cs" />
     <Compile Include="Model\IniDataCaseInsensitive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser\ConcatenateDuplicatedKeysIniDataParser.cs" />
     <Compile Include="Model\Configuration\IniParserConfiguration.cs" />
     <Compile Include="Model\Configuration\ConcatenateDuplicatedKeysIniParserConfiguration.cs" />
+    <Compile Include="Model\Configuration\IniScheme.cs" />
+    <Compile Include="Model\Configuration\IniFormattingConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="INIFileParser.nuspec" />
