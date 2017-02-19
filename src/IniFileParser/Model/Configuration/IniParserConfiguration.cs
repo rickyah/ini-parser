@@ -18,9 +18,8 @@ namespace IniParser.Model.Configuration
         ///     Default values used if an instance of <see cref="IniDataParser"/>
         ///     is created without specifying a configuration.
         /// </summary>
-        public IniParserConfiguration(IniScheme scheme)
+        public IniParserConfiguration()
         {
-            Scheme = scheme;
 
             ConcatenateDuplicateKeys = false;
             AllowKeysWithoutSection = true;
@@ -44,10 +43,8 @@ namespace IniParser.Model.Configuration
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
 
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
-			Scheme = ori.Scheme.Clone();
         }
 
-		public IniScheme Scheme { get; private set; }
 
         /// <summary>
         ///     Retrieving section / keys by name is done with a case-insensitive

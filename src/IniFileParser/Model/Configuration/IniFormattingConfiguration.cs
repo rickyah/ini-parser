@@ -3,9 +3,9 @@ namespace IniParser.Model.Configuration
 {
     public class IniFormattingConfiguration : ICloneable
     {
-		public IniFormattingConfiguration(IIniScheme scheme)
+		public IniFormattingConfiguration(/*IIniScheme scheme*/)
         {
-            Scheme = scheme;
+            //Scheme = scheme;
 
             AssigmentSpacer = " ";
             NewLineStr = Environment.NewLine;
@@ -34,7 +34,7 @@ namespace IniParser.Model.Configuration
 
         // TODO: Add property NewLinesBeforeSection (https://github.com/rickyah/ini-parser/issues/121)
 
-        public IIniScheme Scheme{ get; private set;}
+        //public IIniScheme Scheme{ get; private set;}
 
         #region ICloneable Members
         /// <summary>

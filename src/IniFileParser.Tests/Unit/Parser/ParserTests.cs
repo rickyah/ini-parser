@@ -64,12 +64,13 @@ mykey1 = value1
         public void parse_ini_string_with_custom_configuration()
         {
             var parser = new IniDataParser();
+
             IniParser.Model.Configuration.IniParserConfiguration config = parser.Configuration;
-			
-            config.Scheme.CommentString = "#";
-            config.Scheme.SectionStartString = "<";
-            config.Scheme.SectionEndString = ">";
-			
+
+            parser.Scheme.CommentString = "#";
+            parser.Scheme.SectionStartString = "<";
+            parser.Scheme.SectionEndString = ">";
+
             IniData data = parser.Parse(iniFileStrCustom);
 
             Assert.That(data, Is.Not.Null);
@@ -120,7 +121,6 @@ mykey1 = value1
 value1 = 10.6
 value1 = 10";
 
-
             var parser = new IniDataParser();
 
             parser.Configuration.AllowDuplicateKeys = true;
@@ -142,7 +142,7 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
 
 
             var parser = new IniDataParser();
-            parser.Configuration.Scheme.CommentString = "#";
+            parser.Scheme.CommentString = "#";
             IniData iniData = parser.Parse(data);
 
             Assert.That(
@@ -251,7 +251,7 @@ key = value";
                 @"win] 
 key1 = value1";
 
-            Assert.Throws<ParsingException>(() => new IniDataParser().Parse(data));
+            Assert.Throws<ParsingException>( () => new IniDataParser().Parse(data));
         }
 
         [Test]
@@ -313,8 +313,8 @@ value2 = 10";
 
             var parser = new IniDataParser();
 
-			//Remove CommentChar property
-			parser.Configuration.Scheme.CommentString = "#";
+            //Remove CommentChar property
+            parser.Scheme.CommentString = "#";
 
             var result = parser.Parse(initest);
             Assert.That(result.Sections.GetSectionData("seccion1").Comments.Count > 0);

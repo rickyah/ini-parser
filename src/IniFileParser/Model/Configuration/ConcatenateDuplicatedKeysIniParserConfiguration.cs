@@ -5,11 +5,6 @@ namespace IniParser.Model.Configuration
         public new bool AllowDuplicateKeys { get { return true; } }
 
         public ConcatenateDuplicatedKeysIniParserConfiguration()
-            :this(new IniScheme())
-        {}
-
-        public ConcatenateDuplicatedKeysIniParserConfiguration(IniScheme schema)
-            :base(schema)
         {
             ConcatenateSeparator = ";";
         }

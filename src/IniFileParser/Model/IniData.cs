@@ -15,10 +15,12 @@ namespace IniParser.Model
         /// </summary>
         private SectionDataCollection _sections;
 
-		/// <summary>
-		/// 	Formatter applied by default when calling ToString() in this instance.
-		/// </summary>
-		IniDataFormatter _defaultIniDataFormatter;
+        /// <summary>
+        /// 	Formatter applied by default when calling ToString() in this instance.
+        /// </summary>
+        IniDataFormatter _defaultIniDataFormatter;
+
+        IniFormattingConfiguration _defaultIniFormatConfig;
         #endregion
 
         #region Initialization
@@ -28,11 +30,13 @@ namespace IniParser.Model
         /// </summary>
         public IniData()
         {
-			Global = new KeyDataCollection();
-			SchemeInternal = new IniScheme();
-			_sections = new SectionDataCollection();
-			_defaultIniDataFormatter = new IniDataFormatter(new IniFormattingConfiguration(SchemeInternal));
-		}
+            Global = new KeyDataCollection();
+            SchemeInternal = new IniScheme();
+            _sections = new SectionDataCollection();
+            _defaultIniDataFormatter = new IniDataFormatter();
+            _defaultIniFormatConfig = new IniFormattingConfiguration();
+        }
+
 
         /// <summary>
         ///     Initializes a new IniData instance using a previous
@@ -42,24 +46,25 @@ namespace IniParser.Model
         ///     <see cref="SectionDataCollection"/> object containing the
         ///     data with the sections of the file
         /// </param>
-		public IniData(SectionDataCollection sdc): this()
+        public IniData(SectionDataCollection sdc): this()
         {
             _sections = (SectionDataCollection)sdc.Clone();
         }
 
         public IniData(IniData ori)
         {
-			SchemeInternal = (IniScheme)ori.SchemeInternal.Clone();
+            SchemeInternal = (IniScheme)ori.SchemeInternal.Clone();
             Global = (KeyDataCollection)ori.Global.Clone();
-			_sections = (SectionDataCollection)ori._sections.Clone();
-			_defaultIniDataFormatter = new IniDataFormatter(ori._defaultIniDataFormatter);
+            _sections = (SectionDataCollection)ori._sections.Clone();
+            _defaultIniDataFormatter = new IniDataFormatter();
+            _defaultIniFormatConfig = new IniFormattingConfiguration();
         }
         #endregion
 
         #region Properties
 
-		public IIniScheme Scheme { get { return SchemeInternal; } }
-		internal IniScheme SchemeInternal { get; set; }
+        public IIniScheme Scheme { get { return SchemeInternal; } }
+        internal IniScheme SchemeInternal { get; set; }
 
         /// <summary>
         /// 	Global sections. Contains key/value pairs which are not
@@ -100,30 +105,30 @@ namespace IniParser.Model
         #region Object Methods
         public override string ToString()
         {
-			return ToString(_defaultIniDataFormatter);
+            return ToString(_defaultIniDataFormatter, _defaultIniFormatConfig);
         }
 
-        public virtual string ToString(IIniDataFormatter formatter)
+        private string ToString(IIniDataFormatter formatter, IniFormattingConfiguration format)
         {
-            return formatter.IniDataToString(this);
+            return formatter.Format(this, format);
         }
 
-		public virtual string ToString(IniFormattingConfiguration format)
-		{
-			return ToString(new IniDataFormatter(format));
-		}
+        public virtual string ToString(IniFormattingConfiguration format)
+        {
+            return ToString(_defaultIniDataFormatter, format);
+        }
 
-		#endregion
+        #endregion
 
-		#region ICloneable Members
+        #region ICloneable Members
 
-		/// <summary>
-		///     Creates a new object that is a copy of the current instance.
-		/// </summary>
-		/// <returns>
-		///     A new object that is a copy of this instance.
-		/// </returns>
-		public object Clone()
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///     A new object that is a copy of this instance.
+        /// </returns>
+        public object Clone()
         {
             return new IniData(this);
         }

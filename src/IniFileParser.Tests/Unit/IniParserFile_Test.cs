@@ -54,7 +54,7 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks error when parsing a bad formed INI file")]
         public void CheckParsingFailure()
         {
-            Assert.Throws<ParsingException>(() => iniParser.ReadFile(strBadINIFilePath));
+            Assert.Throws<ParsingException>( () => iniParser.ReadFile(strBadINIFilePath) );
         }
 
         [Test, Description("Checks correct saving of a file")]
@@ -71,13 +71,14 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks bad formed INI file: Two sections with same name")]
         public void CheckCollideSectionNames()
         {
-            Assert.Throws<ParsingException>(() => iniParser.ReadFile(strBadSectionINIFilePath));
+            Assert.Throws<ParsingException>( () => iniParser.ReadFile(strBadSectionINIFilePath) );
         }
 
         [Test, Description("Checks bad formed INI file: Two keys in the same section with same name")]
         public void CheckCollideKeysNames()
         {
-            Assert.Throws<ParsingException>(() => iniParser.ReadFile(strBadKeysINIFilePath));
+            Assert.Throws<ParsingException>( () => iniParser.ReadFile(strBadKeysINIFilePath) );
+
         }
     }
 }

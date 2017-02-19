@@ -3,6 +3,8 @@ using NUnit.Framework;
 using IniParser.Parser;
 using IniParser.Model;
 using IniParser.Model.Configuration;
+using IniParser.Parser;
+using NUnit.Framework;
 
 // TODO change namespaces and keep consistency (see Unit Test explorer)
 namespace IniParser.Tests.Unit.Model
@@ -21,7 +23,9 @@ key1 = 2
 ;a value
 value1 = 10.6";
 
-            var data = new IniDataParser().Parse(iniData);
+            var parser = new IniDataParser(new IniScheme(), new IniParserConfiguration());
+
+            var data = parser.Parse(iniData);
 
             Assert.That(data.Global.GetKeyData("key1").Comments, Is.Not.Empty);
             Assert.That(data.Sections.GetSectionData("section1").Comments, Is.Not.Empty);
@@ -75,9 +79,9 @@ value1 = 10.6";
             KEY1 = value1
             KEY2 = value2";
 
-            var config = new IniParserConfiguration(new IniScheme() );
+            var config = new IniParserConfiguration();
             config.CaseInsensitive = true;
-            var data = new IniDataParser(config).Parse(iniData);
+            var data = new IniDataParser(new IniScheme(), config).Parse(iniData);
 
             Assert.That(data["testsection"]["key1"], Is.EqualTo("value1"));
             Assert.That(data["testSection"]["Key2"], Is.EqualTo("value2"));
@@ -99,7 +103,6 @@ value1 = 10.6";
             Assert.That(data.Global["KeY2"], Is.EqualTo("value3"));
             Assert.That(data.Global["key2"], Is.EqualTo("value3"));
         }
-
         [Test]
         public void check_deep_clone()
         {

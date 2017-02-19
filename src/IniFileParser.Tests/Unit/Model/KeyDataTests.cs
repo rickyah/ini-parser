@@ -22,7 +22,7 @@ namespace IniParser.Tests.Unit.Model
         [Test]
         public void create_key_with_invalid_name()
         {
-            Assert.Throws<ArgumentException>(() => new KeyData(""));
+            Assert.Throws<ArgumentException>( () => new KeyData("") );
         }
 
         [Test]

@@ -13,18 +13,9 @@ namespace IniParser.Tests.Unit.Configuration
         #region test data
         internal class LiberalTestConfiguration : IniParserConfiguration
         {
-            /// <summary>
-            ///     Ctor.
-            /// </summary>
             public LiberalTestConfiguration()
-                :base(new IniScheme())
+                :base()
             {
-
-				Scheme.SectionStartString = "<";
-                Scheme.SectionEndString = ">";
-                Scheme.CommentString = "#";
-                Scheme.KeyValueAssigmentString = "=";
-
                 AllowKeysWithoutSection = true;
                 AllowDuplicateKeys = true;
                 OverrideDuplicateKeys = true;
@@ -60,11 +51,10 @@ name = Marble Zone
 cyberdreams = i have no section, and i must scream
 
 #comment for stage1
-[stage1]
+
 name = Green Hill Zone
 this_is_not_a_comment = ;no comment
 
-[stage2]
 # comment name
 name = Marble Zone
 ";
@@ -74,18 +64,20 @@ name = Marble Zone
         [SetUp]
         public void setup()
         {
-            _parser = new IniDataParser(new LiberalTestConfiguration());
+            _parser = new IniDataParser(new IniScheme(), new LiberalTestConfiguration());
         }
 
 
         [Test]
         public void check_default_values()
         {
-            var config = new IniParserConfiguration(new IniScheme());
+            // TODO: bad test
+            var scheme = new IniScheme();
+            var config = new IniParserConfiguration();
 
             Assert.That(config, Is.Not.Null);
-            Assert.That(config.Scheme.CommentRegex, Is.Not.Null);
-            Assert.That(config.Scheme.SectionRegex, Is.Not.Null);
+            Assert.That(scheme.CommentRegex, Is.Not.Null);
+            Assert.That(scheme.SectionRegex, Is.Not.Null);
 
         }
 
@@ -96,11 +88,7 @@ name = Marble Zone
 #data = 1
 ;data = 2";
 
-            var config = new IniParserConfiguration(new IniScheme() );
-
-            config.Scheme.CommentString = "#";
-
-            _parser = new IniDataParser(config);
+            _parser.Scheme.CommentString = "#";
 
             var iniData = _parser.Parse(iniStr);
 
@@ -157,29 +145,31 @@ name = Marble Zone
         [Test]
         public void check_ini_writing()
         {
-			var config = new LiberalTestConfiguration();
-			var format = new IniFormattingConfiguration(config.Scheme);
-			config.Scheme.CommentString = "#";
-            IniData data = new IniDataParser(config).Parse(iniFileStr);
+            var config = new LiberalTestConfiguration();
+            var iniScheme = new IniScheme();
+            iniScheme.CommentString = "#";
+            var formatConfig = new IniFormattingConfiguration();
 
-			Assert.That(data.ToString(new IniFormattingConfiguration(config.Scheme))
-			                          .Replace(Environment.NewLine, string.Empty),
-			            Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+            IniData data = new IniDataParser(iniScheme, config).Parse(iniFileStr);
+
+            var originalFile = iniFileStr.Replace(Environment.NewLine, string.Empty);
+            var generatedFile = data.ToString(formatConfig).Replace(Environment.NewLine, string.Empty);
+            Assert.That(originalFile, Is.EqualTo(generatedFile));
         }
 
         [Test]
         public void check_new_line_confige_on_ini_writing()
         {
-			var configuration = new LiberalTestConfiguration();
-			IniData data = new IniDataParser(configuration).Parse(iniFileStr);
+            var configuration = new LiberalTestConfiguration();
+            IniData data = new IniDataParser(new IniScheme(), configuration).Parse(iniFileStr);
 
-			var format = new IniFormattingConfiguration(configuration.Scheme);
-			format.NewLineStr = "^_^";
+            var formatConfig = new IniFormattingConfiguration();
+            formatConfig.NewLineStr = "^_^";
 
-			string newIniStr = data.ToString(format);
+            var originalFile = iniFileStr.Replace(Environment.NewLine, string.Empty);
+            var generatedFile = data.ToString(formatConfig).Replace("^_^", string.Empty);
 
-            Assert.That(newIniStr.Replace("^_^", string.Empty),
-			Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+            Assert.That(originalFile, Is.EqualTo(generatedFile));
         }
 
         [Test]
@@ -190,7 +180,7 @@ name = Marble Zone
                 Key=Value";
          
             var parser = new IniDataParser();
-            parser.Configuration.Scheme.CommentString = @"\";
+            parser.Scheme.CommentString = @"\";
 
             parser.Parse(iniStr);
         }
@@ -203,8 +193,8 @@ name = Marble Zone
                 key=value";
 
             var parser = new IniDataParser();
-            parser.Configuration.Scheme.SectionStartString = "\\";
-            parser.Configuration.Scheme.SectionEndString = "\\";
+            parser.Scheme.SectionStartString = "\\";
+            parser.Scheme.SectionEndString = "\\";
 
             var iniData = parser.Parse(iniStr);
 
@@ -223,21 +213,22 @@ name = Marble Zone
         [Test]
         public void check_cloning()
         {
-            IniParserConfiguration config1 = new IniParserConfiguration(new IniScheme());
+            IniParserConfiguration config1 = new IniParserConfiguration();
+            var scheme = new IniScheme();
 
             config1.AllowDuplicateKeys = true;
-            config1.Scheme.CommentString = "/";
+            scheme.CommentString = "/";
 
             Assert.That(config1.AllowDuplicateKeys, Is.True);
-            Assert.That(config1.Scheme.CommentString, Is.EqualTo("/"));
+            Assert.That(scheme.CommentString, Is.EqualTo("/"));
 
             IniParserConfiguration config2 = config1.Clone();
 
             Assert.That(config2.AllowDuplicateKeys, Is.True);
-            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
+            Assert.That(scheme.CommentString, Is.EqualTo("/"));
 
-            config1.Scheme.CommentString = "#";
-            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
+            scheme.CommentString = "#";
+            Assert.That(scheme.CommentString, Is.EqualTo("/"));
         }
     }
 }

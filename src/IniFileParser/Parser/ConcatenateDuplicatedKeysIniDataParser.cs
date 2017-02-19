@@ -22,11 +22,11 @@ namespace IniParser.Parser
         }
 
         public ConcatenateDuplicatedKeysIniDataParser()
-            :this(new ConcatenateDuplicatedKeysIniParserConfiguration())
+            :this(new IniScheme(), new ConcatenateDuplicatedKeysIniParserConfiguration())
         {}
 
-        public ConcatenateDuplicatedKeysIniDataParser(ConcatenateDuplicatedKeysIniParserConfiguration parserConfiguration)
-            :base(parserConfiguration)
+        public ConcatenateDuplicatedKeysIniDataParser(IniScheme scheme, ConcatenateDuplicatedKeysIniParserConfiguration parserConfiguration)
+            :base(scheme, parserConfiguration)
         {}
 
         protected override void HandleDuplicatedKeyInCollection(string key, string value, KeyDataCollection keyDataCollection, string sectionName)

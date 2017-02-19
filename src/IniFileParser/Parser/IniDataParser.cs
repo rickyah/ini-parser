@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using IniParser.Exceptions;
 using IniParser.Model;
@@ -26,7 +26,7 @@ namespace IniParser.Parser
         ///     The parser uses a <see cref="IniParserConfiguration"/> by default
         /// </remarks>
         public IniDataParser()
-            : this(new IniParserConfiguration( new IniScheme() ))
+            : this(new IniScheme(), new IniParserConfiguration())
         { }
 
         /// <summary>
@@ -35,11 +35,12 @@ namespace IniParser.Parser
         /// <param name="parserConfiguration">
         ///     Parser's <see cref="IniParserConfiguration"/> instance.
         /// </param>
-        public IniDataParser(IniParserConfiguration parserConfiguration)
+        public IniDataParser(IniScheme scheme, IniParserConfiguration parserConfiguration)
         {
             if (parserConfiguration == null)
                 throw new ArgumentNullException("parserConfiguration");
 
+            Scheme = scheme;
             Configuration = parserConfiguration;
 
             _errorExceptions = new List<Exception>();
@@ -48,11 +49,13 @@ namespace IniParser.Parser
         #endregion
 
         #region State
-        /// <summary>
-        ///     Configuration that defines the behaviour and constraints
-        ///     that the parser must follow.
-        /// </summary>
+
         public virtual IniParserConfiguration Configuration { get; protected set; }
+
+        /// <summary>
+        ///     Scheme that defines the structure for the ini file to be parsed
+        /// </summary>
+        public virtual IniScheme Scheme { get; protected set; }
 
         /// <summary>
         /// True is the parsing operation encounter any problem
@@ -91,7 +94,7 @@ namespace IniParser.Parser
 
             IniData iniData = Configuration.CaseInsensitive ? new IniDataCaseInsensitive() : new IniData();
 
-			iniData.SchemeInternal = Configuration.Scheme.Clone();
+			iniData.SchemeInternal = Scheme.Clone();
 
             if (string.IsNullOrEmpty(iniDataString))
             {
@@ -187,7 +190,7 @@ namespace IniParser.Parser
         protected virtual bool LineContainsAComment(string line)
         {
             return !string.IsNullOrEmpty(line)
-                && Configuration.Scheme.CommentRegex.Match(line).Success;
+                   && Scheme.CommentRegex.Match(line).Success;
         }
 
         /// <summary>
@@ -202,7 +205,7 @@ namespace IniParser.Parser
         protected virtual bool LineMatchesASection(string line)
         {
             return !string.IsNullOrEmpty(line)
-                          && Configuration.Scheme.SectionRegex.Match(line).Success;
+                   && Scheme.SectionRegex.Match(line).Success;
         }
 
         /// <summary>
@@ -216,7 +219,8 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual bool LineMatchesAKeyValuePair(string line)
         {
-            return !string.IsNullOrEmpty(line) && line.Contains(Configuration.Scheme.KeyValueAssigmentString);
+            return !string.IsNullOrEmpty(line)
+                   && line.Contains(Scheme.KeyValueAssigmentString);
         }
 
         /// <summary>
@@ -231,7 +235,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual string ExtractComment(string line)
         {
-            string comment = Configuration.Scheme.CommentRegex.Match(line).Value.Trim();
+            string comment = Scheme.CommentRegex.Match(line).Value.Trim();
 
             _currentCommentListTemp.Add(comment.Substring(1, comment.Length - 1));
 
@@ -304,7 +308,7 @@ namespace IniParser.Parser
         protected virtual void ProcessSection(string line, IniData currentIniData)
         {
             // Get section name with delimiters from line...
-            string sectionName = Configuration.Scheme.SectionRegex.Match(line).Value.Trim();
+            string sectionName = Scheme.SectionRegex.Match(line).Value.Trim();
 
             // ... and remove section's delimiters to get just the name
             sectionName = sectionName.Substring(1, sectionName.Length - 2).Trim();
@@ -383,7 +387,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual string ExtractKey(string s)
         {
-            int index = s.IndexOf(Configuration.Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
+            int index = s.IndexOf(Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
 
             return s.Substring(0, index).Trim();
         }
@@ -399,7 +403,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual string ExtractValue(string s)
         {
-            int index = s.IndexOf(Configuration.Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
+            int index = s.IndexOf(Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
 
             return s.Substring(index + 1, s.Length - index - 1).Trim();
         }

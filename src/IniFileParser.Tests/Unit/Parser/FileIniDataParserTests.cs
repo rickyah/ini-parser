@@ -38,7 +38,7 @@ namespace IniParser.Tests.Unit.Parser
 
             var iniFileData = parser.ReadFile("aircraft.cfg");
 
-            parser.Parser.Configuration.Scheme.CommentString = "//";
+            parser.Parser.Scheme.CommentString = "//";
             iniFileData = parser.ReadFile("aircraft2.cfg");
         }
 

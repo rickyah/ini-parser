@@ -68,28 +68,6 @@ namespace IniParser
             writer.Write(iniData.ToString());
         }
 
-        
-        /// <summary>
-        ///     Writes the ini data to a stream.
-        /// </summary>
-        /// <param name="writer">A write stream where the ini data will be stored</param>
-        /// <param name="iniData">An <see cref="IniData"/> instance.</param>
-        /// <param name="formatter">Formaterr instance that controls how the ini data is transformed to a string</param>
-        /// <exception cref="ArgumentNullException">
-        ///     Thrown if <paramref name="writer"/> is <c>null</c>.
-        /// </exception>
-        public void WriteData(StreamWriter writer, IniData iniData, IIniDataFormatter formatter)
-        {
-            if (formatter == null)
-                throw new ArgumentNullException("formatter");
-            if (iniData == null)
-                throw new ArgumentNullException("iniData");
-            if (writer == null)
-                throw new ArgumentNullException("writer");
-
-            writer.Write(iniData.ToString(formatter));
-        }
-
         #endregion
     }
 }

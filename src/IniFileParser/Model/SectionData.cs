@@ -27,7 +27,7 @@ namespace IniParser.Model
             if (string.IsNullOrEmpty(sectionName))
                 throw new ArgumentException("section name can not be empty");
 
-            _leadingComments = new List<string>();
+            Comments = new List<string>();
             _keyDataCollection = new KeyDataCollection(_searchComparer);
             SectionName = sectionName;
         }
@@ -53,6 +53,8 @@ namespace IniParser.Model
 
             _searchComparer = searchComparer;
             _leadingComments = new List<string>(ori._leadingComments);
+            _trailingComments = new List<string>(ori._trailingComments);
+            _comments = new List<string>(ori._comments);
             _keyDataCollection = new KeyDataCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
         }
 
@@ -90,11 +92,8 @@ namespace IniParser.Model
         {
             foreach (var comment in toMergeSection.Comments)
                 Comments.Add(comment);
-                
-            Keys.Merge(toMergeSection.Keys);
 
-            foreach(var comment in toMergeSection.Comments)
-                Comments.Add(comment);
+            Keys.Merge(toMergeSection.Keys);
         }
 
 		#endregion
@@ -146,11 +145,13 @@ namespace IniParser.Model
         {
             get
             {
-				return _leadingComments;
+                return _comments;
             }
 
-
-            internal set { _leadingComments = value;  }
+            set
+            {
+                _comments = new List<string>(value);
+            }
         }
 
 		[Obsolete("Do not use this property, use property Comments instead")]
@@ -205,8 +206,9 @@ namespace IniParser.Model
         #region Non-public members
 
         // Comments associated to this section
-        private List<string> _leadingComments;
+        private List<string> _leadingComments = new List<string>();
         private List<string> _trailingComments = new List<string>();
+        private List<string> _comments = new List<string>();
 
         // Keys associated to this section
         private KeyDataCollection _keyDataCollection;
@@ -214,6 +216,10 @@ namespace IniParser.Model
         private string _sectionName;
         #endregion
 
+        public override string ToString()
+        {
+            return SectionName;
+        }
 
 
     }

@@ -18,7 +18,7 @@ namespace IniParser.Example
 			// instead of ';' so we need to change the configuration of the parser:
 
 			// Todo: separate the parser from the soure of data (file, string, stream, etc) and delete those obsolete helper clasess
-            fileIniData.Parser.Configuration.Scheme.CommentString = "#";
+            fileIniData.Parser.Scheme.CommentString = "#";
 
 
             //Parse the ini file

@@ -8,105 +8,87 @@ namespace IniParser.Model.Formatting
 
     public class IniDataFormatter : IIniDataFormatter
     {
-
-        #region Initialization
-        public IniDataFormatter():this(new IniFormattingConfiguration( new IniScheme() ))
-		{}
-
-        public IniDataFormatter(IniFormattingConfiguration configuration)
-        {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-            Format = configuration;
-        }
-
-		public IniDataFormatter(IniDataFormatter ori) : this(ori.Format)
-		{}
-
-        #endregion
-
-        public virtual string IniDataToString(IniData iniData)
+        public string Format(IniData iniData, IniFormattingConfiguration format)
         {
             var sb = new StringBuilder();
 
             // Write global key/value data
-            WriteKeyValueData(iniData.Global, sb);
+            WriteKeyValueData(iniData.Global, sb, iniData.Scheme, format);
 
             //Write sections
             foreach (SectionData section in iniData.Sections)
             {
                 //Write current section
-                WriteSection(section, sb);
+                WriteSection(section, sb, iniData.Scheme, format);
             }
 
             return sb.ToString();
         }
 
-        /// <summary>
-        ///     Configuration used to write an ini file with the proper
-        ///     delimiter characters and data.
-        /// </summary>
-        /// <remarks>
-        ///     If the <see cref="IniData"/> instance was created by a parser,
-        ///     this instance is a copy of the <see cref="IniParserConfiguration"/> used
-        ///     by the parser (i.e. different objects instances)
-        ///     If this instance is created programatically without using a parser, this
-        ///     property returns an instance of <see cref=" IniParserConfiguration"/>
-        /// </remarks>
-        public IniFormattingConfiguration Format
-        {
-            get { return _configuration; }
-            set { _configuration = value.Clone(); }
-        }
-
-        IniFormattingConfiguration _configuration;
-
         #region Helpers
 
-        private void WriteSection(SectionData section, StringBuilder sb)
+        private void WriteSection(SectionData section,
+                                  StringBuilder sb,
+                                  IIniScheme scheme,
+                                  IniFormattingConfiguration format)
         {
             // Write blank line before section, but not if it is the first line
-            if (sb.Length > 0) sb.Append(Format.NewLineStr);
+            if (sb.Length > 0) sb.Append(format.NewLineStr);
 
             // Leading comments
-            WriteComments(section.Comments, sb);
+            WriteComments(section.Comments, sb, scheme, format);
 
             //Write section name
             sb.Append(string.Format("{0}{1}{2}{3}",
-                                    Format.Scheme.SectionStartString,
+                                    scheme.SectionStartString,
                                     section.SectionName,
-                                    Format.Scheme.SectionEndString,
-                                    Format.NewLineStr));
+                                    scheme.SectionEndString,
+                                    format.NewLineStr));
 
-            WriteKeyValueData(section.Keys, sb);
+            WriteKeyValueData(section.Keys, sb, scheme, format);
+
+            // Trailing comments
+            WriteComments(section.TrailingComments, sb, scheme, format);
         }
 
-        private void WriteKeyValueData(KeyDataCollection keyDataCollection, StringBuilder sb)
+        private void WriteKeyValueData(KeyDataCollection keyDataCollection,
+                                       StringBuilder sb,
+                                       IIniScheme scheme,
+                                       IniFormattingConfiguration format)
         {
 
             foreach (KeyData keyData in keyDataCollection)
             {
                 // Add a blank line if the key value pair has comments
-                if (keyData.Comments.Count > 0) sb.Append(Format.NewLineStr);
+                if (keyData.Comments.Count > 0) sb.Append(format.NewLineStr);
 
                 // Write key comments
-                WriteComments(keyData.Comments, sb);
+                WriteComments(keyData.Comments, sb, scheme, format);
 
                 //Write key and value
                 sb.Append(string.Format("{0}{3}{1}{3}{2}{4}",
                                         keyData.KeyName,
-                                        Format.Scheme.KeyValueAssigmentString,
+                                        scheme.KeyValueAssigmentString,
                                         keyData.Value,
-                                        Format.AssigmentSpacer,
-                                        Format.NewLineStr));
+                                        format.AssigmentSpacer,
+                                        format.NewLineStr));
             }
         }
 
-        private void WriteComments(List<string> comments, StringBuilder sb)
+        private void WriteComments(List<string> comments,
+                                   StringBuilder sb,
+                                   IIniScheme scheme,
+                                   IniFormattingConfiguration format)
         {
             foreach (string comment in comments)
-                sb.Append(string.Format("{0}{1}{2}", Format.Scheme.CommentString, comment, Format.NewLineStr));
+                sb.Append(string.Format("{0}{1}{2}",
+                                        scheme.CommentString,
+                                        comment,
+                                        format.NewLineStr));
         }
+
+
+
         #endregion
 
     }

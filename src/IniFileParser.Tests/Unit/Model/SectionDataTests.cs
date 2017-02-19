@@ -21,7 +21,7 @@ namespace IniParser.Tests.Unit.Model
         [Test]
         public void create_section_with_invalid_name()
         {
-            Assert.Throws<ArgumentException>(() => new SectionData(""));
+            Assert.Throws<ArgumentException>( () => new SectionData("") );
         }
 
         [Test]
