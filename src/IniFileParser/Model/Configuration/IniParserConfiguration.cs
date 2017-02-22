@@ -56,6 +56,7 @@ namespace IniParser.Model.Configuration
             AllowKeysWithoutSection = true;
             AllowDuplicateKeys = false;
             AllowDuplicateSections = false;
+            AllowCreateSectionsOnFly = true;
             ThrowExceptionsOnError = true;
             SkipInvalidLines = false;
         }
@@ -72,6 +73,7 @@ namespace IniParser.Model.Configuration
             OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
             AllowDuplicateSections = ori.AllowDuplicateSections;
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
+            AllowCreateSectionsOnFly = ori.AllowCreateSectionsOnFly;
 
             SectionStartChar = ori.SectionStartChar;
             SectionEndChar = ori.SectionEndChar;
@@ -206,7 +208,7 @@ namespace IniParser.Model.Configuration
         ///     Defaults to <c>true</c>.
         /// </remarks>
         public bool AllowKeysWithoutSection { get; set; }
-
+			
         /// <summary>
         ///     If set to <c>false</c> and the <see cref="IniDataParser"/> finds duplicate keys in a
         ///     section the parser will stop with an error.
@@ -262,6 +264,17 @@ namespace IniParser.Model.Configuration
         /// </remarks>
         public bool AllowDuplicateSections { get; set; }
 
+        /// <summary>
+        ///     If set to <c>false</c>, the <see cref="IniDataParser"/> stop with a error if you try
+        ///     to access a section that was not created previously and the parser will stop with an error.
+        ///     If set to <c>true</c>, inexistents sections are created, always returning a valid
+        ///     <see cref="SectionData"/> element.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>false</c>.
+        /// </remarks>
+        public bool AllowCreateSectionsOnFly { get; set; }
+
         public bool SkipInvalidLines { get; set; }
 
         #endregion
@@ -279,7 +292,7 @@ namespace IniParser.Model.Configuration
         protected const string _strSectionRegexEnd = @"(\s*?)$";
         protected const string _strKeyRegex = @"^(\s*[_\.\d\w]*\s*)";
         protected const string _strValueRegex = @"([\s\d\w\W\.]*)$";
-        protected const string _strSpecialRegexChars = @"[\^$.|?*+()";
+        protected const string _strSpecialRegexChars = @"[]\^$.|?*+()";
         #endregion
 
         #region Helpers

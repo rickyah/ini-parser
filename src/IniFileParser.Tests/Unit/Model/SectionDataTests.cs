@@ -1,5 +1,4 @@
 ﻿using System;
-
 using IniParser.Model;
 using NUnit.Framework;
 
@@ -129,14 +128,14 @@ namespace IniFileParser.Tests.Unit.Model
         public void check_you_can_merge_sections()
         {
             var destinySection = new SectionData("destiny_section");
-            var newSection= new SectionData("new_section");
+            var newSection = new SectionData("new_section");
 
             //Add key
-            destinySection.Keys.AddKey("key1","value1");
-            destinySection.Keys.AddKey("key2","value2");
+            destinySection.Keys.AddKey("key1", "value1");
+            destinySection.Keys.AddKey("key2", "value2");
 
-            newSection.Keys.AddKey("key2","newvalue2");
-            newSection.Keys.AddKey("key3","value3");
+            newSection.Keys.AddKey("key2", "newvalue2");
+            newSection.Keys.AddKey("key3", "value3");
 
             destinySection.Merge(newSection);
 

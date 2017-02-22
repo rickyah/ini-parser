@@ -67,12 +67,6 @@ this_is_not_a_comment = ;no comment
 name = Marble Zone
 ";
 
-        string iniFileReallyBad =
-@"
-{no section}
-key # = wops!
-= value
-";
         #endregion 
 
         [SetUp]
@@ -105,12 +99,6 @@ key # = wops!
         {
             Assert.That(_parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
             Assert.That(_parser.Parse(iniFileStr).Configuration, Is.InstanceOf(typeof(LiberalTestConfiguration)));
-        }
-
-        [Test]
-        public void parser_really_bad_ini_format()
-        {
-            Assert.That(_parser.Parse(iniFileReallyBad), Is.Null);    
         }
 
         [Test]
@@ -175,7 +163,6 @@ key # = wops!
                 Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
         }
 
-
         [Test]
         public void escape_comment_regex_special_characters()
         {
@@ -203,6 +190,16 @@ key # = wops!
             var iniData = parser.Parse(iniStr);
 
             Assert.That(iniData["section"]["key"], Is.EqualTo("value"));
+        }
+
+        [Test]
+        public void alway_returns_a_valid_section()
+        {
+            var parser = new IniDataParser();
+            parser.Configuration.AllowCreateSectionsOnFly = true;
+
+            var iniData = parser.Parse("");
+            Assert.IsNotNull(iniData["noname"]);
         }
     }
 }
