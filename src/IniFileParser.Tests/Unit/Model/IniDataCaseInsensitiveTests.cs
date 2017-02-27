@@ -45,5 +45,21 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(data["testSection"]["Key2"], Is.EqualTo("value2"));
 
         }
+
+        [Test, Description("Test for Issue 135: https://github.com/rickyah/ini-parser/issues/135")]
+        public void resolve_case_insensitive_names_in_global()
+        {
+
+            var data = new IniDataCaseInsensitive();
+            data.Global.AddKey("keY1", "value1");
+            data.Global.AddKey("KEY2", "value2");
+            data.Global["KeY2"] = "value3";
+
+            Assert.That(data.Global["key1"], Is.EqualTo("value1"));
+            Assert.That(data.Global["keY1"], Is.EqualTo("value1"));
+            Assert.That(data.Global["KEY2"], Is.EqualTo("value3"));
+            Assert.That(data.Global["KeY2"], Is.EqualTo("value3"));
+            Assert.That(data.Global["key2"], Is.EqualTo("value3"));
+        }
     }
 }
