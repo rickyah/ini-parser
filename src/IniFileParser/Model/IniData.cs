@@ -32,8 +32,6 @@ namespace IniParser.Model
 			SchemeInternal = new IniScheme();
 			_sections = new SectionDataCollection();
 			_defaultIniDataFormatter = new IniDataFormatter(new IniFormattingConfiguration(SchemeInternal));
-			//TODO remove this
-			SectionKeySeparator = '.';
 		}
 
         /// <summary>
@@ -97,14 +95,6 @@ namespace IniParser.Model
             set { _sections = value; }
         }
 
-        /// <summary>
-        ///     Used to mark the separation between the section name and the key name 
-        ///     when using <see cref="IniData.TryGetKey"/>. 
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to '.'.
-        /// </remarks>
-        public char SectionKeySeparator { get; set; }
         #endregion
 
         #region Object Methods
@@ -170,82 +160,6 @@ namespace IniParser.Model
 
             Sections.Merge(toMergeIniData.Sections);
 
-        }
-
-        /// <summary>
-        ///     Attempts to retrieve a key, using a single string combining section and 
-        ///     key name.
-        /// </summary>
-        /// <param name="key">
-        ///     The section and key name to retrieve, separated by <see cref="IniParserConfiguration.SectionKeySeparator"/>.
-        /// 
-        ///     If key contains no separator, it is treated as a key in the <see cref="Global"/> section.
-        /// 
-        ///     Key may contain no more than one separator character.
-        /// </param>
-        /// <param name="value">
-        ///     If true is returned, is set to the value retrieved.  Otherwise, is set
-        ///     to an empty string.
-        /// </param>
-        /// <returns>
-        ///     True if key was found, otherwise false.
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        ///     key contained multiple separators.
-        /// </exception>
-        public bool TryGetKey(string key, out string value)
-        {
-            value = string.Empty;
-            if (string.IsNullOrEmpty(key))
-                return false;
-
-            var splitKey = key.Split(SectionKeySeparator);
-            var separatorCount = splitKey.Length - 1;
-            if (separatorCount > 1)
-                throw new ArgumentException("key contains multiple separators", "key");
-
-            if (separatorCount == 0)
-            {
-                if (!Global.ContainsKey(key))
-                    return false;
-
-                value = Global[key];
-                return true;
-            }
-
-            var section = splitKey[0];
-            key = splitKey[1];
-
-            if (!_sections.ContainsSection(section))
-                return false;
-            var sectionData = _sections[section];
-            if (!sectionData.ContainsKey(key))
-                return false;
-
-            value = sectionData[key];
-            return true;
-        }
-
-        /// <summary>
-        ///     Retrieves a key using a single input string combining section and key name.
-        /// </summary>
-        /// <param name="key">
-        ///     The section and key name to retrieve, separated by <see cref="IniParserConfiguration.SectionKeySeparator"/>.
-        /// 
-        ///     If key contains no separator, it is treated as a key in the <see cref="Global"/> section.
-        /// 
-        ///     Key may contain no more than one separator character.
-        /// </param>
-        /// <returns>
-        ///     The key's value if it was found, otherwise null.
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        ///     key contained multiple separators.
-        /// </exception>
-        public string GetKey(string key)
-        {
-            string result;
-            return TryGetKey(key, out result) ? result : null;
         }
 
         /// <summary>
