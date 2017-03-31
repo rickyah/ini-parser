@@ -1,5 +1,5 @@
-﻿using IniParser;
-using IniParser.Model;
+﻿using IniParser.Model;
+using IniParser.Parser;
 using NUnit.Framework;
 
 namespace IniFileParser.Tests.Unit.Parser
@@ -12,9 +12,9 @@ namespace IniFileParser.Tests.Unit.Parser
         {
             string test = "[ExampleSection]\nkey = value;value\n";
 
-            StringIniParser strParser = new StringIniParser();
+            IniDataParser strParser = new IniDataParser();
 
-            IniData data = strParser.ParseString(test);
+            IniData data = strParser.Parse(test);
 
             Assert.That(data.Sections.Count, Is.EqualTo(1));
             Assert.That(data.Sections["ExampleSection"], Is.Not.Null);
@@ -30,10 +30,9 @@ namespace IniFileParser.Tests.Unit.Parser
         {
             string data = "[data]" + System.Environment.NewLine + "key = value;";
 
-            IniData inidata = new StringIniParser().ParseString(data);
+            IniData inidata = new IniDataParser().Parse(data);
 
             Assert.That(inidata["data"]["key"], Is.EqualTo("value;"));
         }
-
     }
 }

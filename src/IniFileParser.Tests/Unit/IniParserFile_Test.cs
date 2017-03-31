@@ -1,4 +1,3 @@
-
 using System.IO;
 using IniParser.Exceptions;
 using IniParser.Model;
@@ -40,15 +39,15 @@ namespace IniFileParser.Tests.Unit
         [Test, Description("Checks correct parsing of an empty INI file")]
         public void CheckParseEmptyFileSuccess()
         {
-            IniData parsedData = iniParser.LoadFile(strEmptyINIFilePath);
-            
+            IniData parsedData = iniParser.ReadFile(strEmptyINIFilePath);
+
             Assert.That(parsedData, Is.Not.Null);
         }
 
         [Test, Description("Checks correct parsing of a well formed INI file")]
         public void CheckParseGoodFileSuccess()
         {
-            IniData parsedData = iniParser.LoadFile(strGoodINIFilePath);
+            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
 
             Assert.That(parsedData, Is.Not.Null);
         }
@@ -57,7 +56,7 @@ namespace IniFileParser.Tests.Unit
         [ExpectedException(typeof(ParsingException))]
         public void CheckParsingFailure()
         {
-            iniParser.LoadFile(strBadINIFilePath);
+            iniParser.ReadFile(strBadINIFilePath);
         }
 
         [Test, Description("Checks correct saving of a file")]
@@ -65,7 +64,7 @@ namespace IniFileParser.Tests.Unit
         {
             string fileString = strGoodINIFilePath + "_test.ini";
 
-            IniData parsedData = iniParser.LoadFile(strGoodINIFilePath);
+            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
             iniParser.WriteFile(fileString, parsedData);
 
             Assert.That(File.Exists(fileString));
@@ -75,15 +74,14 @@ namespace IniFileParser.Tests.Unit
         [ExpectedException(typeof(ParsingException))]
         public void CheckCollideSectionNames()
         {
-            iniParser.LoadFile(strBadSectionINIFilePath);
+            iniParser.ReadFile(strBadSectionINIFilePath);
         }
 
         [Test, Description("Checks bad formed INI file: Two keys in the same section with same name")]
         [ExpectedException(typeof(ParsingException))]
         public void CheckCollideKeysNames()
         {
-            iniParser.LoadFile(strBadKeysINIFilePath);
+            iniParser.ReadFile(strBadKeysINIFilePath);
         }
-
     }
 }

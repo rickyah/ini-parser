@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using IniParser.Model;
 using NUnit.Framework;
 
@@ -43,5 +41,4 @@ namespace IniFileParser.Tests.Unit.Model
 
         }
     }
-    
 }
