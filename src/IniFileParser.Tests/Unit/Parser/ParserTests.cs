@@ -142,7 +142,7 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
 
 
             var parser = new IniDataParser();
-			parser.Configuration.Scheme.CommentString = "#";
+            parser.Configuration.Scheme.CommentString = "#";
             IniData iniData = parser.Parse(data);
 
             Assert.That(
@@ -299,7 +299,7 @@ key=value";
             Assert.That(parsedData.Sections["section~subsection"]["key"], Is.EqualTo("value"));
         }
 
-		[Test, Description("Test for Issue 43 backward compatibility https://github.com/rickyah/ini-parser/issues/32")]
+        [Test, Description("Test for Issue 43 backward compatibility https://github.com/rickyah/ini-parser/issues/32")]
         public void commentchar_property_works()
         {
             string initest =
