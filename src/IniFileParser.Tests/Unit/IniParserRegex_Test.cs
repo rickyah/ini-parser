@@ -24,10 +24,10 @@ namespace IniParser.Tests.Unit
             string strGoodTest3 = "   ; comment Test           ";
             string strGoodTest4 = " dfasdfasf ; comment Test ";
 
-            Assert.That(strGoodTest1, Does.Match(iniParser.Parser.Scheme.CommentRegex.ToString()));
-            Assert.That(strGoodTest2, Does.Not.Match(iniParser.Parser.Scheme.CommentRegex.ToString()));
-            Assert.That(strGoodTest3, Does.Not.Match(iniParser.Parser.Scheme.CommentRegex.ToString()));
-            Assert.That(strGoodTest4, Does.Not.Match(iniParser.Parser.Scheme.CommentRegex.ToString()));
+            Assert.That(strGoodTest1, Is.StringMatching(iniParser.Parser.Configuration.Scheme.CommentRegex.ToString()));
+            Assert.That(strGoodTest2, !Is.StringMatching(iniParser.Parser.Configuration.Scheme.CommentRegex.ToString()));
+            Assert.That(strGoodTest3, !Is.StringMatching(iniParser.Parser.Configuration.Scheme.CommentRegex.ToString()));
+            Assert.That(strGoodTest4, !Is.StringMatching(iniParser.Parser.Configuration.Scheme.CommentRegex.ToString()));
         }
 
         [Test, Description("Test a regular expression for matching a section in an INI file")]

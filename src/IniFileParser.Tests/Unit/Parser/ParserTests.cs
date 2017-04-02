@@ -65,12 +65,6 @@ mykey1 = value1
         {
             var parser = new IniDataParser();
 
-            IniParser.Model.Configuration.IniParserConfiguration config = parser.Configuration;
-
-            parser.Scheme.CommentString = "#";
-            parser.Scheme.SectionStartString = "<";
-            parser.Scheme.SectionEndString = ">";
-
             IniData data = parser.Parse(iniFileStrCustom);
 
             Assert.That(data, Is.Not.Null);

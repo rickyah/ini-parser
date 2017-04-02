@@ -103,6 +103,7 @@ value1 = 10.6";
             Assert.That(data.Global["KeY2"], Is.EqualTo("value3"));
             Assert.That(data.Global["key2"], Is.EqualTo("value3"));
         }
+
         [Test]
         public void check_deep_clone()
         {

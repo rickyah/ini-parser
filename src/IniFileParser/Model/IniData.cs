@@ -19,8 +19,6 @@ namespace IniParser.Model
         /// 	Formatter applied by default when calling ToString() in this instance.
         /// </summary>
         IniDataFormatter _defaultIniDataFormatter;
-
-        IniFormattingConfiguration _defaultIniFormatConfig;
         #endregion
 
         #region Initialization
@@ -33,10 +31,8 @@ namespace IniParser.Model
             Global = new KeyDataCollection();
             SchemeInternal = new IniScheme();
             _sections = new SectionDataCollection();
-            _defaultIniDataFormatter = new IniDataFormatter();
-            _defaultIniFormatConfig = new IniFormattingConfiguration();
+            _defaultIniDataFormatter = new IniDataFormatter(new IniFormattingConfiguration(SchemeInternal));
         }
-
 
         /// <summary>
         ///     Initializes a new IniData instance using a previous
@@ -56,8 +52,7 @@ namespace IniParser.Model
             SchemeInternal = (IniScheme)ori.SchemeInternal.Clone();
             Global = (KeyDataCollection)ori.Global.Clone();
             _sections = (SectionDataCollection)ori._sections.Clone();
-            _defaultIniDataFormatter = new IniDataFormatter();
-            _defaultIniFormatConfig = new IniFormattingConfiguration();
+            _defaultIniDataFormatter = new IniDataFormatter(ori._defaultIniDataFormatter);
         }
         #endregion
 
@@ -105,7 +100,7 @@ namespace IniParser.Model
         #region Object Methods
         public override string ToString()
         {
-            return ToString(_defaultIniDataFormatter, _defaultIniFormatConfig);
+            return ToString(_defaultIniDataFormatter);
         }
 
         private string ToString(IIniDataFormatter formatter, IniFormattingConfiguration format)
@@ -115,7 +110,7 @@ namespace IniParser.Model
 
         public virtual string ToString(IniFormattingConfiguration format)
         {
-            return ToString(_defaultIniDataFormatter, format);
+            return ToString(new IniDataFormatter(format));
         }
 
         #endregion
