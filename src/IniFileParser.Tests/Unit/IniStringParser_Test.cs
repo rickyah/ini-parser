@@ -1,7 +1,6 @@
 using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
-using IniParser;
 
 namespace IniFileParser.Tests.Unit
 {
@@ -9,7 +8,7 @@ namespace IniFileParser.Tests.Unit
     public class IniStringParser_Test
     {
 
-        private string iniFileStr = 
+        private string iniFileStr =
 @";comment for section1
 [section1]
 ;comment for key1
@@ -27,7 +26,7 @@ mykey1 = value1
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
-            var section1= data.Sections.GetSectionData("section1");
+            var section1 = data.Sections.GetSectionData("section1");
 
             Assert.That(section1, Is.Not.Null);
             Assert.That(section1.SectionName, Is.EqualTo("section1"));
@@ -45,19 +44,16 @@ mykey1 = value1
         [Test]
         public void WritingTotring_Test()
         {
-            StringIniParser parser = new StringIniParser();
             IniData data = new IniData();
 
             data.Sections.AddSection("newSection1");
             data.Sections["newSection1"].AddKey("newKey1", "newValue1");
             data.Sections["newSection1"].AddKey("newKey2", "newValue5");
 
-            string result = parser.WriteString(data);
+            string result = data.ToString();
 
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Length, Is.Not.EqualTo(0));
-
         }
-
     }
 }

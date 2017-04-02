@@ -1,5 +1,4 @@
-﻿using System;
-using IniParser.Model;
+﻿using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
 

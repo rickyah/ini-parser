@@ -316,7 +316,7 @@ value2 = 10";
             
             var parser = new IniDataParser();
 
-            parser.Configuration.CommentChar = '#';
+            parser.Configuration.CommentString = "#";
 
             var result = parser.Parse(initest);
             Assert.That(result.Sections.GetSectionData("seccion1").Comments.Count > 0);
@@ -509,7 +509,5 @@ key2 = value2";
 			Assert.That(parsedData.Sections["W101 0.5\" wc"], Is.Not.Empty);
 			Assert.That(parsedData.Sections["W103 0.5' wc"], Is.Not.Empty);
 		}
-
-
     }
 }
