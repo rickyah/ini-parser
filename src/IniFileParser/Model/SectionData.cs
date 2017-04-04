@@ -122,12 +122,8 @@ namespace IniParser.Model
             }
         }
 
-        /// <summary>
-        ///     Gets or sets the comment list associated to this section.
-        /// </summary>
-        /// <value>
-        ///     A list of strings.
-        /// </value>
+
+		[Obsolete("Do not use this property, use property Comments instead")]
         public List<string> LeadingComments
         {
             get
@@ -151,20 +147,13 @@ namespace IniParser.Model
         {
             get
             {
-                var list = new List<string>(_leadingComments);
-                list.AddRange(_trailingComments);
-                return list;
+				return _leadingComments;
             }
 
 
         }
 
-        /// <summary>
-        ///     Gets or sets the comment list associated to this section.
-        /// </summary>
-        /// <value>
-        ///     A list of strings.
-        /// </value>
+		[Obsolete("Do not use this property, use property Comments instead")]
         public List<string> TrailingComments
         {
             get
