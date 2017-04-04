@@ -80,10 +80,9 @@ Merging ini files is a one-method operation:
 
    var parser = new IniParser.Parser.IniDataParser();
 
-   IniData config = parser.Parse("global_config.ini");        
-   IniData user_config = parser.Parse("user_config.ini");
+   IniData config = parser.Parse(File.ReadAllText("global_config.ini"));
+   IniData user_config = parser.Parse(File.ReadAllText("user_config.ini"));
 
-   
    config.Merge(user_config);
 
    // config now contains that data from both ini files, and the values of
@@ -97,6 +96,18 @@ Keep in mind that you can merge individual sections if you like:
 config["user_settings"].Merge(user_config["user_settings"]);
 ```
 
+## Comments
+
+The library allows modifying the comments from an ini file. 
+However note than writing the file back to disk, the comments will be rearranged so 
+comments are written before the element they refer to.
+
+To query, add or remove comments, access the property `Comments` available both in `SectionData` and `KeyData` models.
+
+```csharp
+var listOfCommentsForSection = config.["user_settings"].Comments;
+var listOfCommentsForKey = config["user_settings"].GetKeyData("resolution").Comments;
+```
 
 ## Unity3D
 You can easily use this library in your Unity3D projects. Just drop either the code or the DLL inside your project's Assets folder and you're ready to go!
