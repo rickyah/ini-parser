@@ -1,0 +1,38 @@
+FileIniParser.cs
+	-- File IO works completely differently in WinRT. We need to ask for a StorageFile instead of
+	-- the file path in a string (mostly because of the sandbox environment).
+	--> Now using StorageFile.OpenStreamForReadAsync() and StorageFile.OpenStreamForWriteAsync()
+	--> All the IO methods of this file are now async.
+
+FileIniParser.cs
+	public IniData ReadFile(string filePath)
+	-- Windows-1252 (Encoding.Default) isn't supported on WinRT,
+	--> Changed the function body as a copy of public IniData ReadFile(string filePath, Encoding fileEncoding)
+	--> Changed new StreamReader(fs, fileEncoding) to new StreamReader(fs, fileEncoding), for trying
+	--> to detect the encoding from the first bytes of the file.
+	
+FileIniParser.cs
+	public void WriteFile(StorageFile file, IniData parsedData, Encoding fileEncoding = null)
+	-- Why the fileEncoding is set to ASCII by default ? Unicode is supported everywhere in WinRT
+	-- and it offers a much bigger charset.
+	--> Changed if (fileEncoding == null) fileEncoding = Encoding.ASCII; to 
+	--> 		if (fileEncoding == null) fileEncoding = Encoding.Unicode;
+	
+Model/IniData.cs, Model/KeyData.cs, Model/KeyDataCollection.cs, Model/SectionData.cs, 
+Model/SectionDataCollection.cs, Model/Configuration/IniParserConfiguration.cs
+	-- ICloneable interface doesn't exist in WinRT.
+	--> Created the interface in Exceptions/ICloneable.cs
+	
+Exceptions/ParsingException.cs
+	public ParsingException(string msg, int lineNumber, string lineValue, Exception innerException)
+	-- Assembly.GetExecutingAssembly() not supported in WinRT
+	-- There also isn't any method tied to Assembly class to get the program version
+	--> Created an extension method: Assembly.GetVersion() in Extensions/AssemblyExtensions.cs
+	--> Added namespaces System.Reflection and IniParser.Extensions
+	--> Used the new created method typeof(ParsingException).GetTypeInfo().Assembly.GetVersion()
+
+Model/Configuration/IniParserConfiguration.cs
+	public override int GetHashCode(), public override bool Equals(object obj)
+	-- GetType().GetProperties() is an extension method in WinRT.
+	--> Added namespace System.Reflection
+	

@@ -1,0 +1,48 @@
+diff a/src/IniFileParser/Model/IniData.cs b/src/IniFileParser/Model/IniData.cs	(rejected hunks)
+@@ -36,45 +36,20 @@
+         public IniData(SectionDataCollection sdc)
+         {
+             _sections = (SectionDataCollection)sdc.Clone();
+             Global = new KeyDataCollection();
+         }
+ 
+-        public IniData(IniData ori): this((SectionDataCollection) ori.Sections)
++        public IniData(IniData ori): this(ori.Sections)
+         {
+             Global = (KeyDataCollection) ori.Global.Clone();
+-            Configuration = ori.Configuration.Clone();
+         }
+         #endregion
+ 
+         #region Properties
+ 
+-        /// <summary>
+-        ///     Configuration used to write an ini file with the proper
+-        ///     delimiter characters and data.
+-        /// </summary>
+-        /// <remarks>
+-        ///     If the <see cref="IniData"/> instance was created by a parser,
+-        ///     this instance is a copy of the <see cref="IIniParserConfiguration"/> used
+-        ///     by the parser (i.e. different objects instances)
+-        ///     If this instance is created programatically without using a parser, this
+-        ///     property returns an instance of <see cref=" DefaultIniParserConfiguration"/>
+-        /// </remarks>
+-        public IIniParserConfiguration Configuration
+-        {
+-            get
+-            {
+-                // Lazy initialization
+-                if (_configuration == null)
+-                    _configuration = new DefaultIniParserConfiguration();
+-
+-                return _configuration;
+-            }
+-
+-            set { _configuration = (IIniParserConfiguration) value.Clone(); }
+-        }
+ 
+         /// <summary>
+         /// 	Global sections. Contains key/value pairs which are not
+         /// 	enclosed in any section (i.e. they are defined at the beginning 
+         /// 	of the file, before any section.
+         /// </summary>
