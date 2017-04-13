@@ -3,7 +3,8 @@ solution: src/INIFileParser.sln
 script:
   - nuget restore src/INIFileParser.sln
   - xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
-  - mono ./src/packages/NUnit.Runners.2.6.4/tools/nunit-console.exe -noxml -nodots -labels ./src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
+  - cd src/IniFileParser.Tests/bin/Release
+  - mono ../../../packages/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe --noresult --labels=All ./IniFileParser.Tests.dll
 mono:
   - latest
   - 3.12.0
