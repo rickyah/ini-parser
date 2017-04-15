@@ -82,9 +82,6 @@
     <Compile Include="Unit\Parser\StringIniDataParserTests.cs" />
     <Compile Include="Unit\Model\IniDataCaseInsensitiveTests.cs" />
     <Compile Include="Unit\Parser\ConcatenateDuplicatedKeysIniDataParserTests.cs" />
-    <Compile Include="..\IniFileParser\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="Unit\Model\KeyDataCollectionTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using IniParser.Model;
 using IniParser.Model.Configuration;
 using IniParser.Parser;
