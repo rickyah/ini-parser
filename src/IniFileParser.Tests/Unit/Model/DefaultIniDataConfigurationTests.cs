@@ -42,7 +42,7 @@ namespace IniFileParser.Tests.Unit.Model
             config1.Scheme.CommentString = "#";
             Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
         }
-º
+
         [Test]
         public void create_key_with_invalid_name()
         {
