@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using IniParser.Model;
 using IniParser.Model.Configuration;
@@ -6,47 +6,51 @@ using NUnit.Framework;
 
 namespace IniFileParser.Tests.Unit.Model
 {
+
+	// TODO: Move to configuration tests
     [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
     public class IniDataConfigurationTests
     {
         [Test]
         public void check_default_values()
         {
-            var config = new IniParserConfiguration();
+			var config = new IniParserConfiguration(new IniScheme());
 
             Assert.That(config, Is.Not.Null);
-            Assert.That(config.CommentRegex, Is.Not.Null);
-            Assert.That(config.SectionRegex, Is.Not.Null);
+            Assert.That(config.Scheme.CommentRegex, Is.Not.Null);
+            Assert.That(config.Scheme.SectionRegex, Is.Not.Null);
             
         }
 
+		//Todo: Move to configuration tests
         [Test]
         public void check_cloning()
         {
-            IniParserConfiguration config1 = new IniParserConfiguration();
+			IniParserConfiguration config1 = new IniParserConfiguration(new IniScheme());
 
             config1.AllowDuplicateKeys = true;
-            config1.CommentString = "/";
+            config1.Scheme.CommentString = "/";
 
 			Assert.That(config1.AllowDuplicateKeys, Is.True);
-			Assert.That(config1.CommentString, Is.EqualTo("/"));
+            Assert.That(config1.Scheme.CommentString, Is.EqualTo("/"));
 
 			IniParserConfiguration config2 = config1.Clone();
 
             Assert.That(config2.AllowDuplicateKeys, Is.True);
-            Assert.That(config2.CommentString, Is.EqualTo("/"));
+            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
 
-            config1.CommentString = "#";
-            Assert.That(config2.CommentString, Is.EqualTo("/"));
+            config1.Scheme.CommentString = "#";
+            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
         }
-
+º
         [Test]
         public void create_key_with_invalid_name()
         {
             Assert.Throws<ArgumentException>(() => new KeyData(""));
         }
 
-        [Test]
+		// todo: move to KeyData tests
+		[Test]
         public void creating_keydata_programatically()
         {
 
@@ -69,8 +73,9 @@ namespace IniFileParser.Tests.Unit.Model
 
         }
 
-        [Test]
-        public void check_clone_copies_data()
+		// todo: move to KeyData tests
+		[Test]
+		public void check_clone_copies_data()
         {
             var strValueTest = "Test String";
             var strKeyTest = "Mykey";

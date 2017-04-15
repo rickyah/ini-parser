@@ -20,7 +20,9 @@ namespace INIFileParser.Example
 
 			// This is a special ini file where we use the '#' character for comment lines
 			// instead of ';' so we need to change the configuration of the parser:
-			fileIniData.Parser.Configuration.CommentString = "#";
+
+			// Todo: separate the parser from the soure of data (file, string, stream, etc) and delete those obsolete helper clasess
+            fileIniData.Parser.Configuration.Scheme.CommentString = "#";
 			
 			
             //Parse the ini file

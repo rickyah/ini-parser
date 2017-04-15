@@ -42,7 +42,7 @@ namespace IniParser.Model
             : this(new SectionDataCollection(ori.Sections, StringComparer.OrdinalIgnoreCase))
         {
             Global = (KeyDataCollection) ori.Global.Clone();
-            Configuration = ori.Configuration.Clone();
+            //Configuration = ori.Configuration.Clone();
         }
     }
     

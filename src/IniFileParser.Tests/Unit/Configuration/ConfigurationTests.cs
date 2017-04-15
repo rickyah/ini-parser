@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using IniParser.Model;
 using IniParser.Model.Configuration;
 using IniParser.Parser;
@@ -17,11 +17,13 @@ namespace IniFileParser.Tests.Unit.Configuration
             ///     Ctor.
             /// </summary>
             public LiberalTestConfiguration()
+                :base(new IniScheme())
             {
-                SectionStartChar = '<';
-                SectionEndChar = '>';
-                CommentString = "#";
-                KeyValueAssigmentChar = '=';
+
+				Scheme.SectionStartString = "<";
+                Scheme.SectionEndString = ">";
+                Scheme.CommentString = "#";
+                Scheme.KeyValueAssigmentString = "=";
 
                 AllowKeysWithoutSection = true;
                 AllowDuplicateKeys = true;
@@ -82,9 +84,9 @@ name = Marble Zone
 #data = 1
 ;data = 2";
 
-            var config = new IniParserConfiguration();
+            var config = new IniParserConfiguration(new IniScheme() );
 
-            config.CommentString = "#";
+            config.Scheme.CommentString = "#";
 
             _parser = new IniDataParser(config);
 
@@ -98,7 +100,6 @@ name = Marble Zone
         public void check_configuration_is_correct()
         {
             Assert.That(_parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
-            Assert.That(_parser.Parse(iniFileStr).Configuration, Is.InstanceOf(typeof(LiberalTestConfiguration)));
         }
 
         [Test]
@@ -144,23 +145,29 @@ name = Marble Zone
         [Test]
         public void check_ini_writing()
         {
-            IniData data = new IniDataParser(new LiberalTestConfiguration()).Parse(iniFileStr);
+			var config = new LiberalTestConfiguration();
+			var format = new IniFormattingConfiguration(config.Scheme);
+			config.Scheme.CommentString = "#";
+            IniData data = new IniDataParser(config).Parse(iniFileStr);
 
-            Assert.That(
-                data.ToString().Replace(Environment.NewLine, string.Empty), 
-                Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+			Assert.That(data.ToString(new IniFormattingConfiguration(config.Scheme))
+			                          .Replace(Environment.NewLine, string.Empty),
+			            Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
         }
 
         [Test]
         public void check_new_line_confige_on_ini_writing()
         {
-            IniData data = new IniDataParser(new LiberalTestConfiguration()).Parse(iniFileStr);
+			var configuration = new LiberalTestConfiguration();
+			IniData data = new IniDataParser(configuration).Parse(iniFileStr);
 
-            data.Configuration.NewLineStr = "^_^";
+			var format = new IniFormattingConfiguration(configuration.Scheme);
+			format.NewLineStr = "^_^";
 
-            Assert.That(
-                data.ToString().Replace("^_^", string.Empty), 
-                Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+			string newIniStr = data.ToString(format);
+
+            Assert.That(newIniStr.Replace("^_^", string.Empty),
+			Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
         }
 
         [Test]
@@ -171,7 +178,7 @@ name = Marble Zone
                 Key=Value";
          
             var parser = new IniDataParser();
-            parser.Configuration.CommentString = @"\";
+            parser.Configuration.Scheme.CommentString = @"\";
 
             parser.Parse(iniStr);
         }
@@ -184,8 +191,8 @@ name = Marble Zone
                 key=value";
 
             var parser = new IniDataParser();
-            parser.Configuration.SectionStartChar = '\\';
-            parser.Configuration.SectionEndChar = '\\';
+            parser.Configuration.Scheme.SectionStartString = "\\";
+            parser.Configuration.Scheme.SectionEndString = "\\";
 
             var iniData = parser.Parse(iniStr);
 
@@ -196,7 +203,6 @@ name = Marble Zone
         public void alway_returns_a_valid_section()
         {
             var parser = new IniDataParser();
-            parser.Configuration.AllowCreateSectionsOnFly = true;
 
             var iniData = parser.Parse("");
             Assert.IsNotNull(iniData["noname"]);

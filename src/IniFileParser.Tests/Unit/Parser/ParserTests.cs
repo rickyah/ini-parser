@@ -65,13 +65,12 @@ mykey1 = value1
         public void parse_ini_string_with_custom_configuration()
         {
             var parser = new IniDataParser();
-
             IniParser.Model.Configuration.IniParserConfiguration config = parser.Configuration;
-
-            config.CommentString = "#";
-            config.SectionStartChar = '<';
-            config.SectionEndChar = '>';
-
+			
+            config.Scheme.CommentString = "#";
+            config.Scheme.SectionStartString = "<";
+            config.Scheme.SectionEndString = ">";
+			
             IniData data = parser.Parse(iniFileStrCustom);
 
             Assert.That(data, Is.Not.Null);
@@ -144,7 +143,7 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
 
 
             var parser = new IniDataParser();
-            parser.Configuration.CommentString = "#";
+			parser.Configuration.Scheme.CommentString = "#";
             IniData iniData = parser.Parse(data);
 
             Assert.That(
@@ -301,7 +300,7 @@ key=value";
             Assert.That(parsedData.Sections["section~subsection"]["key"], Is.EqualTo("value"));
         }
 
-        [Test, Description("Test for Issue 43 backward compatibility https://github.com/rickyah/ini-parser/issues/32")]
+		[Test, Description("Test for Issue 43 backward compatibility https://github.com/rickyah/ini-parser/issues/32")]
         public void commentchar_property_works()
         {
             string initest =
@@ -315,7 +314,8 @@ value2 = 10";
 
             var parser = new IniDataParser();
 
-            parser.Configuration.CommentString = "#";
+			//Remove CommentChar property
+			parser.Configuration.Scheme.CommentString = "#";
 
             var result = parser.Parse(initest);
             Assert.That(result.Sections.GetSectionData("seccion1").Comments.Count > 0);
