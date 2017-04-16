@@ -129,7 +129,7 @@ namespace IniParser
                 throw new ArgumentException("Bad filename.");
 
             if (parsedData == null)
-                throw new ArgumentNullException("parsedData");
+                throw new ArgumentNullException(nameof(parsedData));
 
             using (FileStream fs = File.Open(filePath, FileMode.Create, FileAccess.Write))
             {

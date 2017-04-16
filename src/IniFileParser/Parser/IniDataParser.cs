@@ -38,7 +38,7 @@ namespace IniParser.Parser
         public IniDataParser(IniParserConfiguration parserConfiguration)
         {
             if (parserConfiguration == null)
-                throw new ArgumentNullException("parserConfiguration");
+                throw new ArgumentNullException(nameof(parserConfiguration));
 
             Configuration = parserConfiguration;
 

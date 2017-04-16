@@ -16,7 +16,7 @@ namespace IniParser.Model.Formatting
         public IniDataFormatter(IniFormattingConfiguration configuration)
         {
             if (configuration == null)
-                throw new ArgumentNullException("configuration");
+                throw new ArgumentNullException(nameof(configuration));
             Format = configuration;
         }
 

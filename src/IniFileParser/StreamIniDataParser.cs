@@ -45,7 +45,7 @@ namespace IniParser
         public IniData ReadData(StreamReader reader)
         {
             if (reader == null)
-                throw new ArgumentNullException("reader");
+                throw new ArgumentNullException(nameof(reader));
             
             return Parser.Parse(reader.ReadToEnd());
         }
@@ -61,9 +61,9 @@ namespace IniParser
         public void WriteData(StreamWriter writer, IniData iniData)
         {
             if (iniData == null)
-                throw new ArgumentNullException("iniData");
+                throw new ArgumentNullException(nameof(iniData));
             if (writer == null)
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
 
             writer.Write(iniData.ToString());
         }
@@ -81,11 +81,11 @@ namespace IniParser
         public void WriteData(StreamWriter writer, IniData iniData, IIniDataFormatter formatter)
         {
             if (formatter == null)
-                throw new ArgumentNullException("formatter");
+                throw new ArgumentNullException(nameof(formatter));
             if (iniData == null)
-                throw new ArgumentNullException("iniData");
+                throw new ArgumentNullException(nameof(iniData));
             if (writer == null)
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
 
             writer.Write(iniData.ToString(formatter));
         }
