@@ -43,12 +43,10 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
         }
 
-		// todo: move to keyData tests
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void create_key_with_invalid_name()
         {
-            new KeyData("");
-            Assert.Fail("I shouldn't be able to create a section with an empty section name");
+            Assert.Throws<ArgumentException>(() => new KeyData(""));
         }
 
 		// todo: move to KeyData tests

@@ -19,11 +19,10 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd.Value, Is.Empty);
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void create_key_with_invalid_name()
         {
-            new KeyData("");
-            Assert.Fail("I shouldn't be able to create a section with an empty section name");
+            Assert.Throws<ArgumentException>(() => new KeyData(""));
         }
 
         [Test]
@@ -38,7 +37,7 @@ namespace IniFileParser.Tests.Unit.Model
             KeyData kd = new KeyData(strKeyTest);
             kd.Value = strValueTest;
             kd.Comments = commentListTest;
-            
+
             //Assert not null and empty
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
@@ -76,9 +75,9 @@ namespace IniFileParser.Tests.Unit.Model
         public void check_merge_keys()
         {
             var keys1 = new KeyDataCollection();
-            keys1.AddKey( "key1", "value1");
-            keys1.AddKey( "key2", "value2");
-            keys1.AddKey( "key3", "value3");
+            keys1.AddKey("key1", "value1");
+            keys1.AddKey("key2", "value2");
+            keys1.AddKey("key3", "value3");
 
             var keys2 = new KeyDataCollection();
             keys2.AddKey("key1", "value11");
@@ -91,7 +90,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(keys1["key3"], Is.EqualTo("value3"));
             Assert.That(keys1["key4"], Is.EqualTo("value4"));
         }
-         
+
         /// <summary>
         ///     Thanks to h.eriksson@artamir.org for the issue.
         /// </summary>

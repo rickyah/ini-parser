@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace IniParser.Exceptions
 {
@@ -27,10 +28,10 @@ namespace IniParser.Exceptions
             : base(
                 string.Format(
                     "{0} while parsing line number {1} with value \'{2}\' - IniParser version: {3}", 
-                    msg, lineNumber, lineValue, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version),
+                    msg, lineNumber, lineValue, Assembly.GetExecutingAssembly().GetName().Version),
                 innerException) 
         { 
-            LibVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            LibVersion = Assembly.GetExecutingAssembly().GetName().Version;
             LineNumber = lineNumber;
             LineValue = lineValue;
         }
