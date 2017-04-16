@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Unit\Configuration\ConfigurationTests.cs" />
+    <Compile Include="Unit\Model\DataTests.cs" />
     <Compile Include="Unit\Model\DefaultIniDataConfigurationTests.cs" />
     <Compile Include="Unit\Parser\ParserDefaultConfigurationTests.cs" />
     <Compile Include="Unit\Model\SectionDataCollectionTests.cs" />
