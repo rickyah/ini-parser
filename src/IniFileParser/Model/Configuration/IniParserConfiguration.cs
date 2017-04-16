@@ -1,4 +1,3 @@
-using System;
 namespace IniParser.Model.Configuration
 {
     /// <summary>
