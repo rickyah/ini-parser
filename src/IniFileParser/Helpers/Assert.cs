@@ -12,5 +12,4 @@ namespace IniParser.Helpers
             return !s.Contains(" ");
         }
     }
-
 }

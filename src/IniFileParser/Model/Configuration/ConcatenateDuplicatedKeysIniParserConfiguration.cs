@@ -2,7 +2,7 @@ namespace IniParser.Model.Configuration
 {
     public class ConcatenateDuplicatedKeysIniParserConfiguration : IniParserConfiguration
     {
-        public new bool AllowDuplicateKeys { get { return true; } }
+        public new bool AllowDuplicateKeys => true;
 
         public ConcatenateDuplicatedKeysIniParserConfiguration()
             :this(new IniScheme())

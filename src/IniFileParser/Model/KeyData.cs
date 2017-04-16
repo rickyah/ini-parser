@@ -16,7 +16,7 @@ namespace IniParser.Model
         /// </summary>
         public KeyData(string keyName)
         {
-            if(string.IsNullOrEmpty(keyName))
+            if (string.IsNullOrEmpty(keyName))
                 throw new ArgumentException("key name can not be empty");
 
             _comments = new List<string>();
@@ -32,7 +32,7 @@ namespace IniParser.Model
         ///     Data is deeply copied
         /// </remarks>
         /// <param name="ori">
-        ///     The instance of the <see cref="KeyData"/> class 
+        ///     The instance of the <see cref="KeyData"/> class
         ///     used to create the new instance.
         /// </param>
         public KeyData(KeyData ori)
@@ -42,9 +42,9 @@ namespace IniParser.Model
             _comments = new List<string>(ori._comments);
         }
 
-        #endregion Constructors 
+        #endregion Constructors
 
-        #region Properties 
+        #region Properties
 
         /// <summary>
         /// Gets or sets the comment list associated to this key.
@@ -52,7 +52,7 @@ namespace IniParser.Model
         public List<string> Comments
         {
             get { return _comments; }
-            set { _comments = new List<string> (value) ; }
+            set { _comments = new List<string>(value); }
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace IniParser.Model
 
         }
 
-        #endregion Properties 
+        #endregion Properties
 
         #region ICloneable Members
 
@@ -101,7 +101,7 @@ namespace IniParser.Model
 
         #region Non-public Members
 
-        // List with comment lines associated to this key 
+        // List with comment lines associated to this key
         private List<string> _comments;
 
         // Unique value associated to this key

@@ -10,8 +10,8 @@ namespace IniParser.Model.Formatting
     {
 
         #region Initialization
-        public IniDataFormatter():this(new IniFormattingConfiguration( new IniScheme() ))
-		{}
+        public IniDataFormatter() : this(new IniFormattingConfiguration(new IniScheme()))
+        { }
 
         public IniDataFormatter(IniFormattingConfiguration configuration)
         {
@@ -20,8 +20,8 @@ namespace IniParser.Model.Formatting
             Format = configuration;
         }
 
-		public IniDataFormatter(IniDataFormatter ori) : this(ori.Format)
-		{}
+        public IniDataFormatter(IniDataFormatter ori) : this(ori.Format)
+        { }
 
         #endregion
 

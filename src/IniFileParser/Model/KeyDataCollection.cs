@@ -101,10 +101,7 @@ namespace IniParser.Model
         /// <summary>
         ///     Return the number of keys in the collection
         /// </summary>
-        public int Count
-        {
-            get { return _keyData.Count; }
-        }
+        public int Count => _keyData.Count;
 
         #endregion
 

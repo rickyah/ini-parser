@@ -1,4 +1,6 @@
 using System;
+using IniParser.Parser;
+
 namespace IniParser.Model.Configuration
 {
     /// <summary>
@@ -44,10 +46,10 @@ namespace IniParser.Model.Configuration
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
 
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
-			Scheme = ori.Scheme.Clone();
+            Scheme = ori.Scheme.Clone();
         }
 
-		public IniScheme Scheme { get; private set; }
+        public IniScheme Scheme { get; private set; }
 
         /// <summary>
         ///     Retrieving section / keys by name is done with a case-insensitive
@@ -56,7 +58,7 @@ namespace IniParser.Model.Configuration
         /// <remarks>
         ///     Defaults to false (case sensitive search)
         /// </remarks>
-        public bool CaseInsensitive{ get; set; }
+        public bool CaseInsensitive { get; set; }
 
         /// <summary>
         ///     Allows having keys in the file that don't belong to any section.
@@ -68,7 +70,7 @@ namespace IniParser.Model.Configuration
         ///     Defaults to <c>true</c>.
         /// </remarks>
         public bool AllowKeysWithoutSection { get; set; }
-			
+
         /// <summary>
         ///     If set to <c>false</c> and the <see cref="IniDataParser"/> finds duplicate keys in a
         ///     section the parser will stop with an error.
@@ -143,7 +145,7 @@ namespace IniParser.Model.Configuration
             var copyObj = obj as IniParserConfiguration;
             if (copyObj == null) return false;
 
-            var oriType = this.GetType();
+            var oriType = GetType();
             try
             {
                 foreach (var property in oriType.GetProperties())
@@ -172,12 +174,12 @@ namespace IniParser.Model.Configuration
         /// <filterpriority>2</filterpriority>
         public IniParserConfiguration Clone()
         {
-			return new IniParserConfiguration(this);
+            return new IniParserConfiguration(this);
         }
 
         object ICloneable.Clone()
         {
-            return this.Clone();
+            return Clone();
         }
 
         #endregion

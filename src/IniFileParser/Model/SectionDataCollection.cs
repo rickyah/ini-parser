@@ -60,7 +60,7 @@ namespace IniParser.Model
         /// <summary>
         /// Returns the number of SectionData elements in the collection
         /// </summary>
-        public int Count { get { return _sectionData.Count; } }
+        public int Count => _sectionData.Count;
 
         /// <summary>
         /// Gets the key data associated to a specified section name.
