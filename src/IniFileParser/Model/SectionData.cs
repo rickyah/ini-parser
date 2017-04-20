@@ -65,8 +65,7 @@ namespace IniParser.Model
         /// </summary>
         public void ClearComments()
         {
-            LeadingComments.Clear();
-            TrailingComments.Clear();
+            Comments.Clear();
             Keys.ClearComments();
         }
 
@@ -89,13 +88,13 @@ namespace IniParser.Model
         /// <param name="toMergeSection"></param>
         public void Merge(SectionData toMergeSection)
         {
-            foreach (var comment in toMergeSection.LeadingComments) 
-                LeadingComments.Add(comment);
+            foreach (var comment in toMergeSection.Comments)
+                Comments.Add(comment);
                 
             Keys.Merge(toMergeSection.Keys);
 
-            foreach(var comment in toMergeSection.TrailingComments) 
-                TrailingComments.Add(comment);
+            foreach(var comment in toMergeSection.Comments)
+                Comments.Add(comment);
         }
 
 		#endregion
@@ -151,6 +150,7 @@ namespace IniParser.Model
             }
 
 
+            internal set { _leadingComments = value;  }
         }
 
 		[Obsolete("Do not use this property, use property Comments instead")]
