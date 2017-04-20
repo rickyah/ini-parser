@@ -77,6 +77,18 @@ name = Marble Zone
             _parser = new IniDataParser(new LiberalTestConfiguration());
         }
 
+
+        [Test]
+        public void check_default_values()
+        {
+            var config = new IniParserConfiguration(new IniScheme());
+
+            Assert.That(config, Is.Not.Null);
+            Assert.That(config.Scheme.CommentRegex, Is.Not.Null);
+            Assert.That(config.Scheme.SectionRegex, Is.Not.Null);
+
+        }
+
         [Test]
         public void simple_configuration()
         {
@@ -206,6 +218,26 @@ name = Marble Zone
 
             var iniData = parser.Parse("");
             Assert.IsNotNull(iniData["noname"]);
+        }
+
+        [Test]
+        public void check_cloning()
+        {
+            IniParserConfiguration config1 = new IniParserConfiguration(new IniScheme());
+
+            config1.AllowDuplicateKeys = true;
+            config1.Scheme.CommentString = "/";
+
+            Assert.That(config1.AllowDuplicateKeys, Is.True);
+            Assert.That(config1.Scheme.CommentString, Is.EqualTo("/"));
+
+            IniParserConfiguration config2 = config1.Clone();
+
+            Assert.That(config2.AllowDuplicateKeys, Is.True);
+            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
+
+            config1.Scheme.CommentString = "#";
+            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
         }
     }
 }
