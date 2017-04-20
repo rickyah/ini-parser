@@ -66,7 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Unit\Configuration\ConfigurationTests.cs" />
-    <Compile Include="Unit\Model\DefaultIniDataConfigurationTests.cs" />
     <Compile Include="Unit\Parser\ParserDefaultConfigurationTests.cs" />
     <Compile Include="Unit\Model\SectionDataCollectionTests.cs" />
     <Compile Include="Unit\IniParserFile_Test.cs" />
@@ -74,13 +73,11 @@
     <Compile Include="Unit\IniStringParser_Test.cs" />
     <Compile Include="Unit\Model\KeyDataTests.cs" />
     <Compile Include="Unit\Model\SectionDataTests.cs" />
-    <Compile Include="Unit\Model\MergeIniFiles.cs" />
     <Compile Include="Unit\Model\INIDataTests.cs" />
     <Compile Include="Unit\Parser\ParserTests.cs" />
     <Compile Include="Unit\Parser\FileIniDataParserTests.cs" />
     <Compile Include="Unit\Parser\StreamIniDataParserTests.cs" />
     <Compile Include="Unit\Parser\StringIniDataParserTests.cs" />
-    <Compile Include="Unit\Model\IniDataCaseInsensitiveTests.cs" />
     <Compile Include="Unit\Parser\ConcatenateDuplicatedKeysIniDataParserTests.cs" />
     <Compile Include="Unit\Model\KeyDataCollectionTests.cs" />
     <Compile Include="Unit\TestsSetup.cs" />
