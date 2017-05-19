@@ -59,6 +59,7 @@ namespace IniParser.Model.Configuration
             AllowCreateSectionsOnFly = true;
             ThrowExceptionsOnError = true;
             SkipInvalidLines = false;
+			VariableSubstitution = false;
         }
 
         /// <summary>
@@ -79,6 +80,7 @@ namespace IniParser.Model.Configuration
             SectionEndChar = ori.SectionEndChar;
             CommentString = ori.CommentString;
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
+			VariableSubstitution = ori.VariableSubstitution;
 
           // Regex values should recreate themselves.
         }
@@ -276,6 +278,8 @@ namespace IniParser.Model.Configuration
         public bool AllowCreateSectionsOnFly { get; set; }
 
         public bool SkipInvalidLines { get; set; }
+
+		public bool VariableSubstitution { get; set; }
 
         #endregion
 

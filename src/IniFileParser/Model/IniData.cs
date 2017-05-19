@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using IniParser.Model.Configuration;
 using IniParser.Model.Formatting;
 
@@ -235,7 +236,7 @@ namespace IniParser.Model
             if (!sectionData.ContainsKey(key))
                 return false;
 
-            value = sectionData[key];
+			value = this.Configuration.VariableSubstitution ? Substitute(sectionData[key]) : sectionData[key];
             return true;
         }
 
@@ -285,6 +286,16 @@ namespace IniParser.Model
             {
                 Global[globalValue.KeyName] = globalValue.Value;
             }
+		}
+
+		/// <summary>
+		/// Substitute variables with corresponding values
+		/// </summary>
+		/// <returns>The substituted string</returns>
+		/// <param name="value">Value.</param>
+		private string Substitute(string value)
+		{
+			return Regex.Replace(value, @"\$\{([^}]+)\}", m => GetKey(m.Groups[1].Value));
         }
     }
 }
