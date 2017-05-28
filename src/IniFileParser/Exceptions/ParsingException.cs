@@ -7,9 +7,7 @@ namespace IniParser.Exceptions
     /// </summary>
     public class ParsingException : Exception
     {
-#if NET20
         public Version LibVersion {get; private set;}
-#endif
         public int LineNumber {get; private set;}
         public string LineValue {get; private set;}
 
@@ -25,29 +23,16 @@ namespace IniParser.Exceptions
             :this(msg, lineNumber, lineValue, null)
         {}
 
-#if NET20
         public ParsingException(string msg, int lineNumber, string lineValue, Exception innerException)
             : base(
                 string.Format(
                     "{0} while parsing line number {1} with value \'{2}\' - IniParser version: {3}", 
-                    msg, lineNumber, lineValue, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version),
+                    msg, lineNumber, lineValue, typeof(ParsingException).GetCurrentVersion()),
                 innerException) 
         { 
-            LibVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            LibVersion = typeof(ParsingException).GetCurrentVersion();
             LineNumber = lineNumber;
             LineValue = lineValue;
         }
-#else
-        public ParsingException(string msg, int lineNumber, string lineValue, Exception innerException)
-            : base(
-                string.Format(
-                    "{0} while parsing line number {1} with value \'{2}\'",
-                    msg, lineNumber, lineValue),
-                innerException)
-        {
-            LineNumber = lineNumber;
-            LineValue = lineValue;
-        }
-#endif
     }
 }

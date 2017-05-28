@@ -16,5 +16,23 @@ namespace IniParser
             return type.GetTypeInfo().DeclaredProperties.ToArray();
         }
 #endif
+        internal static Version GetCurrentVersion(this Type type)
+        {
+            Assembly assembly;
+#if NET20
+            assembly = Assembly.GetExecutingAssembly();
+#else
+            assembly = type.GetTypeInfo().Assembly;
+#endif
+            return assembly.GetName().Version;
+        }
     }
+}
+
+// you need this once (only), and it must be in this namespace
+namespace System.Runtime.CompilerServices
+{
+    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class
+         | AttributeTargets.Method)]
+    public sealed class ExtensionAttribute : Attribute { }
 }
