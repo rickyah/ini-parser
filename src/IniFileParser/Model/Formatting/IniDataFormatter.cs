@@ -36,7 +36,7 @@ namespace IniParser.Model.Formatting
             if (sb.Length > 0) sb.Append(format.NewLineStr);
 
             // Leading comments
-            WriteComments(section.Comments, sb);
+            WriteComments(section.Comments, sb, scheme, format);
 
             //Write section name
             sb.Append(string.Format("{0}{1}{2}{3}",
@@ -48,7 +48,7 @@ namespace IniParser.Model.Formatting
             WriteKeyValueData(section.Keys, sb, scheme, format);
 
             // Trailing comments
-            WriteComments(section.Comments, sb);
+            WriteComments(section.TrailingComments, sb, scheme, format);
         }
 
         private void WriteKeyValueData(KeyDataCollection keyDataCollection,

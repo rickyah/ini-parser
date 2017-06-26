@@ -132,7 +132,12 @@ namespace IniParser.Model.Configuration
         /// <remarks>
         ///     Defaults to character '='
         /// </remarks>
-        public string KeyValueAssigmentString { get; set; }
+        public string KeyValueAssigmentString {
+            get { return PropertyDelimiterString;  }
+            set { PropertyDelimiterString = value; }
+        }
+
+        public string PropertyDelimiterString { get; set; }
 
         #region Fields
         string _sectionStartString = string.Empty;

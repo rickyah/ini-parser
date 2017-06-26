@@ -71,10 +71,8 @@ name = Marble Zone
         [Test]
         public void check_default_values()
         {
-            // TODO: bad test
-            var scheme = new IniScheme();
             var config = new IniParserConfiguration();
-
+            var scheme = new IniScheme();
             Assert.That(config, Is.Not.Null);
             Assert.That(scheme.CommentRegex, Is.Not.Null);
             Assert.That(scheme.SectionRegex, Is.Not.Null);
@@ -213,22 +211,14 @@ name = Marble Zone
         [Test]
         public void check_cloning()
         {
-            IniParserConfiguration config1 = new IniParserConfiguration();
-            var scheme = new IniScheme();
+            var config1 = new IniParserConfiguration();
 
             config1.AllowDuplicateKeys = true;
-            scheme.CommentString = "/";
-
             Assert.That(config1.AllowDuplicateKeys, Is.True);
-            Assert.That(scheme.CommentString, Is.EqualTo("/"));
 
-            IniParserConfiguration config2 = config1.Clone();
-
+            var config2 = config1.Clone();
             Assert.That(config2.AllowDuplicateKeys, Is.True);
-            Assert.That(scheme.CommentString, Is.EqualTo("/"));
 
-            scheme.CommentString = "#";
-            Assert.That(scheme.CommentString, Is.EqualTo("/"));
         }
     }
 }

@@ -2,8 +2,10 @@
 using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
+using IniParser.Exceptions;
+using IniParser.Model.Configuration;
 
-namespace IniParser.Tests.Unit.Parser
+namespace IniFileParser.Tests.Unit.Parser
 {
     [TestFixture]
     public class ParserTests
@@ -64,6 +66,12 @@ mykey1 = value1
         public void parse_ini_string_with_custom_configuration()
         {
             var parser = new IniDataParser();
+
+            IniParser.Model.Configuration.IniParserConfiguration config = parser.Configuration;
+
+            parser.Scheme.CommentString = "#";
+            parser.Scheme.SectionStartString = "<";
+            parser.Scheme.SectionEndString = ">";
 
             IniData data = parser.Parse(iniFileStrCustom);
 

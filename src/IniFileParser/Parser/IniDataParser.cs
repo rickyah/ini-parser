@@ -338,7 +338,7 @@ namespace IniParser.Parser
             currentIniData.Sections.AddSection(sectionName);
 
             // Save comments read until now and assign them to this section
-            currentIniData.Sections.GetSectionData(sectionName).Comments.AddRange(_currentCommentListTemp);
+            currentIniData.Sections.GetSectionData(sectionName).Comments = _currentCommentListTemp;
             _currentCommentListTemp.Clear();
 
         }

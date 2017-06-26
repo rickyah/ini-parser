@@ -60,7 +60,7 @@ namespace IniParser.Model
 
         #endregion
 
-		#region Operations
+        #region Operations
 
         /// <summary>
         ///     Deletes all comments in this section and key/value pairs
@@ -74,10 +74,10 @@ namespace IniParser.Model
         /// <summary>
         /// Deletes all the key-value pairs in this section.
         /// </summary>
-		public void ClearKeyData()
-		{
-			Keys.RemoveAllKeys();
-		}
+        public void ClearKeyData()
+        {
+            Keys.RemoveAllKeys();
+        }
 
         /// <summary>
         ///     Merges otherSection into this, adding new keys if they don't exists
@@ -96,7 +96,7 @@ namespace IniParser.Model
             Keys.Merge(toMergeSection.Keys);
         }
 
-		#endregion
+        #endregion
 
         #region Properties
 
@@ -121,7 +121,7 @@ namespace IniParser.Model
         }
 
 
-		[Obsolete("Do not use this property, use property Comments instead")]
+        [Obsolete("Do not use this property, use property Comments instead")]
         public List<string> LeadingComments
         {
             get
@@ -145,16 +145,14 @@ namespace IniParser.Model
         {
             get
             {
-                return _comments;
+             return _comments;
             }
 
-            set
-            {
-                _comments = new List<string>(value);
-            }
+
+            internal set { _comments = value;  }
         }
 
-		[Obsolete("Do not use this property, use property Comments instead")]
+        [Obsolete("Do not use this property, use property Comments instead")]
         public List<string> TrailingComments
         {
             get
