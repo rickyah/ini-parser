@@ -14,9 +14,11 @@ namespace IniParser.Model
         /// <summary>
         ///     Initializes an empty IniData instance.
         /// </summary>
-        public IniDataCaseInsensitive() 
+        public IniDataCaseInsensitive()
             : base (new SectionDataCollection(StringComparer.OrdinalIgnoreCase))
-        {}
+        {
+            Global = new KeyDataCollection(StringComparer.OrdinalIgnoreCase);
+        }
 
         /// <summary>
         ///     Initializes a new IniData instance using a previous
@@ -28,7 +30,9 @@ namespace IniParser.Model
         /// </param>
         public IniDataCaseInsensitive(SectionDataCollection sdc)
             : base (new SectionDataCollection(sdc, StringComparer.OrdinalIgnoreCase))
-        {}
+        {
+            Global = new KeyDataCollection(StringComparer.OrdinalIgnoreCase);
+        }
 
         /// <summary>
         /// Copies an instance of the <see cref="IniParser.Model.IniDataCaseInsensitive"/> class

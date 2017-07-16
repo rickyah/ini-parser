@@ -82,7 +82,6 @@ Merging ini files is a one-method operation:
 
    IniData config = parser.Parse(File.ReadAllText("global_config.ini"));
    IniData user_config = parser.Parse(File.ReadAllText("user_config.ini"));
-
    config.Merge(user_config);
 
    // config now contains that data from both ini files, and the values of

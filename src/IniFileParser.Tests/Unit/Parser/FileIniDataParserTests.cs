@@ -26,7 +26,7 @@ namespace IniFileParser.Tests.Unit.Parser
         {
             FileIniDataParser parser = new FileIniDataParser();
 
-            IniData parsedData = parser.LoadFile("Issue11_example.ini");
+            IniData parsedData = parser.ReadFile("Issue11_example.ini");
 
             Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
         }

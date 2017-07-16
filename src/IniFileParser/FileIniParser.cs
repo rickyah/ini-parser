@@ -103,7 +103,7 @@ namespace IniParser
         [Obsolete("Please use WriteFile method instead of this one as is more semantically accurate")]
         public void SaveFile(string filePath, IniData parsedData)
         {
-            WriteFile(filePath, parsedData, Encoding.ASCII);
+            WriteFile(filePath, parsedData, Encoding.UTF8);
         }
                              
         /// <summary>
@@ -123,7 +123,7 @@ namespace IniParser
             // The default value can't be assigned as a default parameter value because it is not
             // a constant expression.
 			if (fileEncoding == null)
-				fileEncoding = Encoding.ASCII;
+				fileEncoding = Encoding.UTF8;
 
             if (string.IsNullOrEmpty(filePath))
                 throw new ArgumentException("Bad filename.");
