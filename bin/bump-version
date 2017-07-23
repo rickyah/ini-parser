@@ -77,6 +77,10 @@ case $COMMAND in
 
         printf "New value: "
         eval $LIST_CMD
+
+        printf 'Saving change to git'
+        git add ./src/IniFileParser/Properties/AssemblyInfo.cs
+        git cm "Bumping version to $NEW_VERSION"
     ;;
 esac
 

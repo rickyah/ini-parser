@@ -7,7 +7,12 @@ xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
 # run tests
 mono ./src/packages/NUnit.Runners.2.6.4/tools/nunit-console.exe -noxml -nodots -labels ./src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
 
+# strong sign assembly
+sn -R lib/INIFileParser.dll ./src/IniFileParser/Properties/publickey.snk
+
 mkdir -p build
 
+VERSION=$(monodis --assembly lib/INIFileParser.dll | grep Version | cut -d':' -f2 | tr -d ' ' | cut -c1-5)
+
 # generate the nuget package
-mono --runtime=v4.0 ~/bin/NuGet.exe pack ./src/IniFileParser/INIFileParser.nuspec -NoDefaultExcludes -OutputDirectory ./build -Version $1
+mono --runtime=v4.0 ~/bin/NuGet.exe pack ./src/IniFileParser/INIFileParser.nuspec -NoDefaultExcludes -OutputDirectory ./build -Version $VERSION
