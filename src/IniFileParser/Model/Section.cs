@@ -7,20 +7,20 @@ namespace IniParser.Model
     ///     Information associated to a section in a INI File
     ///     Includes both the value and the comments associated to the key.
     /// </summary>
-    public class SectionData : ICloneable
+    public class Section : IDeepCloneable<Section>
     {
         IEqualityComparer<string> _searchComparer;
         #region Initialization
 
-        public SectionData(string sectionName)
+        public Section(string sectionName)
             :this(sectionName, EqualityComparer<string>.Default)
         {
-            
+
         }
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SectionData"/> class.
+        ///     Initializes a new instance of the <see cref="Section"/> class.
         /// </summary>
-        public SectionData(string sectionName, IEqualityComparer<string> searchComparer)
+        public Section(string sectionName, IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer;
 
@@ -34,20 +34,20 @@ namespace IniParser.Model
 
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SectionData"/> class
-        ///     from a previous instance of <see cref="SectionData"/>.
+        ///     Initializes a new instance of the <see cref="Section"/> class
+        ///     from a previous instance of <see cref="Section"/>.
         /// </summary>
         /// <remarks>
         ///     Data is deeply copied
         /// </remarks>
         /// <param name="ori">
-        ///     The instance of the <see cref="SectionData"/> class 
+        ///     The instance of the <see cref="Section"/> class
         ///     used to create the new instance.
         /// </param>
         /// <param name="searchComparer">
         ///     Search comparer.
         /// </param>
-        public SectionData(SectionData ori, IEqualityComparer<string> searchComparer = null)
+        public Section(Section ori, IEqualityComparer<string> searchComparer = null)
         {
             SectionName = ori.SectionName;
 
@@ -88,12 +88,18 @@ namespace IniParser.Model
         ///     Comments are also merged but they are always added, not overwritten.
         /// </remarks>
         /// <param name="toMergeSection"></param>
-        public void Merge(SectionData toMergeSection)
+        public void Merge(Section toMergeSection)
         {
             foreach (var comment in toMergeSection.Comments)
                 Comments.Add(comment);
 
             Keys.Merge(toMergeSection.Keys);
+<<<<<<< HEAD:src/IniFileParser/Model/SectionData.cs
+=======
+
+            foreach(var comment in toMergeSection.Comments)
+                Comments.Add(comment);
+>>>>>>> Rename: SectionData->Section. Also add IDeepCloneable<T> interface:src/IniFileParser/Model/Section.cs
         }
 
         #endregion
@@ -186,7 +192,7 @@ namespace IniParser.Model
 
         #endregion
 
-        #region ICloneable Members
+        #region IDeepCloneable Members
 
         /// <summary>
         ///     Creates a new object that is a copy of the current instance.
@@ -194,9 +200,9 @@ namespace IniParser.Model
         /// <returns>
         ///     A new object that is a copy of this instance.
         /// </returns>
-        public object Clone()
+        public Section DeepClone()
         {
-            return new SectionData(this);
+            return new Section(this);
         }
 
         #endregion
@@ -218,7 +224,5 @@ namespace IniParser.Model
         {
             return SectionName;
         }
-
-
     }
 }

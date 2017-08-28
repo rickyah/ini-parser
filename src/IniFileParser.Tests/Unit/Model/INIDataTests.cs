@@ -56,7 +56,7 @@ value1 = 10.6";
         {
 
             var data = new IniDataCaseInsensitive();
-            var section = new SectionData("TestSection");
+            var section = new Section("TestSection");
             section.Keys.AddKey("keY1", "value1");
             section.Keys.AddKey("KEY2", "value2");
             section.Keys.AddKey("KeY2", "value3");

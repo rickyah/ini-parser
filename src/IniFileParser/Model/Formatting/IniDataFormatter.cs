@@ -16,7 +16,7 @@ namespace IniParser.Model.Formatting
             WriteKeyValueData(iniData.Global, sb, iniData.Scheme, format);
 
             //Write sections
-            foreach (SectionData section in iniData.Sections)
+            foreach (var section in iniData.Sections)
             {
                 //Write current section
                 WriteSection(section, sb, iniData.Scheme, format);
@@ -27,7 +27,7 @@ namespace IniParser.Model.Formatting
 
         #region Helpers
 
-        private void WriteSection(SectionData section,
+        private void WriteSection(Section section,
                                   StringBuilder sb,
                                   IIniScheme scheme,
                                   IniFormattingConfiguration format)

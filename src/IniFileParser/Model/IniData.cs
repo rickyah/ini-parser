@@ -91,7 +91,7 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Gets or sets all the <see cref="SectionData"/> 
+        /// Gets or sets all the <see cref="Section"/>
         /// for this IniData instance.
         /// </summary>
         public SectionDataCollection Sections
@@ -170,7 +170,7 @@ namespace IniParser.Model
         /// <summary>
         ///     Merge the sections into this by overwriting this sections.
         /// </summary>
-        private void MergeSection(SectionData otherSection)
+        private void MergeSection(Section otherSection)
         {
             // no overlap -> create no section
             if (!Sections.ContainsSection(otherSection.SectionName))

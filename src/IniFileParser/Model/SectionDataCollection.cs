@@ -7,7 +7,7 @@ namespace IniParser.Model
     /// <summary>
     /// <para>Represents a collection of SectionData.</para>
     /// </summary>
-    public class SectionDataCollection : ICloneable, IEnumerable<SectionData>
+    public class SectionDataCollection : ICloneable, IEnumerable<Section>
     {
         IEqualityComparer<string> _searchComparer;
         #region Initialization
@@ -29,7 +29,7 @@ namespace IniParser.Model
         {
             _searchComparer = searchComparer;
 
-            _sectionData = new Dictionary<string, SectionData>(_searchComparer);
+            _sectionData = new Dictionary<string, Section>(_searchComparer);
         }
 
         /// <summary>
@@ -51,10 +51,10 @@ namespace IniParser.Model
         {
             _searchComparer = searchComparer ?? EqualityComparer<string>.Default;
                 
-            _sectionData = new Dictionary<string, SectionData>(_searchComparer);
+            _sectionData = new Dictionary<string, Section>(_searchComparer);
             foreach(var sectionData in ori)
             {
-                _sectionData.Add(sectionData.SectionName, (SectionData)sectionData.Clone());
+                _sectionData.Add(sectionData.SectionName, sectionData.DeepClone());
             };
         }
 
@@ -110,7 +110,7 @@ namespace IniParser.Model
         {
             if ( !ContainsSection(keyName) )
             {
-                _sectionData.Add( keyName, new SectionData(keyName, _searchComparer) );
+                _sectionData.Add( keyName, new Section(keyName, _searchComparer) );
                 return true;
             }
 
@@ -121,15 +121,15 @@ namespace IniParser.Model
         ///     Adds a new SectionData instance to the collection
         /// </summary>
         /// <param name="data">SectionData instance.</param>
-        public void Add(SectionData data)
+        public void Add(Section data)
         {
             if (ContainsSection(data.SectionName))
             {
-                SetSectionData(data.SectionName, new SectionData(data, _searchComparer));
+                SetSectionData(data.SectionName, new Section(data, _searchComparer));
             }
             else
             {
-                _sectionData.Add(data.SectionName, new SectionData(data, _searchComparer));
+                _sectionData.Add(data.SectionName, new Section(data, _searchComparer));
             }
         }
         /// <summary>
@@ -163,10 +163,10 @@ namespace IniParser.Model
         ///     Name of the section.
         /// </param>
         /// <returns>
-        ///     An instance of a <see cref="SectionData"/> class
+        ///     An instance of a <see cref="Section"/> class
         ///     holding the section data for the currently INI data
         /// </returns>
-        public SectionData GetSectionData(string sectionName)
+        public Section GetSectionData(string sectionName)
         {
             if (_sectionData.ContainsKey(sectionName))
                 return _sectionData[sectionName];
@@ -193,8 +193,8 @@ namespace IniParser.Model
         /// Sets the section data for given a section name.
         /// </summary>
         /// <param name="sectionName"></param>
-        /// <param name="data">The new <see cref="SectionData"/>instance.</param>
-        public void SetSectionData(string sectionName, SectionData data)
+        /// <param name="data">The new <see cref="Section"/>instance.</param>
+        public void SetSectionData(string sectionName, Section data)
         {
             if ( data != null )
                 _sectionData[sectionName] = data;
@@ -222,7 +222,7 @@ namespace IniParser.Model
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<SectionData> GetEnumerator()
+        public IEnumerator<Section> GetEnumerator()
         {
             foreach (string sectionName in _sectionData.Keys)
                 yield return _sectionData[sectionName];
@@ -265,7 +265,7 @@ namespace IniParser.Model
         /// <summary>
         /// Data associated to this section
         /// </summary>
-        private readonly Dictionary<string, SectionData> _sectionData;
+        private readonly Dictionary<string, Section> _sectionData;
 
         #endregion
 
