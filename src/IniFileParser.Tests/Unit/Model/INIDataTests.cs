@@ -79,13 +79,12 @@ value1 = 10.6";
             KEY1 = value1
             KEY2 = value2";
 
-            var config = new IniParserConfiguration();
-            config.CaseInsensitive = true;
-            var data = new IniDataParser(new IniScheme(), config).Parse(iniData);
+            var parser = new IniDataParser();
+            parser.Configuration.CaseInsensitive = true;
+            var data = parser.Parse(iniData);
 
             Assert.That(data["testsection"]["key1"], Is.EqualTo("value1"));
             Assert.That(data["testSection"]["Key2"], Is.EqualTo("value2"));
-
         }
 
         [Test, Description("Test for Issue 135: https://github.com/rickyah/ini-parser/issues/135")]

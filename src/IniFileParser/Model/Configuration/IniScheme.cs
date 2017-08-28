@@ -16,7 +16,9 @@ namespace IniParser.Model.Configuration
     /// key/values or comments.
     /// Used IniDataParser to read INI files, and an IIniDataFormatter to write a new ini file string.
     /// </summary>
-	public class IniScheme : IIniScheme, ICloneable
+	public class IniScheme : IIniScheme,
+                             IDeepCloneable<IniScheme>,
+                             IOverwritable<IniScheme>
     {
         /// <summary>
         ///     Ctor.
@@ -60,9 +62,8 @@ namespace IniParser.Model.Configuration
             SectionStartString= ori.SectionStartString;
             SectionEndString = ori.SectionEndString;
             CommentString = ori.CommentString;
-
-            // Regex values should recreate themselves.
         }
+
 
         public Regex CommentRegex { get; set; }
 
@@ -203,15 +204,18 @@ namespace IniParser.Model.Configuration
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public IniScheme Clone()
+        public IniScheme DeepClone()
         {
-            return this.MemberwiseClone() as IniScheme;
+            return new IniScheme(this);
         }
 
-        object ICloneable.Clone()
+        public void OverwriteWith(IniScheme ori)
         {
-            return this.Clone();
+            if (ori == null) return;
+
+            SectionStartString= ori.SectionStartString;
+            SectionEndString = ori.SectionEndString;
+            CommentString = ori.CommentString;
         }
 
         #endregion

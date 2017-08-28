@@ -22,26 +22,10 @@ namespace IniParser.Parser
         /// <summary>
         ///     Ctor
         /// </summary>
-        /// <remarks>
-        ///     The parser uses a <see cref="IniParserConfiguration"/> by default
-        /// </remarks>
         public IniDataParser()
-            : this(new IniScheme(), new IniParserConfiguration())
-        { }
-
-        /// <summary>
-        ///     Ctor
-        /// </summary>
-        /// <param name="parserConfiguration">
-        ///     Parser's <see cref="IniParserConfiguration"/> instance.
-        /// </param>
-        public IniDataParser(IniScheme scheme, IniParserConfiguration parserConfiguration)
         {
-            if (parserConfiguration == null)
-                throw new ArgumentNullException("parserConfiguration");
-
-            Scheme = scheme;
-            Configuration = parserConfiguration;
+            Scheme = new IniScheme();
+            Configuration = new IniParserConfiguration();
 
             _errorExceptions = new List<Exception>();
         }
@@ -55,7 +39,7 @@ namespace IniParser.Parser
         /// <summary>
         ///     Scheme that defines the structure for the ini file to be parsed
         /// </summary>
-        public virtual IniScheme Scheme { get; protected set; }
+        public IniScheme Scheme { get; protected set; }
 
         /// <summary>
         /// True is the parsing operation encounter any problem
@@ -70,7 +54,6 @@ namespace IniParser.Parser
         /// for each problem found while parsing; otherwise it will only contain the very same
         /// exception that was raised.
         /// </remarks>
-
         public ReadOnlyCollection<Exception> Errors {get {return _errorExceptions.AsReadOnly();} }
 		#endregion
 
@@ -94,7 +77,7 @@ namespace IniParser.Parser
 
             IniData iniData = Configuration.CaseInsensitive ? new IniDataCaseInsensitive() : new IniData();
 
-			iniData.SchemeInternal = Scheme.Clone();
+			iniData.SchemeInternal = Scheme.DeepClone();
 
             if (string.IsNullOrEmpty(iniDataString))
             {

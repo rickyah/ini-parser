@@ -12,7 +12,7 @@ namespace IniFileParser.Tests
             scheme1.CommentString = "/";
             Assert.That(scheme1.CommentString, Is.EqualTo("/"));
 
-            var scheme2 = scheme1.Clone();
+            var scheme2 = scheme1.DeepClone();
             Assert.That(scheme2.CommentString, Is.EqualTo("/"));
         }
     }

@@ -53,7 +53,7 @@ namespace IniParser.Model
 
         public IniData(IniData ori)
         {
-            SchemeInternal = (IniScheme)ori.SchemeInternal.Clone();
+            SchemeInternal = ori.SchemeInternal.DeepClone();
             Global = (KeyDataCollection)ori.Global.Clone();
             _sections = (SectionDataCollection)ori._sections.Clone();
             _defaultIniDataFormatter = new IniDataFormatter();

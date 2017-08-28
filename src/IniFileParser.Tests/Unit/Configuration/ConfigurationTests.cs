@@ -23,11 +23,6 @@ namespace IniParser.Tests.Unit.Configuration
                 ThrowExceptionsOnError = false;
                 SkipInvalidLines = true;
             }
-
-             new LiberalTestConfiguration Clone()
-             {
-                 return base.Clone() as LiberalTestConfiguration;
-             }
         }
 
         private IniDataParser _parser;
@@ -64,7 +59,7 @@ name = Marble Zone
         [SetUp]
         public void setup()
         {
-            _parser = new IniDataParser(new IniScheme(), new LiberalTestConfiguration());
+            _parser = new IniDataParser();
         }
 
 
@@ -143,12 +138,12 @@ name = Marble Zone
         [Test]
         public void check_ini_writing()
         {
-            var config = new LiberalTestConfiguration();
-            var iniScheme = new IniScheme();
-            iniScheme.CommentString = "#";
+            var parser = new IniDataParser();
+            parser.Scheme.CommentString = "#";
+            parser.Configuration.OverwriteWith(new LiberalTestConfiguration());
             var formatConfig = new IniFormattingConfiguration();
 
-            IniData data = new IniDataParser(iniScheme, config).Parse(iniFileStr);
+            IniData data = parser.Parse(iniFileStr);
 
             var originalFile = iniFileStr.Replace(Environment.NewLine, string.Empty);
             var generatedFile = data.ToString(formatConfig).Replace(Environment.NewLine, string.Empty);
@@ -158,8 +153,9 @@ name = Marble Zone
         [Test]
         public void check_new_line_confige_on_ini_writing()
         {
-            var configuration = new LiberalTestConfiguration();
-            IniData data = new IniDataParser(new IniScheme(), configuration).Parse(iniFileStr);
+            var parser = new IniDataParser();
+            parser.Configuration.OverwriteWith(new LiberalTestConfiguration());
+            IniData data = parser.Parse(iniFileStr);
 
             var formatConfig = new IniFormattingConfiguration();
             formatConfig.NewLineStr = "^_^";
@@ -216,7 +212,7 @@ name = Marble Zone
             config1.AllowDuplicateKeys = true;
             Assert.That(config1.AllowDuplicateKeys, Is.True);
 
-            var config2 = config1.Clone();
+            var config2 = config1.DeepClone();
             Assert.That(config2.AllowDuplicateKeys, Is.True);
 
         }

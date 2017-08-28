@@ -12,7 +12,8 @@ namespace IniParser.Model.Configuration
     ///     the ini file (e.g. change the 'comment' caracter from ';' to '#')
     ///     You can also define how the parser should treat errors, or how liberal
     ///     or conservative should it be when parsing files with "strange" formats.
-    public class IniParserConfiguration : ICloneable
+    public class IniParserConfiguration : IDeepCloneable<IniParserConfiguration>,
+                                          IOverwritable<IniParserConfiguration>
     {
         /// <summary>
         ///     Default values used if an instance of <see cref="IniDataParser"/>
@@ -44,7 +45,6 @@ namespace IniParser.Model.Configuration
 
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
         }
-
 
         /// <summary>
         ///     Retrieving section / keys by name is done with a case-insensitive
@@ -123,24 +123,31 @@ namespace IniParser.Model.Configuration
 
         public bool SkipInvalidLines { get; set; }
 
-        #region ICloneable Members
+        #region IDeepCloneable<T> Members
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public IniParserConfiguration Clone()
+        public IniParserConfiguration DeepClone()
         {
 			return new IniParserConfiguration(this);
         }
+        #endregion
 
-        object ICloneable.Clone()
+        #region IOverwritable<T> Members
+        /// <summary>
+        /// Replaces contents of this instance with the parameter
+        /// </summary>
+        public void OverwriteWith(IniParserConfiguration ori)
         {
-            return this.Clone();
-        }
+            if (ori == null) return;
 
+            AllowDuplicateKeys = ori.AllowDuplicateKeys;
+            OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
+            AllowDuplicateSections = ori.AllowDuplicateSections;
+            AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
+
+            ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
+        }
         #endregion
     }
 }
