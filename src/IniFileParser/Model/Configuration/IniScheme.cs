@@ -59,9 +59,10 @@ namespace IniParser.Model.Configuration
         /// </param>
         public IniScheme(IniScheme ori)
         {
-            SectionStartString= ori.SectionStartString;
-            SectionEndString = ori.SectionEndString;
-            CommentString = ori.CommentString;
+            PropertyDelimiterString = ori.PropertyDelimiterString;
+            _sectionStartString = ori.SectionStartString;
+            _sectionEndString = ori.SectionEndString;
+            _commentString = ori.CommentString;
         }
 
 
@@ -213,7 +214,8 @@ namespace IniParser.Model.Configuration
         {
             if (ori == null) return;
 
-            SectionStartString= ori.SectionStartString;
+            KeyValueAssigmentString = ori.KeyValueAssigmentString;
+            SectionStartString = ori.SectionStartString;
             SectionEndString = ori.SectionEndString;
             CommentString = ori.CommentString;
         }
