@@ -9,9 +9,21 @@ using NUnit.Framework;
 // TODO change namespaces and keep consistency (see Unit Test explorer)
 namespace IniParser.Tests.Unit.Model
 {
-    [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
+    [TestFixture,
+
+    Description("Test of data structures used to hold information retrieved for an INI file")]
     public class INIDataTests
     {
+        [Test] void parse_comments()
+        {
+            string iniData = @";comment1
+key1 = 2
+;comment2
+[section1]
+
+;a value
+value1 = 10.6";
+        }
         [Test]
         public void delete_all_comments()
         {

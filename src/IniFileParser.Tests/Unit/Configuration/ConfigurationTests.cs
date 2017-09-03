@@ -90,12 +90,6 @@ name = Marble Zone
         }
 
         [Test]
-        public void check_configuration_is_correct()
-        {
-            Assert.That(_parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
-        }
-
-        [Test]
         public void parse_not_so_good_ini_format()
         {
             var data = _parser.Parse(iniFileStrNotSoGood);

@@ -75,7 +75,7 @@ namespace IniParser.Parser
             if (currentCharIdx < currentLine.Length
             && currentLine[currentCharIdx] == '\n')
             {
-                var token = new Token(Token.TokenType.NEWLINE, null, lineCount);
+                var token = new Token(Token.Type.NEWLINE, null, lineCount);
                 mTokens.Add(token);
                 currentCharIdx++;
             }
@@ -87,7 +87,7 @@ namespace IniParser.Parser
         {
             if (IsPropertyDelimiter(currentLine, currentCharIdx, scheme))
             {
-                var token = new Token(Token.TokenType.PROPERTY_DELIMITER, null, lineCount);
+                var token = new Token(Token.Type.PROPERTY_DELIMITER, null, lineCount);
                 mTokens.Add(token);
                 currentCharIdx += scheme.PropertyDelimiterString.Length;
             }
@@ -99,7 +99,7 @@ namespace IniParser.Parser
         {
             if (IsSectionEnd(currentLine, currentCharIdx, scheme))
             {
-                var token = new Token(Token.TokenType.SECTION_CLOSE, null, lineCount);
+                var token = new Token(Token.Type.SECTION_CLOSE, null, lineCount);
                 mTokens.Add(token);
                 currentCharIdx += scheme.SectionEndString.Length;
                 mIsSectionOpened = false;
@@ -112,7 +112,7 @@ namespace IniParser.Parser
         {
             if (IsSectionStart(currentLine, currentCharIdx, scheme))
             {
-                var token = new Token(Token.TokenType.SECTION_OPEN, null, lineCount);
+                var token = new Token(Token.Type.SECTION_OPEN, null, lineCount);
                 mTokens.Add(token);
                 currentCharIdx += scheme.SectionStartString.Length;
                 mIsSectionOpened = true;
@@ -140,7 +140,7 @@ namespace IniParser.Parser
             if (currentCharIdx > startIdx)
             {
                 var literal = currentLine.Substring(startIdx, currentCharIdx - startIdx);
-                var token = new Token(Token.TokenType.VALUE, literal, lineCount);
+                var token = new Token(Token.Type.VALUE, literal, lineCount);
                 mTokens.Add(token);
             }
 
@@ -186,7 +186,7 @@ namespace IniParser.Parser
 
                 var literal = currentLine.Substring(startIdx, endIdx);
 
-                var token = new Token(Token.TokenType.COMMENT, literal, lineCount);
+                var token = new Token(Token.Type.COMMENT, literal, lineCount);
 
                 mTokens.Add(token);
 
@@ -209,7 +209,7 @@ namespace IniParser.Parser
             {
                 var wsLiteral = line.Substring(startIndex, nextIndex - startIndex);
 
-                var token = new Token(Token.TokenType.WHITESPACE, wsLiteral, lineCount);
+                var token = new Token(Token.Type.WHITESPACE, wsLiteral, lineCount);
                 mTokens.Add(token);
 
                 startIndex = nextIndex;

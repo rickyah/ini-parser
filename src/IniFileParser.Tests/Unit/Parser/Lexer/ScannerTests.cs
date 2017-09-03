@@ -41,23 +41,23 @@ keyBool = true
 
             scheme.CommentString = "#";
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.COMMENT);
+                                           Token.Type.COMMENT);
 
             Assert.That(tokens.Count, Is.EqualTo(4));
 
-            Assert.That(tokens[0].type, Is.EqualTo(Token.TokenType.COMMENT));
+            Assert.That(tokens[0].type, Is.EqualTo(Token.Type.COMMENT));
             Assert.That(tokens[0].literal, Is.EqualTo("section 1 comment"));
             Assert.That(tokens[0].line, Is.EqualTo(1));
 
-            Assert.That(tokens[1].type, Is.EqualTo(Token.TokenType.COMMENT));
+            Assert.That(tokens[1].type, Is.EqualTo(Token.Type.COMMENT));
             Assert.That(tokens[1].literal, Is.EqualTo("first key comment"));
             Assert.That(tokens[1].line, Is.EqualTo(3));
 
-            Assert.That(tokens[2].type, Is.EqualTo(Token.TokenType.COMMENT));
+            Assert.That(tokens[2].type, Is.EqualTo(Token.Type.COMMENT));
             Assert.That(tokens[2].literal, Is.EqualTo(" second key comment"));
             Assert.That(tokens[2].line, Is.EqualTo(5));
 
-            Assert.That(tokens[3].type, Is.EqualTo(Token.TokenType.COMMENT));
+            Assert.That(tokens[3].type, Is.EqualTo(Token.Type.COMMENT));
             Assert.That(tokens[3].literal, Is.EqualTo("endfile comment"));
             Assert.That(tokens[3].line, Is.EqualTo(8));
         }
@@ -74,15 +74,15 @@ keyString = hello world # not a comment";
 
             scheme.CommentString = "##";
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.COMMENT);
+                                           Token.Type.COMMENT);
 
             Assert.That(tokens.Count, Is.EqualTo(2));
 
-            Assert.That(tokens[0].type, Is.EqualTo(Token.TokenType.COMMENT));
+            Assert.That(tokens[0].type, Is.EqualTo(Token.Type.COMMENT));
             Assert.That(tokens[0].literal, Is.EqualTo("section 1 comment"));
             Assert.That(tokens[0].line, Is.EqualTo(1));
 
-            Assert.That(tokens[1].type, Is.EqualTo(Token.TokenType.COMMENT));
+            Assert.That(tokens[1].type, Is.EqualTo(Token.Type.COMMENT));
             Assert.That(tokens[1].literal, Is.EqualTo("   first key comment"));
             Assert.That(tokens[1].line, Is.EqualTo(3));
         }
@@ -102,16 +102,16 @@ keyString = hello world # not a comment";
             scheme.SectionEndString = "]";
 
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.SECTION_OPEN,
-                                           Token.TokenType.SECTION_CLOSE);
+                                           Token.Type.SECTION_OPEN,
+                                           Token.Type.SECTION_CLOSE);
 
             Assert.That(tokens.Count, Is.EqualTo(2));
 
-            Assert.That(tokens[0].type, Is.EqualTo(Token.TokenType.SECTION_OPEN));
+            Assert.That(tokens[0].type, Is.EqualTo(Token.Type.SECTION_OPEN));
             Assert.That(tokens[0].literal, Is.Null);
             Assert.That(tokens[0].line, Is.EqualTo(2));
 
-            Assert.That(tokens[1].type, Is.EqualTo(Token.TokenType.SECTION_CLOSE));
+            Assert.That(tokens[1].type, Is.EqualTo(Token.Type.SECTION_CLOSE));
             Assert.That(tokens[1].literal, Is.Null);
             Assert.That(tokens[1].line, Is.EqualTo(2));
 
@@ -131,16 +131,16 @@ keyString = hello world # not a comment";
             scheme.SectionEndString = "<]";
 
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.SECTION_OPEN,
-                                           Token.TokenType.SECTION_CLOSE);
+                                           Token.Type.SECTION_OPEN,
+                                           Token.Type.SECTION_CLOSE);
 
             Assert.That(tokens.Count, Is.EqualTo(2));
 
-            Assert.That(tokens[0].type, Is.EqualTo(Token.TokenType.SECTION_OPEN));
+            Assert.That(tokens[0].type, Is.EqualTo(Token.Type.SECTION_OPEN));
             Assert.That(tokens[0].literal, Is.Null);
             Assert.That(tokens[0].line, Is.EqualTo(2));
 
-            Assert.That(tokens[1].type, Is.EqualTo(Token.TokenType.SECTION_CLOSE));
+            Assert.That(tokens[1].type, Is.EqualTo(Token.Type.SECTION_CLOSE));
             Assert.That(tokens[1].literal, Is.Null);
             Assert.That(tokens[1].line, Is.EqualTo(2));
 
@@ -160,22 +160,22 @@ keyString = hello world # not a comment";
 
             var tokens = TokenizeString(testIniFile, scheme);
 
-            Assert.That(tokens[0].type, Is.EqualTo(Token.TokenType.SECTION_OPEN));
-            Assert.That(tokens[1].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[2].type, Is.EqualTo(Token.TokenType.SECTION_CLOSE));
-            Assert.That(tokens[3].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[4].type, Is.EqualTo(Token.TokenType.SECTION_OPEN));
-            Assert.That(tokens[5].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[6].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[7].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[8].type, Is.EqualTo(Token.TokenType.SECTION_CLOSE));
-            Assert.That(tokens[9].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[10].type, Is.EqualTo(Token.TokenType.SECTION_OPEN));
-            Assert.That(tokens[11].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[12].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[13].type, Is.EqualTo(Token.TokenType.SECTION_OPEN));
-            Assert.That(tokens[14].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[15].type, Is.EqualTo(Token.TokenType.SECTION_CLOSE));
+            Assert.That(tokens[0].type, Is.EqualTo(Token.Type.SECTION_OPEN));
+            Assert.That(tokens[1].type, Is.EqualTo(Token.Type.VALUE));
+            Assert.That(tokens[2].type, Is.EqualTo(Token.Type.SECTION_CLOSE));
+            Assert.That(tokens[3].type, Is.EqualTo(Token.Type.NEWLINE));
+            Assert.That(tokens[4].type, Is.EqualTo(Token.Type.SECTION_OPEN));
+            Assert.That(tokens[5].type, Is.EqualTo(Token.Type.VALUE));
+            Assert.That(tokens[6].type, Is.EqualTo(Token.Type.WHITESPACE));
+            Assert.That(tokens[7].type, Is.EqualTo(Token.Type.VALUE));
+            Assert.That(tokens[8].type, Is.EqualTo(Token.Type.SECTION_CLOSE));
+            Assert.That(tokens[9].type, Is.EqualTo(Token.Type.NEWLINE));
+            Assert.That(tokens[10].type, Is.EqualTo(Token.Type.SECTION_OPEN));
+            Assert.That(tokens[11].type, Is.EqualTo(Token.Type.VALUE));
+            Assert.That(tokens[12].type, Is.EqualTo(Token.Type.NEWLINE));
+            Assert.That(tokens[13].type, Is.EqualTo(Token.Type.SECTION_OPEN));
+            Assert.That(tokens[14].type, Is.EqualTo(Token.Type.VALUE));
+            Assert.That(tokens[15].type, Is.EqualTo(Token.Type.SECTION_CLOSE));
         }
 
         [Test] public void tokenize_whitespace()
@@ -194,12 +194,12 @@ keyString = hello world # not a comment
             scheme.CommentString = "##";
             var allTokens = TokenizeString(testIniFile, scheme);
             var wsTokens = FilterByTokenType(allTokens,
-                                             Token.TokenType.WHITESPACE);
+                                             Token.Type.WHITESPACE);
 
             Assert.That(wsTokens.Count, Is.EqualTo(15));
 
             var nlTokens = FilterByTokenType(allTokens,
-                                             Token.TokenType.NEWLINE);
+                                             Token.Type.NEWLINE);
 
             Assert.That(nlTokens.Count, Is.EqualTo(9));
             for (int i = 0; i < nlTokens.Count; ++i)
@@ -223,7 +223,7 @@ keyBool = true
             scheme.CommentString = "#";
             scheme.PropertyDelimiterString = "=";
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.PROPERTY_DELIMITER);
+                                           Token.Type.PROPERTY_DELIMITER);
 
             Assert.That(tokens.Count, Is.EqualTo(3));
 
@@ -248,7 +248,7 @@ keyBool = true
             scheme.CommentString = "#";
             scheme.PropertyDelimiterString = "=>";
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.PROPERTY_DELIMITER);
+                                           Token.Type.PROPERTY_DELIMITER);
 
             Assert.That(tokens.Count, Is.EqualTo(2));
 
@@ -268,7 +268,7 @@ keyBool = true
             scheme.CommentString = "#";
 
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.NEWLINE);
+                                           Token.Type.NEWLINE);
 
             Assert.That(tokens.Count, Is.EqualTo(3));
 
@@ -279,7 +279,7 @@ keyBool = true
             var testIniFile = @"#comment";
 
             var tokens = FilterByTokenType(TokenizeString(testIniFile, scheme),
-                                           Token.TokenType.NEWLINE);
+                                           Token.Type.NEWLINE);
 
             Assert.That(tokens.Count, Is.EqualTo(0));
         }
@@ -299,43 +299,44 @@ keyString = hello world # second key comment
             var tokens = TokenizeString(testIniFile, scheme);
 
             int idx = 0;
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.COMMENT));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.SECTION_OPEN));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.SECTION_CLOSE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.COMMENT));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.COMMENT));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.PROPERTY_DELIMITER));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.COMMENT));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.NEWLINE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.PROPERTY_DELIMITER));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.WHITESPACE));
-            Assert.That(tokens[idx++].type, Is.EqualTo(Token.TokenType.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.COMMENT));
+            Assert.That(tokens[idx++].type == (Token.Type.NEWLINE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.SECTION_OPEN));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.SECTION_CLOSE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.COMMENT));
+            Assert.That(tokens[idx++].type == (Token.Type.NEWLINE));
+            Assert.That(tokens[idx++].type == (Token.Type.COMMENT));
+            Assert.That(tokens[idx++].type == (Token.Type.NEWLINE));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.PROPERTY_DELIMITER));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.COMMENT));
+            Assert.That(tokens[idx++].type == (Token.Type.NEWLINE));
+            Assert.That(tokens[idx++].type == (Token.Type.NEWLINE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
+            Assert.That(tokens[idx++].type == (Token.Type.PROPERTY_DELIMITER));
+            Assert.That(tokens[idx++].type == (Token.Type.WHITESPACE));
+            Assert.That(tokens[idx++].type == (Token.Type.VALUE));
 
             Assert.That(idx, Is.GreaterThanOrEqualTo(tokens.Count));
         }
 
         #region Helpers
-        List<Token> FilterByTokenType(List<Token> list, params Token.TokenType[] types)
+        List<Token> FilterByTokenType(List<Token> list,
+                                      params Token.Type[] types)
         {
             return list.Where(t => types.Contains(t.type)).ToList();
         }

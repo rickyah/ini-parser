@@ -4,7 +4,7 @@ namespace IniParser.Parser
 {
     public struct Token
     {
-        public enum TokenType {
+        public enum Type {
             SECTION_OPEN,
             SECTION_CLOSE,
             PROPERTY_DELIMITER,
@@ -14,11 +14,11 @@ namespace IniParser.Parser
             NEWLINE
         }
 
-        public TokenType type;
+        public Type type;
         public uint line;
         public string literal;
 
-        public Token(TokenType type, string literal, uint line)
+        public Token(Type type, string literal, uint line)
         {
             this.type = type;
             this.literal = literal;
