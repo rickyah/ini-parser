@@ -88,6 +88,11 @@ namespace IniFileParser.Tests
             result = buffer.FindSubstring("");
             Assert.That(result.start, Is.EqualTo(0));
             Assert.That(result.size, Is.EqualTo(0));
+
+
+            result = buffer.FindSubstring("d!");
+            Assert.That(result.start, Is.EqualTo(10));
+            Assert.That(result.size, Is.EqualTo(2));
         }
 
 
@@ -114,6 +119,12 @@ namespace IniFileParser.Tests
         {
             var str = InitBufferAndReadLine("hello world!");
             buffer.Resize(5);
+            Assert.That(buffer.ToString(), Is.EqualTo("hello"));
+
+            buffer.Resize(50);
+            Assert.That(buffer.ToString(), Is.EqualTo("hello"));
+
+            buffer.Resize(-1);
             Assert.That(buffer.ToString(), Is.EqualTo("hello"));
         }
 

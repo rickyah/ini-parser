@@ -131,28 +131,28 @@ namespace IniParser.Parser
                 return Range.Empty();
             }
 
-            int startIndex = -1;
-            int i = 0;
-            for (; i < Count - subStringLength; ++ i)
+            int startIdx = -1;
+            int currentIdx;
+            for (currentIdx = 0; currentIdx < Count; ++currentIdx)
             {
-                if (this[i] == subString[0])
+                if (this[currentIdx] == subString[0])
                 {
-                    startIndex = i;
+                    startIdx = currentIdx;
                     break;
                 }
             }
 
-            if (startIndex == -1) return Range.Empty();
+            if (startIdx == -1) return Range.Empty();
 
-            for (i = 0; i < subStringLength; ++i)
+            for (currentIdx = 0; currentIdx < subStringLength; ++currentIdx)
             {
-                if (this[startIndex + i] != subString[i])
+                if (this[startIdx + currentIdx] != subString[currentIdx])
                 {
                     return Range.Empty();
                 }
             }
 
-            return Range.FromIndexWithSize(startIndex, subStringLength);
+            return Range.FromIndexWithSize(startIdx, subStringLength);
         }
 
         public bool ReadLine()
@@ -183,7 +183,20 @@ namespace IniParser.Parser
 
         public void Resize(int newSize)
         {
+            if (newSize < 0) return;
+            if (newSize >= _bufferIndexes.size) return;
+
             _bufferIndexes.size = newSize;
+        }
+
+        public void ResizeBetweenIndexes(int startIdx, int endIdx)
+        {
+            if (endIdx <= startIdx) return;
+            if (startIdx < 0) return;
+            if (endIdx > _bufferIndexes.end) return;
+
+            _bufferIndexes.start = _bufferIndexes.start + startIdx;
+            _bufferIndexes.size = endIdx - startIdx;
         }
 
         public string Substring(Range range)
@@ -202,14 +215,5 @@ namespace IniParser.Parser
         StringReader _dataSource;
         Range _bufferIndexes;
 
-        public void ResizeBetweenIndexes(int startIdx, int endIdx)
-        {
-            if (endIdx <= startIdx) return;
-            if (startIdx < 0) return;
-            if (endIdx > _bufferIndexes.end) return;
-
-            _bufferIndexes.start = _bufferIndexes.start + startIdx;
-            _bufferIndexes.size = endIdx - startIdx;
-        }
     }
 }
