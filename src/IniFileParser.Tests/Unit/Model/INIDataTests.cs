@@ -23,6 +23,9 @@ key1 = 2
 
 ;a value
 value1 = 10.6";
+
+            var data = new IniDataParser().Parse(iniData);
+
         }
         [Test]
         public void delete_all_comments()

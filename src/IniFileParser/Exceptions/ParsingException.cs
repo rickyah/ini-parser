@@ -9,31 +9,40 @@ namespace IniParser.Exceptions
     public class ParsingException : Exception
     {
         public Version LibVersion {get; private set;}
-        public int LineNumber {get; private set;}
-        public string LineValue {get; private set;}
+        public uint LineNumber {get; private set;}
+        public string LineContents {get; private set;}
 
-        public ParsingException(string msg)
-            :this(msg, 0, string.Empty, null) 
+        public ParsingException(string msg, uint lineNumber)
+            :this(msg, lineNumber, string.Empty, null)
         {}
 
-        public ParsingException(string msg, Exception innerException)
-            :this(msg, 0, string.Empty, innerException) 
+        public ParsingException(string msg,
+                                uint lineNumber,
+                                Exception innerException)
+            :this(msg, lineNumber, string.Empty, innerException)
         {}
 
-        public ParsingException(string msg, int lineNumber, string lineValue)
-            :this(msg, lineNumber, lineValue, null)
+        public ParsingException(string msg,
+                                uint lineNumber,
+                                string lineContents)
+            :this(msg, lineNumber, lineContents, null)
         {}
             
-        public ParsingException(string msg, int lineNumber, string lineValue, Exception innerException)
-            : base(
-                string.Format(
-                    "{0} while parsing line number {1} with value \'{2}\' - IniParser version: {3}", 
-                    msg, lineNumber, lineValue, Assembly.GetExecutingAssembly().GetName().Version),
-                innerException) 
+        public ParsingException(string msg,
+                                uint lineNumber,
+                                string lineContents,
+                                Exception innerException)
+            : base(string.Format("Error {0}{4}while parsing line [{1}] \'{2}\' - IniParser version: {3}",
+                                 msg,
+                                 lineNumber,
+                                 lineContents,
+                                 Assembly.GetExecutingAssembly().GetName().Version,
+                                 Environment.NewLine),
+                                 innerException)
         { 
             LibVersion = Assembly.GetExecutingAssembly().GetName().Version;
             LineNumber = lineNumber;
-            LineValue = lineValue;
+            LineContents = lineContents;
         }
     }
 }
