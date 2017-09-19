@@ -67,25 +67,22 @@ namespace IniParser
         public IniData ReadFile(string filePath, Encoding fileEncoding)
         {
             if (filePath == string.Empty)
-                throw new ArgumentException("Bad filename.");
-
-            try
             {
-                // (FileAccess.Read) we want to open the ini only for reading 
-                // (FileShare.ReadWrite) any other process should still have access to the ini file 
-                using (FileStream fs = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                throw new ArgumentException("Bad filename.");
+            }
+
+            // (FileAccess.Read) we want to open the ini only for reading
+            // (FileShare.ReadWrite) any other process should still have access to the ini file
+            using (FileStream fs = File.Open(filePath,
+                                             FileMode.Open,
+                                             FileAccess.Read,
+                                             FileShare.ReadWrite))
+            {
+                using (StreamReader sr = new StreamReader(fs, fileEncoding))
                 {
-                    using (StreamReader sr = new StreamReader(fs, fileEncoding))
-                    {
-                        return ReadData(sr);
-                    }
+                    return ReadData(sr);
                 }
             }
-            catch (IOException ex)
-            {
-                throw new ParsingException(String.Format("Could not parse file {0}", filePath), ex);
-            }
-
         }
 
         /// <summary>
