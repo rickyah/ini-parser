@@ -5,6 +5,7 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 using System.Collections.ObjectModel;
 using System.IO;
+using static IniParser.Parser.StringReadBuffer;
 
 namespace IniParser.Parser
 {
@@ -104,14 +105,14 @@ namespace IniParser.Parser
                 }
                 catch (Exception ex)
                 {
-                    var errorEx = new ParsingException(ex.Message,
-                                                       _mBuffer.LineNumber + 1,
-                                                       _mBuffer.ToString(),
-                                                       ex);
-                    _errorExceptions.Add(errorEx);
+                    //var errorEx = new ParsingException(ex.Message,
+                                                       //_mBuffer.LineNumber + 1,
+                                                       //_mBuffer.ToString(),
+                                                       //ex);
+                    _errorExceptions.Add(ex);
                     if (Configuration.ThrowExceptionsOnError)
                     {
-                        throw errorEx;
+                        throw;
                     }
                 }
             }
@@ -249,78 +250,34 @@ namespace IniParser.Parser
             // TODO: change this to a global (IniData level) array of comments
             // Extract comments from current line and store them in a tmp list
 
+            if (ProcessComment(currentLine)) return;
+
+            if (ProcessSection(currentLine, iniData)) return;
+
+            if (ProcessProperty(currentLine, iniData)) return;
+
+
+            if (Configuration.SkipInvalidLines) return;
+
+            throw new ParsingException("Unknown file format", _currentLineNumber);
+        }
+
+        protected bool ProcessComment(StringReadBuffer currentLine)
+        {
             var commentRange = currentLine.FindSubstring(Scheme.CommentString);
-            if (!commentRange.IsEmpty)
-            {
-                var commentStr = currentLine.Substring(commentRange);
-                _currentCommentListTemp.Add(commentStr);
-                currentLine.Resize(commentRange.size - 1);
-            }
+            if (commentRange.IsEmpty) return false;
 
-            //if (LineContainsAComment(currentLine))
-            //{
-            //    currentLine = ExtractComment(currentLine);
-            //}
+            var startIdx = commentRange.start + Scheme.CommentString.Length;
+            var endIdx = startIdx + currentLine.Count - 1;
+            currentLine.ResizeBetweenIndexes(startIdx, endIdx);
 
-            // By default comments must span a complete line (i.e. the comment
-            // character must be located at the beginning of a line), so it may
-            // seem that the following check is not needed.
-            // But, in the situation that the comment parsing behaviour is
-            // changed in a derived class e.g. to allow parsing comment
-            // characters in the middle of a line, the implementor will be
-            // forced to rewrite this complete method.
-            // That was actually the behaviour for parsing comments
-            // in earlier versions of the library, so checking if the current
-            // line is empty (meaning the complete line was a comment) is
-            // future-proof.
+            var commentStr = currentLine.ToString();
+            _currentCommentListTemp.Add(commentStr);
+            currentLine.Resize(commentRange.size - 1);
 
-            // If the entire line was a comment now should be empty,
+            // If the line was a comment now it should be empty,
             // so no further processing is needed.
-            if (currentLine.Count <= 0)
-                return;
-
-            var sectionStartRange = currentLine.FindSubstring(Scheme.SectionStartString);
-            if (!sectionStartRange.IsEmpty)
-            {
-                var sectionEndRange = currentLine.FindSubstring(Scheme.SectionEndString);
-                if (sectionEndRange.IsEmpty)
-                {
-                    throw new ParsingException("bad formed ini: no closing section value",
-                                               _currentLineNumber);
-                }
-
-                var startIdx = sectionStartRange.start;
-                var endIdx = sectionEndRange.end;
-                currentLine.ResizeBetweenIndexes(startIdx, endIdx);
-
-                var sectionName = currentLine.ToString();
-
-                // TODO: optimize
-                ProcessSection(sectionName, iniData);
-
-            }
-
-            string currentLineStr = currentLine.ToString();
-            //Process sections
-            if (LineMatchesASection(currentLineStr))
-            {
-                ProcessSection(currentLineStr, iniData);
-                return;
-            }
-
-            //Process keys
-            if (LineMatchesAKeyValuePair(currentLineStr))
-            {
-                ProcessKeyValuePair(currentLineStr, iniData);
-                return;
-            }
-
-            if (Configuration.SkipInvalidLines)
-                return;
-
-            throw new ParsingException(
-                "Unknown file format. Couldn't parse the line: '" + currentLineStr + "'.",
-                _currentLineNumber);
+            return currentLine.Count <= 0;
         }
 
         /// <summary>
@@ -329,13 +286,27 @@ namespace IniParser.Parser
         /// <param name="line">
         ///     The string to be processed
         /// </param>
-        protected virtual void ProcessSection(string sectionName, IniData iniData)
+        protected virtual bool ProcessSection(StringReadBuffer currentLine, IniData iniData)
         {
-            //// Get section name with delimiters from line...
-            //string sectionName = Scheme.SectionRegex.Match(line).Value.Trim();
+            if (currentLine.Count <= 0) return false;
 
-            //// ... and remove section's delimiters to get just the name
-            //sectionName = sectionName.Substring(1, sectionName.Length - 2).Trim();
+            var sectionStartRange = currentLine.FindSubstring(Scheme.SectionStartString);
+
+            if (sectionStartRange.IsEmpty) return false;
+
+
+            var sectionEndRange = currentLine.FindSubstring(Scheme.SectionEndString);
+            if (sectionEndRange.IsEmpty)
+            {
+                throw new ParsingException("bad formed ini: no closing section value",
+                                           _currentLineNumber);
+            }
+
+            var startIdx = sectionStartRange.start + Scheme.SectionStartString.Length;
+            var endIdx = sectionEndRange.end - Scheme.SectionEndString.Length;
+            currentLine.ResizeBetweenIndexes(startIdx, endIdx);
+
+            var sectionName = currentLine.ToString();
 
 
             // Temporally save section name.
@@ -358,9 +329,47 @@ namespace IniParser.Parser
             // Save comments read until now and assign them to this section
             var sections = iniData.Sections;
             var sectionData = sections.GetSectionData(sectionName);
-            sectionData.Comments = _currentCommentListTemp;
+            sectionData.Comments.AddRange(_currentCommentListTemp);
             _currentCommentListTemp.Clear();
 
+            return true;
+        }
+
+        protected virtual bool ProcessProperty(StringReadBuffer currentLine, IniData iniData)
+        {
+            if (currentLine.Count <= 0) return false;
+
+            var propertyDelimiterPos = currentLine.FindSubstring(Scheme.PropertyDelimiterString);
+
+            if (propertyDelimiterPos.IsEmpty) return false;
+
+
+            var keyRange = Range.WithIndexes(0, propertyDelimiterPos.start - 1);
+            var valueRange = Range.FromIndexWithSize(propertyDelimiterPos.end + 1,
+                                                     currentLine.Count - propertyDelimiterPos.end -1);
+            currentLine.TrimRange(ref keyRange);
+            currentLine.TrimRange(ref valueRange);
+
+            var key = currentLine.Substring(keyRange);
+            var value = currentLine.Substring(valueRange);
+
+
+            // REMINDER: store key an value
+            if (string.IsNullOrEmpty(key))
+            {
+                throw new ParsingException("bad formed ini: found property without key",
+                                           _currentLineNumber);
+            }
+
+            //Process keys
+
+            if (LineMatchesAKeyValuePair(currentLine.ToString()))
+            {
+                ProcessKeyValuePair(currentLine.ToString(), iniData);
+                return true;
+            }
+
+            return true;
         }
 
         /// <summary>

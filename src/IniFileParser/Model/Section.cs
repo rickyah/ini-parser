@@ -94,12 +94,9 @@ namespace IniParser.Model
                 Comments.Add(comment);
 
             Keys.Merge(toMergeSection.Keys);
-<<<<<<< HEAD:src/IniFileParser/Model/SectionData.cs
-=======
 
             foreach(var comment in toMergeSection.Comments)
                 Comments.Add(comment);
->>>>>>> Rename: SectionData->Section. Also add IDeepCloneable<T> interface:src/IniFileParser/Model/Section.cs
         }
 
         #endregion

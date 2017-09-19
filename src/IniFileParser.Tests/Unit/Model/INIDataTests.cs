@@ -1,10 +1,9 @@
-﻿using System;
+using System.Linq;
 using NUnit.Framework;
+
 using IniParser.Parser;
 using IniParser.Model;
 using IniParser.Model.Configuration;
-using IniParser.Parser;
-using NUnit.Framework;
 
 // TODO change namespaces and keep consistency (see Unit Test explorer)
 namespace IniParser.Tests.Unit.Model
@@ -14,21 +13,18 @@ namespace IniParser.Tests.Unit.Model
     Description("Test of data structures used to hold information retrieved for an INI file")]
     public class INIDataTests
     {
-        [Test] void parse_comments()
+        [Test] public void parse_comments()
         {
             string iniData = @";comment1
 key1 = 2
-;comment2
-[section1]
-
-;a value
-value1 = 10.6";
+;comment2";
 
             var data = new IniDataParser().Parse(iniData);
 
+            Assert.That(data.Global.First().Comments, Is.Not.Empty);
         }
-        [Test]
-        public void delete_all_comments()
+
+        [Test] public void delete_all_comments()
         {
             string iniData = @";comment1
 key1 = 2
@@ -38,7 +34,7 @@ key1 = 2
 ;a value
 value1 = 10.6";
 
-            var parser = new IniDataParser(new IniScheme(), new IniParserConfiguration());
+            var parser = new IniDataParser();
 
             var data = parser.Parse(iniData);
 

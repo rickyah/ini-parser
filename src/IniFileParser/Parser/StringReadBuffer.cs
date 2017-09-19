@@ -42,7 +42,7 @@ namespace IniParser.Parser
             {
                 get
                 {
-                    return _start + _size;
+                    return _size <= 0 ? 0 : _start + (_size-1);
                 }
             }
 
@@ -69,7 +69,10 @@ namespace IniParser.Parser
 
             public override string ToString()
             {
-                return string.Format("[{0},{1}]", start, size);
+                return string.Format("[start:{0}, end:{1} size: {2}]",
+                                     start,
+                                     end,
+                                     size);
             }
         }
 
@@ -98,28 +101,36 @@ namespace IniParser.Parser
             _buffer.Clear();
         }
 
+        public void TrimRange(ref Range range)
+        {
+            int endIdx = range.end;
+            for (; endIdx >= range.start; endIdx--)
+            {
+                if (!char.IsWhiteSpace(_buffer[endIdx]))
+                {
+                    break;
+                }
+            }
+
+
+            int startIdx = range.start;
+            for (; startIdx <= endIdx; startIdx++)
+            {
+                if (!char.IsWhiteSpace(_buffer[startIdx]))
+                {
+                    range.start = startIdx;
+                    break;
+                }
+            }
+
+
+
+            range.size = endIdx - range.start +1;
+        }
+
         public void Trim()
         {
-            int idx = _bufferIndexes.start;
-            for (; idx < _bufferIndexes.size; idx++)
-            {
-                if (_buffer[idx] != ' ')
-                {
-                    _bufferIndexes.start = idx;
-                    break;
-                }
-            }
-
-            idx = _bufferIndexes.size - 1;
-            for (; idx >= _bufferIndexes.start; idx--)
-            {
-                if (_buffer[idx] != ' ')
-                {
-                    break;
-                }
-            }
-
-            _bufferIndexes.size = idx - _bufferIndexes.start +1;
+            TrimRange(ref _bufferIndexes);
         }
 
         public Range FindSubstring(string subString)
@@ -174,11 +185,7 @@ namespace IniParser.Parser
 
             _bufferIndexes = Range.FromIndexWithSize(0, _buffer.Count);
 
-            var isEmpty = _buffer.Count != 0;
-
-            if (!isEmpty) LineNumber++;
-
-            return isEmpty;
+            return _buffer.Count > 0 || c != -1;
         }
 
         public void Resize(int newSize)

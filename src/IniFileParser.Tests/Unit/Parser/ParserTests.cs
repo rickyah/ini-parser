@@ -1,4 +1,4 @@
-﻿using IniParser.Exceptions;
+using System.Linq;
 using IniParser.Model;
 using IniParser.Parser;
 using NUnit.Framework;
@@ -24,6 +24,36 @@ key2 = value5
 ;comment for myKey1
 mykey1 = value1
 ";
+        [Test] public void parse_section()
+        {
+            var str = @";comment for section1
+[section1]";
+            var data = new IniDataParser().Parse(str);
+            Assert.That(data, Is.Not.Null);
+
+            Assert.That(data.Sections, Has.Count.EqualTo(1));
+            Assert.That(data.Sections.ContainsSection("section1"), Is.True);
+
+            var sectionData = data.Sections.GetSectionData("section1");
+            Assert.That(sectionData.Comments, Has.Count.EqualTo(1));
+            Assert.That(sectionData.Comments.First(), Is.EqualTo("comment for section1"));
+        }
+
+        [Test] public void parse_property()
+        {
+            var str = @";comment for property
+key1 = value1";
+            var data = new IniDataParser().Parse(str);
+            Assert.That(data, Is.Not.Null);
+
+            Assert.That(data.Global, Has.Count.EqualTo(1));
+            Assert.That(data.Global.ContainsKey("key1"), Is.True);
+
+            var propertyData = data.Global.GetKeyData("key1");
+            Assert.That(propertyData.Value, Is.EqualTo("value1"));
+            Assert.That(propertyData.Comments, Has.Count.EqualTo(1));
+            Assert.That(propertyData.Comments.First(), Is.EqualTo("comment for property"));
+        }
 
         [Test]
         public void parse_ini_string_with_default_configuration()
@@ -328,6 +358,7 @@ value2 = 10";
         {
             #region really long ini string for the next issue
             string iniString = @"[SMSGW]
+
 WebAuth=No
 WebMenu=Yes
 WebPort=8800
