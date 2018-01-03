@@ -2,7 +2,7 @@
 using IniParser.Parser;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Parser
+namespace IniParser.Tests.Unit.Parser
 {
     [TestFixture]
     public class ParserDefaultConfigurationTests
@@ -27,7 +27,7 @@ mykey1 = value1
         public void check_data_correctly_parsed()
         {
             var parser = new IniDataParser();
-            IniData data = parser.Parse(iniFileStr);
+            IniData data = parser.Parse(this.iniFileStr);
 
             Assert.That(data, Is.Not.Null);
 
@@ -80,7 +80,7 @@ mykey1 = value1
         [Test]
         public void check_ini_writing()
         {
-            IniData data =  new IniDataParser().Parse(iniFileStr);
+            IniData data =  new IniDataParser().Parse(this.iniFileStr);
 
             // ini file string with not-needed whitespace trimmed
             var dataAsString = data.ToString();

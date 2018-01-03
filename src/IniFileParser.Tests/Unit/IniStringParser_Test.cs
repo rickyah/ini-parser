@@ -3,7 +3,7 @@ using IniParser.Parser;
 using NUnit.Framework;
 
 //todo: those are integration tests
-namespace IniFileParser.Tests.Unit
+namespace IniParser.Tests.Unit
 {
     [TestFixture, Category("String parsing/writing tests")]
     public class IniStringParser_Test
@@ -23,7 +23,7 @@ mykey1 = value1
         public void parse_ini_string_with_default_configuration()
         {
             var parser = new IniDataParser();
-            IniData data = parser.Parse(iniFileStr);
+            IniData data = parser.Parse(this.iniFileStr);
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
