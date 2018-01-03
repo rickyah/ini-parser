@@ -79,9 +79,6 @@ namespace IniParser.Model.Formatting
                                     Format.NewLineStr));
 
             WriteKeyValueData(section.Keys, sb);
-
-            // Trailing comments
-            WriteComments(section.Comments, sb);
         }
 
         private void WriteKeyValueData(KeyDataCollection keyDataCollection, StringBuilder sb)
