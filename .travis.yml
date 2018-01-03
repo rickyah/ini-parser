@@ -6,7 +6,7 @@ install:
   - dotnet restore src/INIFileParser.sln
 script:
   - msbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
-  - dotnet test src/IniFileParser.Tests/INIFileParser.Tests.csproj --no-build
+  - dotnet test src/IniFileParser.Tests/INIFileParser.Tests.csproj --no-build --configuration Release
 mono:
   - latest
   - 3.12.0
