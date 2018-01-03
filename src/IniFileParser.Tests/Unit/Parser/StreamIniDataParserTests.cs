@@ -1,10 +1,8 @@
-using IniParser;
 using IniParser.Model;
-using IniParser.Model.Configuration;
 using IniParser.Model.Formatting;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Parser
+namespace IniParser.Tests.Unit.Parser
 {
     [TestFixture]
     public class StreamIniDataParserTests

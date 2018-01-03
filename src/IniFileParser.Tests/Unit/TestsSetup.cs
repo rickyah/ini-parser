@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests
+namespace IniParser.Tests.Unit
 {
     [SetUpFixture]
     public class TestsSetup

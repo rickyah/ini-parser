@@ -1,12 +1,11 @@
-﻿using NUnit.Framework;
-using System;
-
-using IniParser.Parser;
+﻿using System;
 using IniParser.Model;
 using IniParser.Model.Configuration;
+using IniParser.Parser;
+using NUnit.Framework;
 
 // TODO change namespaces and keep consistency (see Unit Test explorer)
-namespace IniFileParser.Tests.Model
+namespace IniParser.Tests.Unit.Model
 {
     [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
     public class INIDataTests
@@ -173,9 +172,9 @@ c = 55
         {
             var parser = new IniDataParser();
 
-            IniData dataA = parser.Parse(iniFileStrA);
+            IniData dataA = parser.Parse(this.iniFileStrA);
 
-            IniData dataB = parser.Parse(iniFileStrB);
+            IniData dataB = parser.Parse(this.iniFileStrB);
 
             dataA.Merge(dataB);
 
