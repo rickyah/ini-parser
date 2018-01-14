@@ -1,9 +1,8 @@
 ﻿using System.Text;
-using IniParser;
 using IniParser.Model;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Parser
+namespace IniParser.Tests.Unit.Parser
 {
     [TestFixture]
     public class FileIniDataParserTests

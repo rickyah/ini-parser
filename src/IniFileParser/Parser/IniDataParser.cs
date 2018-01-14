@@ -64,7 +64,7 @@ namespace IniParser.Parser
         /// </summary>
         /// <remarks>
         /// If the configuration option ThrowExceptionOnError is false it can contain one element
-        /// for each problem found while parsing; otherwise it will only contain the very same 
+        /// for each problem found while parsing; otherwise it will only contain the very same
         /// exception that was raised.
         /// </remarks>
 
@@ -88,7 +88,7 @@ namespace IniParser.Parser
         /// </exception>
         public IniData Parse(string iniDataString)
         {
-            
+
             IniData iniData = Configuration.CaseInsensitive ? new IniDataCaseInsensitive() : new IniData();
 
 			iniData.SchemeInternal = Configuration.Scheme.Clone();
@@ -116,7 +116,7 @@ namespace IniParser.Parser
                     catch (Exception ex)
                     {
                         var errorEx = new ParsingException(ex.Message, lineNumber+1, line, ex);
-                        if (Configuration.ThrowExceptionsOnError) 
+                        if (Configuration.ThrowExceptionsOnError)
                         {
                             throw errorEx;
                         }
@@ -139,13 +139,13 @@ namespace IniParser.Parser
                     }
                     // No sections, put the comment in the last key value pair
                     // but only if the ini file contains at least one key-value pair
-                    else if (iniData.Global.Count > 0) 
+                    else if (iniData.Global.Count > 0)
                     {
                         iniData.Global.GetLast().Comments
                             .AddRange(_currentCommentListTemp);
                     }
-                    
-                    
+
+
                     _currentCommentListTemp.Clear();
                 }
 
@@ -153,8 +153,8 @@ namespace IniParser.Parser
             catch(Exception ex)
             {
                 _errorExceptions.Add(ex);
-                if (Configuration.ThrowExceptionsOnError) 
-                { 
+                if (Configuration.ThrowExceptionsOnError)
+                {
                     throw;
                 }
             }
@@ -165,8 +165,8 @@ namespace IniParser.Parser
         }
         #endregion
 
-        #region Template Method Design Pattern 
-        // All this methods controls the parsing behaviour, so it can be modified 
+        #region Template Method Design Pattern
+        // All this methods controls the parsing behaviour, so it can be modified
         // in derived classes.
         // See http://www.dofactory.com/Patterns/PatternTemplate.aspx for an
         // explanation of this pattern.
@@ -186,7 +186,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual bool LineContainsAComment(string line)
         {
-            return !string.IsNullOrEmpty(line) 
+            return !string.IsNullOrEmpty(line)
                 && Configuration.Scheme.CommentRegex.Match(line).Success;
         }
 
@@ -201,7 +201,7 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual bool LineMatchesASection(string line)
         {
-            return !string.IsNullOrEmpty(line) 
+            return !string.IsNullOrEmpty(line)
                           && Configuration.Scheme.SectionRegex.Match(line).Success;
         }
 
@@ -334,7 +334,7 @@ namespace IniParser.Parser
             currentIniData.Sections.AddSection(sectionName);
 
             // Save comments read until now and assign them to this section
-            currentIniData.Sections.GetSectionData(sectionName).Comments = _currentCommentListTemp;
+            currentIniData.Sections.GetSectionData(sectionName).Comments = new List<string>(_currentCommentListTemp);
             _currentCommentListTemp.Clear();
 
         }
@@ -375,7 +375,7 @@ namespace IniParser.Parser
         /// <summary>
         ///     Extracts the key portion of a string containing a key/value pair..
         /// </summary>
-        /// <param name="s">    
+        /// <param name="s">
         ///     The string to be processed, which contains a key/value pair
         /// </param>
         /// <returns>
@@ -435,7 +435,7 @@ namespace IniParser.Parser
         ///     <see cref="KeyData"/> collection where the key should be inserted
         /// </param>
         /// <param name="sectionName">
-        ///     Name of the section where the <see cref="KeyDataCollection"/> is contained. 
+        ///     Name of the section where the <see cref="KeyDataCollection"/> is contained.
         ///     Used only for logging purposes.
         /// </param>
         private void AddKeyToKeyValueCollection(string key, string value, KeyDataCollection keyDataCollection, string sectionName)
@@ -452,7 +452,7 @@ namespace IniParser.Parser
                 keyDataCollection.AddKey(key, value);
             }
 
-            keyDataCollection.GetKeyData(key).Comments = _currentCommentListTemp;
+            keyDataCollection.GetKeyData(key).Comments = new List<string>(_currentCommentListTemp);
             _currentCommentListTemp.Clear();
         }
         #endregion

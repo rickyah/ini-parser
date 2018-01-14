@@ -1,9 +1,11 @@
 language: csharp
 solution: src/INIFileParser.sln
+before_install:
+  - git config --global url."https://github.com/".insteadOf "git@github.com:"
+install:
+  - dotnet restore src/INIFileParser.sln
 script:
-  - nuget restore src/INIFileParser.sln
-  - xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
-  - mono ./src/packages/NUnit.ConsoleRunner.3.6.1/tools/nunit3-console.exe --noresult --labels=All ./src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
-mono:
-  - latest
-  - 3.12.0
+  - msbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
+  - dotnet test src/IniFileParser.Tests/INIFileParser.Tests.csproj --no-build --configuration Release
+mono: latest
+dotnet: 2.1.3

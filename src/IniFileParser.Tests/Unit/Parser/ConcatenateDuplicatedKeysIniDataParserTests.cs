@@ -1,7 +1,7 @@
 using IniParser.Parser;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Parser
+namespace IniParser.Tests.Unit.Parser
 {
     [TestFixture]
     public class ConcatenateDuplicatedKeysIniDataParserTests
@@ -23,7 +23,7 @@ File=d.txt
             var parser = new ConcatenateDuplicatedKeysIniDataParser();
             parser.Configuration.AllowDuplicateSections = true;
 
-            var iniData = parser.Parse(iniFileStr);
+            var iniData = parser.Parse(this.iniFileStr);
             Assert.That(iniData["MySection"]["File"] == "a.txt;b.txt;c.txt;d.txt");
 
 
@@ -35,7 +35,7 @@ File=d.txt
             parser.Configuration.ConcatenateSeparator = "+";
             parser.Configuration.AllowDuplicateSections = true;
 
-            var inidata = parser.Parse(iniFileStr);
+            var inidata = parser.Parse(this.iniFileStr);
             Assert.That(inidata["MySection"]["File"] == "a.txt+b.txt+c.txt+d.txt");
         }
 
