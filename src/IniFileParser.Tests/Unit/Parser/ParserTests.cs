@@ -27,7 +27,7 @@ mykey1 = value1
         public void parse_ini_string_with_default_configuration()
         {
             var parser = new IniDataParser();
-            IniData data = parser.Parse(this.iniFileStr);
+            IniData data = parser.Parse(iniFileStr);
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
@@ -70,7 +70,7 @@ mykey1 = value1
             config.Scheme.SectionStartString = "<";
             config.Scheme.SectionEndString = ">";
 			
-            IniData data = parser.Parse(this.iniFileStrCustom);
+            IniData data = parser.Parse(iniFileStrCustom);
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
@@ -92,9 +92,9 @@ mykey1 = value1
         [Test]
         public void check_ini_writing()
         {
-            IniData data = new IniDataParser().Parse(this.iniFileStr);
+            IniData data = new IniDataParser().Parse(iniFileStr);
 
-            Assert.That(data.ToString(), Is.EqualTo(this.iniFileStr));
+            Assert.That(data.ToString(), Is.EqualTo(iniFileStr));
         }
 
         [Test, Description("Test for Issue 3: http://code.google.com/p/ini-parser/issues/detail?id=3")]
