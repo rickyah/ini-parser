@@ -19,8 +19,8 @@ namespace IniParser.Example
 
 			// Todo: separate the parser from the soure of data (file, string, stream, etc) and delete those obsolete helper clasess
             fileIniData.Parser.Configuration.Scheme.CommentString = "#";
-
-
+			
+			
             //Parse the ini file
             IniData parsedData = fileIniData.ReadFile("TestIniFile.ini");
 
@@ -36,20 +36,20 @@ namespace IniParser.Example
 
             //Modify the INI contents and save
             Console.WriteLine();
-
+            
 			// Modify the loaded ini file
             IniData modifiedParsedData = ModifyINIData(parsedData);
-
+            
             //Write down the contents of the modified ini file to the console
             Console.WriteLine("---- Printing contents of the new INI file ----");
             Console.WriteLine(modifiedParsedData);
 			Console.WriteLine();
-
+			
             //Save to a file
             Console.WriteLine("---- Saving the new ini file to the file NewTestIniFile.ini ----");
             Console.WriteLine();
 
-            // Uncomment this to change the new line string used to write the ini file to disk to
+            // Uncomment this to change the new line string used to write the ini file to disk to 
             // force use the windows style new line
             //modifiedParsedData.Configuration.NewLineStr = "\r\n";
             fileIniData.WriteFile("NewTestIniFile.ini", modifiedParsedData);

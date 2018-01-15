@@ -23,7 +23,7 @@ mykey1 = value1
         public void parse_ini_string_with_default_configuration()
         {
             var parser = new IniDataParser();
-            IniData data = parser.Parse(this.iniFileStr);
+            IniData data = parser.Parse(iniFileStr);
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));

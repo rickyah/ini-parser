@@ -27,7 +27,7 @@ mykey1 = value1
         public void check_data_correctly_parsed()
         {
             var parser = new IniDataParser();
-            IniData data = parser.Parse(this.iniFileStr);
+            IniData data = parser.Parse(iniFileStr);
 
             Assert.That(data, Is.Not.Null);
 
@@ -79,7 +79,7 @@ mykey1 = value1
         [Test]
         public void check_ini_writing()
         {
-            IniData data =  new IniDataParser().Parse(this.iniFileStr);
+            IniData data =  new IniDataParser().Parse(iniFileStr);
 
             // ini file string with not-needed whitespace trimmed
             var dataAsString = data.ToString();

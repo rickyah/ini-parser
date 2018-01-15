@@ -1,8 +1,6 @@
 ﻿using System;
 using IniParser.Model;
 using IniParser.Model.Configuration;
-using IniParser.Parser;
-using NUnit.Framework;
 
 // TODO change namespaces and keep consistency (see Unit Test explorer)
 namespace IniParser.Tests.Unit.Model
@@ -172,9 +170,9 @@ c = 55
         {
             var parser = new IniDataParser();
 
-            IniData dataA = parser.Parse(this.iniFileStrA);
+            IniData dataA = parser.Parse(iniFileStrA);
 
-            IniData dataB = parser.Parse(this.iniFileStrB);
+            IniData dataB = parser.Parse(iniFileStrB);
 
             dataA.Merge(dataB);
 

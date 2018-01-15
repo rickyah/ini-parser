@@ -30,15 +30,15 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks existence of test INI files")]
         public void CheckTestFilesExists()
         {
-            Assert.That(File.Exists(this.strGoodINIFilePath), "Correct INI file {0} does not exists", this.strGoodINIFilePath);
-            Assert.That(File.Exists(this.strBadINIFilePath), "Invalid INI file {0} does not exists", this.strBadINIFilePath);
-            Assert.That(File.Exists(this.strEmptyINIFilePath), "Empty INI file {0} does not exists", this.strEmptyINIFilePath);
+            Assert.That(File.Exists(strGoodINIFilePath), "Correct INI file {0} does not exists", strGoodINIFilePath);
+            Assert.That(File.Exists(strBadINIFilePath), "Invalid INI file {0} does not exists", strBadINIFilePath);
+            Assert.That(File.Exists(strEmptyINIFilePath), "Empty INI file {0} does not exists", strEmptyINIFilePath);
         }
 
         [Test, Description("Checks correct parsing of an empty INI file")]
         public void CheckParseEmptyFileSuccess()
         {
-            IniData parsedData = this.iniParser.ReadFile(this.strEmptyINIFilePath);
+            IniData parsedData = iniParser.ReadFile(strEmptyINIFilePath);
 
             Assert.That(parsedData, Is.Not.Null);
         }
@@ -46,7 +46,7 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks correct parsing of a well formed INI file")]
         public void CheckParseGoodFileSuccess()
         {
-            IniData parsedData = this.iniParser.ReadFile(this.strGoodINIFilePath);
+            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
 
             Assert.That(parsedData, Is.Not.Null);
         }
@@ -54,16 +54,16 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks error when parsing a bad formed INI file")]
         public void CheckParsingFailure()
         {
-            Assert.Throws<ParsingException>(() => this.iniParser.ReadFile(this.strBadINIFilePath));
+            Assert.Throws<ParsingException>(() => iniParser.ReadFile(strBadINIFilePath));
         }
 
         [Test, Description("Checks correct saving of a file")]
         public void CheckCorrectSave()
         {
-            string fileString = this.strGoodINIFilePath + "_test.ini";
+            string fileString = strGoodINIFilePath + "_test.ini";
 
-            IniData parsedData = this.iniParser.ReadFile(this.strGoodINIFilePath);
-            this.iniParser.WriteFile(fileString, parsedData);
+            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
+            iniParser.WriteFile(fileString, parsedData);
 
             Assert.That(File.Exists(fileString));
         }
@@ -71,13 +71,13 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks bad formed INI file: Two sections with same name")]
         public void CheckCollideSectionNames()
         {
-            Assert.Throws<ParsingException>(() => this.iniParser.ReadFile(this.strBadSectionINIFilePath));
+            Assert.Throws<ParsingException>(() => iniParser.ReadFile(strBadSectionINIFilePath));
         }
 
         [Test, Description("Checks bad formed INI file: Two keys in the same section with same name")]
         public void CheckCollideKeysNames()
         {
-            Assert.Throws<ParsingException>(() => this.iniParser.ReadFile(this.strBadKeysINIFilePath));
+            Assert.Throws<ParsingException>(() => iniParser.ReadFile(strBadKeysINIFilePath));
         }
     }
 }
