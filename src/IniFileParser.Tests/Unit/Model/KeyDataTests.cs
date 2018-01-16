@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using IniParser.Model;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Model
+namespace IniParser.Tests.Unit.Model
 {
     [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
     public class KeyDataTests
@@ -106,6 +106,36 @@ namespace IniFileParser.Tests.Unit.Model
             inidata["TestSection"].SetKeyData(key);
 
             Assert.That(inidata["TestSection"].GetKeyData("TestKey").Comments[0], Is.EqualTo("This is a comment"));
+        }
+        
+        [Test]
+        public void check_clone_copies_data()
+        {
+            var strValueTest = "Test String";
+            var strKeyTest = "Mykey";
+            var commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
+
+            //Create a key data
+            KeyData kd2 = new KeyData(strKeyTest);
+            kd2.Value = strValueTest;
+            kd2.Comments = commentListTest;
+
+            KeyData kd = kd2.Clone() as KeyData;
+
+
+            //Assert not null and empty
+            Assert.That(kd, Is.Not.Null);
+            Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
+            Assert.That(kd.Value, Is.EqualTo(strValueTest));
+            Assert.That(kd.Comments, Has.Count.EqualTo(2));
+            Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
+            Assert.That(kd.Comments[1], Is.EqualTo("testComment 2"));
+
+
+            kd.Value = "t";
+            Assert.That(kd2.Value, Is.EqualTo(strValueTest));
+            Assert.That(kd.Value, Is.EqualTo("t"));
+
         }
     }
 }

@@ -33,15 +33,20 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SectionDataCollection"/> class
-        /// from a previous instance of <see cref="SectionDataCollection"/>.
+        ///     Initializes a new instance of the <see cref="SectionDataCollection"/> class
+        ///     from a previous instance of <see cref="SectionDataCollection"/>.
         /// </summary>
         /// <remarks>
-        /// Data is deeply copied
+        ///     Data is deeply copied
         /// </remarks>
         /// <param name="ori">
-        /// The instance of the <see cref="SectionDataCollection"/> class 
-        /// used to create the new instance.</param>
+        ///     The instance of the <see cref="SectionDataCollection"/> class 
+        ///     used to create the new instance.
+        /// </param>
+        /// <param name="searchComparer">
+        ///     Allows using a custom comparision strategy when looking up for keys
+        ///     e.g case sensitive search (default)
+        /// </param>
         public SectionDataCollection(SectionDataCollection ori, IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer ?? EqualityComparer<string>.Default;
@@ -58,16 +63,18 @@ namespace IniParser.Model
         #region Properties
 
         /// <summary>
-        /// Returns the number of SectionData elements in the collection
+        ///     Returns the number of SectionData elements in the collection
         /// </summary>
         public int Count { get { return _sectionData.Count; } }
 
         /// <summary>
-        /// Gets the key data associated to a specified section name.
+        ///     Gets the key data associated to a specified section name.
         /// </summary>
-        /// <value>An instance of as <see cref="KeyDataCollection"/> class 
-        /// holding the key data from the current parsed INI data, or a <c>null</c>
-        /// value if the section doesn't exist.</value>
+        /// <value>
+        ///     An instance of as <see cref="KeyDataCollection"/> class 
+        ///     holding the key data from the current parsed INI data, or a <c>null</c>
+        ///     value if the section doesn't exist.
+        ///  </value>
         public KeyDataCollection this[string sectionName]
         {
             get
@@ -84,21 +91,23 @@ namespace IniParser.Model
         #region Public Members
 
         /// <summary>
-        /// Creates a new section with empty data.
+        ///     Creates a new section with empty data.
         /// </summary>
         /// <remarks>
-        /// <para>If a section with the same name exists, this operation has no effect.</para>
+        ///     If a section with the same name exists, this operation has no effect.
         /// </remarks>
-        /// <param name="keyName">Name of the section to be created</param>
-        /// <return><c>true</c> if the a new section with the specified name was added,
-        /// <c>false</c> otherwise</return>
-        /// <exception cref="ArgumentException">If the section name is not valid.</exception>
+        /// <param name="keyName">
+        ///     Name of the section to be created
+        ///</param>
+        /// <return>
+        ///     <c>true</c> if the a new section with the specified name was added,
+        ///     <c>false</c> otherwise
+        /// </return>
+        /// <exception cref="ArgumentException">
+        ///     If the section name is not valid.
+        /// </exception>
         public bool AddSection(string keyName)
         {
-            //Checks valid section name
-            //if ( !Assert.StringHasNoBlankSpaces(keyName) )
-            //    throw new ArgumentException("Section name contain whitespaces");
-
             if ( !ContainsSection(keyName) )
             {
                 _sectionData.Add( keyName, new SectionData(keyName, _searchComparer) );
@@ -111,7 +120,7 @@ namespace IniParser.Model
         /// <summary>
         ///     Adds a new SectionData instance to the collection
         /// </summary>
-        /// <param name="data">Data.</param>
+        /// <param name="data">SectionData instance.</param>
         public void Add(SectionData data)
         {
             if (ContainsSection(data.SectionName))
@@ -124,7 +133,7 @@ namespace IniParser.Model
             }
         }
         /// <summary>
-        /// Removes all entries from this collection
+        ///     Removes all entries from this collection
         /// </summary>
         public void Clear()
         {
@@ -133,12 +142,14 @@ namespace IniParser.Model
 
 
         /// <summary>
-        /// Gets if a section with a specified name exists in the collection.
+        ///     Gets if a section with a specified name exists in the collection.
         /// </summary>
-        /// <param name="keyName">Name of the section to search</param>
+        /// <param name="keyName">
+        ///     Name of the section to search
+        /// </param>
         /// <returns>
-        /// <c>true</c> if a section with the specified name exists in the
-        ///  collection <c>false</c> otherwise
+        ///     <c>true</c> if a section with the specified name exists in the
+        ///     collection <c>false</c> otherwise
         /// </returns>
         public bool ContainsSection(string keyName)
         {
@@ -146,12 +157,14 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Returns the section data from a specify section given its name.
+        ///     Returns the section data from a specify section given its name.
         /// </summary>
-        /// <param name="sectionName">Name of the section.</param>
+        /// <param name="sectionName">
+        ///     Name of the section.
+        /// </param>
         /// <returns>
-        /// An instance of a <see cref="SectionData"/> class 
-        /// holding the section data for the currently INI data
+        ///     An instance of a <see cref="SectionData"/> class 
+        ///     holding the section data for the currently INI data
         /// </returns>
         public SectionData GetSectionData(string sectionName)
         {

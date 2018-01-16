@@ -1,3 +1,5 @@
+using System;
+
 namespace IniParser.Model.Configuration
 {
     /// <summary>
@@ -43,10 +45,10 @@ namespace IniParser.Model.Configuration
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
 
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
-			Scheme = ori.Scheme.Clone();
+			      Scheme = ori.Scheme.Clone();
         }
 
-		public IniScheme Scheme { get; private set; }
+		    public IniScheme Scheme { get; private set; }
 
         /// <summary>
         ///     Retrieving section / keys by name is done with a case-insensitive
@@ -125,42 +127,6 @@ namespace IniParser.Model.Configuration
 
         public bool SkipInvalidLines { get; set; }
 
-
-        public override int GetHashCode()
-        {
-            var hash = 27;
-            foreach (var property in GetType().GetProperties())
-            {
-                hash = (hash * 7) + property.GetValue(this, null).GetHashCode();
-            }
-
-            return hash;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var copyObj = obj as IniParserConfiguration;
-            if (copyObj == null) return false;
-
-            var oriType = this.GetType();
-            try
-            {
-                foreach (var property in oriType.GetProperties())
-                {
-                    if (property.GetValue(copyObj, null).Equals(property.GetValue(this, null)))
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         #region ICloneable Members
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
@@ -171,7 +137,7 @@ namespace IniParser.Model.Configuration
         /// <filterpriority>2</filterpriority>
         public IniParserConfiguration Clone()
         {
-			return new IniParserConfiguration(this);
+			      return new IniParserConfiguration(this);
         }
 
         object ICloneable.Clone()

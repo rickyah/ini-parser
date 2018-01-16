@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using IniParser.Model;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Model
+namespace IniParser.Tests.Unit.Model
 {
     [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
     public class SectionDataCollectionTests
@@ -27,16 +27,16 @@ namespace IniFileParser.Tests.Unit.Model
 
             //Check access
             Assert.That(sdc.GetSectionData(strSectionTest), Is.Not.Null);
-            Assert.That(sdc.GetSectionData(strSectionTest).LeadingComments, Is.Empty);
+            Assert.That(sdc.GetSectionData(strSectionTest).Comments, Is.Empty);
             Assert.That(sdc.GetSectionData(strSectionTest).Keys.Count, Is.EqualTo(0));
 
             //Check add coments
-            sdc.GetSectionData(strSectionTest).LeadingComments.Add(strComment);
-            Assert.That(sdc.GetSectionData(strSectionTest).LeadingComments.Count, Is.EqualTo(1));
-            sdc.GetSectionData(strSectionTest).LeadingComments.Clear();
-            sdc.GetSectionData(strSectionTest).LeadingComments.AddRange(commentListTest);
+            sdc.GetSectionData(strSectionTest).Comments.Add(strComment);
+            Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(1));
+            sdc.GetSectionData(strSectionTest).Comments.Clear();
+            sdc.GetSectionData(strSectionTest).Comments.AddRange(commentListTest);
 
-            Assert.That(sdc.GetSectionData(strSectionTest).LeadingComments.Count, Is.EqualTo(commentListTest.Count));
+            Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(commentListTest.Count));
 
 
             //Remove section

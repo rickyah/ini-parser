@@ -4,7 +4,7 @@ using IniParser.Model.Configuration;
 using IniParser.Parser;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Configuration
+namespace IniParser.Tests.Unit.Configuration
 {
     [TestFixture]
     public class ConfigurationTests
@@ -20,17 +20,17 @@ namespace IniFileParser.Tests.Unit.Configuration
                 :base(new IniScheme())
             {
 
-				Scheme.SectionStartString = "<";
-                Scheme.SectionEndString = ">";
-                Scheme.CommentString = "#";
-                Scheme.KeyValueAssigmentString = "=";
+				this.Scheme.SectionStartString = "<";
+                this.Scheme.SectionEndString = ">";
+                this.Scheme.CommentString = "#";
+                this.Scheme.KeyValueAssigmentString = "=";
 
-                AllowKeysWithoutSection = true;
-                AllowDuplicateKeys = true;
-                OverrideDuplicateKeys = true;
-                AllowDuplicateSections = true;
-                ThrowExceptionsOnError = false;
-                SkipInvalidLines = true;
+                this.AllowKeysWithoutSection = true;
+                this.AllowDuplicateKeys = true;
+                this.OverrideDuplicateKeys = true;
+                this.AllowDuplicateSections = true;
+                this.ThrowExceptionsOnError = false;
+                this.SkipInvalidLines = true;
             }
 
              new LiberalTestConfiguration Clone()
@@ -74,9 +74,21 @@ name = Marble Zone
         [SetUp]
         public void setup()
         {
-            _parser = new IniDataParser(new LiberalTestConfiguration());
+            this._parser = new IniDataParser(new LiberalTestConfiguration());
         }
 
+
+        [Test]
+        public void check_default_values()
+        {
+            var config = new IniParserConfiguration(new IniScheme());
+
+            Assert.That(config, Is.Not.Null);
+            Assert.That(config.Scheme.CommentRegex, Is.Not.Null);
+            Assert.That(config.Scheme.SectionRegex, Is.Not.Null);
+            
+        }
+        
         [Test]
         public void simple_configuration()
         {
@@ -88,9 +100,9 @@ name = Marble Zone
 
             config.Scheme.CommentString = "#";
 
-            _parser = new IniDataParser(config);
+            this._parser = new IniDataParser(config);
 
-            var iniData = _parser.Parse(iniStr);
+            var iniData = this._parser.Parse(iniStr);
 
             Assert.That(iniData["section1"][";data"], Is.EqualTo("2"));
 
@@ -99,13 +111,13 @@ name = Marble Zone
         [Test]
         public void check_configuration_is_correct()
         {
-            Assert.That(_parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
+            Assert.That(this._parser.Configuration, Is.InstanceOf(typeof (LiberalTestConfiguration)));
         }
 
         [Test]
         public void parse_not_so_good_ini_format()
         {
-            var data = _parser.Parse(iniFileStrNotSoGood);
+            var data = this._parser.Parse(this.iniFileStrNotSoGood);
             Assert.That(data, Is.Not.Null);
 
             Assert.That(data.Sections.Count, Is.EqualTo(0));
@@ -118,7 +130,7 @@ name = Marble Zone
         [Test]
         public void parse_ini_with_new_configuration()
         {
-            IniData data = _parser.Parse(iniFileStr);
+            IniData data = this._parser.Parse(this.iniFileStr);
             Assert.That(data, Is.Not.Null);
 
             Assert.That(data.Sections.Count, Is.EqualTo(2));
@@ -130,9 +142,9 @@ name = Marble Zone
 
             Assert.That(section1, Is.Not.Null);
             Assert.That(section1.SectionName, Is.EqualTo("stage1"));
-            Assert.That(section1.LeadingComments, Is.Not.Empty);
-            Assert.That(section1.LeadingComments.Count, Is.EqualTo(1));
-            Assert.That(section1.LeadingComments[0], Is.EqualTo("comment for stage1"));
+            Assert.That(section1.Comments, Is.Not.Empty);
+            Assert.That(section1.Comments.Count, Is.EqualTo(1));
+            Assert.That(section1.Comments[0], Is.EqualTo("comment for stage1"));
 
             Assert.That(section1.Keys, Is.Not.Null);
             Assert.That(section1.Keys.Count, Is.EqualTo(2));
@@ -148,18 +160,18 @@ name = Marble Zone
 			var config = new LiberalTestConfiguration();
 			var format = new IniFormattingConfiguration(config.Scheme);
 			config.Scheme.CommentString = "#";
-            IniData data = new IniDataParser(config).Parse(iniFileStr);
+            IniData data = new IniDataParser(config).Parse(this.iniFileStr);
 
 			Assert.That(data.ToString(new IniFormattingConfiguration(config.Scheme))
 			                          .Replace(Environment.NewLine, string.Empty),
-			            Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+			            Is.EqualTo(this.iniFileStr.Replace(Environment.NewLine, string.Empty)));
         }
 
         [Test]
         public void check_new_line_confige_on_ini_writing()
         {
 			var configuration = new LiberalTestConfiguration();
-			IniData data = new IniDataParser(configuration).Parse(iniFileStr);
+			IniData data = new IniDataParser(configuration).Parse(this.iniFileStr);
 
 			var format = new IniFormattingConfiguration(configuration.Scheme);
 			format.NewLineStr = "^_^";
@@ -167,7 +179,7 @@ name = Marble Zone
 			string newIniStr = data.ToString(format);
 
             Assert.That(newIniStr.Replace("^_^", string.Empty),
-			Is.EqualTo(iniFileStr.Replace(Environment.NewLine, string.Empty)));
+			Is.EqualTo(this.iniFileStr.Replace(Environment.NewLine, string.Empty)));
         }
 
         [Test]
@@ -206,6 +218,26 @@ name = Marble Zone
 
             var iniData = parser.Parse("");
             Assert.IsNotNull(iniData["noname"]);
+        }
+
+        [Test]
+        public void check_cloning()
+        {
+            IniParserConfiguration config1 = new IniParserConfiguration(new IniScheme());
+
+            config1.AllowDuplicateKeys = true;
+            config1.Scheme.CommentString = "/";
+
+            Assert.That(config1.AllowDuplicateKeys, Is.True);
+            Assert.That(config1.Scheme.CommentString, Is.EqualTo("/"));
+
+            IniParserConfiguration config2 = config1.Clone();
+
+            Assert.That(config2.AllowDuplicateKeys, Is.True);
+            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
+
+            config1.Scheme.CommentString = "#";
+            Assert.That(config2.Scheme.CommentString, Is.EqualTo("/"));
         }
     }
 }
