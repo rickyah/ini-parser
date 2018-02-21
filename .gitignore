@@ -130,4 +130,6 @@ UpgradeLog*.XML
 *.pidb
 *.resources
 test-results/
->>>>>>> Stashed changes
+
+#vs code
+.vs/
