@@ -131,3 +131,6 @@ UpgradeLog*.XML
 *.pidb
 *.resources
 test-results/
+
+#vs code
+.vs/
