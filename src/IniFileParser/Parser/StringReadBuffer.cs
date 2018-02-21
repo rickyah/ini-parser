@@ -103,6 +103,8 @@ namespace IniParser.Parser
 
         public void TrimRange(ref Range range)
         {
+            if (range.size <= 0) return;
+
             int endIdx = range.end;
             for (; endIdx >= range.start; endIdx--)
             {
@@ -122,8 +124,6 @@ namespace IniParser.Parser
                     break;
                 }
             }
-
-
 
             range.size = endIdx - range.start +1;
         }
