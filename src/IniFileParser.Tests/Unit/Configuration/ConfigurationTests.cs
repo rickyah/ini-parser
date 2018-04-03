@@ -41,18 +41,6 @@ this_is_not_a_comment = ;no comment
 name = Marble Zone
 ";
 
-        string iniFileStrNotSoGood =
-@"
-cyberdreams = i have no section, and i must scream
-
-#comment for stage1
-
-name = Green Hill Zone
-this_is_not_a_comment = ;no comment
-
-# comment name
-name = Marble Zone
-";
 
         #endregion 
 
@@ -92,6 +80,22 @@ name = Marble Zone
         [Test]
         public void parse_not_so_good_ini_format()
         {
+                string iniFileStrNotSoGood =
+@"
+cyberdreams = i have no section, and i must scream
+
+#comment for stage1
+
+name = Green Hill Zone
+this_is_not_a_comment = ;no comment
+
+# comment name
+name = Marble Zone
+";
+            _parser.Scheme.CommentString = "#";
+            _parser.Configuration.AllowDuplicateKeys = true;
+            _parser.Configuration.OverrideDuplicateKeys = true;
+
             var data = _parser.Parse(iniFileStrNotSoGood);
             Assert.That(data, Is.Not.Null);
 
@@ -99,13 +103,29 @@ name = Marble Zone
             Assert.That(data.Global.Count, Is.EqualTo(3));
             Assert.That(data.Global["cyberdreams"], Is.EqualTo("i have no section, and i must scream"));
             Assert.That(data.Global["this_is_not_a_comment"], Is.EqualTo(";no comment"));
-            Assert.That(data.Global["name"], Is.EqualTo("Marble Zone"), "Should not rewrite an existing key");
+            Assert.That(data.Global["name"], Is.EqualTo("Marble Zone"), "Value of an existing key was overwritten!");
         }
 
         [Test]
         public void parse_ini_with_new_configuration()
         {
-            IniData data = _parser.Parse(iniFileStr);
+            var iniDataStr =
+@"
+cyberdreams = i have no section, and i must scream
+
+#comment for stage1
+<stage1>
+name = Green Hill Zone
+this_is_not_a_comment = ;no comment
+
+<stage2>
+# comment name
+name = Marble Zone
+";
+            _parser.Scheme.SectionStartString = "<";
+            _parser.Scheme.SectionEndString = ">";
+            _parser.Scheme.CommentString = "#";
+            IniData data = _parser.Parse(iniDataStr);
             Assert.That(data, Is.Not.Null);
 
             Assert.That(data.Sections.Count, Is.EqualTo(2));
@@ -158,35 +178,6 @@ name = Marble Zone
             var generatedFile = data.ToString(formatConfig).Replace("^_^", string.Empty);
 
             Assert.That(originalFile, Is.EqualTo(generatedFile));
-        }
-
-        [Test]
-        public void escape_comment_regex_special_characters()
-        {
-            var iniStr = @"[Section]
-                \Backslash Bcomment
-                Key=Value";
-         
-            var parser = new IniDataParser();
-            parser.Scheme.CommentString = @"\";
-
-            parser.Parse(iniStr);
-        }
-
-        [Test]
-        public void escape_section_regex_special_characters()
-        {
-            var iniStr = @"\section\
-                ;comment
-                key=value";
-
-            var parser = new IniDataParser();
-            parser.Scheme.SectionStartString = "\\";
-            parser.Scheme.SectionEndString = "\\";
-
-            var iniData = parser.Parse(iniStr);
-
-            Assert.That(iniData["section"]["key"], Is.EqualTo("value"));
         }
 
         [Test, Ignore("Testing file writing does not belong here")]
