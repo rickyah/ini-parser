@@ -79,10 +79,10 @@ namespace IniFileParser.Tests
 
         [Test] public void find_substring()
         {
-            var str = InitBufferAndReadLine("hello world!");
+            InitBufferAndReadLine("hello wor world!");
 
             var result = buffer.FindSubstring("world");
-            Assert.That(result.start, Is.EqualTo(6));
+            Assert.That(result.start, Is.EqualTo(10));
             Assert.That(result.size, Is.EqualTo(5));
 
             result = buffer.FindSubstring("");
@@ -91,10 +91,33 @@ namespace IniFileParser.Tests
 
 
             result = buffer.FindSubstring("d!");
-            Assert.That(result.start, Is.EqualTo(10));
+            Assert.That(result.start, Is.EqualTo(14));
             Assert.That(result.size, Is.EqualTo(2));
         }
 
+        [Test]
+        public void find_trimmed_substring()
+        {
+            InitBufferAndReadLine("    hello wor world!   ");
+
+            buffer.Trim();
+            var result = buffer.FindSubstring("world");
+            Assert.That(result.start, Is.EqualTo(10));
+            Assert.That(result.size, Is.EqualTo(5));
+
+            result = buffer.FindSubstring("");
+            Assert.That(result.start, Is.EqualTo(0));
+            Assert.That(result.size, Is.EqualTo(0));
+
+
+            result = buffer.FindSubstring("d!");
+            Assert.That(result.start, Is.EqualTo(14));
+            Assert.That(result.size, Is.EqualTo(2));
+
+            result = buffer.FindSubstring(" ");
+            Assert.That(result.start, Is.EqualTo(5));
+            Assert.That(result.size, Is.EqualTo(1));
+        }
 
         [Test] public void substring()
         {

@@ -142,28 +142,38 @@ namespace IniParser.Parser
                 return Range.Empty();
             }
 
-            int startIdx = -1;
-            int currentIdx;
-            for (currentIdx = 0; currentIdx < Count; ++currentIdx)
+            // Search the first char of the substring
+            for (int firstCharIdx = _bufferIndexes.start; firstCharIdx < Count; ++firstCharIdx)
             {
-                if (this[currentIdx] == subString[0])
+                if (this[firstCharIdx] != subString[0])
                 {
-                    startIdx = currentIdx;
-                    break;
+                    continue;
                 }
+
+                // Fail now if the substring can't fit given the size of the
+                // buffer and the search start index
+                if (firstCharIdx + subStringLength - 1 >= Count) return Range.Empty();
+
+                bool isSubstringMismatch = false;
+                // Check if the substring matches starting at the index
+                for (int currentIdx = 0; currentIdx < subStringLength; ++currentIdx)
+                {
+                    if (this[firstCharIdx + currentIdx] != subString[currentIdx])
+                    {
+                        isSubstringMismatch = true;
+                        break;
+                    }
+                }
+
+                if (isSubstringMismatch)
+                {
+                    continue;
+                }
+
+                return Range.FromIndexWithSize(firstCharIdx, subStringLength);
             }
 
-            if (startIdx == -1) return Range.Empty();
-
-            for (currentIdx = 0; currentIdx < subStringLength; ++currentIdx)
-            {
-                if (this[startIdx + currentIdx] != subString[currentIdx])
-                {
-                    return Range.Empty();
-                }
-            }
-
-            return Range.FromIndexWithSize(startIdx, subStringLength);
+            return Range.Empty();
         }
 
         public bool ReadLine()
@@ -211,6 +221,10 @@ namespace IniParser.Parser
             return new string(_buffer.ToArray(), range.start, range.size);
         }
 
+        public bool IsEmpty
+        {
+            get { return _bufferIndexes.IsEmpty; }
+        }
 
         public override string ToString()
         {
