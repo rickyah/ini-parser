@@ -305,7 +305,7 @@ namespace IniParser.Parser
             }
 
             var startIdx = sectionStartRange.start + Scheme.SectionStartString.Length;
-            var endIdx = sectionEndRange.end - Scheme.SectionEndString.Length;
+            var endIdx = sectionEndRange.end;
             currentLine.ResizeBetweenIndexes(startIdx, endIdx);
 
             var sectionName = currentLine.ToString();
