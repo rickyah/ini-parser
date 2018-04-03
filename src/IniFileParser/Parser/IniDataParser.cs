@@ -247,6 +247,8 @@ namespace IniParser.Parser
         {
             currentLine.Trim();
 
+            if (currentLine.IsEmpty) return;
+
             // TODO: change this to a global (IniData level) array of comments
             // Extract comments from current line and store them in a tmp list
 
