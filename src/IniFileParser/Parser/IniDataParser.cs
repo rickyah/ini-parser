@@ -268,7 +268,7 @@ namespace IniParser.Parser
             if (commentRange.IsEmpty) return false;
 
             var startIdx = commentRange.start + Scheme.CommentString.Length;
-            var endIdx = startIdx + currentLine.Count - 1;
+            var endIdx = currentLine.Count - Scheme.CommentString.Length;
             currentLine.ResizeBetweenIndexes(startIdx, endIdx);
 
             var commentStr = currentLine.ToString();
@@ -305,7 +305,7 @@ namespace IniParser.Parser
             }
 
             var startIdx = sectionStartRange.start + Scheme.SectionStartString.Length;
-            var endIdx = sectionEndRange.end;
+            var endIdx = sectionEndRange.end -1;
             currentLine.ResizeBetweenIndexes(startIdx, endIdx);
 
             var sectionName = currentLine.ToString();

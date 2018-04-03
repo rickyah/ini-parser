@@ -108,7 +108,7 @@ namespace IniParser.Parser
             int endIdx = range.end;
             for (; endIdx >= range.start; endIdx--)
             {
-                if (!char.IsWhiteSpace(_buffer[endIdx]))
+                if (!char.IsWhiteSpace(this[endIdx]))
                 {
                     break;
                 }
@@ -118,7 +118,7 @@ namespace IniParser.Parser
             int startIdx = range.start;
             for (; startIdx <= endIdx; startIdx++)
             {
-                if (!char.IsWhiteSpace(_buffer[startIdx]))
+                if (!char.IsWhiteSpace(this[startIdx]))
                 {
                     range.start = startIdx;
                     break;
@@ -143,7 +143,7 @@ namespace IniParser.Parser
             }
 
             // Search the first char of the substring
-            for (int firstCharIdx = _bufferIndexes.start; firstCharIdx < Count; ++firstCharIdx)
+            for (int firstCharIdx = 0; firstCharIdx < Count; ++firstCharIdx)
             {
                 if (this[firstCharIdx] != subString[0])
                 {
@@ -152,7 +152,10 @@ namespace IniParser.Parser
 
                 // Fail now if the substring can't fit given the size of the
                 // buffer and the search start index
-                if (firstCharIdx + subStringLength - 1 >= Count) return Range.Empty();
+                if (firstCharIdx + subStringLength - 1 > Count)
+                {
+                    return Range.Empty();
+                }
 
                 bool isSubstringMismatch = false;
                 // Check if the substring matches starting at the index
@@ -208,12 +211,12 @@ namespace IniParser.Parser
 
         public void ResizeBetweenIndexes(int startIdx, int endIdx)
         {
-            if (endIdx <= startIdx) return;
+            if (endIdx < startIdx) return;
             if (startIdx < 0) return;
-            if (endIdx > _bufferIndexes.end) return;
+            if (_bufferIndexes.start + endIdx > _bufferIndexes.end) return;
 
             _bufferIndexes.start = _bufferIndexes.start + startIdx;
-            _bufferIndexes.size = endIdx - startIdx;
+            _bufferIndexes.size = endIdx - startIdx + 1;
         }
 
         public string Substring(Range range)

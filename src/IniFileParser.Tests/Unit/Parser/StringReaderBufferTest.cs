@@ -153,28 +153,32 @@ namespace IniFileParser.Tests
 
         [Test] public void resize_between_indexes()
         {
-            var str = InitBufferAndReadLine("   hello world!");
+            InitBufferAndReadLine("   hello world!");
             buffer.Trim();
 
+            buffer.ResizeBetweenIndexes(5, 11);
+            Assert.That(buffer.ToString(), Is.EqualTo(" world!"));
 
+            buffer.ResizeBetweenIndexes(1, 2);
+            Assert.That(buffer.ToString(), Is.EqualTo("wo"));
+
+            InitBufferAndReadLine("hello world!");
             buffer.ResizeBetweenIndexes(6, 6);
-            Assert.That(buffer.ToString(), Is.EqualTo("hello world!"));
+            Assert.That(buffer.ToString(), Is.EqualTo("w"));
+        }
+
+        [Test] public void resize_between_invalid_indexes_does_not_changes_buffer()
+        {
+            InitBufferAndReadLine("hello world!");
 
             buffer.ResizeBetweenIndexes(9, 6);
             Assert.That(buffer.ToString(), Is.EqualTo("hello world!"));
 
-            buffer.ResizeBetweenIndexes(5, 11);
-            Assert.That(buffer.ToString(), Is.EqualTo(" world"));
-
             buffer.ResizeBetweenIndexes(-1, 11);
-            Assert.That(buffer.ToString(), Is.EqualTo(" world"));
+            Assert.That(buffer.ToString(), Is.EqualTo("hello world!"));
 
             buffer.ResizeBetweenIndexes(10, 211);
-            Assert.That(buffer.ToString(), Is.EqualTo(" world"));
-
-            buffer.ResizeBetweenIndexes(1, 2);
-            Assert.That(buffer.ToString(), Is.EqualTo("w"));
-
+            Assert.That(buffer.ToString(), Is.EqualTo("hello world!"));
         }
     }
 
