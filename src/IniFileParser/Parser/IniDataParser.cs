@@ -251,13 +251,11 @@ namespace IniParser.Parser
 
             // TODO: change this to a global (IniData level) array of comments
             // Extract comments from current line and store them in a tmp list
-
             if (ProcessComment(currentLine)) return;
 
             if (ProcessSection(currentLine, iniData)) return;
 
             if (ProcessProperty(currentLine, iniData)) return;
-
 
             if (Configuration.SkipInvalidLines) return;
 
@@ -300,6 +298,8 @@ namespace IniParser.Parser
             var sectionEndRange = currentLine.FindSubstring(Scheme.SectionEndString);
             if (sectionEndRange.IsEmpty)
             {
+                if (Configuration.SkipInvalidLines) return false;
+
                 throw new ParsingException("bad formed ini: no closing section value",
                                            _currentLineNumber);
             }
@@ -319,6 +319,8 @@ namespace IniParser.Parser
             {
                 if (iniData.Sections.ContainsSection(sectionName))
                 {
+                    if (Configuration.SkipInvalidLines) return false;
+
                     var formatStr = "Duplicate section with name '{0}'";
                     var errorMsg = string.Format(formatStr, sectionName);
                     throw new ParsingException(errorMsg, _currentLineNumber);
@@ -359,6 +361,7 @@ namespace IniParser.Parser
             // REMINDER: store key an value
             if (string.IsNullOrEmpty(key))
             {
+                if (Configuration.SkipInvalidLines) return false;
                 throw new ParsingException("bad formed ini: found property without key",
                                            _currentLineNumber);
             }
@@ -462,8 +465,6 @@ namespace IniParser.Parser
 
         #region Helpers
 
-
-
         /// <summary>
         ///     Adds a key to a concrete <see cref="KeyDataCollection"/> instance, checking
         ///     if duplicate keys are allowed in the configuration
@@ -498,6 +499,7 @@ namespace IniParser.Parser
             keyDataCollection.GetKeyData(key).Comments = new List<string>(_currentCommentListTemp);
             _currentCommentListTemp.Clear();
         }
+
         #endregion
 
         #region Fields
