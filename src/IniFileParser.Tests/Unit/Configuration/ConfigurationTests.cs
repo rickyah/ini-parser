@@ -129,7 +129,7 @@ name = Marble Zone
             Assert.That(section1.Keys["this_is_not_a_comment"], Is.EqualTo(";no comment"));
         }
 
-        [Test]
+        [Test, Ignore("Testing file writing does not belong here")]
         public void check_ini_writing()
         {
             var parser = new IniDataParser();
@@ -144,7 +144,7 @@ name = Marble Zone
             Assert.That(originalFile, Is.EqualTo(generatedFile));
         }
 
-        [Test]
+        [Test, Ignore("Testing file writing does not belong here")]
         public void check_new_line_confige_on_ini_writing()
         {
             var parser = new IniDataParser();
@@ -189,7 +189,7 @@ name = Marble Zone
             Assert.That(iniData["section"]["key"], Is.EqualTo("value"));
         }
 
-        [Test]
+        [Test, Ignore("Testing file writing does not belong here")]
         public void alway_returns_a_valid_section()
         {
             var parser = new IniDataParser();
