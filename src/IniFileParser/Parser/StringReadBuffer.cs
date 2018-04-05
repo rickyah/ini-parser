@@ -4,8 +4,6 @@ using System.IO;
 
 namespace IniParser.Parser
 {
-
-
     public sealed class StringReadBuffer
     {
         public struct Range
@@ -81,9 +79,13 @@ namespace IniParser.Parser
             _buffer = new List<char>(capacity);
         }
 
-        public uint LineNumber { get; private set; }
-
         public int Count { get { return _bufferIndexes.size; } }
+
+        public bool IsEmpty
+        {
+            get { return _bufferIndexes.IsEmpty; }
+        }
+
 
         public char this[int idx]
         {
@@ -93,44 +95,10 @@ namespace IniParser.Parser
             }
         }
 
-        public void Reset(StringReader dataSource)
+        public StringReadBuffer DiscardChanges()
         {
-            _dataSource = dataSource;
-            LineNumber = 0;
-            _bufferIndexes = Range.Empty();
-            _buffer.Clear();
-        }
-
-        public void TrimRange(ref Range range)
-        {
-            if (range.size <= 0) return;
-
-            int endIdx = range.end;
-            for (; endIdx >= range.start; endIdx--)
-            {
-                if (!char.IsWhiteSpace(this[endIdx]))
-                {
-                    break;
-                }
-            }
-
-
-            int startIdx = range.start;
-            for (; startIdx <= endIdx; startIdx++)
-            {
-                if (!char.IsWhiteSpace(this[startIdx]))
-                {
-                    range.start = startIdx;
-                    break;
-                }
-            }
-
-            range.size = endIdx - range.start +1;
-        }
-
-        public void Trim()
-        {
-            TrimRange(ref _bufferIndexes);
+            _bufferIndexes = Range.FromIndexWithSize(0, _buffer.Count);
+            return this;
         }
 
         public Range FindSubstring(string subString)
@@ -186,6 +154,7 @@ namespace IniParser.Parser
             _buffer.Clear();
             int c = _dataSource.Read();
 
+            // Read until new line ('\n') or EOF (-1)
             while (c != '\n' && c != -1)
             {
                 if (c != '\r')
@@ -199,6 +168,13 @@ namespace IniParser.Parser
             _bufferIndexes = Range.FromIndexWithSize(0, _buffer.Count);
 
             return _buffer.Count > 0 || c != -1;
+        }
+
+        public void Reset(StringReader dataSource)
+        {
+            _dataSource = dataSource;
+            _bufferIndexes = Range.Empty();
+            _buffer.Clear();
         }
 
         public void Resize(int newSize)
@@ -221,17 +197,48 @@ namespace IniParser.Parser
 
         public string Substring(Range range)
         {
-            return new string(_buffer.ToArray(), range.start, range.size);
+            return new string(_buffer.ToArray(),
+                              _bufferIndexes.start + range.start,
+                              range.size);
         }
 
-        public bool IsEmpty
+        public void TrimRange(ref Range range)
         {
-            get { return _bufferIndexes.IsEmpty; }
+            if (range.size <= 0) return;
+
+            int endIdx = range.end;
+            for (; endIdx >= range.start; endIdx--)
+            {
+                if (!char.IsWhiteSpace(this[endIdx]))
+                {
+                    break;
+                }
+            }
+
+
+            int startIdx = range.start;
+            for (; startIdx <= endIdx; startIdx++)
+            {
+                if (!char.IsWhiteSpace(this[startIdx]))
+                {
+                    range.start = startIdx;
+                    break;
+                }
+            }
+
+            range.size = endIdx - range.start +1;
+        }
+
+        public void Trim()
+        {
+            TrimRange(ref _bufferIndexes);
         }
 
         public override string ToString()
         {
-            return Substring(_bufferIndexes);
+           return new string(_buffer.ToArray(),
+                              _bufferIndexes.start,
+                              _bufferIndexes.size);
         }
 
 

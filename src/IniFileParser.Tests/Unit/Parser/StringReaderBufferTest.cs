@@ -7,7 +7,7 @@ namespace IniFileParser.Tests
     [TestFixture]
     public class StringReaderBufferTest
     {
-        StringReadBuffer buffer;
+        StringBuffer buffer;
 
         private string InitBufferAndReadLine(string str)
         {
@@ -18,12 +18,12 @@ namespace IniFileParser.Tests
 
         [SetUp] public void Setup()
         {
-            buffer = new StringReadBuffer(256);
+            buffer = new StringBuffer(256);
         }
 
         [Test] public void check_default_initialization()
         {
-            var emptyBuffer = new StringReadBuffer(0);
+            var emptyBuffer = new StringBuffer(0);
 
             Assert.That(emptyBuffer.ToString(), Is.EqualTo(string.Empty));
             Assert.That(emptyBuffer.Count, Is.EqualTo(0));
@@ -32,7 +32,7 @@ namespace IniFileParser.Tests
 
         [Test] public void check_default_reset()
         {
-            buffer = new StringReadBuffer(0);
+            buffer = new StringBuffer(0);
 
             buffer.Reset(new StringReader(string.Empty));
 
@@ -123,18 +123,19 @@ namespace IniFileParser.Tests
         {
             var str = InitBufferAndReadLine("hello world!");
             var range = StringReadBuffer.Range.WithIndexes(3, 9);
+
             Assert.That(buffer.Substring(range), Is.EqualTo("lo worl"));
 
-            range = StringReadBuffer.Range.WithIndexes(0, 0);
+            range = StringBuffer.Range.WithIndexes(0, 0);
             Assert.That(buffer.Substring(range), Is.EqualTo("h"));
 
-            range = StringReadBuffer.Range.Empty();
+            range = StringBuffer.Range.Empty();
             Assert.That(buffer.Substring(range), Is.EqualTo(string.Empty));
 
-            range = StringReadBuffer.Range.WithIndexes(-1, -1);
+            range = StringBuffer.Range.WithIndexes(-1, -1);
             Assert.That(buffer.Substring(range), Is.EqualTo(string.Empty));
 
-            range = StringReadBuffer.Range.FromIndexWithSize(-1, 4);
+            range = StringBuffer.Range.FromIndexWithSize(-1, 4);
             Assert.That(buffer.Substring(range), Is.EqualTo(string.Empty));
         }
 
@@ -180,6 +181,20 @@ namespace IniFileParser.Tests
             buffer.ResizeBetweenIndexes(10, 211);
             Assert.That(buffer.ToString(), Is.EqualTo("hello world!"));
         }
-    }
 
+        [Test] public void discard_changes_in_buffer()
+        {
+            InitBufferAndReadLine("  hello world! ");
+
+            buffer.Trim();
+            Assert.That(buffer.ToString(), Is.EqualTo("hello world!"));
+
+            buffer.ResizeBetweenIndexes(3, 8);
+            Assert.That(buffer.ToString(), Is.EqualTo("lo wor"));
+
+            buffer.DiscardChanges();
+            Assert.That(buffer.ToString(), Is.EqualTo("  hello world! "));
+
+        }
+    }
 }

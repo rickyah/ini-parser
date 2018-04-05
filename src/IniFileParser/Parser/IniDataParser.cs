@@ -259,7 +259,16 @@ namespace IniParser.Parser
 
             if (Configuration.SkipInvalidLines) return;
 
-            throw new ParsingException("Unknown file format", _currentLineNumber);
+            var errorFormat = "Couldn't parse text: '{0}'. Please see configuration option {1}.{2} to ignore this error.";
+            var errorMsg = string.Format(errorFormat,
+                                         currentLine,
+                                         Configuration.GetType().Name,
+                                         ParsingException.GetPropertyName(() => Configuration.SkipInvalidLines));
+
+
+            throw new ParsingException(errorMsg,
+                                       _currentLineNumber,
+                                       currentLine.DiscardChanges().ToString());
         }
 
         protected bool ProcessComment(StringReadBuffer currentLine)
@@ -269,11 +278,10 @@ namespace IniParser.Parser
 
             var startIdx = commentRange.start + Scheme.CommentString.Length;
             var endIdx = currentLine.Count - Scheme.CommentString.Length;
-            currentLine.ResizeBetweenIndexes(startIdx, endIdx);
+            var commentStr = currentLine.Substring(Range.WithIndexes(startIdx, endIdx));
 
-            var commentStr = currentLine.ToString();
             _currentCommentListTemp.Add(commentStr);
-            currentLine.Resize(commentRange.size - 1);
+            currentLine.Resize(commentRange.start);
 
             // If the line was a comment now it should be empty,
             // so no further processing is needed.
@@ -300,8 +308,15 @@ namespace IniParser.Parser
             {
                 if (Configuration.SkipInvalidLines) return false;
 
-                throw new ParsingException("bad formed ini: no closing section value",
-                                           _currentLineNumber);
+
+                    var errorFormat = "No closing section value. Please see configuration option {0}.{1} to ignore this error.";
+                    var errorMsg = string.Format(errorFormat,
+                                                 Configuration.GetType().Name,
+                                                 ParsingException.GetPropertyName(() => Configuration.SkipInvalidLines));
+
+                    throw new ParsingException(errorMsg,
+                                               _currentLineNumber,
+                                               currentLine.DiscardChanges().ToString());
             }
 
             var startIdx = sectionStartRange.start + Scheme.SectionStartString.Length;
@@ -321,9 +336,15 @@ namespace IniParser.Parser
                 {
                     if (Configuration.SkipInvalidLines) return false;
 
-                    var formatStr = "Duplicate section with name '{0}'";
-                    var errorMsg = string.Format(formatStr, sectionName);
-                    throw new ParsingException(errorMsg, _currentLineNumber);
+                    var errorFormat = "Duplicate section with name '{0}'. Please see configuration option {1}.{2} to ignore this error.";
+                    var errorMsg = string.Format(errorFormat,
+                                                 sectionName,
+                                                 Configuration.GetType().Name,
+                                                 ParsingException.GetPropertyName(() => Configuration.SkipInvalidLines));
+
+                    throw new ParsingException(errorMsg,
+                                               _currentLineNumber,
+                                               currentLine.DiscardChanges().ToString());
                 }
             }
 
@@ -350,7 +371,7 @@ namespace IniParser.Parser
 
             var keyRange = Range.WithIndexes(0, propertyDelimiterPos.start - 1);
             var valueRange = Range.FromIndexWithSize(propertyDelimiterPos.end + 1,
-                                                     currentLine.Count - propertyDelimiterPos.end -1);
+                                                     currentLine.Count - propertyDelimiterPos.end - 1);
             currentLine.TrimRange(ref keyRange);
             currentLine.TrimRange(ref valueRange);
 
@@ -358,90 +379,48 @@ namespace IniParser.Parser
             var value = currentLine.Substring(valueRange);
 
 
-            // REMINDER: store key an value
             if (string.IsNullOrEmpty(key))
             {
                 if (Configuration.SkipInvalidLines) return false;
-                throw new ParsingException("bad formed ini: found property without key",
-                                           _currentLineNumber);
+
+                var errorFormat = "Found property without key. Please see configuration option {0}.{1} to ignore this error";
+                var errorMsg = string.Format(errorFormat,
+                                             Configuration.GetType().Name,
+                                             ParsingException.GetPropertyName(() => Configuration.SkipInvalidLines));
+
+                throw new ParsingException(errorMsg,
+                                           _currentLineNumber,
+                                           currentLine.DiscardChanges().ToString());
             }
-
-            //Process keys
-
-            if (LineMatchesAKeyValuePair(currentLine.ToString()))
-            {
-                ProcessKeyValuePair(currentLine.ToString(), iniData);
-                return true;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        ///     Processes a string containing an ini key/value pair.
-        /// </summary>
-        /// <param name="line">
-        ///     The string to be processed
-        /// </param>
-        protected virtual void ProcessKeyValuePair(string line, IniData currentIniData)
-        {
-            // get key and value data
-            string key = ExtractKey(line);
-
-            if (string.IsNullOrEmpty(key) && Configuration.SkipInvalidLines) return;
-
-            string value = ExtractValue(line);
 
             // Check if we haven't read any section yet
             if (string.IsNullOrEmpty(_currentSectionNameTemp))
             {
                 if (!Configuration.AllowKeysWithoutSection)
                 {
-                    var errorStr = "key value pairs must be enclosed in a section";
-                    throw new ParsingException(errorStr, _currentLineNumber);
+                    var errorFormat = "Properties must be contained inside a section. Please see configuration option {0}.{1} to ignore this error.";
+                    var errorMsg = string.Format(errorFormat,
+                                                Configuration.GetType().Name,
+                                                ParsingException.GetPropertyName(() => Configuration.AllowKeysWithoutSection));
+
+                    throw new ParsingException(errorMsg,
+                                               _currentLineNumber,
+                                               currentLine.DiscardChanges().ToString());
                 }
 
-                AddKeyToKeyValueCollection(key, value, currentIniData.Global, "global");
+                AddKeyToKeyValueCollection(key, value, iniData.Global, "global");
             }
             else
             {
-                var currentSection = currentIniData.Sections.GetSectionData(_currentSectionNameTemp);
+                var currentSection = iniData.Sections.GetSectionData(_currentSectionNameTemp);
 
                 AddKeyToKeyValueCollection(key, value, currentSection.Keys, _currentSectionNameTemp);
             }
+
+
+            return true;
         }
 
-        /// <summary>
-        ///     Extracts the key portion of a string containing a key/value pair..
-        /// </summary>
-        /// <param name="s">
-        ///     The string to be processed, which contains a key/value pair
-        /// </param>
-        /// <returns>
-        ///     The name of the extracted key.
-        /// </returns>
-        protected virtual string ExtractKey(string s)
-        {
-            int index = s.IndexOf(Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
-
-            return s.Substring(0, index).Trim();
-        }
-
-        /// <summary>
-        ///     Extracts the value portion of a string containing a key/value pair..
-        /// </summary>
-        /// <param name="s">
-        ///     The string to be processed, which contains a key/value pair
-        /// </param>
-        /// <returns>
-        ///     The name of the extracted value.
-        /// </returns>
-        protected virtual string ExtractValue(string s)
-        {
-            int index = s.IndexOf(Scheme.KeyValueAssigmentString, 0, StringComparison.Ordinal);
-
-            return s.Substring(index + 1, s.Length - index - 1).Trim();
-        }
 
         /// <summary>
         ///     Abstract Method that decides what to do in case we are trying to add a duplicated key to a section
@@ -453,8 +432,8 @@ namespace IniParser.Parser
         {
             if (!Configuration.AllowDuplicateKeys)
             {
-                throw new ParsingException(string.Format("Duplicated key '{0}' found in section '{1}", key, sectionName),
-                _currentLineNumber);
+                var errorMsg = string.Format("Duplicated key '{0}' found in section '{1}", key, sectionName);
+                throw new ParsingException(errorMsg, _currentLineNumber);
             }
             else if (Configuration.OverrideDuplicateKeys)
             {

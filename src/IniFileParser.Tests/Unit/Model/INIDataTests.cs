@@ -6,7 +6,7 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 
 // TODO change namespaces and keep consistency (see Unit Test explorer)
-namespace IniParser.Tests.Unit.Model
+namespace IniFileParser.Tests.Unit.Model
 {
     [TestFixture,
 

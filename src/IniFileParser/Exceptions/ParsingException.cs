@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace IniParser.Exceptions
@@ -11,6 +12,11 @@ namespace IniParser.Exceptions
         public Version LibVersion {get; private set;}
         public uint LineNumber {get; private set;}
         public string LineContents {get; private set;}
+
+        public static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
+        {
+            return (propertyExpression.Body as MemberExpression).Member.Name;
+        }
 
         public ParsingException(string msg, uint lineNumber)
             :this(msg, lineNumber, string.Empty, null)
@@ -32,7 +38,7 @@ namespace IniParser.Exceptions
                                 uint lineNumber,
                                 string lineContents,
                                 Exception innerException)
-            : base(string.Format("Error {0}{4}while parsing line [{1}] \'{2}\' - IniParser version: {3}",
+            : base(string.Format("Error {0}{4} while parsing line {1}: \'{2}\' - IniParser version: {3}",
                                  msg,
                                  lineNumber,
                                  lineContents,
