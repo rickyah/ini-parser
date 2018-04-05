@@ -121,7 +121,9 @@ namespace IniFileParser.Tests
 
         [Test] public void substring()
         {
-            var str = InitBufferAndReadLine("hello world!");
+            InitBufferAndReadLine("    hello world!");
+            buffer.Trim();
+
             var range = StringReadBuffer.Range.WithIndexes(3, 9);
 
             Assert.That(buffer.Substring(range), Is.EqualTo("lo worl"));

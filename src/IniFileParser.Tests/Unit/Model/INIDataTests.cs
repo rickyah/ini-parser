@@ -9,7 +9,6 @@ using IniParser.Model.Configuration;
 namespace IniFileParser.Tests.Unit.Model
 {
     [TestFixture,
-
     Description("Test of data structures used to hold information retrieved for an INI file")]
     public class INIDataTests
     {

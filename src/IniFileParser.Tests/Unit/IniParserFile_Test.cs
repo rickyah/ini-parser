@@ -1,6 +1,7 @@
 using System.IO;
 using IniParser.Exceptions;
 using IniParser.Model;
+using IniParser.Parser;
 using NUnit.Framework;
 
 namespace IniParser.Tests.Unit
@@ -9,17 +10,12 @@ namespace IniParser.Tests.Unit
     public class IniParserFileTest
     {
 
-        public readonly string strGoodINIFilePath = "INIfileGOOD.ini";
-        public readonly string strBadINIFilePath = "INIfileBAD.ini";
-        public readonly string strEmptyINIFilePath = "INIfileEMPTY.ini";
-        public readonly string strBadSectionINIFilePath = "INIfileBADSection.ini";
-        public readonly string strBadKeysINIFilePath = "INIfileBADKeys.ini";
-
-        public FileIniDataParser iniParser = new FileIniDataParser();
+        public IniDataParser iniParser;
 
         [SetUp]
         public void SetUp()
         {
+            iniParser = new IniDataParser();
         }
 
         [TearDown]
@@ -27,18 +23,10 @@ namespace IniParser.Tests.Unit
         {
         }
 
-        [Test, Description("Checks existence of test INI files")]
-        public void CheckTestFilesExists()
-        {
-            Assert.That(File.Exists(strGoodINIFilePath), "Correct INI file {0} does not exists", strGoodINIFilePath);
-            Assert.That(File.Exists(strBadINIFilePath), "Invalid INI file {0} does not exists", strBadINIFilePath);
-            Assert.That(File.Exists(strEmptyINIFilePath), "Empty INI file {0} does not exists", strEmptyINIFilePath);
-        }
-
         [Test, Description("Checks correct parsing of an empty INI file")]
         public void CheckParseEmptyFileSuccess()
         {
-            IniData parsedData = iniParser.ReadFile(strEmptyINIFilePath);
+            IniData parsedData = iniParser.Parse("");
 
             Assert.That(parsedData, Is.Not.Null);
         }
@@ -46,7 +34,14 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks correct parsing of a well formed INI file")]
         public void CheckParseGoodFileSuccess()
         {
-            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
+        string strGoodINIFile = @";comentario1
+;comentario 2
+[seccion1]
+
+;valor de control
+value1 = 10.6";
+
+            IniData parsedData = iniParser.Parse(strGoodINIFile);
 
             Assert.That(parsedData, Is.Not.Null);
         }
@@ -54,30 +49,46 @@ namespace IniParser.Tests.Unit
         [Test, Description("Checks error when parsing a bad formed INI file")]
         public void CheckParsingFailure()
         {
-            Assert.Throws<ParsingException>( () => iniParser.ReadFile(strBadINIFilePath) );
+            string strBadINIFile = @"asdfasf [seccion1] fdsafsd
+   value2  =   jelou
+
+[seccion 2]    adsfa
+;
+value3 = que tal estas
+
+  [ [section   3] dsf a
+
+ ; comentario1
+ fsadfsad  ;comentario2";
+
+            Assert.Throws<ParsingException>( () => iniParser.Parse(strBadINIFile) );
         }
 
-        [Test, Description("Checks correct saving of a file")]
-        public void CheckCorrectSave()
-        {
-            string fileString = strGoodINIFilePath + "_test.ini";
-
-            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
-            iniParser.WriteFile(fileString, parsedData);
-
-            Assert.That(File.Exists(fileString));
-        }
 
         [Test, Description("Checks bad formed INI file: Two sections with same name")]
         public void CheckCollideSectionNames()
         {
-            Assert.Throws<ParsingException>( () => iniParser.ReadFile(strBadSectionINIFilePath) );
+            string strBadSectionINI = @";comentario1
+[seccion1] ;comentario 2
+
+;valor de control
+value1 = 10.6
+
+[seccion1]
+value2 = 10.6";
+            Assert.Throws<ParsingException>( () => iniParser.Parse(strBadSectionINI) );
         }
 
         [Test, Description("Checks bad formed INI file: Two keys in the same section with same name")]
         public void CheckCollideKeysNames()
         {
-            Assert.Throws<ParsingException>( () => iniParser.ReadFile(strBadKeysINIFilePath) );
+string strBadKeysINIFile = @";comentario1
+[seccion1] ;comentario 2
+
+;valor de control
+value1 = 10.6
+value1 = 10";
+            Assert.Throws<ParsingException>( () => iniParser.Parse(strBadKeysINIFile) );
 
         }
     }
