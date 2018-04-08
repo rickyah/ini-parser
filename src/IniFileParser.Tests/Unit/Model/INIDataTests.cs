@@ -154,8 +154,6 @@ key = 1
 
             Assert.That(iniData["AssetsRepository"].ContainsKey("Type"));
             Assert.That(iniData["AssetsRepository"].ContainsKey("RelativePath"));
-
-            Console.WriteLine(iniData.ToString());
         }
 
         string iniFileStrA =

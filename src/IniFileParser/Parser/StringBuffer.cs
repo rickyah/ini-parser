@@ -4,7 +4,7 @@ using System.IO;
 
 namespace IniParser.Parser
 {
-    public sealed class StringReadBuffer
+    public sealed class StringBuffer
     {
         public struct Range
         {
@@ -74,7 +74,7 @@ namespace IniParser.Parser
             }
         }
 
-        public StringReadBuffer(int capacity)
+        public StringBuffer(int capacity)
         {
             _buffer = new List<char>(capacity);
         }
@@ -95,7 +95,7 @@ namespace IniParser.Parser
             }
         }
 
-        public StringReadBuffer DiscardChanges()
+        public StringBuffer DiscardChanges()
         {
             _bufferIndexes = Range.FromIndexWithSize(0, _buffer.Count);
             return this;

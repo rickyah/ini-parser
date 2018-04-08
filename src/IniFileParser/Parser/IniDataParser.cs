@@ -5,7 +5,7 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 using System.Collections.ObjectModel;
 using System.IO;
-using static IniParser.Parser.StringReadBuffer;
+using static IniParser.Parser.StringBuffer;
 
 namespace IniParser.Parser
 {
@@ -242,7 +242,7 @@ namespace IniParser.Parser
         ///     Processes one line and parses the data found in that line
         ///     (section or key/value pair who may or may not have comments)
         /// </summary>
-        protected virtual void ProcessLine(StringReadBuffer currentLine,
+        protected virtual void ProcessLine(StringBuffer currentLine,
                                            IniData iniData)
         {
             currentLine.Trim();
@@ -271,7 +271,7 @@ namespace IniParser.Parser
                                        currentLine.DiscardChanges().ToString());
         }
 
-        protected bool ProcessComment(StringReadBuffer currentLine)
+        protected bool ProcessComment(StringBuffer currentLine)
         {
             var commentRange = currentLine.FindSubstring(Scheme.CommentString);
             if (commentRange.IsEmpty) return false;
@@ -294,7 +294,7 @@ namespace IniParser.Parser
         /// <param name="line">
         ///     The string to be processed
         /// </param>
-        protected virtual bool ProcessSection(StringReadBuffer currentLine, IniData iniData)
+        protected virtual bool ProcessSection(StringBuffer currentLine, IniData iniData)
         {
             if (currentLine.Count <= 0) return false;
 
@@ -360,7 +360,7 @@ namespace IniParser.Parser
             return true;
         }
 
-        protected virtual bool ProcessProperty(StringReadBuffer currentLine, IniData iniData)
+        protected virtual bool ProcessProperty(StringBuffer currentLine, IniData iniData)
         {
             if (currentLine.Count <= 0) return false;
 
@@ -497,7 +497,7 @@ namespace IniParser.Parser
 
         // Buffer used to hold the current line being processed.
         // Saves allocating a new string
-        StringReadBuffer _mBuffer = new StringReadBuffer(256);
+        StringBuffer _mBuffer = new StringBuffer(256);
         #endregion
     }
 }
