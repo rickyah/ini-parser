@@ -4,6 +4,7 @@ using IniParser.Parser;
 using NUnit.Framework;
 using IniParser.Exceptions;
 using IniParser.Model.Configuration;
+using IniParser.Model.Formatting;
 
 namespace IniFileParser.Tests.Unit.Parser
 {
@@ -539,6 +540,21 @@ key2 = value2";
 
             Assert.That(parsedData.Sections["W101 0.5\" wc"], Is.Not.Empty);
             Assert.That(parsedData.Sections["W103 0.5' wc"], Is.Not.Empty);
+        }
+
+        [Test, Description("Test for Issue 167: https://github.com/rickyah/ini-parser/issues/167")]
+        public void check_extract_comments_correctly()
+        {
+            var parser = new IniDataParser();
+            var iniDataString = @"[Section1]
+
+## Data Commentary
+data = value;
+";
+            parser.Scheme.CommentString = "##";
+            var parsedData = parser.Parse(iniDataString);
+
+            Assert.That(parsedData.ToString(), Is.EqualTo(iniDataString));
         }
     }
 }
