@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using IniParser.Parser;
 using System.IO;
+using System;
 
 namespace IniFileParser.Tests
 {
@@ -71,7 +72,7 @@ namespace IniFileParser.Tests
             var str = InitBufferAndReadLine(@"   hello world!
 ");
 
-            Assert.That(buffer.Count, Is.EqualTo(str.Length -1 ));
+            Assert.That(buffer.Count, Is.EqualTo(str.Length - Environment.NewLine.Length));
             buffer.Trim();
             Assert.That(buffer.Count, Is.EqualTo(str.Trim().Length));
             Assert.That(buffer.ToString(), Is.EqualTo("hello world!"));
