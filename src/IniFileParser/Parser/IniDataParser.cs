@@ -277,7 +277,7 @@ namespace IniParser.Parser
             if (commentRange.IsEmpty) return false;
 
             var startIdx = commentRange.start + Scheme.CommentString.Length;
-            var endIdx = currentLine.Count - Scheme.CommentString.Length;
+            var endIdx = currentLine.Count - 1;
             var commentStr = currentLine.Substring(Range.WithIndexes(startIdx, endIdx));
 
             _currentCommentListTemp.Add(commentStr);
