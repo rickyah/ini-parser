@@ -33,7 +33,7 @@ namespace IniParser.Model.Formatting
                                   IniFormattingConfiguration format)
         {
             // Write blank line before section, but not if it is the first line
-            if (sb.Length > 0) sb.Append(format.NewLineStr);
+            if (sb.Length > 0 && format.NewLinesBeforeSection) sb.Append(format.NewLineStr);
 
             // Leading comments
             WriteComments(section.Comments, sb, scheme, format);
