@@ -556,5 +556,25 @@ data = value;
 
             Assert.That(parsedData.ToString(), Is.EqualTo(iniDataString));
         }
+
+        [Test, Description("Test for Issue 121: https://github.com/rickyah/ini-parser/issues/121")]
+        public void test_suppress_empty_line_before_section()
+        {
+            var parser = new IniDataParser();
+            var iniDataString = @"global_data = global_value
+[Section1]
+data_1 = value_1
+data_2 = value_2
+data_3 = value_3
+data_4 = value_4
+[Section2]
+data_2 = value_2
+";
+            var parsedData = parser.Parse(iniDataString);
+            var formattingConfig = new IniFormattingConfiguration();
+            formattingConfig.NewLinesBeforeSection = false;
+
+            Assert.That(parsedData.ToString(formattingConfig), Is.EqualTo(iniDataString));
+        }
     }
 }
