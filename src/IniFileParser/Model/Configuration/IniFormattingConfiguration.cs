@@ -9,6 +9,7 @@ namespace IniParser.Model.Configuration
 
             AssigmentSpacer = " ";
             NewLineStr = Environment.NewLine;
+            NewLinesBeforeSection = true;
         }
 
         /// <summary>
@@ -32,7 +33,13 @@ namespace IniParser.Model.Configuration
         /// </remarks>
         public string AssigmentSpacer { get; set; }
 
-        // TODO: Add property NewLinesBeforeSection (https://github.com/rickyah/ini-parser/issues/121)
+        /// <summary>
+        ///     If set to <c>true</c>, add a new line string before writing section when formating an <see cref="IniData"/> structure using a <see cref="Formatting.IIniDataFormatter"/>.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>true</c>.
+        /// </remarks>
+        public bool NewLinesBeforeSection { get; set; }
 
         //public IIniScheme Scheme{ get; private set;}
 
