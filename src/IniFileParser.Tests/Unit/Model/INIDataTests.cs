@@ -1,19 +1,29 @@
-﻿using System;
+using System.Linq;
 using NUnit.Framework;
+
 using IniParser.Parser;
 using IniParser.Model;
 using IniParser.Model.Configuration;
-using IniParser.Parser;
-using NUnit.Framework;
 
 // TODO change namespaces and keep consistency (see Unit Test explorer)
-namespace IniParser.Tests.Unit.Model
+namespace IniFileParser.Tests.Unit.Model
 {
-    [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
+    [TestFixture,
+    Description("Test of data structures used to hold information retrieved for an INI file")]
     public class INIDataTests
     {
-        [Test]
-        public void delete_all_comments()
+        [Test] public void parse_comments()
+        {
+            string iniData = @";comment1
+key1 = 2
+;comment2";
+
+            var data = new IniDataParser().Parse(iniData);
+
+            Assert.That(data.Global.First().Comments, Is.Not.Empty);
+        }
+
+        [Test] public void delete_all_comments()
         {
             string iniData = @";comment1
 key1 = 2
@@ -23,7 +33,7 @@ key1 = 2
 ;a value
 value1 = 10.6";
 
-            var parser = new IniDataParser(new IniScheme(), new IniParserConfiguration());
+            var parser = new IniDataParser();
 
             var data = parser.Parse(iniData);
 
@@ -56,7 +66,7 @@ value1 = 10.6";
         {
 
             var data = new IniDataCaseInsensitive();
-            var section = new SectionData("TestSection");
+            var section = new Section("TestSection");
             section.Keys.AddKey("keY1", "value1");
             section.Keys.AddKey("KEY2", "value2");
             section.Keys.AddKey("KeY2", "value3");
@@ -79,13 +89,12 @@ value1 = 10.6";
             KEY1 = value1
             KEY2 = value2";
 
-            var config = new IniParserConfiguration();
-            config.CaseInsensitive = true;
-            var data = new IniDataParser(new IniScheme(), config).Parse(iniData);
+            var parser = new IniDataParser();
+            parser.Configuration.CaseInsensitive = true;
+            var data = parser.Parse(iniData);
 
             Assert.That(data["testsection"]["key1"], Is.EqualTo("value1"));
             Assert.That(data["testSection"]["Key2"], Is.EqualTo("value2"));
-
         }
 
         [Test, Description("Test for Issue 135: https://github.com/rickyah/ini-parser/issues/135")]
@@ -103,6 +112,7 @@ value1 = 10.6";
             Assert.That(data.Global["KeY2"], Is.EqualTo("value3"));
             Assert.That(data.Global["key2"], Is.EqualTo("value3"));
         }
+
         [Test]
         public void check_deep_clone()
         {
@@ -113,10 +123,10 @@ key = 1
 ";
             var ori = new IniDataParser().Parse(input);
 
-            var copy = (IniData)ori.Clone();
+            var copy = ori.DeepClone();
 
-            copy.Global["global"] = "2";
-            copy["section"]["key"] = "2";
+            copy.Global["global"] = "1";
+            copy["section"]["key"] = "1";
 
 
             Assert.That(ori.Global["global"], Is.EqualTo("1"));
@@ -144,8 +154,6 @@ key = 1
 
             Assert.That(iniData["AssetsRepository"].ContainsKey("Type"));
             Assert.That(iniData["AssetsRepository"].ContainsKey("RelativePath"));
-
-            Console.WriteLine(iniData.ToString());
         }
 
         string iniFileStrA =

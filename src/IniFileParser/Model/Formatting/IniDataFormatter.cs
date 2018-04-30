@@ -16,7 +16,7 @@ namespace IniParser.Model.Formatting
             WriteKeyValueData(iniData.Global, sb, iniData.Scheme, format);
 
             //Write sections
-            foreach (SectionData section in iniData.Sections)
+            foreach (var section in iniData.Sections)
             {
                 //Write current section
                 WriteSection(section, sb, iniData.Scheme, format);
@@ -27,9 +27,9 @@ namespace IniParser.Model.Formatting
 
         #region Helpers
 
-        private void WriteSection(SectionData section,
+        private void WriteSection(Section section,
                                   StringBuilder sb,
-                                  IIniScheme scheme,
+                                  IniScheme scheme,
                                   IniFormattingConfiguration format)
         {
             // Write blank line before section, but not if it is the first line
@@ -48,12 +48,12 @@ namespace IniParser.Model.Formatting
             WriteKeyValueData(section.Keys, sb, scheme, format);
 
             // Trailing comments
-            WriteComments(section.TrailingComments, sb, scheme, format);
+            WriteComments(section.Comments, sb, scheme, format);
         }
 
         private void WriteKeyValueData(KeyDataCollection keyDataCollection,
                                        StringBuilder sb,
-                                       IIniScheme scheme,
+                                       IniScheme scheme,
                                        IniFormattingConfiguration format)
         {
 
@@ -68,7 +68,7 @@ namespace IniParser.Model.Formatting
                 //Write key and value
                 sb.Append(string.Format("{0}{3}{1}{3}{2}{4}",
                                         keyData.KeyName,
-                                        scheme.KeyValueAssigmentString,
+                                        scheme.PropertyDelimiterString,
                                         keyData.Value,
                                         format.AssigmentSpacer,
                                         format.NewLineStr));
@@ -77,7 +77,7 @@ namespace IniParser.Model.Formatting
 
         private void WriteComments(List<string> comments,
                                    StringBuilder sb,
-                                   IIniScheme scheme,
+                                   IniScheme scheme,
                                    IniFormattingConfiguration format)
         {
             foreach (string comment in comments)

@@ -3,13 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <IsPackable>false</IsPackable>
+    <ReleaseVersion></ReleaseVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="TestIniFile.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="BenchmarkDotNet" Version="0.10.13" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IniFileParser\INIFileParser.csproj" />

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INIFileParser.Tests", "IniF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INIFileParser.Example", "INIFileParser.Example\INIFileParser.Example.csproj", "{D4CF6996-5C75-46D1-A75B-22731ED16058}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IniParser.Benchmark", "IniParser.Benchmark\IniParser.Benchmark.csproj", "{66D9C8D5-6BDE-4984-943F-59086B5D8862}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66D9C8D5-6BDE-4984-943F-59086B5D8862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D9C8D5-6BDE-4984-943F-59086B5D8862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D9C8D5-6BDE-4984-943F-59086B5D8862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D9C8D5-6BDE-4984-943F-59086B5D8862}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = IniFileParser.Example\IniFileParser.Example.csproj

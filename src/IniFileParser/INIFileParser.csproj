@@ -26,4 +26,11 @@
     <PackageOutputPath>../nuget</PackageOutputPath>
     <IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Model\Configuration\ConcatenateDuplicatedKeysIniParserConfiguration.cs" />
+    <Compile Remove="Parser\ConcatenateDuplicatedKeysIniDataParser.cs" />
+    <Compile Remove="FileIniParser.cs" />
+    <Compile Remove="Helpers\Assert.cs" />
+    <Compile Remove="Model\Configuration\IniParserConfiguration2.cs" />
+  </ItemGroup>
 </Project>

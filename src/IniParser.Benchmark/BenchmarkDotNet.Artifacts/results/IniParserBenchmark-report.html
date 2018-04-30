@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>IniParserBenchmark</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.10.13, OS=macOS 10.13.3 (17D102) [Darwin 17.4.0]
+Intel Core i5-5287U CPU 2.90GHz (Broadwell), 1 CPU, 4 logical cores and 2 physical cores
+.NET Core SDK=2.1.101
+  [Host]     : .NET Core 2.0.6 (CoreCLR 4.6.0.0, CoreFX 4.6.26212.01), 64bit RyuJIT  [AttachedDebugger]
+  DefaultJob : .NET Core 2.0.6 (CoreCLR 4.6.0.0, CoreFX 4.6.26212.01), 64bit RyuJIT
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>        Method</th><th>  Mean</th><th>  Error</th><th> StdDev</th><th>Gen 0</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>TestCreatingParser</td><td>16,560.74 ns</td><td>113.5699 ns</td><td>100.6768 ns</td><td>8.9111</td><td>14056 B</td>
+</tr><tr><td>TestCreatingParser2</td><td>27,545.14 ns</td><td>385.3468 ns</td><td>360.4536 ns</td><td>13.5498</td><td>21352 B</td>
+</tr><tr><td>TestCreatingIniData</td><td>16,119.08 ns</td><td>224.7746 ns</td><td>187.6969 ns</td><td>8.6365</td><td>13600 B</td>
+</tr><tr><td>TestParsingIniSmall</td><td>39.95 ns</td><td>0.4269 ns</td><td>0.3993 ns</td><td>0.0407</td><td>64 B</td>
+</tr><tr><td>TestParserIniMedium</td><td>3,991.01 ns</td><td>52.5670 ns</td><td>46.5993 ns</td><td>3.6163</td><td>5688 B</td>
+</tr><tr><td>TestParserIniBig</td><td>4,035.95 ns</td><td>54.2015 ns</td><td>50.7001 ns</td><td>3.6163</td><td>5688 B</td>
+</tr><tr><td>TestCreatingIniData2</td><td>375.87 ns</td><td>5.5491 ns</td><td>5.1906 ns</td><td>0.2999</td><td>472 B</td>
+</tr><tr><td>TestParsingIniSmall2</td><td>2,191.88 ns</td><td>29.1592 ns</td><td>27.2755 ns</td><td>1.3924</td><td>2192 B</td>
+</tr><tr><td>TestParserIniMedium2</td><td>25,833.16 ns</td><td>353.8138 ns</td><td>330.9576 ns</td><td>12.7258</td><td>20056 B</td>
+</tr><tr><td>TestParserIniBig2</td><td>86,953.28 ns</td><td>1,487.3349 ns</td><td>1,241.9919 ns</td><td>36.6211</td><td>57776 B</td>
+</tr></tbody></table>
+</body>
+</html>

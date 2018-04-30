@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using IniParser.Model;
+using IniParser.Parser;
 
 namespace IniParser.Example
 {
@@ -9,7 +10,7 @@ namespace IniParser.Example
         public static void Main()
         {
             //Create an instance of a ini file parser
-            FileIniDataParser fileIniData = new FileIniDataParser();
+            IniDataParser fileIniData = new IniDataParser();
 
             if (File.Exists("NewTestIniFile.ini"))
                 File.Delete("NewTestIniFile.ini");
@@ -18,11 +19,11 @@ namespace IniParser.Example
 			// instead of ';' so we need to change the configuration of the parser:
 
 			// Todo: separate the parser from the soure of data (file, string, stream, etc) and delete those obsolete helper clasess
-            fileIniData.Parser.Scheme.CommentString = "#";
+            fileIniData.Scheme.CommentString = "#";
 
 
             //Parse the ini file
-            IniData parsedData = fileIniData.ReadFile("TestIniFile.ini");
+            IniData parsedData = fileIniData.Parse(new StreamReader("TestIniFile.ini"));
 
             //Write down the contents of the ini file to the console
             Console.WriteLine("---- Printing contents of the INI file ----\n");
@@ -44,15 +45,6 @@ namespace IniParser.Example
             Console.WriteLine("---- Printing contents of the new INI file ----");
             Console.WriteLine(modifiedParsedData);
 			Console.WriteLine();
-
-            //Save to a file
-            Console.WriteLine("---- Saving the new ini file to the file NewTestIniFile.ini ----");
-            Console.WriteLine();
-
-            // Uncomment this to change the new line string used to write the ini file to disk to
-            // force use the windows style new line
-            //modifiedParsedData.Configuration.NewLineStr = "\r\n";
-            fileIniData.WriteFile("NewTestIniFile.ini", modifiedParsedData);
         }
 
         static IniData ModifyINIData(IniData modifiedParsedData)

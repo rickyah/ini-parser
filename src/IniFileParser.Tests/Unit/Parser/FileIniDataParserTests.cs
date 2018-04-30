@@ -1,54 +1,59 @@
 ﻿using System.Text;
 using IniParser.Model;
 using NUnit.Framework;
+using IniParser.Parser;
+using System;
+using System.IO;
 
 namespace IniParser.Tests.Unit.Parser
 {
     [TestFixture]
     public class FileIniDataParserTests
     {
-        [Test,  Description("Tests for Issue 18: http://code.google.com/p/ini-parser/issues/detail?id=18")]
-        public void test_multiple_file_encodings()
+        [Test]
+        public void test_utf8_encoding()
         {
-            var parser = new FileIniDataParser();
+            var parser = new IniDataParser();
+            string data = @"[Identität]
+key = value";
 
-            // Encoding.Default is now the default value used in the ReadFile method, but is 
-            // specified in this call for consistency with the issue report
-            IniData parsedData = parser.ReadFile("./Issue18_example.ini", Encoding.UTF8);
+            IniData parsedData = parser.Parse(data);
 
             Assert.That(parsedData.Sections.ContainsSection("Identität"));
             Assert.That(parsedData.Sections["Identität"]["key"], Is.EqualTo("value"));
         }
 
-        [Test, Description("Test for Issue 26: http://code.google.com/p/ini-parser/issues/detail?id=26")]
+        [Test]
         public void allow_duplicated_sections()
         {
-            FileIniDataParser parser = new FileIniDataParser();
+            var parser = new IniDataParser();
+            var reader = new StreamReader("Issue11_example.ini");
 
-            IniData parsedData = parser.ReadFile("Issue11_example.ini");
+            IniData parsedData = parser.Parse(reader);
 
             Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
         }
 
-        [Test, Description("Check on real files")]
+        [Test]
         public void check_parses_real_test_files()
         {
-            var parser = new FileIniDataParser();
-            parser.Parser.Configuration.ThrowExceptionsOnError = true;
+            var parser = new IniDataParser();
+            var reader = new StreamReader("aircraft.cfg");
+            parser.Configuration.ThrowExceptionsOnError = true;
 
-            var iniFileData = parser.ReadFile("aircraft.cfg");
+            var iniFileData = parser.Parse(reader);
 
-            parser.Parser.Scheme.CommentString = "//";
-            iniFileData = parser.ReadFile("aircraft2.cfg");
+            parser.Scheme.CommentString = "//";
+            iniFileData = parser.Parse(new StreamReader("aircraft2.cfg"));
         }
 
-        [Test, Description("Check unicode characters")]
-        public void check_parse_unicode_chinese_characters()
+        [Test]
+        public void test_unicode_chinese_encoding()
         {
-            var parser = new FileIniDataParser();
-            parser.Parser.Configuration.ThrowExceptionsOnError = true;
+            var parser = new IniDataParser();
+            parser.Configuration.ThrowExceptionsOnError = true;
 
-            var iniFileData = parser.ReadFile("unicode_chinese.ini");
+            var iniFileData = parser.Parse(new StreamReader("unicode_chinese.ini", Encoding.UTF8));
 
             // If you want to write the file you must specify the encoding
             //parser.WriteFile("unicode_chinese_copy.ini", iniFileData, Encoding.UTF8);

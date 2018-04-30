@@ -12,7 +12,7 @@ namespace IniParser.Model.Configuration
     ///     the ini file (e.g. change the 'comment' caracter from ';' to '#')
     ///     You can also define how the parser should treat errors, or how liberal
     ///     or conservative should it be when parsing files with "strange" formats.
-    public class IniParserConfiguration : ICloneable
+    public class IniParserConfiguration : IDeepCloneable<IniParserConfiguration>
     {
         /// <summary>
         ///     Default values used if an instance of <see cref="IniDataParser"/>
@@ -21,12 +21,13 @@ namespace IniParser.Model.Configuration
         public IniParserConfiguration()
         {
 
-            ConcatenateDuplicateKeys = false;
             AllowKeysWithoutSection = true;
             AllowDuplicateKeys = false;
             AllowDuplicateSections = false;
-            ThrowExceptionsOnError = true;
+            CaseInsensitive = false;
+            ConcatenateDuplicateKeys = false;
             SkipInvalidLines = false;
+            ThrowExceptionsOnError = true;
         }
 
         /// <summary>
@@ -37,35 +38,22 @@ namespace IniParser.Model.Configuration
         /// </param>
         public IniParserConfiguration(IniParserConfiguration ori)
         {
-            AllowDuplicateKeys = ori.AllowDuplicateKeys;
-            OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
-            AllowDuplicateSections = ori.AllowDuplicateSections;
-            AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
-
-            ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
+            this.OverwriteWith(ori);
         }
 
-
+        
         /// <summary>
-        ///     Retrieving section / keys by name is done with a case-insensitive
-        ///     search.
+        ///     If set to <c>false</c> and the <see cref="IniDataParser"/> finds a duplicate section
+        ///     the parser will stop with an error.
+        ///     If set to <c>true</c>, duplicated sections are allowed in the file, but only a
+        ///     <see cref="Section"/> element will be created in the <see cref="IniData.Sections"/>
+        ///     collection.
         /// </summary>
         /// <remarks>
-        ///     Defaults to false (case sensitive search)
+        ///     Defaults to <c>false</c>.
         /// </remarks>
-        public bool CaseInsensitive{ get; set; }
-
-        /// <summary>
-        ///     Allows having keys in the file that don't belong to any section.
-        ///     i.e. allows defining keys before defining a section.
-        ///     If set to <c>false</c> and keys without a section are defined,
-        ///     the <see cref="IniDataParser"/> will stop with an error.
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to <c>true</c>.
-        /// </remarks>
-        public bool AllowKeysWithoutSection { get; set; }
-			
+        public bool AllowDuplicateSections { get; set; }
+          
         /// <summary>
         ///     If set to <c>false</c> and the <see cref="IniDataParser"/> finds duplicate keys in a
         ///     section the parser will stop with an error.
@@ -77,6 +65,36 @@ namespace IniParser.Model.Configuration
         /// </remarks>
         public bool AllowDuplicateKeys { get; set; }
 
+     
+        /// <summary>
+        ///     Allows having keys in the file that don't belong to any section.
+        ///     i.e. allows defining keys before defining a section.
+        ///     If set to <c>false</c> and keys without a section are defined,
+        ///     the <see cref="IniDataParser"/> will stop with an error.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>true</c>.
+        /// </remarks>
+        public bool AllowKeysWithoutSection { get; set; }
+        
+        /// <summary>
+        ///     Retrieving section / keys by name is done with a case-insensitive
+        ///     search.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to false (case sensitive search)
+        /// </remarks>
+        public bool CaseInsensitive{ get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether duplicate keys are concatenate
+        ///     together by <see cref="ConcatenateSeparator"/>.
+        /// </summary>
+        /// <value>
+        ///     Defaults to <c>false</c>.
+        /// </value>
+        public bool ConcatenateDuplicateKeys { get; set; }
+        
         /// <summary>
         ///     Only used if <see cref="IniParserConfiguration.AllowDuplicateKeys"/> is also <c>true</c>
         ///     If set to <c>true</c> when the parser finds a duplicate key, it overrites
@@ -91,15 +109,6 @@ namespace IniParser.Model.Configuration
         public bool OverrideDuplicateKeys { get; set; }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether duplicate keys are concatenate
-        ///     together by <see cref="ConcatenateSeparator"/>.
-        /// </summary>
-        /// <value>
-        ///     Defaults to <c>false</c>.
-        /// </value>
-        public bool ConcatenateDuplicateKeys { get; set; }
-
-        /// <summary>
         ///     If <c>true</c> the <see cref="IniDataParser"/> instance will thrown an exception
         ///     if an error is found.
         ///     If <c>false</c> the parser will just stop execution and return a null value.
@@ -108,39 +117,37 @@ namespace IniParser.Model.Configuration
         ///     Defaults to <c>true</c>.
         /// </remarks>
         public bool ThrowExceptionsOnError { get; set; }
-
+        
         /// <summary>
-        ///     If set to <c>false</c> and the <see cref="IniDataParser"/> finds a duplicate section
-        ///     the parser will stop with an error.
-        ///     If set to <c>true</c>, duplicated sections are allowed in the file, but only a
-        ///     <see cref="SectionData"/> element will be created in the <see cref="IniData.Sections"/>
-        ///     collection.
+        ///     Skips the processing of a line while parsing if it contains an
+        ///     error instead of throwing an exception.
         /// </summary>
         /// <remarks>
         ///     Defaults to <c>false</c>.
         /// </remarks>
-        public bool AllowDuplicateSections { get; set; }
-
         public bool SkipInvalidLines { get; set; }
 
-        #region ICloneable Members
+
+        public void OverwriteWith(IniParserConfiguration ori)
+        {
+            AllowDuplicateKeys = ori.AllowDuplicateKeys;
+            AllowDuplicateSections = ori.AllowDuplicateSections;
+            AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
+            CaseInsensitive = ori.CaseInsensitive;
+            ConcatenateDuplicateKeys = ori.ConcatenateDuplicateKeys;
+            OverrideDuplicateKeys = ori.OverrideDuplicateKeys;
+            SkipInvalidLines = ori.SkipInvalidLines;
+            ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
+        }
+        
+        #region IDeepCloneable<T> Members
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public IniParserConfiguration Clone()
+        public IniParserConfiguration DeepClone()
         {
 			return new IniParserConfiguration(this);
         }
-
-        object ICloneable.Clone()
-        {
-            return this.Clone();
-        }
-
         #endregion
     }
 }

@@ -19,7 +19,7 @@ namespace IniParser.Tests.Unit.Parser
             Assert.That(data.Sections.Count, Is.EqualTo(1));
             Assert.That(data.Sections["ExampleSection"], Is.Not.Null);
             Assert.That(data.Sections["ExampleSection"].Count, Is.EqualTo(1));
-            Assert.That(data.Sections["ExampleSection"]["key"], Is.EqualTo("value;value"));
+            Assert.That(data.Sections["ExampleSection"]["key"], Is.EqualTo("value"));
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace IniParser.Tests.Unit.Parser
 
             IniData inidata = new IniDataParser().Parse(data);
 
-            Assert.That(inidata["data"]["key"], Is.EqualTo("value;"));
+            Assert.That(inidata["data"]["key"], Is.EqualTo("value"));
         }
     }
 }

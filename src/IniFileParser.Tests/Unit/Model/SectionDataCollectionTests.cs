@@ -85,7 +85,7 @@ namespace IniParser.Tests.Unit.Model
         {
             var col = new SectionDataCollection();
 
-            var exampleSection = new SectionData("section1");
+            var exampleSection = new Section("section1");
             exampleSection.Keys.AddKey("examplekey");
             exampleSection.Keys["examplekey"] = "examplevalue";
 

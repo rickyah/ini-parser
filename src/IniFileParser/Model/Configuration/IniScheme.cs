@@ -3,20 +3,13 @@ using System.Text.RegularExpressions;
 
 namespace IniParser.Model.Configuration
 {
-	public interface IIniScheme
-	{
-		string CommentString { get; }
-		string SectionStartString { get; }
-		string SectionEndString { get; }
-		string KeyValueAssigmentString { get; }
-	}
 
     /// <summary>
     /// This structure defines the format of the INI file by customization the characters used to define sections
     /// key/values or comments.
     /// Used IniDataParser to read INI files, and an IIniDataFormatter to write a new ini file string.
     /// </summary>
-	public class IniScheme : IIniScheme, ICloneable
+	public class IniScheme : IDeepCloneable<IniScheme>
     {
         /// <summary>
         ///     Ctor.
@@ -43,7 +36,7 @@ namespace IniParser.Model.Configuration
         public IniScheme() {
 
             CommentString = ";";
-			KeyValueAssigmentString= "=";
+			PropertyDelimiterString = "=";
             _sectionStartString = "[";
             _sectionEndString = "]";
 			RecreateSectionRegex();
@@ -57,12 +50,13 @@ namespace IniParser.Model.Configuration
         /// </param>
         public IniScheme(IniScheme ori)
         {
-            SectionStartString= ori.SectionStartString;
-            SectionEndString = ori.SectionEndString;
             CommentString = ori.CommentString;
-
-            // Regex values should recreate themselves.
+            PropertyDelimiterString = ori.PropertyDelimiterString;
+            _sectionStartString = ori.SectionStartString;
+            _sectionEndString = ori.SectionEndString;
+            RecreateSectionRegex();
         }
+
 
         public Regex CommentRegex { get; set; }
 
@@ -126,13 +120,14 @@ namespace IniParser.Model.Configuration
                 _commentString = value;
             }
         }
+
         /// <summary>
         ///     Sets the string used in the ini file to denote a key / value assigment
         /// </summary>
         /// <remarks>
         ///     Defaults to character '='
         /// </remarks>
-        public string KeyValueAssigmentString { get; set; }
+        public string PropertyDelimiterString { get; set; }
 
         #region Fields
         string _sectionStartString = string.Empty;
@@ -162,10 +157,10 @@ namespace IniParser.Model.Configuration
 				                                  CommentString));
 			}
 
-			if (KeyValueAssigmentString.Contains(value)) {
-				throw new Exception(string.Format("Section delimiter string '{0}' is equal or similar to key/value assignment string '{1}'",
+			if (PropertyDelimiterString.Contains(value)) {
+				throw new Exception(string.Format("Section delimiter string '{0}' is equal or similar to property assignment string '{1}'",
 				                                  value,
-				                                  KeyValueAssigmentString));
+				                                  PropertyDelimiterString));
 			}
 
 		}
@@ -198,15 +193,9 @@ namespace IniParser.Model.Configuration
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public IniScheme Clone()
+        public IniScheme DeepClone()
         {
-            return this.MemberwiseClone() as IniScheme;
-        }
-
-        object ICloneable.Clone()
-        {
-            return this.Clone();
+            return new IniScheme(this);
         }
 
         #endregion
