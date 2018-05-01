@@ -4,7 +4,7 @@ using IniParser.Model.Configuration;
 using IniParser.Parser;
 using NUnit.Framework;
 
-namespace IniParser.Tests.Unit.Configuration
+namespace IniParser.Tests.Unit
 {
     [TestFixture]
     public class ConfigurationTests
@@ -136,46 +136,6 @@ name = Marble Zone
             Assert.That(section1.Keys["name"], Is.EqualTo("Green Hill Zone"));
             Assert.That(section1.Keys.GetKeyData("this_is_not_a_comment"), Is.Not.Null);
             Assert.That(section1.Keys["this_is_not_a_comment"], Is.EqualTo(";no comment"));
-        }
-
-        [Test, Ignore("Testing file writing does not belong here")]
-        public void check_ini_writing()
-        {
-            //var parser = new IniDataParser();
-            //parser.Scheme.CommentString = "#";
-            //parser.Configuration.OverwriteWith(_permisiveConfiguration);
-            //var formatConfig = new IniFormattingConfiguration();
-
-            //IniData data = parser.Parse(iniFileStr);
-
-            //var originalFile = iniFileStr.Replace(Environment.NewLine, string.Empty);
-            //var generatedFile = data.ToString(formatConfig).Replace(Environment.NewLine, string.Empty);
-            //Assert.That(originalFile, Is.EqualTo(generatedFile));
-        }
-
-        [Test, Ignore("Testing file writing does not belong here")]
-        public void check_new_line_confige_on_ini_writing()
-        {
-            //var parser = new IniDataParser();
-            //parser.Configuration.OverwriteWith(_permisiveConfiguration);
-            //IniData data = parser.Parse(iniFileStr);
-
-            //var formatConfig = new IniFormattingConfiguration();
-            //formatConfig.NewLineStr = "^_^";
-
-            //var originalFile = iniFileStr.Replace(Environment.NewLine, string.Empty);
-            //var generatedFile = data.ToString(formatConfig).Replace("^_^", string.Empty);
-
-            //Assert.That(originalFile, Is.EqualTo(generatedFile));
-        }
-
-        [Test, Ignore("Testing file writing does not belong here")]
-        public void alway_returns_a_valid_section()
-        {
-            //var parser = new IniDataParser();
-
-            //var iniData = parser.Parse("");
-            //Assert.IsNotNull(iniData["noname"]);
         }
 
         [Test]

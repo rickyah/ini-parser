@@ -5,25 +5,12 @@ using NUnit.Framework;
 using IniParser.Exceptions;
 using IniParser.Model.Configuration;
 
-namespace IniFileParser.Tests.Unit.Parser
+namespace IniParser.Tests.Integration
 {
     [TestFixture]
     public class ParserTests
     {
 
-        string iniFileStr =
-@";comment for section1
-[section1]
-
-;comment for key1
-key1 = value1
-key2 = value5
-
-[section2]
-
-;comment for myKey1
-mykey1 = value1
-";
         [Test] public void parse_section()
         {
             var str = @";comment for section1
@@ -63,9 +50,20 @@ key1 = value1";
             Assert.That(sectionData.Comments.First(), Is.EqualTo("comment for section1"));
         }
 
+        
         [Test]
         public void parse_ini_string_with_default_configuration()
         {
+            string iniFileStr =
+                @";comment for section1
+[section1]
+;comment for key1
+key1 = value1
+key2 = value5
+[section2]
+;comment for myKey1 
+mykey1 = value1 
+";
             var parser = new IniDataParser();
             IniData data = parser.Parse(iniFileStr);
 
@@ -85,7 +83,6 @@ key1 = value1";
             Assert.That(section1.Keys.GetKeyData("key2"), Is.Not.Null);
             Assert.That(section1.Keys["key2"], Is.EqualTo("value5"));
         }
-
         string iniFileStrCustom =
 @"#comment for section1
 <section1>
@@ -100,12 +97,10 @@ key2 = value5
 mykey1 = value1
 ";
 
-        [Test]
-        public void parse_ini_string_with_custom_configuration()
+        [Test] public void parse_ini_string_with_custom_configuration()
         {
             var parser = new IniDataParser();
-
-            IniParser.Model.Configuration.IniParserConfiguration config = parser.Configuration;
+            var config = parser.Configuration;
 
             parser.Scheme.CommentString = "#";
             parser.Scheme.SectionStartString = "<";
@@ -130,16 +125,7 @@ mykey1 = value1
             Assert.That(section1.Keys["key2"], Is.EqualTo("value5"));
         }
 
-        [Test, Ignore("Ini writing does not belong here")]
-        public void check_ini_writing()
-        {
-            IniData data = new IniDataParser().Parse(iniFileStr);
-
-            Assert.That(data.ToString(), Is.EqualTo(iniFileStr));
-        }
-
-        [Test, Description("Test for Issue 3: http://code.google.com/p/ini-parser/issues/detail?id=3")]
-        public void allow_keys_with_dots()
+        [Test] public void allow_keys_with_dots()
         {
             string strTest = "[section_issue.3]\nkey.with_dots = value\n";
 
@@ -149,8 +135,7 @@ mykey1 = value1
             Assert.That(data.Sections["section_issue.3"]["key.with_dots"], Is.Not.Null);
         }
 
-        [Test, Description("Test for Issue 4: http://code.google.com/p/ini-parser/issues/detail?id=4")]
-        public void allow_duplicated_keys_in_section()
+        [Test] public void allow_duplicated_keys_in_section()
         {
             string ini_duplicated_keys =
                 @";comentario1
@@ -172,8 +157,7 @@ value1 = 10";
             Assert.That(data.Sections.GetSectionData("seccion1").Keys["value1"], Is.EqualTo("10.6"));
         }
 
-        [Test, Description("Test for Issue 9: http://code.google.com/p/ini-parser/issues/detail?id=9")]
-        public void check_using_another_leading_character_for_comments()
+        [Test] public void check_using_another_leading_character_for_comments()
         {
             string data =
                 @"[test]
@@ -193,8 +177,7 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
                 iniData["test"].GetKeyData("connectionString").Comments[0], Is.EqualTo(" a comment"));
         }
 
-        [Test, Description("Test for Issue 10: http://code.google.com/p/ini-parser/issues/detail?id=10")]
-        public void test_no_exception_is_raised_when_reading_url_like_section_names()
+        [Test] public void test_no_exception_is_raised_when_reading_url_like_section_names()
         {
             string data =
                 @"[http://example.com/page] 
@@ -205,7 +188,7 @@ key1 = value1";
             Assert.That(newData.Sections[@"http://example.com/page"]["key1"], Is.EqualTo("value1"));
         }
 
-        [Test, Description("Test for Issue 14: http://code.google.com/p/ini-parser/issues/detail?id=14")]
+        [Test]
         public void check_can_read_keys_with_no_section()
         {
             string data =
@@ -223,8 +206,7 @@ key3=value3";
             Assert.That(iniData.Global["key3"], Is.EqualTo("value3"));
         }
 
-        [Test, Description("Test for Issue 15: http://code.google.com/p/ini-parser/issues/detail?id=15")]
-        public void allow_duplicated_sections_in_section()
+        [Test] public void allow_duplicated_sections_in_section()
         {
             string data =
                 @"[123_1]
@@ -250,7 +232,7 @@ key4=value4";
 
         }
 
-        [Test, Description("Test for Issue 17: http://code.google.com/p/ini-parser/issues/detail?id=17")]
+        [Test]
         public void check_can_parse_special_characters_in_section_names()
         {
             string data =
@@ -267,7 +249,7 @@ key = value";
             Assert.That(iniData.Sections["{E3729302-74D1-11D3-B43A-00AA00CAD128}"]["key"], Is.EqualTo("value"));
         }
 
-        [Test, Description("Test for Issue 197: http://code.google.com/p/ini-parser/issues/detail?id=19")]
+        [Test]
         public void allow_whitespace_in_section_names()
         {
             string data =
@@ -339,8 +321,7 @@ key=value";
             Assert.That(parsedData.Sections["section~subsection"]["key"], Is.EqualTo("value"));
         }
 
-        [Test, Description("Test for Issue 43 backward compatibility https://github.com/rickyah/ini-parser/issues/32")]
-        public void commentchar_property_works()
+        [Test] public void commentchar_property_works()
         {
             string initest =
                 @"#comment1
@@ -361,7 +342,7 @@ value2 = 10";
 
         }
 
-        [Test, Description("Test for Issue 53 asterisks in section names https://github.com/rickyah/ini-parser/issues/53")]
+        [Test]
         public void allow_asteriks_in_section_names()
         {
             #region really long ini string for the next issue
@@ -458,8 +439,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
 
         }
 
-        // Thanks https://github.com/RichardSinden for this issue
-        [Test, Description("Test for Issue 66 - allow comments at end of sectionless file")]
+        [Test]
         public void allow_comments_at_end_of_sectionless_file()
         {
             string iniDataString = @"
@@ -473,6 +453,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
             var parser = new IniDataParser();
 
             parser.Configuration.AllowKeysWithoutSection = true;
+            parser.Scheme.CommentString = ";";
             var iniData = parser.Parse(iniDataString);
 
             Assert.That(iniData.Global.ContainsKey("value1"));
@@ -481,8 +462,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
             Assert.That(iniData.Global.GetKeyData("value1").Comments[2], Is.EqualTo("end"));
         }
 
-        // Thanks https://github.com/RichardSinden for this issue
-        [Test, Description("Test for Issue 67 - better errors")]
+        [Test]
         public void provides_error_data()
         {
             string iniDataString = @";begin
@@ -510,7 +490,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
 
         }
 
-        [Test, Description("Test for Issue 67 - better errors")]
+        [Test]
         public void provides_a_list_of_errors()
         {
             string iniDataString = @";begin
@@ -534,7 +514,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
 
         }
 
-        [Test, Description("Test for Issue 88: https://github.com/rickyah/ini-parser/issues/88")]
+        [Test]
         public void allow_quotes_in_sections()
         {
             var parser = new IniDataParser();
@@ -548,5 +528,84 @@ key2 = value2";
             Assert.That(parsedData.Sections["W101 0.5\" wc"], Is.Not.Empty);
             Assert.That(parsedData.Sections["W103 0.5' wc"], Is.Not.Empty);
         }
+        
+        
+        [Test]
+        public void check_can_parse_empty_file()
+        {
+            var parser = new IniDataParser();
+         
+            IniData parsedData = parser.Parse("");
+
+            Assert.That(parsedData, Is.Not.Null);
+        }
+
+        [Test]
+        public void check_parsing_simple_file_succeeds()
+        {
+        string strGoodINIFile = @";comentario1
+;comentario 2
+[seccion1]
+
+;valor de control
+value1 = 10.6";
+
+            var parser = new IniDataParser();
+ 
+            IniData parsedData = parser.Parse(strGoodINIFile);
+
+            Assert.That(parsedData, Is.Not.Null);
+        }
+
+        [Test]
+        public void check_parsing_badly_formed_file_fails()
+        {
+            string strBadINIFile = @"asdfasf [seccion1] fdsafsd
+   value2  =   jelou
+
+[seccion 2]    adsfa
+;
+value3 = que tal estas
+
+  [ [section   3] dsf a
+
+ ; comentario1
+ fsadfsad  ;comentario2";
+
+             var parser = new IniDataParser();
+            Assert.Throws<ParsingException>( () => parser.Parse(strBadINIFile) );
+        }
+
+
+        [Test]
+        public void check_colliding_section_names_throws()
+        {
+            string strBadSectionINI = @";comentario1
+[seccion1] ;comentario 2
+
+;valor de control
+value1 = 10.6
+
+[seccion1]
+value2 = 10.6";
+            var parser = new IniDataParser();
+            Assert.Throws<ParsingException>( () => parser.Parse(strBadSectionINI) );
+        }
+
+        [Test]
+        public void check_colliding_property_names_throws()
+        {
+string strBadPropertiesINIFile = @";comentario1
+[seccion1] ;comentario 2
+
+;valor de control
+value1 = 10.6
+value1 = 10";
+
+            var parser = new IniDataParser();
+            Assert.Throws<ParsingException>( () => parser.Parse(strBadPropertiesINIFile) );
+
+        }
+
     }
 }

@@ -121,15 +121,17 @@ namespace IniParser.Model
         ///     Adds a new SectionData instance to the collection
         /// </summary>
         /// <param name="data">SectionData instance.</param>
-        public void Add(Section data)
+        public bool Add(Section data)
         {
             if (ContainsSection(data.SectionName))
             {
                 SetSectionData(data.SectionName, new Section(data, _searchComparer));
+                return false;
             }
             else
             {
                 _sectionData.Add(data.SectionName, new Section(data, _searchComparer));
+                return true;
             }
         }
         /// <summary>

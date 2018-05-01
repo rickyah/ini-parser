@@ -5,10 +5,10 @@ using IniParser.Parser;
 using System;
 using System.IO;
 
-namespace IniParser.Tests.Unit.Parser
+namespace IniParser.Tests.Integration
 {
     [TestFixture]
-    public class FileIniDataParserTests
+    public class ParsingConfigurationTests
     {
         [Test]
         public void test_utf8_encoding()
@@ -27,7 +27,7 @@ key = value";
         public void allow_duplicated_sections()
         {
             var parser = new IniDataParser();
-            var reader = new StreamReader("Issue11_example.ini");
+            var reader = new StreamReader("TestIniFiles/BigIniFile.ini");
 
             IniData parsedData = parser.Parse(reader);
 
@@ -38,13 +38,13 @@ key = value";
         public void check_parses_real_test_files()
         {
             var parser = new IniDataParser();
-            var reader = new StreamReader("aircraft.cfg");
+            var reader = new StreamReader("TestIniFiles/aircraft.cfg");
             parser.Configuration.ThrowExceptionsOnError = true;
 
             var iniFileData = parser.Parse(reader);
 
             parser.Scheme.CommentString = "//";
-            iniFileData = parser.Parse(new StreamReader("aircraft2.cfg"));
+            iniFileData = parser.Parse(new StreamReader("TestIniFiles/aircraft2.cfg"));
         }
 
         [Test]
@@ -53,10 +53,9 @@ key = value";
             var parser = new IniDataParser();
             parser.Configuration.ThrowExceptionsOnError = true;
 
-            var iniFileData = parser.Parse(new StreamReader("unicode_chinese.ini", Encoding.UTF8));
+            var iniFileData = parser.Parse(new StreamReader("TestIniFiles/unicode_chinese.ini", Encoding.UTF8));
 
-            // If you want to write the file you must specify the encoding
-            //parser.WriteFile("unicode_chinese_copy.ini", iniFileData, Encoding.UTF8);
+            Assert.That(iniFileData["HSK1.Grammar.Adverb 太"]["structure"], Is.EqualTo("太 + %adjective% + 了"));
         }
     }
 }

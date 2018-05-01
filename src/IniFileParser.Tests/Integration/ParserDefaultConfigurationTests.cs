@@ -2,7 +2,7 @@
 using IniParser.Parser;
 using NUnit.Framework;
 
-namespace IniParser.Tests.Unit.Parser
+namespace IniParser.Tests.Integration
 {
     [TestFixture]
     public class ParserDefaultConfigurationTests

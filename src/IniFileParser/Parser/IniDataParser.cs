@@ -5,7 +5,6 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 using System.Collections.ObjectModel;
 using System.IO;
-using static IniParser.Parser.StringBuffer;
 
 namespace IniParser.Parser
 {
@@ -101,12 +100,12 @@ namespace IniParser.Parser
             _currentSectionNameTemp = null;
             _currentLineNumber = 1;
 
-            var currentLine = stringReader.ReadLine();
+            var currentLine = stringReader.ReadLine(); 
             while (currentLine != null)
             {
                 try
                 {
-                    ProcessLine(currentLine, iniData);
+                    ProcessLine(currentLine.Trim(), iniData);
                 }
                 catch (Exception ex)
                 {
@@ -224,11 +223,11 @@ namespace IniParser.Parser
         /// </returns>
         protected virtual (bool result, string comment) ExtractComment(ref string line)
         {
-            var result = Scheme.CommentRegex.Match(line);
-            if (!result.Success) return (false, string.Empty);
+            var resultIdx = line.IndexOf(Scheme.CommentString);
+            if (resultIdx < 0) return (false, string.Empty);
 
-            var comment = line.Substring(result.Index + Scheme.CommentString.Length);
-            line = line.Substring(0, result.Index);
+            var comment = line.Substring(resultIdx + Scheme.CommentString.Length);
+            line = line.Substring(0, resultIdx).Trim();
             return (true, comment);
         }
 
@@ -241,8 +240,6 @@ namespace IniParser.Parser
         {
 
             if (string.IsNullOrWhiteSpace(currentLine)) return;
-
-            currentLine.Trim();
 
             // TODO: change this to a global (IniData level) array of comments
             // Extract comments from current line and store them in a tmp list
@@ -414,6 +411,8 @@ namespace IniParser.Parser
         {
             int index = s.IndexOf(Scheme.PropertyDelimiterString, 0);
 
+            if (index < 0) return string.Empty;
+            
             return s.Substring(0, index).Trim();
         }
 
@@ -430,6 +429,8 @@ namespace IniParser.Parser
         {
             int index = s.IndexOf(Scheme.PropertyDelimiterString, 0);
 
+            if (index < 0) return null;
+            
             return s.Substring(index + 1, s.Length - index - 1).Trim();
         }
 

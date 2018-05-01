@@ -7,13 +7,16 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="*.ini">
+    <Content Include="TestIniFiles\aircraft.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="aircraft.cfg">
+    <Content Include="TestIniFiles\aircraft2.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="aircraft2.cfg">
+    <Content Include="TestIniFiles\BigIniFile.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestIniFiles\unicode_chinese.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -27,5 +30,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Unit\Parser\ConcatenateDuplicatedKeysIniDataParserTests.cs" />
+    <Compile Remove="Unit\IniParserRegex_Test.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Integration\" />
+    <Folder Include="TestIniFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="TestIniFiles\aircraft.cfg" />
+    <None Remove="TestIniFiles\aircraft2.cfg" />
+    <None Remove="TestIniFiles\Issue11_example.ini" />
+    <None Remove="TestIniFiles\unicode_chinese.ini" />
   </ItemGroup>
 </Project>

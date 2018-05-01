@@ -2,56 +2,98 @@
 using IniParser.Model;
 using NUnit.Framework;
 
-namespace IniParser.Tests.Unit.Model
+namespace IniParser.Tests.Unit
 {
-    [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
-    public class SectionDataCollectionTests
+    [TestFixture, Category("DataModel")]
+    public class SectionCollectionTests
     {
+        SectionDataCollection sdc;
+
+        [SetUp]
+        public void Setup()
+        { 
+            sdc = new SectionDataCollection(); 
+        }
+        
         [Test]
-        public void check_section_data_operations()
+        public void can_add_a_section_to_collection_just_with_a_name()
         {
             string strSectionTest = "MySection";
-            string strComment = "comment";
-            List<string> commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
 
-
-            //Creation
-            SectionDataCollection sdc = new SectionDataCollection();
-            Assert.That(sdc, Is.Empty);
-
-            //Add sectoin
-            sdc.AddSection(strSectionTest);
-            sdc.AddSection(strSectionTest);
+            Assert.That(sdc.AddSection(strSectionTest), Is.True);
             Assert.That(sdc.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void can_add_a_section_to_collection()
+        {
+            var section = new Section("MySection");
 
+            Assert.That(sdc.Add(section), Is.True);
+            Assert.That(sdc.Count, Is.EqualTo(1));
+        }
+        
+        [Test]
+        public void cannot_add_same_section_twice_to_collection()
+        {
+            string strSectionTest = "MySection";
 
+            Assert.That(sdc.AddSection(strSectionTest), Is.True);
+            Assert.That(sdc.AddSection(strSectionTest), Is.False);
+            Assert.That(sdc.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void can_access_section()
+        {
+            string strSectionTest = "MySection";
+        
+            
+            sdc.AddSection(strSectionTest);
+            
             //Check access
             Assert.That(sdc.GetSectionData(strSectionTest), Is.Not.Null);
             Assert.That(sdc.GetSectionData(strSectionTest).Comments, Is.Empty);
             Assert.That(sdc.GetSectionData(strSectionTest).Keys.Count, Is.EqualTo(0));
+        }
 
-            //Check add coments
+        [Test]
+        public void can_add_comments()
+        {
+            string strSectionTest = "MySection";
+            string strComment = "comment";
+            var commentListTest = new List<string> { "testComment 1", "testComment 2" };
+
+            Assert.That(sdc.AddSection(strSectionTest), Is.True);
+            
             sdc.GetSectionData(strSectionTest).Comments.Add(strComment);
             Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(1));
+
             sdc.GetSectionData(strSectionTest).Comments.Clear();
             sdc.GetSectionData(strSectionTest).Comments.AddRange(commentListTest);
 
             Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(commentListTest.Count));
+        }
 
+        [Test]
+        public void can_remove_sections()
+        { 
+            string strSectionTest = "MySection";
 
-            //Remove section
-            sdc.RemoveSection("asdf");
-            Assert.That(sdc.Count, Is.EqualTo(1));
-
+            sdc.AddSection(strSectionTest);
             sdc.RemoveSection(strSectionTest);
             Assert.That(sdc.Count, Is.EqualTo(0));
-
-            //Check access
             Assert.That(sdc[strSectionTest], Is.Null);
         }
 
-        [Test, Description("Test for Issue 29: http://code.google.com/p/ini-parser/issues/detail?id=29")]
-        public void remove_all_keys_in_section_without_deleting_the_section()
+        [Test]
+        public void removing_non_existing_section_is_ok()
+        {
+            Assert.That(sdc.RemoveSection("asdf"), Is.False);
+        }
+        
+        [Test]
+        public void can_remove_all_properties_from_a_section()
         {
             IniData data = new IniData();
             data.Sections.AddSection("test");
@@ -80,28 +122,9 @@ namespace IniParser.Tests.Unit.Model
 
         }
 
-        [Test]
-        public void check_adding_sections_to_collection()
-        {
-            var col = new SectionDataCollection();
-
-            var exampleSection = new Section("section1");
-            exampleSection.Keys.AddKey("examplekey");
-            exampleSection.Keys["examplekey"] = "examplevalue";
-
-            col.Add(exampleSection);
-
-            Assert.That(col["section1"], Is.Not.Null);
-
-            // Add sections directly to the collection
-            Assert.That(col.AddSection("section2"), Is.True);
-            Assert.That(col.AddSection("section2"), Is.False);
-
-            Assert.That(col["section2"], Is.Not.Null);
-        }
 
         [Test]
-        public void check_deep_clone()
+        public void can_deep_clone()
         {
             var ori = new SectionDataCollection();
             ori.AddSection("section1");
