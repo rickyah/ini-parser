@@ -1,18 +1,19 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 using IniParser.Exceptions;
 using IniParser.Model;
-using IniParser.Model.Configuration;
-using System.Collections.ObjectModel;
-using System.IO;
+using IniParser.Configuration;
 
-namespace IniParser.Parser
+namespace IniParser
 {
     /// <summary>
     ///     Responsible for parsing an string from an ini file, and creating
     ///     an <see cref="IniData"/> structure.
     /// </summary>
-    public partial class IniDataParser
+    public class IniDataParser
     {
         #region Initialization
         /// <summary>

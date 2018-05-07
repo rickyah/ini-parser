@@ -1,5 +1,5 @@
 ﻿using System;
-namespace IniParser.Model.Configuration
+namespace IniParser.Configuration
 {
     /// <summary>
     ///     Defines data for a Parser configuration object.

@@ -1,9 +1,8 @@
 using System.Linq;
 using IniParser.Model;
-using IniParser.Parser;
 using NUnit.Framework;
 using IniParser.Exceptions;
-using IniParser.Model.Configuration;
+using IniParser.Configuration;
 
 namespace IniParser.Tests.Integration
 {

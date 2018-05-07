@@ -1,5 +1,6 @@
 using System;
-namespace IniParser.Model.Configuration
+
+namespace IniParser.Formatting
 {
     public class IniFormattingConfiguration : ICloneable
     {

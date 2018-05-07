@@ -1,7 +1,5 @@
 using System.Linq;
 using NUnit.Framework;
-
-using IniParser.Parser;
 using IniParser.Model;
 
 namespace IniParser.Tests.Unit

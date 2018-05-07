@@ -33,4 +33,9 @@
     <Compile Remove="Helpers\Assert.cs" />
     <Compile Remove="Model\Configuration\IniParserConfiguration2.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Parser\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Formatting\" />
+  </ItemGroup>
 </Project>

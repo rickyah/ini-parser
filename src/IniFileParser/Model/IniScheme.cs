@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace IniParser.Model.Configuration
+namespace IniParser.Model
 {
 
     /// <summary>

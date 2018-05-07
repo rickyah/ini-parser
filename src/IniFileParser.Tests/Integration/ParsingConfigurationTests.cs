@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using IniParser.Model;
 using NUnit.Framework;
-using IniParser.Parser;
+using IniParser;
 using System;
 using System.IO;
 

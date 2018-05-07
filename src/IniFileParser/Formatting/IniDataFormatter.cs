@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using IniParser.Model.Configuration;
+using IniParser.Model;
+using IniParser.Configuration;
 
-namespace IniParser.Model.Formatting
+namespace IniParser.Formatting
 {
 
     public class IniDataFormatter : IIniDataFormatter

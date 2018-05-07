@@ -2,9 +2,10 @@
 using System.IO;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
+
+using IniParser;
 using IniParser.Model;
-using IniParser.Model.Configuration;
-using IniParser.Parser;
+using IniParser.Configuration;
 
 namespace IniParser_Benchmark
 {
