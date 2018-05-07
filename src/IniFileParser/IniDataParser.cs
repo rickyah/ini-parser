@@ -347,9 +347,9 @@ namespace IniParser
 
         protected virtual bool ProcessProperty(string currentLine, IniData iniData)
         {
-            string key = ExtractKey(currentLine);
+            var property = ExtractProperty(currentLine);
 
-            if (string.IsNullOrEmpty(key))
+            if (!property.result)
             {
                 if (Configuration.SkipInvalidLines) return false;
 
@@ -363,8 +363,6 @@ namespace IniParser
                                            currentLine);
             }
 
-            string value = ExtractValue(currentLine);
-            
             // Check if we haven't read any section yet
             if (string.IsNullOrEmpty(_currentSectionNameTemp))
             {
@@ -380,8 +378,8 @@ namespace IniParser
                                                currentLine);
                 }
 
-                AddKeyToKeyValueCollection(key, 
-                                           value,
+                AddKeyToKeyValueCollection(property.key, 
+                                           property.value,
                                            iniData.Global,
                                            "global");
             }
@@ -389,8 +387,8 @@ namespace IniParser
             {
                 var currentSection = iniData.Sections.GetSectionData(_currentSectionNameTemp);
 
-                AddKeyToKeyValueCollection(key, 
-                                           value,
+                AddKeyToKeyValueCollection(property.key, 
+                                           property.value,
                                            currentSection.Keys, 
                                            _currentSectionNameTemp);
             }
@@ -399,40 +397,40 @@ namespace IniParser
             return true;
         }
 
+        
         /// <summary>
-        ///     Extracts the key portion of a string containing a key/value pair..
+        ///     Extracts the key and value  from a string containing a property.
         /// </summary>
         /// <param name="s">    
-        ///     The string to be processed, which contains a key/value pair
+        ///     The string to be processed, which contains a property pair
         /// </param>
         /// <returns>
-        ///     The name of the extracted key.
+        ///     A tuple containing a boolean with the result: 
+        ///     true if the operation succeded, false otherwise.
+        ///     A string with the key  and a string with the value.
+        ///     If the extraction of the components of a property fails 
+        ///     both strings will be empty.
         /// </returns>
-        protected virtual string ExtractKey(string s)
+        protected virtual (bool result, string key, string value) ExtractProperty(string s)
         {
             int index = s.IndexOf(Scheme.PropertyDelimiterString, 0);
 
-            if (index < 0) return string.Empty;
+            if (index < 0)
+            {
+                return (false, string.Empty, string.Empty);
+            }
             
-            return s.Substring(0, index).Trim();
-        }
+            var key = s.Substring(0, index).Trim();
 
-        /// <summary>
-        ///     Extracts the value portion of a string containing a key/value pair..
-        /// </summary>
-        /// <param name="s">
-        ///     The string to be processed, which contains a key/value pair
-        /// </param>
-        /// <returns>
-        ///     The name of the extracted value.
-        /// </returns>
-        protected virtual string ExtractValue(string s)
-        {
-            int index = s.IndexOf(Scheme.PropertyDelimiterString, 0);
-
-            if (index < 0) return null;
+            if (string.IsNullOrEmpty(key))
+            {
+                return (false, string.Empty, string.Empty);
+            }
             
-            return s.Substring(index + 1, s.Length - index - 1).Trim();
+            var value = s.Substring(index + Scheme.PropertyDelimiterString.Length, 
+                                    s.Length - index - Scheme.PropertyDelimiterString.Length).Trim();
+
+            return (true, key, value);
         }
 
         /// <summary>
