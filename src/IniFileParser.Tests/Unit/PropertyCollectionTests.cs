@@ -9,7 +9,7 @@ namespace IniParser.Tests.Unit
         [Test]
         public void can_create_a_property_with_a_string()
         {
-            var col = new KeyDataCollection();
+            var col = new PropertyCollection();
             col.AddKey("key1");
             col.AddKey("key2", "value2");
 
@@ -21,10 +21,10 @@ namespace IniParser.Tests.Unit
         [Test]
         public void can_add_property()
         {
-            var col = new KeyDataCollection();
+            var col = new PropertyCollection();
             col.AddKey("key1");
 
-            var keyData = new KeyData("key3");
+            var keyData = new Property("key3");
             keyData.Value = "value3";
             col.AddKey(keyData);
 
@@ -34,11 +34,11 @@ namespace IniParser.Tests.Unit
         [Test]
         public void check_deep_clone()
         {
-            var ori = new KeyDataCollection();
+            var ori = new PropertyCollection();
 
             ori.AddKey("key1", "value1");
 
-            var copy = (KeyDataCollection)ori.Clone();
+            var copy = (PropertyCollection)ori.Clone();
 
             copy["key1"] = "Value2";
 

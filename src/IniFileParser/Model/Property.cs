@@ -7,14 +7,14 @@ namespace IniParser.Model
     ///     Information associated to a key from an INI file.
     ///     Includes both the value and the comments associated to the key.
     /// </summary>
-    public class KeyData : ICloneable
+    public class Property : ICloneable
     {
         #region Initialization
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="KeyData"/> class.
+        ///     Initializes a new instance of the <see cref="Property"/> class.
         /// </summary>
-        public KeyData(string keyName)
+        public Property(string keyName)
         {
             if(string.IsNullOrEmpty(keyName))
                 throw new ArgumentException("key name can not be empty");
@@ -25,17 +25,17 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="KeyData"/> class
-        ///     from a previous instance of <see cref="KeyData"/>.
+        ///     Initializes a new instance of the <see cref="Property"/> class
+        ///     from a previous instance of <see cref="Property"/>.
         /// </summary>
         /// <remarks>
         ///     Data is deeply copied
         /// </remarks>
         /// <param name="ori">
-        ///     The instance of the <see cref="KeyData"/> class 
+        ///     The instance of the <see cref="Property"/> class 
         ///     used to create the new instance.
         /// </param>
-        public KeyData(KeyData ori)
+        public Property(Property ori)
         {
             _value = ori._value;
             _keyName = ori._keyName;
@@ -94,7 +94,7 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new KeyData(this);
+            return new Property(this);
         }
 
         #endregion

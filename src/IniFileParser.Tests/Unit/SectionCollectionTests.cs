@@ -7,12 +7,12 @@ namespace IniParser.Tests.Unit
     [TestFixture, Category("DataModel")]
     public class SectionCollectionTests
     {
-        SectionDataCollection sdc;
+        SectionCollection sdc;
 
         [SetUp]
         public void Setup()
         { 
-            sdc = new SectionDataCollection(); 
+            sdc = new SectionCollection(); 
         }
         
         [Test]
@@ -126,11 +126,11 @@ namespace IniParser.Tests.Unit
         [Test]
         public void can_deep_clone()
         {
-            var ori = new SectionDataCollection();
+            var ori = new SectionCollection();
             ori.AddSection("section1");
             ori["section1"]["key1"] = "value1";
 
-            var copy = (SectionDataCollection)ori.Clone();
+            var copy = (SectionCollection)ori.Clone();
             copy["section1"]["key1"] = "value2";
 
             Assert.That(ori["section1"]["key1"], Is.EqualTo("value1"));

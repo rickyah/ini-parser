@@ -7,25 +7,25 @@ namespace IniParser.Model
     /// <summary>
     /// <para>Represents a collection of SectionData.</para>
     /// </summary>
-    public class SectionDataCollection : ICloneable, IEnumerable<Section>
+    public class SectionCollection : ICloneable, IEnumerable<Section>
     {
         IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SectionDataCollection"/> class.
+        /// Initializes a new instance of the <see cref="SectionCollection"/> class.
         /// </summary>
-        public SectionDataCollection()
+        public SectionCollection()
             :this(EqualityComparer<string>.Default)
         {}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IniParser.Model.SectionDataCollection"/> class.
+        /// Initializes a new instance of the <see cref="IniParser.Model.SectionCollection"/> class.
         /// </summary>
         /// <param name="searchComparer">
         ///     StringComparer used when accessing section names
         /// </param>
-        public SectionDataCollection(IEqualityComparer<string> searchComparer)
+        public SectionCollection(IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer;
 
@@ -33,21 +33,21 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SectionDataCollection"/> class
-        ///     from a previous instance of <see cref="SectionDataCollection"/>.
+        ///     Initializes a new instance of the <see cref="SectionCollection"/> class
+        ///     from a previous instance of <see cref="SectionCollection"/>.
         /// </summary>
         /// <remarks>
         ///     Data is deeply copied
         /// </remarks>
         /// <param name="ori">
-        ///     The instance of the <see cref="SectionDataCollection"/> class
+        ///     The instance of the <see cref="SectionCollection"/> class
         ///     used to create the new instance.
         /// </param>
         /// <param name="searchComparer">
         ///     Allows using a custom comparision strategy when looking up for keys
         ///     e.g case sensitive search (default)
         /// </param>
-        public SectionDataCollection(SectionDataCollection ori, IEqualityComparer<string> searchComparer)
+        public SectionCollection(SectionCollection ori, IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer ?? EqualityComparer<string>.Default;
                 
@@ -71,11 +71,11 @@ namespace IniParser.Model
         ///     Gets the key data associated to a specified section name.
         /// </summary>
         /// <value>
-        ///     An instance of as <see cref="KeyDataCollection"/> class
+        ///     An instance of as <see cref="PropertyCollection"/> class
         ///     holding the key data from the current parsed INI data, or a <c>null</c>
         ///     value if the section doesn't exist.
         ///  </value>
-        public KeyDataCollection this[string sectionName]
+        public PropertyCollection this[string sectionName]
         {
             get
             {
@@ -176,7 +176,7 @@ namespace IniParser.Model
             return null;
         }
 
-        public void Merge(SectionDataCollection sectionsToMerge)
+        public void Merge(SectionCollection sectionsToMerge)
         {
             foreach(var sectionDataToMerge in sectionsToMerge)
             {
@@ -257,7 +257,7 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new SectionDataCollection(this, _searchComparer);
+            return new SectionCollection(this, _searchComparer);
         }
 
         #endregion

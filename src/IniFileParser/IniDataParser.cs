@@ -440,7 +440,7 @@ namespace IniParser
         /// </summary>
         protected virtual void HandleDuplicatedKeyInCollection(string key,
                                                                string value,
-                                                               KeyDataCollection keyDataCollection,
+                                                               PropertyCollection keyDataCollection,
                                                                string sectionName)
         {
             if (!Configuration.AllowDuplicateKeys)
@@ -458,7 +458,7 @@ namespace IniParser
         #region Helpers
 
         /// <summary>
-        ///     Adds a key to a concrete <see cref="KeyDataCollection"/> instance, checking
+        ///     Adds a key to a concrete <see cref="PropertyCollection"/> instance, checking
         ///     if duplicate keys are allowed in the configuration
         /// </summary>
         /// <param name="key">
@@ -468,15 +468,15 @@ namespace IniParser
         ///     Key's value
         /// </param>
         /// <param name="keyDataCollection">
-        ///     <see cref="KeyData"/> collection where the key should be inserted
+        ///     <see cref="Property"/> collection where the key should be inserted
         /// </param>
         /// <param name="sectionName">
-        ///     Name of the section where the <see cref="KeyDataCollection"/> is contained.
+        ///     Name of the section where the <see cref="PropertyCollection"/> is contained.
         ///     Used only for logging purposes.
         /// </param>
         private void AddKeyToKeyValueCollection(string key,
                                                 string value,
-                                                KeyDataCollection keyDataCollection,
+                                                PropertyCollection keyDataCollection,
                                                 string sectionName)
         {
         

@@ -16,27 +16,27 @@ namespace IniParser
         ///     Initializes an empty IniData instance.
         /// </summary>
         public IniData()
-            : this(new SectionDataCollection())
+            : this(new SectionCollection())
         { }
 
         /// <summary>
         ///     Initializes a new IniData instance using a previous
-        ///     <see cref="SectionDataCollection"/>.
+        ///     <see cref="SectionCollection"/>.
         /// </summary>
         /// <param name="sdc">
-        ///     <see cref="SectionDataCollection"/> object containing the
+        ///     <see cref="SectionCollection"/> object containing the
         ///     data with the sections of the file
         /// </param>
-        public IniData(SectionDataCollection sdc)
+        public IniData(SectionCollection sdc)
         {
-            _sections = (SectionDataCollection)sdc.Clone();
-            Global = new KeyDataCollection();
+            _sections = (SectionCollection)sdc.Clone();
+            Global = new PropertyCollection();
             SectionKeySeparator = '.';
         }
 
         public IniData(IniData ori): this(ori.Sections)
         {
-            Global = (KeyDataCollection)ori.Global.Clone();
+            Global = (PropertyCollection)ori.Global.Clone();
             Scheme = ori.Scheme.DeepClone();
         }
         #endregion
@@ -61,13 +61,13 @@ namespace IniParser
         ///     enclosed in any section (i.e. they are defined at the beginning 
         ///     of the file, before any section.
         /// </summary>
-        public KeyDataCollection Global { get; protected set; }
+        public PropertyCollection Global { get; protected set; }
 
         /// <summary>
-        /// Gets the <see cref="KeyDataCollection"/> instance 
+        /// Gets the <see cref="PropertyCollection"/> instance 
         /// with the specified section name.
         /// </summary>
-        public KeyDataCollection this[string sectionName]
+        public PropertyCollection this[string sectionName]
         {
             get
             {
@@ -84,7 +84,7 @@ namespace IniParser
         /// Gets or sets all the <see cref="SectionData"/> 
         /// for this IniData instance.
         /// </summary>
-        public SectionDataCollection Sections
+        public SectionCollection Sections
         {
             get { return _sections; }
             set { _sections = value; }
@@ -131,7 +131,7 @@ namespace IniParser
         /// <summary>
         ///     Represents all sections from an INI file
         /// </summary>
-        private SectionDataCollection _sections;
+        private SectionCollection _sections;
         #endregion
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace IniParser
         /// <summary>
         ///     Merges the given global values into this globals by overwriting existing values.
         /// </summary>
-        private void MergeGlobal(KeyDataCollection globals)
+        private void MergeGlobal(PropertyCollection globals)
         {
             foreach (var globalValue in globals)
             {

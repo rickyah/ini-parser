@@ -28,7 +28,7 @@ namespace IniParser.Model
                 throw new ArgumentException("section name can not be empty");
 
             Comments = new List<string>();
-            _keyDataCollection = new KeyDataCollection(_searchComparer);
+            _keyDataCollection = new PropertyCollection(_searchComparer);
             SectionName = sectionName;
         }
 
@@ -55,7 +55,7 @@ namespace IniParser.Model
             _leadingComments = new List<string>(ori._leadingComments);
             _trailingComments = new List<string>(ori._trailingComments);
             _comments = new List<string>(ori._comments);
-            _keyDataCollection = new KeyDataCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
+            _keyDataCollection = new PropertyCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
         }
 
         #endregion
@@ -147,7 +147,7 @@ namespace IniParser.Model
         /// <value>
         ///     A collection of KeyData objects.
         /// </value>
-        public KeyDataCollection Keys
+        public PropertyCollection Keys
         {
             get
             {
@@ -185,7 +185,7 @@ namespace IniParser.Model
         private List<string> _comments = new List<string>();
 
         // Keys associated to this section
-        private KeyDataCollection _keyDataCollection;
+        private PropertyCollection _keyDataCollection;
 
         private string _sectionName;
         #endregion

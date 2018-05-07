@@ -7,58 +7,58 @@ namespace IniParser.Model
     /// <summary>
     ///     Represents a collection of Keydata.
     /// </summary>
-    public class KeyDataCollection : ICloneable, IEnumerable<KeyData>
+    public class PropertyCollection : ICloneable, IEnumerable<Property>
     {
         IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class.
+        ///     Initializes a new instance of the <see cref="PropertyCollection"/> class.
         /// </summary>
-        public KeyDataCollection()
+        public PropertyCollection()
             : this(EqualityComparer<string>.Default)
         { }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class with a given
+        ///     Initializes a new instance of the <see cref="PropertyCollection"/> class with a given
         ///     search comparer
         /// </summary>
         /// <param name="searchComparer">
         ///     Search comparer used to find the key by name in the collection
         /// </param>
-        public KeyDataCollection(IEqualityComparer<string> searchComparer)
+        public PropertyCollection(IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer;
-            _keyData = new Dictionary<string, KeyData>(_searchComparer);
+            _keyData = new Dictionary<string, Property>(_searchComparer);
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="KeyDataCollection"/> class
-        ///     from a previous instance of <see cref="KeyDataCollection"/>.
+        ///     Initializes a new instance of the <see cref="PropertyCollection"/> class
+        ///     from a previous instance of <see cref="PropertyCollection"/>.
         /// </summary>
         /// <remarks>
         ///     Data from the original KeyDataCollection instance is deeply copied
         /// </remarks>
         /// <param name="ori">
-        ///     The instance of the <see cref="KeyDataCollection"/> class 
+        ///     The instance of the <see cref="PropertyCollection"/> class 
         ///     used to create the new instance.
         /// </param>
         /// <param name="searchComparer">
         ///     Allows using a custom comparision strategy when looking up for keys
         ///     e.g case sensitive search (default)
         /// </param>
-        public KeyDataCollection(KeyDataCollection ori, IEqualityComparer<string> searchComparer)
+        public PropertyCollection(PropertyCollection ori, IEqualityComparer<string> searchComparer)
             : this(searchComparer)
         {
-            foreach (KeyData key in ori)
+            foreach (Property key in ori)
             {
                 if (_keyData.ContainsKey(key.KeyName))
                 {
-                    _keyData[key.KeyName] = (KeyData)key.Clone();
+                    _keyData[key.KeyName] = (Property)key.Clone();
                 }
                 else
                 {
-                    _keyData.Add(key.KeyName, (KeyData)key.Clone());
+                    _keyData.Add(key.KeyName, (Property)key.Clone());
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace IniParser.Model
         {
             if (!_keyData.ContainsKey(keyName))
             {
-                _keyData.Add(keyName, new KeyData(keyName));
+                _keyData.Add(keyName, new Property(keyName));
                 return true;
             }
 
@@ -145,7 +145,7 @@ namespace IniParser.Model
         ///     <c>true</c> if the key was added  <c>false</c> if a key with the same name already exist 
         ///     in the collection
         /// </returns>
-        public bool AddKey(KeyData keyData)
+        public bool AddKey(Property keyData)
         {
             if (AddKey(keyData.KeyName))
             {
@@ -207,17 +207,17 @@ namespace IniParser.Model
         /// </summary>
         /// <param name="keyName">Name of the key to retrieve.</param>
         /// <returns>
-        /// A <see cref="KeyData"/> instance holding
+        /// A <see cref="Property"/> instance holding
         /// the key information or <c>null</c> if the key wasn't found.
         /// </returns>
-        public KeyData GetKeyData(string keyName)
+        public Property GetKeyData(string keyName)
         {
             if (_keyData.ContainsKey(keyName))
                 return _keyData[keyName];
             return null;
         }
 
-        public void Merge(KeyDataCollection keyDataToMerge)
+        public void Merge(PropertyCollection keyDataToMerge)
         {
             foreach (var keyData in keyDataToMerge)
             {
@@ -251,8 +251,8 @@ namespace IniParser.Model
         /// <summary>
         /// Sets the key data associated to a specified key.
         /// </summary>
-        /// <param name="data">The new <see cref="KeyData"/> for the key.</param>
-        public void SetKeyData(KeyData data)
+        /// <param name="data">The new <see cref="Property"/> for the key.</param>
+        public void SetKeyData(Property data)
         {
             if (data == null) return;
 
@@ -270,7 +270,7 @@ namespace IniParser.Model
         /// Allows iteration througt the collection.
         /// </summary>
         /// <returns>A strong-typed IEnumerator </returns>
-        public IEnumerator<KeyData> GetEnumerator()
+        public IEnumerator<Property> GetEnumerator()
         {
             foreach (string key in _keyData.Keys)
                 yield return _keyData[key];
@@ -302,7 +302,7 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new KeyDataCollection(this, _searchComparer);
+            return new PropertyCollection(this, _searchComparer);
         }
 
         #endregion
@@ -310,9 +310,9 @@ namespace IniParser.Model
         #region Non-public Members
         // Hack for getting the last key value (if exists) w/out using LINQ
         // and maintain support for earlier versions of .NET
-        internal KeyData GetLast()
+        internal Property GetLast()
         {
-            KeyData result = null;
+            Property result = null;
             if (_keyData.Keys.Count <= 0) return result;
 
 
@@ -323,7 +323,7 @@ namespace IniParser.Model
         /// <summary>
         /// Collection of KeyData for a given section
         /// </summary>
-        private readonly Dictionary<string, KeyData> _keyData;
+        private readonly Dictionary<string, Property> _keyData;
 
         #endregion
 

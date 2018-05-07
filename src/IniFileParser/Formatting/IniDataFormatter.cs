@@ -52,13 +52,13 @@ namespace IniParser.Formatting
             WriteComments(section.Comments, sb, scheme, format);
         }
 
-        private void WriteKeyValueData(KeyDataCollection keyDataCollection,
+        private void WriteKeyValueData(PropertyCollection keyDataCollection,
                                        StringBuilder sb,
                                        IniScheme scheme,
                                        IniFormattingConfiguration format)
         {
 
-            foreach (KeyData keyData in keyDataCollection)
+            foreach (Property keyData in keyDataCollection)
             {
                 // Add a blank line if the key value pair has comments
                 if (keyData.Comments.Count > 0) sb.Append(format.NewLineStr);
