@@ -125,42 +125,29 @@ namespace IniParser
                 _currentLineNumber++;
             }
 
-            // TODO: is this try necessary?
-            try
+
+            // Orphan comments, assing to last section/key value
+            if (_currentCommentListTemp.Count > 0)
             {
-
-                // Orphan comments, assing to last section/key value
-                if (_currentCommentListTemp.Count > 0)
+                // Check if there are actually sections in the file
+                if (iniData.Sections.Count > 0)
                 {
-                    // Check if there are actually sections in the file
-                    if (iniData.Sections.Count > 0)
-                    {
-                        var sections = iniData.Sections;
-                        var section = sections.GetSectionData(_currentSectionNameTemp);
-                        section.Comments.AddRange(_currentCommentListTemp);
-                    }
-
-                    // No sections, put the comment in the last key value pair
-                    // but only if the ini file contains at least one key-value
-                    // pair
-                    else if (iniData.Global.Count > 0)
-                    {
-                        iniData.Global.GetLast().Comments
-                            .AddRange(_currentCommentListTemp);
-                    }
-
-
-                    _currentCommentListTemp.Clear();
+                    var sections = iniData.Sections;
+                    var section = sections.GetSectionData(_currentSectionNameTemp);
+                    section.Comments.AddRange(_currentCommentListTemp);
                 }
 
-            }
-            catch (Exception ex)
-            {
-                _errorExceptions.Add(ex);
-                if (Configuration.ThrowExceptionsOnError)
+                // No sections, put the comment in the last key value pair
+                // but only if the ini file contains at least one key-value
+                // pair
+                else if (iniData.Global.Count > 0)
                 {
-                    throw;
+                    iniData.Global.GetLast().Comments
+                        .AddRange(_currentCommentListTemp);
                 }
+
+
+                _currentCommentListTemp.Clear();
             }
 
 
@@ -378,7 +365,7 @@ namespace IniParser
                                                currentLine);
                 }
 
-                AddKeyToKeyValueCollection(property.key, 
+                AddPropertyToCollection(property.key, 
                                            property.value,
                                            iniData.Global,
                                            "global");
@@ -387,7 +374,7 @@ namespace IniParser
             {
                 var currentSection = iniData.Sections.GetSectionData(_currentSectionNameTemp);
 
-                AddKeyToKeyValueCollection(property.key, 
+                AddPropertyToCollection(property.key, 
                                            property.value,
                                            currentSection.Keys, 
                                            _currentSectionNameTemp);
@@ -472,14 +459,13 @@ namespace IniParser
         ///     Name of the section where the <see cref="PropertyCollection"/> is contained.
         ///     Used only for logging purposes.
         /// </param>
-        private void AddKeyToKeyValueCollection(string key,
-                                                string value,
-                                                PropertyCollection keyDataCollection,
-                                                string sectionName)
+        private void AddPropertyToCollection(string key,
+                                             string value,
+                                             PropertyCollection keyDataCollection,
+                                             string sectionName)
         {
         
-        //TODO: rename to AddPropertyToCollection
-        //TODO: Refactor this, sectionName parameter seems only needed to error handling
+            //TODO: Refactor this, sectionName parameter only needed to error handling
             // Check for duplicated keys
             if (keyDataCollection.ContainsKey(key))
             {
