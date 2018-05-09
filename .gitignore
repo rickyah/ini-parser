@@ -133,3 +133,6 @@ test-results/
 
 #vs code
 .vs/
+src/IniParser.Benchmark/BenchmarkDotNet.Artifacts/results/IniParserBenchmark-report-github.md
+src/IniParser.Benchmark/BenchmarkDotNet.Artifacts/results/IniParserBenchmark-report.csv
+src/IniParser.Benchmark/BenchmarkDotNet.Artifacts/results/IniParserBenchmark-report.html
