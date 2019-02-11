@@ -226,11 +226,10 @@ namespace IniParser
         protected virtual void ProcessLine(string currentLine,
                                            IniData iniData)
         {
-
             if (string.IsNullOrWhiteSpace(currentLine)) return;
 
-            // TODO: change this to a global (IniData level) array of comments
-            // Extract comments from current line and store them in a tmp list
+
+            // Extracts comments from current line and store them in a tmp list
             if (ProcessComment(ref currentLine, iniData)) return;
 
             if (ProcessSection(currentLine, iniData)) return;

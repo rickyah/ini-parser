@@ -215,6 +215,20 @@ c = 55
 
         }
 
+        [Test]
+        public void test_key_containing_separator()
+        {
+            string iniFile = 
+@"[section]
+bla= = 1";
+
+            var parser = new IniDataParser();
+            parser.Scheme.PropertyDelimiterString = " =";
+            var data = parser.Parse(iniFile);
+
+            Assert.That(data["section"].ContainsKey("bla="), Is.True);
+            Assert.That(data["section"]["bla="], Is.EqualTo("1"));
+        }
     }
 }
 
