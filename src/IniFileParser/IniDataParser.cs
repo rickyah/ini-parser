@@ -58,7 +58,6 @@ namespace IniParser
         }
         #endregion
 
-
         /// <summary>
         ///     Parses a string containing valid ini data
         /// </summary>
@@ -110,10 +109,6 @@ namespace IniParser
                 }
                 catch (Exception ex)
                 {
-                    //var errorEx = new ParsingException(ex.Message,
-                                                       //_mBuffer.LineNumber + 1,
-                                                       //_mBuffer.ToString(),
-                                                       //ex);
                     _errorExceptions.Add(ex);
                     if (Configuration.ThrowExceptionsOnError)
                     {
@@ -124,7 +119,6 @@ namespace IniParser
                 currentLine = stringReader.ReadLine();
                 _currentLineNumber++;
             }
-
 
             // Orphan comments, assing to last section/key value
             if (_currentCommentListTemp.Count > 0)
@@ -241,8 +235,8 @@ namespace IniParser
             var errorFormat = "Couldn't parse text: '{0}'. Please see configuration option {1}.{2} to ignore this error.";
             var errorMsg = string.Format(errorFormat,
                                          currentLine,
-                                         Configuration.GetType().Name,
-                                         ParsingException.GetPropertyName(() => Configuration.SkipInvalidLines));
+                                         nameof(Configuration),
+                                         nameof(Configuration.SkipInvalidLines));
 
 
             throw new ParsingException(errorMsg,
@@ -310,8 +304,8 @@ namespace IniParser
                     var errorFormat = "Duplicate section with name '{0}'. Please see configuration option {1}.{2} to ignore this error.";
                     var errorMsg = string.Format(errorFormat,
                                                  sectionName,
-                                                 Configuration.GetType().Name,
-                                                 ParsingException.GetPropertyName(() => Configuration.SkipInvalidLines));
+                                                 nameof(Configuration),
+                                                 nameof(Configuration.SkipInvalidLines));
 
                     throw new ParsingException(errorMsg,
                                                _currentLineNumber,
@@ -341,8 +335,8 @@ namespace IniParser
 
                 var errorFormat = "Found property without key. Please see configuration option {0}.{1} to ignore this error";
                 var errorMsg = string.Format(errorFormat,
-                                             Configuration.GetType().Name,
-                                             ParsingException.GetPropertyName(() => Configuration.SkipInvalidLines));
+                                             nameof(Configuration),
+                                             nameof(Configuration.SkipInvalidLines));
 
                 throw new ParsingException(errorMsg,
                                            _currentLineNumber,
@@ -356,8 +350,8 @@ namespace IniParser
                 {
                     var errorFormat = "Properties must be contained inside a section. Please see configuration option {0}.{1} to ignore this error.";
                     var errorMsg = string.Format(errorFormat,
-                                                Configuration.GetType().Name,
-                                                ParsingException.GetPropertyName(() => Configuration.AllowKeysWithoutSection));
+                                                nameof(Configuration),
+                                                nameof(Configuration.AllowKeysWithoutSection));
 
                     throw new ParsingException(errorMsg,
                                                _currentLineNumber,
@@ -378,7 +372,6 @@ namespace IniParser
                                            currentSection.Keys, 
                                            _currentSectionNameTemp);
             }
-
 
             return true;
         }
@@ -463,7 +456,6 @@ namespace IniParser
                                              PropertyCollection keyDataCollection,
                                              string sectionName)
         {
-        
             //TODO: Refactor this, sectionName parameter only needed to error handling
             // Check for duplicated keys
             if (keyDataCollection.ContainsKey(key))
@@ -483,8 +475,6 @@ namespace IniParser
         #endregion
 
         #region Fields
-
-
         uint _currentLineNumber;
 
         // Holds a list of the exceptions catched while parsing

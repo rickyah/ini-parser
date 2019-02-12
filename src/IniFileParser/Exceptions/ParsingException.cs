@@ -12,12 +12,6 @@ namespace IniParser.Exceptions
         public Version LibVersion {get; private set;}
         public uint LineNumber {get; private set;}
         public string LineContents {get; private set;}
-
-        public static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
-        {
-            return (propertyExpression.Body as MemberExpression).Member.Name;
-        }
-
         public ParsingException(string msg, uint lineNumber)
             :this(msg, lineNumber, string.Empty, null)
         {}
