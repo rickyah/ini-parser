@@ -1,9 +1,7 @@
 language: csharp
 solution: src/INIFileParser.sln
 script:
-  - nuget restore src/INIFileParser.sln
-  - xbuild src/INIFileParser.sln /nologo /verbosity:normal /p:Configuration=Release
-  - mono ./src/packages/NUnit.Runners.2.6.4/tools/nunit-console.exe -noxml -nodots -labels ./src/IniFileParser.Tests/bin/Release/IniFileParser.Tests.dll
-mono:
-  - latest
-  - 3.12.0
+  - msbuild src/INIFileParser.sln -v:Quiet -t:Restore -t:Build -p:Configuration=Release
+  - dotnet test src/IniFileParser.Tests/INIFileParser.Tests.csproj --no-build --configuration Release
+mono: latest
+dotnet: 2.1.3
