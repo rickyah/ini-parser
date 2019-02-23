@@ -235,7 +235,7 @@ namespace IniParser.Model.Configuration
 
         /// <summary>
         ///     Gets or sets a value indicating whether duplicate keys are concatenate
-        ///     together by <see cref="ConcatenateSeparator"/>.
+        ///     together by <see cref="ConcatenateDuplicatedKeysIniParserConfiguration.ConcatenateSeparator"/>.
         /// </summary>
         /// <value>
         ///     Defaults to <c>false</c>.

@@ -17,6 +17,8 @@ Also implements merging operations, both for complete ini files, sections, or ev
 		<AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
 		<OutputType>Library</OutputType>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<NoWarn>$(NoWarn);0618;1591;1573</NoWarn><!-- Ignore: Use of Deprecated, Undocumented Public Members, Undocumented Parameters -->
 		<PackageTags>ini</PackageTags>
 		<PackageId>ini-parser</PackageId>
 		<Product>INI Parser</Product>
