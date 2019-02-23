@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	
+
 	<PropertyGroup>
 		<TargetFrameworks>net20;netstandard2.0</TargetFrameworks>
 		<RootNamespace>IniParser</RootNamespace>
 		<AssemblyName>INIFileParser</AssemblyName>
-		<PackageReleaseNotes></PackageReleaseNotes>
 		<Description>A .NET, Mono and Unity3d compatible(*) library for reading/writing INI data from IO streams, file streams, and strings written in C#.
 
 Also implements merging operations, both for complete ini files, sections, or even just a subset of the keys contained by the files.
@@ -12,23 +11,17 @@ Also implements merging operations, both for complete ini files, sections, or ev
 (*) This library is 100% .NET code and does not have any dependencies on Windows API calls in order to be portable.</Description>
 		<Authors>Ricardo Amores Hernández</Authors>
 		<PackageProjectUrl>https://github.com/rickyah/ini-parser</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/rickyah/ini-parser/blob/master/LICENSE</PackageLicenseUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageIconUrl>https://raw.githubusercontent.com/rickyah/ini-parser/development/nuget-ini-icon.png</PackageIconUrl>
 		<Version>2.5.3-sh1</Version>
-		<SignAssembly>true</SignAssembly>
+		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
-		<ApplicationIcon />
 		<OutputType>Library</OutputType>
-		<StartupObject />
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<PackageTags>ini</PackageTags>
-		<DocumentationFile>$(TargetDir)INIFileParser.xml</DocumentationFile>
 		<PackageId>ini-parser</PackageId>
 		<Product>INI Parser</Product>
 	</PropertyGroup>
-	
-	<ItemGroup>
-	  <None Remove="INIFileParser.xml" />
-	</ItemGroup>
-	
+
 </Project>
