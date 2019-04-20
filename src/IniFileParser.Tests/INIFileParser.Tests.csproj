@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <IsPackable>False</IsPackable>
+    <ReleaseVersion></ReleaseVersion>
   </PropertyGroup>
 
   <!-- Auto-select supported target frameworks based on MSBuild version -->
@@ -28,11 +29,6 @@
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="ExpectedExceptionAttribute.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
   <ItemGroup>
     <None Update="IniFileParserTestProject.VisualState.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

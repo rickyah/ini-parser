@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using IniParser;
 using IniParser.Model;
 using NUnit.Framework;
@@ -15,7 +16,9 @@ namespace IniFileParser.Tests.Unit.Parser
 
             // Encoding.Default is now the default value used in the ReadFile method, but is 
             // specified in this call for consistency with the issue report
-            IniData parsedData = parser.ReadFile("./Issue18_example.ini", Encoding.UTF8);
+            var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Issue18_example.ini");
+            
+            IniData parsedData = parser.ReadFile(filePath, Encoding.UTF8);
 
             Assert.That(parsedData.Sections.ContainsSection("Identität"));
             Assert.That(parsedData.Sections["Identität"]["key"], Is.EqualTo("value"));
@@ -25,8 +28,10 @@ namespace IniFileParser.Tests.Unit.Parser
         public void allow_duplicated_sections()
         {
             FileIniDataParser parser = new FileIniDataParser();
+            
+            var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Issue11_example.ini");
 
-            IniData parsedData = parser.ReadFile("Issue11_example.ini");
+            IniData parsedData = parser.ReadFile(filePath);
 
             Assert.That(parsedData.Global[".reg (Win)"], Is.EqualTo("notepad.exe"));
         }
@@ -37,10 +42,12 @@ namespace IniFileParser.Tests.Unit.Parser
             var parser = new FileIniDataParser();
             parser.Parser.Configuration.ThrowExceptionsOnError = true;
 
-            var iniFileData = parser.ReadFile("aircraft.cfg");
+            var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "aircraft.cfg");
+            var iniFileData = parser.ReadFile(filePath);
 
+            filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "aircraft2.cfg");
             parser.Parser.Configuration.CommentString = "//";
-            iniFileData = parser.ReadFile("aircraft2.cfg");
+            iniFileData = parser.ReadFile(filePath);
         }
 
         [Test, Description("Check unicode characters")]
@@ -49,7 +56,8 @@ namespace IniFileParser.Tests.Unit.Parser
             var parser = new FileIniDataParser();
             parser.Parser.Configuration.ThrowExceptionsOnError = true;
 
-            var iniFileData = parser.ReadFile("unicode_chinese.ini");
+            var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "unicode_chinese.ini");
+            var iniFileData = parser.ReadFile(filePath);
 
             // If you want to write the file you must specify the encoding
             //parser.WriteFile("unicode_chinese_copy.ini", iniFileData, Encoding.UTF8);

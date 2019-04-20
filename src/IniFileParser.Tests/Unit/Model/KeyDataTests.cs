@@ -19,17 +19,15 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(kd.Value, Is.Empty);
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void create_key_with_invalid_name()
         {
-            new KeyData("");
-            Assert.Fail("I shouldn't be able to create a section with an empty section name");
+            Assert.Throws(typeof(ArgumentException), () => new KeyData(""));
         }
 
         [Test]
         public void creating_keydata_programatically()
         {
-
             var strValueTest = "Test String";
             var strKeyTest = "Mykey";
             var commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
