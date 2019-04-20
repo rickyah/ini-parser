@@ -3,18 +3,23 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <IsPackable>False</IsPackable>
+    <ReleaseVersion></ReleaseVersion>
   </PropertyGroup>
 
   <!-- Auto-select supported target frameworks based on MSBuild version -->
-  <PropertyGroup Condition="'$(OS)'=='Windows_NT' Or '$(MSBuildRuntimeType)'=='Mono'">
-    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(OS)'!='Windows_NT' And '$(MSBuildRuntimeType)'=='Core'">
+  <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
-
+    <PropertyGroup Condition="'$(MSBuildRuntimeType)'!='Core'">
+    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\INIFileParser\INIFileParser.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestIniFile.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

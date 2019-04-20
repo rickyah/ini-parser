@@ -10,11 +10,11 @@ namespace IniFileParser.Tests.Unit
     public class IniParserFileTest
     {
 
-        public readonly string strGoodINIFilePath = @"../../INIFileGOOD.ini";
-        public readonly string strBadINIFilePath = @"../../INIfileBAD.ini";
-        public readonly string strEmptyINIFilePath = @"../../INIFileEMPTY.ini";
-        public readonly string strBadSectionINIFilePath = @"../../INIFileBADSection.ini";
-        public readonly string strBadKeysINIFilePath = @"../../INIfileBADKeys.ini";
+        public readonly string strGoodINIFilePath = @"INIFileGOOD.ini";
+        public readonly string strBadINIFilePath = @"INIfileBAD.ini";
+        public readonly string strEmptyINIFilePath = @"INIFileEMPTY.ini";
+        public readonly string strBadSectionINIFilePath = @"INIFileBADSection.ini";
+        public readonly string strBadKeysINIFilePath = @"INIfileBADKeys.ini";
 
         public FileIniDataParser iniParser = new FileIniDataParser();
 
