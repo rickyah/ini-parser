@@ -16,40 +16,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="INIfileBAD.ini">
+    <None Update="aircraft.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="INIfileBADKeys.ini">
+    <None Update="aircraft2.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="INIfileBADSection.ini">
+    <None Update="INIfileBAD.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="INIfileEMPTY.ini">
+    <None Update="INIfileBADKeys.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="INIfileGOOD.ini">
+    <None Update="INIfileBADSection.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="INIFileGOOD.ini_test.ini">
+    <None Update="INIFileEMPTY.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Issue18_example.ini">
+    <None Update="INIFileGOOD.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Issue11_example.ini">
+    <None Update="INIFileGOOD.ini_test.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="aircraft.cfg">
+    <None Update="Issue11_example.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="aircraft2.cfg">
+    <None Update="Issue18_example.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="unicode_chinese.ini">
-      <Link>unicode_chinese.ini</Link>
+    <None Update="unicode_chinese.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
+  </ItemGroup>  
 
 </Project>

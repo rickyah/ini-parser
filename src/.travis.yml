@@ -1,0 +1,10 @@
+language: csharp
+dotnet: 2.2.101
+mono: none
+dist: bionic
+
+script:
+  - cd src
+  - dotnet restore
+  - dotnet build -c Release
+  - dotnet test
