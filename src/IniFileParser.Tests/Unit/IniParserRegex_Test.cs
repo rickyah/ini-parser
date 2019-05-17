@@ -9,7 +9,7 @@ namespace IniFileParser.Tests.Unit
     {
         public StreamIniDataParser iniParser = new StreamIniDataParser();
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void Init()
         {
             Console.WriteLine(iniParser.Parser.Configuration.SectionRegex);
@@ -25,10 +25,10 @@ namespace IniFileParser.Tests.Unit
             string strGoodTest3 = "   ; comment Test           ";
             string strGoodTest4 = " dfasdfasf ; comment Test ";
 
-            Assert.That(strGoodTest1, Is.StringMatching(iniParser.Parser.Configuration.CommentRegex.ToString()));
-            Assert.That(strGoodTest2, !Is.StringMatching(iniParser.Parser.Configuration.CommentRegex.ToString()));
-            Assert.That(strGoodTest3, !Is.StringMatching(iniParser.Parser.Configuration.CommentRegex.ToString()));
-            Assert.That(strGoodTest4, !Is.StringMatching(iniParser.Parser.Configuration.CommentRegex.ToString()));
+            Assert.That(strGoodTest1, Does.Match(iniParser.Parser.Configuration.CommentRegex.ToString()));
+            Assert.That(strGoodTest2, Does.Not.Match(iniParser.Parser.Configuration.CommentRegex.ToString()));
+            Assert.That(strGoodTest3, Does.Not.Match(iniParser.Parser.Configuration.CommentRegex.ToString()));
+            Assert.That(strGoodTest4, Does.Not.Match(iniParser.Parser.Configuration.CommentRegex.ToString()));
         }
 
         [Test, Description("Test a regular expression for matching a section in an INI file")]
@@ -45,10 +45,10 @@ namespace IniFileParser.Tests.Unit
             string strBadTest1 = "  bad [section]";
             string strBadTest2 = "[section] bad";
 
-            Assert.That(strGoodTest1, Is.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strGoodTest2, Is.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strGoodTest3, Is.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strGoodTest4, Is.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strGoodTest1, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strGoodTest2, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strGoodTest3, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strGoodTest4, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
 
             Assert.That(strBadTest1, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
             Assert.That(strBadTest2, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
@@ -70,12 +70,12 @@ namespace IniFileParser.Tests.Unit
             string strBadTest2 = "<section> bad";
 
 
-            Assert.That(strGoodTest1, Is.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strGoodTest2, Is.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strGoodTest3, Is.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strGoodTest1, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strGoodTest2, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strGoodTest3, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
 
-            Assert.That(strBadTest1, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strBadTest2, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strBadTest1, Does.Not.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strBadTest2, Does.Not.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
 
             //Restore default delimiters
             iniParser.Parser.Configuration.SectionStartChar = '[';

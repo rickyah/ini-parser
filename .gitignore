@@ -131,3 +131,5 @@ UpgradeLog*.XML
 *.resources
 test-results/
 >>>>>>> Stashed changes
+
+.vs/
