@@ -12,7 +12,7 @@ namespace IniFileParser.Tests.Unit
         readonly string strGoodINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIFileGOOD.ini");
         readonly string strBadINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory,  @"INIfileBAD.ini");
         readonly string strEmptyINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIFileEMPTY.ini");
-        readonly string strBadSectionINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIFileBADSection.ini");
+        readonly string strBadSectionINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIfileBADSection.ini");
         readonly string strBadKeysINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIfileBADKeys.ini");
 
         FileIniDataParser iniParser = new FileIniDataParser();

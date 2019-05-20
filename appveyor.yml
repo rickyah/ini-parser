@@ -5,7 +5,7 @@ cache:
 
 build_script:
   - ps: $vsDir = . "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath -format value
-  - ps: . "$vsDir\MSBuild\15.0\Bin\amd64\MSBuild.exe" src\INIFileParser.sln -v:Quiet -t:Restore -t:Build -p:Configuration=Release
+  - ps: . "$vsDir\MSBuild\15.0\Bin\amd64\MSBuild.exe" src\IniFileParser.sln -v:Quiet -t:Restore -t:Build -p:Configuration=Release
 
 # TODO: Fix failing unit tests
 test: off

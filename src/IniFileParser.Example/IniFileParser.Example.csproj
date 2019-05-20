@@ -14,7 +14,7 @@
     <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\INIFileParser\INIFileParser.csproj" />
+    <ProjectReference Include="..\IniFileParser\IniFileParser.csproj" />
   </ItemGroup>
 
   <ItemGroup>

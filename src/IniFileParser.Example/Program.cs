@@ -6,7 +6,7 @@ using System.IO;
 using IniParser.Model;
 
 
-namespace INIFileParser.Example
+namespace IniFileParser.Example
 {
     public class MainProgram
     {

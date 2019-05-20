@@ -70,7 +70,7 @@ data["UI"]["fullscreen"] = "true";
 parser.WriteFile("Configuration.ini", data);
 ```
 
-Head to the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage examples, or [check out the code of the example project](https://github.com/rickyah/ini-parser/blob/development/src/INIFileParser.Example/Program.cs)
+Head to the [wiki](https://github.com/rickyah/ini-parser/wiki) for more usage examples, or [check out the code of the example project](https://github.com/rickyah/ini-parser/blob/development/src/IniFileParser.Example/Program.cs)
 
 
 ## Merging ini files

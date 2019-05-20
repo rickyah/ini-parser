@@ -15,7 +15,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\INIFileParser\INIFileParser.csproj" />
+    <ProjectReference Include="..\IniFileParser\IniFileParser.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +40,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="INIFileGOOD.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="INIfileBADSection.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="INIfileBADKeys.ini">
