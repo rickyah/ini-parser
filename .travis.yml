@@ -1,10 +1,16 @@
 language: csharp
 solution: src/IniFileParser.sln
+
 install:
-  - nuget restore src/IniFileParser.sln 
-  - nuget install NUnit.Console -Version 3.10.0 -OutputDirectory testrunner
+  - ./install.sh
 script:
-  - msbuild src/IniFileParser.sln /nologo /p:Configuration=Release /Restore:True
-  - mono ./testrunner/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ./src/IniFileParser.Tests/bin/Release/net461/IniFileParser.Tests.dll
-mono:
-  - 5.20.1
+  -  ./build.sh
+
+matrix:
+  include:
+    - dotnet: 2.1.502
+      mono: none
+      env: BUILD_TYPE=dotnetcore
+    - mono: latest
+      dotnet: none
+      env: BUILD_TYPE=mono
