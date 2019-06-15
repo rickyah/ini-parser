@@ -1,7 +1,16 @@
 language: csharp
-solution: src/INIFileParser.sln
+solution: src/IniFileParser.sln
+
+install:
+  - ./install.sh
 script:
-  - msbuild src/INIFileParser.sln -v:Quiet -t:Restore -t:Build -p:Configuration=Release
-  - dotnet test src/IniFileParser.Tests/INIFileParser.Tests.csproj --no-build --configuration Release
-mono: latest
-dotnet: 2.1.3
+  -  ./build.sh
+
+matrix:
+  include:
+    - dotnet: 2.1.502
+      mono: none
+      env: BUILD_TYPE=dotnetcore
+    - mono: latest
+      dotnet: none
+      env: BUILD_TYPE=mono

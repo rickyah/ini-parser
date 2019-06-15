@@ -1,6 +1,6 @@
 ﻿<project schemaVersion="1.6.0.7">
     <assemblies>
-        <assembly assemblyPath=".\build\INIFileParser.dll" xmlCommentsPath=".\build\INIFileParser.xml" commentsOnly="False" />
+        <assembly assemblyPath=".\build\IniFileParser.dll" xmlCommentsPath=".\build\IniFileParser.xml" commentsOnly="False" />
     </assemblies>
     <namespaceSummaries>
         <namespaceSummaryItem name="" isDocumented="False" />

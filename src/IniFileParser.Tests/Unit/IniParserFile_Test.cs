@@ -9,18 +9,18 @@ namespace IniFileParser.Tests.Unit
     [TestFixture, Category("File loading/saving tests")]
     public class IniParserFileTest
     {
+        readonly string strGoodINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIFileGOOD.ini");
+        readonly string strBadINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory,  @"INIfileBAD.ini");
+        readonly string strEmptyINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIFileEMPTY.ini");
+        readonly string strBadSectionINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIfileBADSection.ini");
+        readonly string strBadKeysINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIfileBADKeys.ini");
 
-        public readonly string strGoodINIFilePath = @"../../INIFileGOOD.ini";
-        public readonly string strBadINIFilePath = @"../../INIfileBAD.ini";
-        public readonly string strEmptyINIFilePath = @"../../INIFileEMPTY.ini";
-        public readonly string strBadSectionINIFilePath = @"../../INIFileBADSection.ini";
-        public readonly string strBadKeysINIFilePath = @"../../INIfileBADKeys.ini";
-
-        public FileIniDataParser iniParser = new FileIniDataParser();
+        FileIniDataParser iniParser = new FileIniDataParser();
 
         [SetUp]
         public void SetUp()
         {
+        
         }
 
         [TearDown]
@@ -53,35 +53,22 @@ namespace IniFileParser.Tests.Unit
         }
 
         [Test, Description("Checks error when parsing a bad formed INI file")]
-        [ExpectedException(typeof(ParsingException))]
+        
         public void CheckParsingFailure()
         {
-            iniParser.ReadFile(strBadINIFilePath);
-        }
-
-        [Test, Description("Checks correct saving of a file")]
-        public void CheckCorrectSave()
-        {
-            string fileString = strGoodINIFilePath + "_test.ini";
-
-            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
-            iniParser.WriteFile(fileString, parsedData);
-
-            Assert.That(File.Exists(fileString));
+            Assert.Throws(typeof(ParsingException), () => iniParser.ReadFile(strBadINIFilePath));
         }
 
         [Test, Description("Checks bad formed INI file: Two sections with same name")]
-        [ExpectedException(typeof(ParsingException))]
         public void CheckCollideSectionNames()
         {
-            iniParser.ReadFile(strBadSectionINIFilePath);
+            Assert.Throws(typeof(ParsingException), () => iniParser.ReadFile(strBadSectionINIFilePath));
         }
 
         [Test, Description("Checks bad formed INI file: Two keys in the same section with same name")]
-        [ExpectedException(typeof(ParsingException))]
         public void CheckCollideKeysNames()
         {
-            iniParser.ReadFile(strBadKeysINIFilePath);
+            Assert.Throws(typeof(ParsingException), () => iniParser.ReadFile(strBadKeysINIFilePath));
         }
     }
 }

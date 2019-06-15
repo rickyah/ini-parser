@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>IniParser</RootNamespace>
-		<AssemblyName>INIFileParser</AssemblyName>
+		<AssemblyName>IniFileParser</AssemblyName>
 		<Description>A .NET, Mono and Unity3d compatible(*) library for reading/writing INI data from IO streams, file streams, and strings written in C#.
 
 Also implements merging operations, both for complete ini files, sections, or even just a subset of the keys contained by the files.
@@ -22,19 +22,15 @@ Also implements merging operations, both for complete ini files, sections, or ev
 		<PackageTags>ini</PackageTags>
 		<PackageId>ini-parser</PackageId>
 		<Product>INI Parser</Product>
+		<ReleaseVersion></ReleaseVersion>
 	</PropertyGroup>
 
 	<!-- Auto-select supported target frameworks based on MSBuild version -->
-	<PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Full'">
-		<TargetFrameworks>net20;net40;netstandard2.0</TargetFrameworks>
-		<!-- Only generate NuGet package for full builds -->
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	</PropertyGroup>
-	<PropertyGroup Condition="('$(OS)'=='Windows_NT' And '$(MSBuildRuntimeType)'=='Core') Or '$(MSBuildRuntimeType)'=='Mono'">
-		<TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Core' And '$(OS)'!='Windows_NT'">
+	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
 	</PropertyGroup>
-
+    <!-- Only generate NuGet package for full builds -->
+    <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Full'">
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    </PropertyGroup>
 </Project>
