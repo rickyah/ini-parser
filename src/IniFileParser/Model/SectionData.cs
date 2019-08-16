@@ -27,7 +27,7 @@ namespace IniParser.Model
             if (string.IsNullOrEmpty(sectionName))
                 throw new ArgumentException("section name can not be empty");
 
-            _leadingComments = new List<string>();
+            _comments = new List<string>();
             _keyDataCollection = new KeyDataCollection(_searchComparer);
             SectionName = sectionName;
         }
@@ -52,7 +52,7 @@ namespace IniParser.Model
             SectionName = ori.SectionName;
 
             _searchComparer = searchComparer;
-            _leadingComments = new List<string>(ori._leadingComments);
+            _comments = new List<string>(ori._comments);
             _keyDataCollection = new KeyDataCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
         }
 
@@ -61,12 +61,11 @@ namespace IniParser.Model
 		#region Operations
 
         /// <summary>
-        ///     Deletes all comments in this section and key/value pairs
+        ///     Deletes all comments in this section and in all the key/value pairs it contains
         /// </summary>
         public void ClearComments()
         {
-            LeadingComments.Clear();
-            TrailingComments.Clear();
+            Comments.Clear();
             Keys.ClearComments();
         }
 
@@ -88,14 +87,11 @@ namespace IniParser.Model
         /// </remarks>
         /// <param name="toMergeSection"></param>
         public void Merge(SectionData toMergeSection)
-        {
-            foreach (var comment in toMergeSection.LeadingComments) 
-                LeadingComments.Add(comment);
-                
+        {  
             Keys.Merge(toMergeSection.Keys);
 
-            foreach(var comment in toMergeSection.TrailingComments) 
-                TrailingComments.Add(comment);
+            foreach(var comment in toMergeSection.Comments) 
+                Comments.Add(comment);
         }
 
 		#endregion
@@ -122,21 +118,6 @@ namespace IniParser.Model
             }
         }
 
-
-		[Obsolete("Do not use this property, use property Comments instead")]
-        public List<string> LeadingComments
-        {
-            get
-            {
-                return _leadingComments;
-            }
-
-            internal set
-            {
-                _leadingComments = new List<string>(value);
-            }
-        }
-
         /// <summary>
         ///     Gets or sets the comment list associated to this section.
         /// </summary>
@@ -147,25 +128,18 @@ namespace IniParser.Model
         {
             get
             {
-				return _leadingComments;
-            }
-
-
-        }
-
-		[Obsolete("Do not use this property, use property Comments instead")]
-        public List<string> TrailingComments
-        {
-            get
-            {
-                return _trailingComments;
+				return _comments;
             }
 
             internal set
             {
-                _trailingComments = new List<string>(value);
+                _comments = value;
             }
+
+
+
         }
+
         /// <summary>
         ///     Gets or sets the keys associated to this section.
         /// </summary>
@@ -205,7 +179,7 @@ namespace IniParser.Model
         #region Non-public members
 
         // Comments associated to this section
-        private List<string> _leadingComments;
+        private List<string> _comments;
         private List<string> _trailingComments = new List<string>();
 
         // Keys associated to this section

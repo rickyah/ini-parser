@@ -65,8 +65,8 @@ namespace IniParser.Model.Formatting
             // Write blank line before section, but not if it is the first line
             if (sb.Length > 0) sb.Append(Configuration.NewLineStr);
 
-            // Leading comments
-            WriteComments(section.LeadingComments, sb);
+            // Comments
+            WriteComments(section.Comments, sb);
 
             //Write section name
             sb.Append(string.Format("{0}{1}{2}{3}", 
@@ -76,9 +76,6 @@ namespace IniParser.Model.Formatting
                 Configuration.NewLineStr));
 
             WriteKeyValueData(section.Keys, sb);
-
-            // Trailing comments
-            WriteComments(section.TrailingComments, sb);
         }
 
         private void WriteKeyValueData(KeyDataCollection keyDataCollection, StringBuilder sb)

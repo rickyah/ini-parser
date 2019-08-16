@@ -26,21 +26,6 @@ namespace IniParser
             Parser = parser;
         }
 
-        #region Deprecated methods
-
-        [Obsolete("Please use ReadFile method instead of this one as is more semantically accurate")]
-        public IniData LoadFile(string filePath)
-        {
-            return ReadFile(filePath);
-        }
-
-        [Obsolete("Please use ReadFile method instead of this one as is more semantically accurate")]
-        public IniData LoadFile(string filePath, Encoding fileEncoding)
-        {
-            return ReadFile(filePath, fileEncoding);
-        }
-        #endregion
-
         /// <summary>
         ///     Implements reading ini data from a file.
         /// </summary>
@@ -91,25 +76,7 @@ namespace IniParser
             }
 
         }
-
-        /// <summary>
-        ///     Saves INI data to a file.
-        /// </summary>
-        /// <remarks>
-        ///     Creats an ASCII encoded file by default.
-        /// </remarks>
-        /// <param name="filePath">
-        ///     Path to the file.
-        /// </param>
-        /// <param name="parsedData">
-        ///     IniData to be saved as an INI file.
-        /// </param>
-        [Obsolete("Please use WriteFile method instead of this one as is more semantically accurate")]
-        public void SaveFile(string filePath, IniData parsedData)
-        {
-            WriteFile(filePath, parsedData, Encoding.UTF8);
-        }
-                             
+             
         /// <summary>
         ///     Writes INI data to a text file.
         /// </summary>

@@ -131,22 +131,6 @@ namespace IniParser.Model
             return false;
         }
 
-        [Obsolete("Pottentially buggy method! Use AddKey(KeyData keyData) instead (See comments in code for an explanation of the bug)")]
-        public bool AddKey(string keyName, KeyData keyData)
-        {
-            // BUG: this actually can allow you to add the keyData having 
-            // keyData.KeyName different from the argument 'keyName' in this method
-            // which doesn't make any sense
-            if (AddKey(keyName))
-            {
-                _keyData[keyName] = keyData;
-                return true;
-            }
-
-            return false;
-
-        }
-
         /// <summary>
         ///     Adds a new key to the collection
         /// </summary>

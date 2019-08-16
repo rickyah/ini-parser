@@ -129,9 +129,9 @@ name = Marble Zone
 
             Assert.That(section1, Is.Not.Null);
             Assert.That(section1.SectionName, Is.EqualTo("stage1"));
-            Assert.That(section1.LeadingComments, Is.Not.Empty);
-            Assert.That(section1.LeadingComments.Count, Is.EqualTo(1));
-            Assert.That(section1.LeadingComments[0], Is.EqualTo("comment for stage1"));
+            Assert.That(section1.Comments, Is.Not.Empty);
+            Assert.That(section1.Comments.Count, Is.EqualTo(1));
+            Assert.That(section1.Comments[0], Is.EqualTo("comment for stage1"));
 
             Assert.That(section1.Keys, Is.Not.Null);
             Assert.That(section1.Keys.Count, Is.EqualTo(2));

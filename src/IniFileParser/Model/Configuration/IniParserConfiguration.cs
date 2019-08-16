@@ -4,9 +4,6 @@ using IniParser.Parser;
 
 namespace IniParser.Model.Configuration
 {
-    [Obsolete("Kept for backward compatibility, just use IniParserConfiguration class")]
-    public class DefaultIniParserConfiguration : ConcatenateDuplicatedKeysIniParserConfiguration {}
-
     /// <summary>
     ///     Defines data for a Parser configuration object.
     /// </summary>
@@ -130,20 +127,6 @@ namespace IniParser.Model.Configuration
         ///     Defaults to false (case sensitive search)
         /// </remarks>
         public bool CaseInsensitive{ get; set; }
-
-        /// <summary>
-        ///     Sets the char that defines the start of a comment.
-        ///     A comment spans from the comment character to the end of the line.
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to character ';'
-        /// </remarks>
-        [Obsolete("Please use the CommentString property")]
-        public char CommentChar
-        {
-            get { return CommentString[0]; }
-            set { CommentString = value.ToString(); }
-        }
 
         /// <summary>
         ///     Sets the string that defines the start of a comment.

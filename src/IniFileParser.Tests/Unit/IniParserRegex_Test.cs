@@ -50,8 +50,8 @@ namespace IniFileParser.Tests.Unit
             Assert.That(strGoodTest3, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
             Assert.That(strGoodTest4, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
 
-            Assert.That(strBadTest1, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strBadTest2, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strBadTest1, Does.Not.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strBadTest2, Does.Not.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
         }
 
         [Test, Description("Test a regular expression for matching a section in an INI file given an specific delimiter")]
@@ -74,8 +74,8 @@ namespace IniFileParser.Tests.Unit
             Assert.That(strGoodTest2, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
             Assert.That(strGoodTest3, Does.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
 
-            Assert.That(strBadTest1, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
-            Assert.That(strBadTest2, Is.Not.StringMatching(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strBadTest1, Does.Not.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
+            Assert.That(strBadTest2, Does.Not.Match(iniParser.Parser.Configuration.SectionRegex.ToString()));
 
             //Restore default delimiters
             iniParser.Parser.Configuration.SectionStartChar = '[';
