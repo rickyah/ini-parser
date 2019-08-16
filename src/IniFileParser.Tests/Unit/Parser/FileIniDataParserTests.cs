@@ -45,9 +45,9 @@ namespace IniFileParser.Tests.Unit.Parser
             var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "aircraft.cfg");
             var iniFileData = parser.ReadFile(filePath);
 
-            filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "aircraft2.cfg");
             parser.Parser.Configuration.CommentString = "//";
-            iniFileData = parser.ReadFile(filePath);
+            var filePath2 = Path.Combine(TestContext.CurrentContext.TestDirectory, "aircraft2.cfg");
+            iniFileData = parser.ReadFile(filePath2);
         }
 
         [Test, Description("Check unicode characters")]

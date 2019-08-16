@@ -61,7 +61,7 @@ namespace IniFileParser.Example
         {
             modifiedParsedData["GeneralConfiguration"]["setMaxErrors"] = "10";
             modifiedParsedData.Sections.AddSection("newSection");
-            modifiedParsedData.Sections.GetSectionData("newSection").LeadingComments
+            modifiedParsedData.Sections.GetSectionData("newSection").Comments
                 .Add("This is a new comment for the section");
             modifiedParsedData.Sections.GetSectionData("newSection").Keys.AddKey("myNewKey", "value");
             modifiedParsedData.Sections.GetSectionData("newSection").Keys.GetKeyData("myNewKey").Comments
