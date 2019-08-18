@@ -9,7 +9,6 @@ namespace IniParser.Model
     /// </summary>
     public class PropertyCollection : IDeepCloneable<PropertyCollection>, IEnumerable<Property>
     {
-        IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         /// <summary>
@@ -106,25 +105,30 @@ namespace IniParser.Model
             get { return _keyData.Count; }
         }
 
+        #region Helpers
+        // Adds a property w/out checking if it is already contained in the dictionary
+        internal void AddPropertyInternal(Property property)
+        {
+            _lastAdded = property;
+            _keyData.Add(property.KeyName, property);
+        }
         #endregion
-
-        #region Operations
 
         /// <summary>
         ///     Adds a new key with the specified name and empty value and comments
         /// </summary>
-        /// <param name="keyName">
+        /// <param name="key">
         ///     New key to be added.
         /// </param>
         /// <returns>
         ///     true if the key was added  false if a key with the same name already exist 
         ///     in the collection
         /// </returns>
-        public bool AddKey(string keyName)
+        public bool AddKey(string key)
         {
-            if (!_keyData.ContainsKey(keyName))
+            if (!_keyData.ContainsKey(key))
             {
-                _keyData.Add(keyName, new Property(keyName));
+                AddPropertyInternal(new Property(key, string.Empty));
                 return true;
             }
 
@@ -134,46 +138,44 @@ namespace IniParser.Model
         /// <summary>
         ///     Adds a new key to the collection
         /// </summary>
-        /// <param name="keyData">
+        /// <param name="property">
         ///     Property instance.
         /// </param>
         /// <returns>
         ///     true if the key was added  false if a key with the same name already exist 
         ///     in the collection
         /// </returns>
-        public bool AddKey(Property keyData)
+        public bool AddKey(Property property)
         {
-            if (AddKey(keyData.KeyName))
+            if (!_keyData.ContainsKey(property.KeyName))
             {
-                _keyData[keyData.KeyName] = keyData;
+                AddPropertyInternal(property);
                 return true;
             }
-
             return false;
         }
-        /// <summary>
+
+         /// <summary>
         ///     Adds a new key with the specified name and value to the collection
         /// </summary>
-        /// <param name="keyName">
+        /// <param name="key">
         ///     Name of the new key to be added.
         /// </param>
-        /// <param name="keyValue">
+        /// <param name="value">
         ///     Value associated to the key.
         /// </param>
         /// <returns>
         ///     true if the key was added  false if a key with the same name already exist 
         ///     in the collection.
         /// </returns>
-        public bool AddKey(string keyName, string keyValue)
+        public bool AddKey(string key, string value)
         {
-            if (AddKey(keyName))
+            if (!_keyData.ContainsKey(key))
             {
-                _keyData[keyName].Value = keyValue;
+                AddPropertyInternal(new Property(key, value));
                 return true;
             }
-
             return false;
-
         }
 
         /// <summary>
@@ -305,14 +307,10 @@ namespace IniParser.Model
         #region Non-public Members
         // Hack for getting the last key value (if exists) w/out using LINQ
         // and maintain support for earlier versions of .NET
+        Property _lastAdded;
         internal Property GetLast()
         {
-            Property result = null;
-            if (_keyData.Keys.Count <= 0) return result;
-
-
-            foreach (var k in _keyData.Keys) result = _keyData[k];
-            return result;
+            return _lastAdded;
         }
 
         /// <summary>
@@ -320,6 +318,7 @@ namespace IniParser.Model
         /// </summary>
         private readonly Dictionary<string, Property> _keyData;
 
+        IEqualityComparer<string> _searchComparer;
         #endregion
 
     }
