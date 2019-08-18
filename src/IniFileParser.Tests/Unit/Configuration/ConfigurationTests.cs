@@ -46,7 +46,7 @@ name = Marble Zone
             _parser.Scheme.SectionStartString = "<";
             _parser.Scheme.SectionEndString = ">";
             _parser.Scheme.CommentString = "#";
-            _parser.Scheme.KeyValueAssigmentString = "=";
+            _parser.Scheme.PropertyAssigmentString = "=";
 
             _parser.Configuration.AllowKeysWithoutSection = true;
             _parser.Configuration.DuplicatePropertiesBehaviour = IniParserConfiguration.EDuplicatePropertiesBehaviour.AllowAndKeepFirstValue;

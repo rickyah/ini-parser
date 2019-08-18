@@ -67,7 +67,7 @@ namespace IniParser.Model.Formatting
                 //Write key and value
                 sb.Append(string.Format("{0}{3}{1}{3}{2}{4}",
                                         keyData.KeyName,
-                                        scheme.KeyValueAssigmentString,
+                                        scheme.PropertyAssigmentString,
                                         keyData.Value,
                                         format.AssigmentSpacer,
                                         format.NewLineStr));
