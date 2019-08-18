@@ -89,19 +89,15 @@ namespace IniParser.Model
         /// <remarks>
         /// <para>If a section with the same name exists, this operation has no effect.</para>
         /// </remarks>
-        /// <param name="keyName">Name of the section to be created</param>
+        /// <param name="sectionName">Name of the section to be created</param>
         /// <return>true if the a new section with the specified name was added,
         /// false otherwise</return>
         /// <exception cref="ArgumentException">If the section name is not valid.</exception>
-        public bool AddSection(string keyName)
+        public bool AddSection(string sectionName)
         {
-            //Checks valid section name
-            //if ( !Assert.StringHasNoBlankSpaces(keyName) )
-            //    throw new ArgumentException("Section name contain whitespaces");
-
-            if ( !ContainsSection(keyName) )
+            if ( !ContainsSection(sectionName) )
             {
-                _sectionData.Add( keyName, new Section(keyName, _searchComparer) );
+                _sectionData.Add( sectionName, new Section(sectionName, _searchComparer) );
                 return true;
             }
 
