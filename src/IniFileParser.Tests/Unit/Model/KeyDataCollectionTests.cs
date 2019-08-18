@@ -9,7 +9,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void test()
         {
-            var col = new KeyDataCollection();
+            var col = new PropertyCollection();
             col.AddKey("key1");
 
             Assert.That(col["key1"], Is.Empty);
@@ -19,7 +19,7 @@ namespace IniFileParser.Tests.Unit.Model
 
             Assert.That(col["key2"], Is.EqualTo("value2"));
 
-            var keyData = new KeyData("key3");
+            var keyData = new Property("key3");
             keyData.Value = "value3";
             col.AddKey(keyData);
 
@@ -29,11 +29,11 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_deep_clone()
         {
-            var ori = new KeyDataCollection();
+            var ori = new PropertyCollection();
 
             ori.AddKey("key1", "value1");
 
-            var copy = (KeyDataCollection)ori.Clone();
+            var copy = ori.DeepClone();
 
             copy["key1"] = "Value2";
 

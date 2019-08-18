@@ -63,7 +63,7 @@ mykey1 = value1
             // Bad section name
             Assert.That(section2, Is.Null);
 
-            // Beware: leading and trailing whitespaces are ignored!
+            // Beware: leading and trailing whitespaces are ignored by default!
             section2 = data.Sections.GetSectionData("section 2");
             Assert.That(section2, Is.Not.Null);
             Assert.That(section2.SectionName, Is.EqualTo("section 2"));
@@ -75,10 +75,10 @@ mykey1 = value1
             Assert.That(section2.Keys.GetKeyData("mykey1").Comments[0], Is.EqualTo("comment for myKey1"));
         }
 
-        [Test]
+        [Test, Ignore("no writing tests")]
         public void check_ini_writing()
         {
-            IniData data =  new IniDataParser().Parse(iniFileStr);
+            IniData data = new IniDataParser().Parse(iniFileStr);
 
             // ini file string with not-needed whitespace trimmed
             var dataAsString = data.ToString();

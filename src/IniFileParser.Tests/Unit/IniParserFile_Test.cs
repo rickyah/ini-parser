@@ -62,6 +62,7 @@ namespace IniFileParser.Tests.Unit
         [Test, Description("Checks bad formed INI file: Two sections with same name")]
         public void CheckCollideSectionNames()
         {
+            iniParser.Parser.Configuration.SkipInvalidLines = false;
             Assert.Throws(typeof(ParsingException), () => iniParser.ReadFile(strBadSectionINIFilePath));
         }
 

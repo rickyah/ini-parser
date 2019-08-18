@@ -8,17 +8,14 @@ namespace IniParser.Model.Formatting
     public interface IIniDataFormatter
     {
         /// <summary>
-        ///     Produces an string given
+        ///     Produces an string for a given <see cref="IniData"/> structure
         /// </summary>
-        /// <returns>The data to string.</returns>
+        /// <returns>String that represents an <see cref="IniData"/>.</returns>
         /// <param name="iniData">Ini data.</param>
-        string IniDataToString(IniData iniData);
-
-        /// <summary>
+        /// <param name="format">
         ///     Configuration used by this formatter when converting IniData
         ///     to an string
-        /// </summary>
-        IniParserConfiguration Configuration {get;set;}
+        /// </param>
+        string Format(IniData iniData, IniFormattingConfiguration format);
     }
-    
-} 
+}

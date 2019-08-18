@@ -7,20 +7,20 @@ namespace IniParser.Model
     ///     Information associated to a section in a INI File
     ///     Includes both the value and the comments associated to the key.
     /// </summary>
-    public class SectionData : ICloneable
+    public class Section : ICloneable
     {
         IEqualityComparer<string> _searchComparer;
         #region Initialization
 
-        public SectionData(string sectionName)
+        public Section(string sectionName)
             :this(sectionName, EqualityComparer<string>.Default)
         {
             
         }
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SectionData"/> class.
+        ///     Initializes a new instance of the <see cref="Section"/> class.
         /// </summary>
-        public SectionData(string sectionName, IEqualityComparer<string> searchComparer)
+        public Section(string sectionName, IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer;
 
@@ -28,32 +28,32 @@ namespace IniParser.Model
                 throw new ArgumentException("section name can not be empty");
 
             _comments = new List<string>();
-            _keyDataCollection = new KeyDataCollection(_searchComparer);
+            _keyDataCollection = new PropertyCollection(_searchComparer);
             SectionName = sectionName;
         }
 
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="SectionData"/> class
-        ///     from a previous instance of <see cref="SectionData"/>.
+        ///     Initializes a new instance of the <see cref="Section"/> class
+        ///     from a previous instance of <see cref="Section"/>.
         /// </summary>
         /// <remarks>
         ///     Data is deeply copied
         /// </remarks>
         /// <param name="ori">
-        ///     The instance of the <see cref="SectionData"/> class 
+        ///     The instance of the <see cref="Section"/> class 
         ///     used to create the new instance.
         /// </param>
         /// <param name="searchComparer">
         ///     Search comparer.
         /// </param>
-        public SectionData(SectionData ori, IEqualityComparer<string> searchComparer = null)
+        public Section(Section ori, IEqualityComparer<string> searchComparer = null)
         {
             SectionName = ori.SectionName;
 
             _searchComparer = searchComparer;
             _comments = new List<string>(ori._comments);
-            _keyDataCollection = new KeyDataCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
+            _keyDataCollection = new PropertyCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace IniParser.Model
         ///     Comments are also merged but they are always added, not overwritten.
         /// </remarks>
         /// <param name="toMergeSection"></param>
-        public void Merge(SectionData toMergeSection)
+        public void Merge(Section toMergeSection)
         {  
             Keys.Merge(toMergeSection.Keys);
 
@@ -144,9 +144,9 @@ namespace IniParser.Model
         ///     Gets or sets the keys associated to this section.
         /// </summary>
         /// <value>
-        ///     A collection of KeyData objects.
+        ///     A collection of Property objects.
         /// </value>
-        public KeyDataCollection Keys
+        public PropertyCollection Keys
         {
             get
             {
@@ -171,7 +171,7 @@ namespace IniParser.Model
         /// </returns>
         public object Clone()
         {
-            return new SectionData(this);
+            return new Section(this);
         }
 
         #endregion
@@ -183,12 +183,9 @@ namespace IniParser.Model
         private List<string> _trailingComments = new List<string>();
 
         // Keys associated to this section
-        private KeyDataCollection _keyDataCollection;
+        private PropertyCollection _keyDataCollection;
 
         private string _sectionName;
         #endregion
-
-
-
     }
 }

@@ -16,7 +16,7 @@ namespace IniFileParser.Tests.Unit.Model
 
 
             //Creation
-            SectionDataCollection sdc = new SectionDataCollection();
+            SectionCollection sdc = new SectionCollection();
             Assert.That(sdc, Is.Empty);
 
             //Add sectoin
@@ -83,9 +83,9 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_adding_sections_to_collection()
         {
-            var col = new SectionDataCollection();
+            var col = new SectionCollection();
 
-            var exampleSection = new SectionData("section1");
+            var exampleSection = new Section("section1");
             exampleSection.Keys.AddKey("examplekey");
             exampleSection.Keys["examplekey"] = "examplevalue";
 
@@ -103,11 +103,11 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_deep_clone()
         {
-            var ori = new SectionDataCollection();
+            var ori = new SectionCollection();
             ori.AddSection("section1");
             ori["section1"]["key1"] = "value1";
 
-            var copy = (SectionDataCollection)ori.Clone();
+            var copy = ori.DeepClone();
             copy["section1"]["key1"] = "value2";
 
             Assert.That(ori["section1"]["key1"], Is.EqualTo("value1"));

@@ -13,7 +13,8 @@ namespace IniParser.Model
         /// <summary>
         ///     Represents all sections from an INI file
         /// </summary>
-        private SectionDataCollection _sections;
+        SectionCollection _sections;
+        protected IniScheme _schemeInternal;
         #endregion
 
         #region Initialization
@@ -21,33 +22,59 @@ namespace IniParser.Model
         /// <summary>
         ///     Initializes an empty IniData instance.
         /// </summary>
-        public IniData()
-            : this(new SectionDataCollection())
-        { }
+        public IniData() 
+        {
+            Global = new PropertyCollection();
+            _sections = new SectionCollection();
+            _schemeInternal = new IniScheme();
+            SectionKeySeparator = '.';
+        }
+        
+        /// <summary>
+        ///     Initialzes an IniData instance with a given scheme
+        /// </summary>
+        /// <param name="scheme"></param>
+        public IniData(IniScheme scheme)
+         : this()
+        {
+            _schemeInternal = scheme.DeepClone();
+        }
 
         /// <summary>
         ///     Initializes a new IniData instance using a previous
-        ///     <see cref="SectionDataCollection"/>.
+        ///     <see cref="SectionCollection"/>.
         /// </summary>
         /// <param name="sdc">
-        ///     <see cref="SectionDataCollection"/> object containing the
+        ///     <see cref="SectionCollection"/> object containing the
         ///     data with the sections of the file
         /// </param>
-        public IniData(SectionDataCollection sdc)
+        public IniData(SectionCollection sdc)
+            :this()
         {
-            _sections = (SectionDataCollection)sdc.Clone();
-            Global = new KeyDataCollection();
-            SectionKeySeparator = '.';
+            _sections = (SectionCollection)sdc.DeepClone();
         }
 
-        public IniData(IniData ori): this((SectionDataCollection)ori.Sections)
+        public IniData(IniData ori)
         {
-            Global = (KeyDataCollection)ori.Global.Clone();
-            Configuration = ori.Configuration.Clone();
+            _sections = ori._sections.DeepClone();
+            Global = (PropertyCollection)ori.Global.DeepClone();
+            Configuration = ori.Configuration.DeepClone();
         }
         #endregion
 
         #region Properties
+
+        /// <summary>
+        ///     If set to true, it will automatically create a section when you use the indexed 
+        ///     access with a section name that does not exis.
+        ///     If set to false, it will throw an exception if you try to access a section that 
+        ///     does not exist with the index operator.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to false.
+        /// </remarks>
+        public bool CreateSectionsIfTheyDontExist { get; set; } = false;
+
 
         /// <summary>
         ///     Configuration used to write an ini file with the proper
@@ -66,31 +93,35 @@ namespace IniParser.Model
             {
                 // Lazy initialization
                 if (_configuration == null)
+                {
                     _configuration = new IniParserConfiguration();
+                }
 
                 return _configuration;
             }
 
-            set { _configuration = value.Clone(); }
+            set { _configuration = value.DeepClone(); }
         }
+
+        public IIniScheme Scheme { get { return _schemeInternal; } }
 
         /// <summary>
         /// 	Global sections. Contains key/value pairs which are not
         /// 	enclosed in any section (i.e. they are defined at the beginning 
         /// 	of the file, before any section.
         /// </summary>
-        public KeyDataCollection Global { get; protected set; }
+        public PropertyCollection Global { get; protected set; }
 
         /// <summary>
-        /// Gets the <see cref="KeyDataCollection"/> instance 
+        /// Gets the <see cref="PropertyCollection"/> instance 
         /// with the specified section name.
         /// </summary>
-        public KeyDataCollection this[string sectionName]
+        public PropertyCollection this[string sectionName]
         {
             get
             {
                 if (!_sections.ContainsSection(sectionName))
-                    if (Configuration.AllowCreateSectionsOnFly)
+                    if (CreateSectionsIfTheyDontExist)
                         _sections.AddSection(sectionName);
                     else
                         return null;
@@ -100,10 +131,10 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Gets or sets all the <see cref="SectionData"/> 
+        /// Gets or sets all the <see cref="Section"/> 
         /// for this IniData instance.
         /// </summary>
-        public SectionDataCollection Sections
+        public SectionCollection Sections
         {
             get { return _sections; }
             set { _sections = value; }
@@ -120,15 +151,15 @@ namespace IniParser.Model
         #endregion
 
         #region Object Methods
-        public override string ToString()
-        {
-            return ToString(new DefaultIniDataFormatter(Configuration));
-        }
+        //public override string ToString()
+        //{
+        //    return ToString(new DefaultIniDataFormatter(Configuration));
+        //}
 
-        public virtual string ToString(IIniDataFormatter formatter)
-        {
-            return formatter.IniDataToString(this);
-        }
+        //public virtual string ToString(IIniDataFormatter formatter)
+        //{
+        //    return formatter.IniDataToString(this);
+        //}
         #endregion
 
         #region ICloneable Members
@@ -264,7 +295,7 @@ namespace IniParser.Model
         /// <summary>
         ///     Merge the sections into this by overwriting this sections.
         /// </summary>
-        private void MergeSection(SectionData otherSection)
+        private void MergeSection(Section otherSection)
         {
             // no overlap -> create no section
             if (!Sections.ContainsSection(otherSection.SectionName))
@@ -279,7 +310,7 @@ namespace IniParser.Model
         /// <summary>
         ///     Merges the given global values into this globals by overwriting existing values.
         /// </summary>
-        private void MergeGlobal(KeyDataCollection globals)
+        private void MergeGlobal(PropertyCollection globals)
         {
             foreach (var globalValue in globals)
             {

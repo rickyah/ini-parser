@@ -45,7 +45,7 @@ namespace IniFileParser.Tests.Unit.Parser
             var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "aircraft.cfg");
             var iniFileData = parser.ReadFile(filePath);
 
-            parser.Parser.Configuration.CommentString = "//";
+            parser.Parser.Scheme.CommentString = "//";
             var filePath2 = Path.Combine(TestContext.CurrentContext.TestDirectory, "aircraft2.cfg");
             iniFileData = parser.ReadFile(filePath2);
         }

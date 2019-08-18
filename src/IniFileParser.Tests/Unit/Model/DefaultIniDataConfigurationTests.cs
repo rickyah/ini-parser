@@ -15,9 +15,6 @@ namespace IniFileParser.Tests.Unit.Model
             var config = new IniParserConfiguration();
 
             Assert.That(config, Is.Not.Null);
-            Assert.That(config.CommentRegex, Is.Not.Null);
-            Assert.That(config.SectionRegex, Is.Not.Null);
-            
         }
 
         [Test]
@@ -25,25 +22,21 @@ namespace IniFileParser.Tests.Unit.Model
         {
             IniParserConfiguration config1 = new IniParserConfiguration();
 
-            config1.AllowDuplicateKeys = true;
-            config1.CommentString = "/";
+            config1.DuplicatePropertiesBehaviour = IniParserConfiguration.EDuplicatePropertiesBehaviour.AllowAndKeepFirstValue;
 
-			Assert.That(config1.AllowDuplicateKeys, Is.True);
-			Assert.That(config1.CommentString, Is.EqualTo("/"));
+			Assert.That(config1.DuplicatePropertiesBehaviour, 
+                        Is.EqualTo(IniParserConfiguration.EDuplicatePropertiesBehaviour.AllowAndKeepFirstValue));
 
-			IniParserConfiguration config2 = config1.Clone();
+			IniParserConfiguration config2 = config1.DeepClone();
 
-            Assert.That(config2.AllowDuplicateKeys, Is.True);
-            Assert.That(config2.CommentString, Is.EqualTo("/"));
-
-            config1.CommentString = "#";
-            Assert.That(config2.CommentString, Is.EqualTo("/"));
+            Assert.That(config2.DuplicatePropertiesBehaviour,
+                        Is.EqualTo(IniParserConfiguration.EDuplicatePropertiesBehaviour.AllowAndKeepFirstValue));
         }
 
         [Test]
         public void create_key_with_invalid_name()
         {
-            Assert.Throws( typeof(ArgumentException), () => new KeyData(""));
+            Assert.Throws( typeof(ArgumentException), () => new Property(""));
         }
 
         [Test]
@@ -55,7 +48,7 @@ namespace IniFileParser.Tests.Unit.Model
             var commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
 
             //Create a key data
-            KeyData kd = new KeyData(strKeyTest);
+            Property kd = new Property(strKeyTest);
             kd.Value = strValueTest;
             kd.Comments = commentListTest;
             
@@ -77,11 +70,11 @@ namespace IniFileParser.Tests.Unit.Model
             var commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
 
             //Create a key data
-            KeyData kd2 = new KeyData(strKeyTest);
+            Property kd2 = new Property(strKeyTest);
             kd2.Value = strValueTest;
             kd2.Comments = commentListTest;
 
-            KeyData kd = kd2.Clone() as KeyData;
+            Property kd = kd2.Clone() as Property;
 
 
             //Assert not null and empty

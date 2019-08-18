@@ -13,7 +13,7 @@ namespace IniFileParser.Tests.Unit.Model
         {
 
             var data = new IniDataCaseInsensitive();
-            var section = new SectionData("TestSection");
+            var section = new Section("TestSection");
             section.Keys.AddKey("keY1", "value1");
             section.Keys.AddKey("KEY2", "value2");
             section.Keys.AddKey("KeY2", "value3");
@@ -36,9 +36,9 @@ namespace IniFileParser.Tests.Unit.Model
             KEY1 = value1
             KEY2 = value2";
 
-            var config = new IniParserConfiguration();
-            config.CaseInsensitive = true;
-            var data = new IniDataParser(config).Parse(iniData);
+            var parser = new IniDataParser();
+            parser.Configuration.CaseInsensitive = true;
+            var data = parser.Parse(iniData);
 
             Assert.That(data["testsection"]["key1"], Is.EqualTo("value1"));
             Assert.That(data["testSection"]["Key2"], Is.EqualTo("value2"));

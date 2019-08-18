@@ -10,7 +10,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_default_values()
         {
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             Assert.That(sd, Is.Not.Null);
             Assert.That(sd.SectionName, Is.EqualTo("section_test"));
@@ -21,13 +21,13 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void create_section_with_invalid_name()
         {
-            Assert.Throws(typeof(ArgumentException), () => new SectionData(""));
+            Assert.Throws(typeof(ArgumentException), () => new Section(""));
         }
 
         [Test]
         public void change_section_name_with_invalid_name()
         {
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             sd.SectionName = "";
 
@@ -37,7 +37,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void change_section_name()
         {
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             sd.SectionName = "section_test_2";
 
@@ -53,7 +53,7 @@ namespace IniFileParser.Tests.Unit.Model
             string strKeyTest = "Mykey";
             string strValueTest = "My value";
 
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             //Add key
             sd.Keys.AddKey(strKeyTest);
@@ -70,7 +70,7 @@ namespace IniFileParser.Tests.Unit.Model
         {
             string strKeyTest = "Mykey";
 
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             //Add key
             sd.Keys.AddKey(strKeyTest);
@@ -87,7 +87,7 @@ namespace IniFileParser.Tests.Unit.Model
         {
             string strKeyTest = "Mykey";
 
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             //Add key
             sd.Keys.AddKey(strKeyTest);
@@ -104,7 +104,7 @@ namespace IniFileParser.Tests.Unit.Model
         {
             string strKeyTest = "Mykey";
 
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             //Add key
             sd.Keys.AddKey(strKeyTest);
@@ -117,7 +117,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void try_accessing_non_existing_key()
         {
-            var sd = new SectionData("section_test");
+            var sd = new Section("section_test");
 
             //Access invalid keydata
             Assert.That(sd.Keys["asdf"], Is.Null);
@@ -126,8 +126,8 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_you_can_merge_sections()
         {
-            var destinySection = new SectionData("destiny_section");
-            var newSection = new SectionData("new_section");
+            var destinySection = new Section("destiny_section");
+            var newSection = new Section("new_section");
 
             //Add key
             destinySection.Keys.AddKey("key1", "value1");
@@ -147,11 +147,11 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_deep_clone()
         {
-            var section = new SectionData("ori_section");
+            var section = new Section("ori_section");
             section.Keys.AddKey("key1", "value1");
             section.Keys.AddKey("key2", "value2");
 
-            var copy = (SectionData)section.Clone();
+            var copy = (Section)section.Clone();
 
             copy.Keys["key1"] = "value3";
             copy.Keys["key2"] = "value4";

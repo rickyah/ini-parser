@@ -11,7 +11,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_default_values()
         {
-            var kd = new KeyData("key_name");
+            var kd = new Property("key_name");
 
             Assert.That(kd, Is.Not.Null);
             Assert.That(kd.KeyName, Is.EqualTo("key_name"));
@@ -22,7 +22,7 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void create_key_with_invalid_name()
         {
-            Assert.Throws(typeof(ArgumentException), () => new KeyData(""));
+            Assert.Throws(typeof(ArgumentException), () => new Property(""));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace IniFileParser.Tests.Unit.Model
             var commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
 
             //Create a key data
-            KeyData kd = new KeyData(strKeyTest);
+            Property kd = new Property(strKeyTest);
             kd.Value = strValueTest;
             kd.Comments = commentListTest;
             
@@ -55,11 +55,11 @@ namespace IniFileParser.Tests.Unit.Model
             var commentListTest = new List<string>(new string[] { "testComment 1", "testComment 2" });
 
             //Create a key data
-            KeyData kd2 = new KeyData(strKeyTest);
+            Property kd2 = new Property(strKeyTest);
             kd2.Value = strValueTest;
             kd2.Comments = commentListTest;
 
-            KeyData kd = kd2.Clone() as KeyData;
+            Property kd = kd2.Clone() as Property;
 
             //Assert not null and empty
             Assert.That(kd, Is.Not.Null);
@@ -73,12 +73,12 @@ namespace IniFileParser.Tests.Unit.Model
         [Test]
         public void check_merge_keys()
         {
-            var keys1 = new KeyDataCollection();
+            var keys1 = new PropertyCollection();
             keys1.AddKey( "key1", "value1");
             keys1.AddKey( "key2", "value2");
             keys1.AddKey( "key3", "value3");
 
-            var keys2 = new KeyDataCollection();
+            var keys2 = new PropertyCollection();
             keys2.AddKey("key1", "value11");
             keys2.AddKey("key4", "value4");
 
@@ -99,7 +99,7 @@ namespace IniFileParser.Tests.Unit.Model
             IniData inidata = new IniData();
             inidata.Sections.AddSection("TestSection");
 
-            KeyData key = new KeyData("TestKey");
+            Property key = new Property("TestKey");
             key.Value = "TestValue";
             key.Comments.Add("This is a comment");
             inidata["TestSection"].SetKeyData(key);
