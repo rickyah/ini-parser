@@ -23,7 +23,6 @@ namespace IniParser.Parser
         {
             Scheme = new IniScheme();
             Configuration = new IniParserConfiguration();
-
             _errorExceptions = new List<Exception>();
         }
 
@@ -122,21 +121,18 @@ namespace IniParser.Parser
                 // Orphan comments, assing to last section/key value
                 if (_currentCommentListTemp.Count > 0)
                 {
-                    // Check if there are actually sections in the file
                     if (iniData.Sections.Count > 0)
                     {
+                        // Check if there are actually sections in the file
                         var sections = iniData.Sections;
                         var section = sections.GetSectionData(_currentSectionNameTemp);
                         section.Comments.AddRange(_currentCommentListTemp);
                     }
-
-                    // No sections, put the comment in the last key value pair
-                    // but only if the ini file contains at least one key-value
-                    // pair
                     else if (iniData.Global.Count > 0)
                     {
-                        iniData.Global.GetLast().Comments
-                            .AddRange(_currentCommentListTemp);
+                        // No sections, put the comment in the last key value pair
+                        // but only if the ini file contains at least one key-value pair
+                        iniData.Global.GetLast().Comments.AddRange(_currentCommentListTemp);
                     }
 
                     _currentCommentListTemp.Clear();
@@ -304,13 +300,13 @@ namespace IniParser.Parser
         {
             if (currentLine.Count <= 0) return false;
 
-            var propertyAssignmentStringPos = currentLine.FindSubstring(Scheme.PropertyAssigmentString);
+            var propertyAssigmentIdx = currentLine.FindSubstring(Scheme.PropertyAssigmentString);
 
-            if (propertyAssignmentStringPos.IsEmpty) return false;
+            if (propertyAssigmentIdx.IsEmpty) return false;
 
-            var keyRange = Range.WithIndexes(0, propertyAssignmentStringPos.start - 1);
-            var valueStartIdx = propertyAssignmentStringPos.end + 1;
-            var valueSize = currentLine.Count - propertyAssignmentStringPos.end - 1;
+            var keyRange = Range.WithIndexes(0, propertyAssigmentIdx.start - 1);
+            var valueStartIdx = propertyAssigmentIdx.end + 1;
+            var valueSize = currentLine.Count - propertyAssigmentIdx.end - 1;
             var valueRange = Range.FromIndexWithSize(valueStartIdx, valueSize);
 
             var key = currentLine.Substring(keyRange);
@@ -389,7 +385,7 @@ namespace IniParser.Parser
                     // Nothing to do here: we already have the first value assigned
                     break;
                 case IniParserConfiguration.EDuplicatePropertiesBehaviour.AllowAndKeepLastValue:
-                    // Override the current value when the parsing is finished we will endup
+                    // Override the current value when the parsing is finished we will end up
                     // with the last value.
                     keyDataCollection[key] = value;
                     break;
