@@ -14,14 +14,14 @@ namespace IniParser.Model
         /// <summary>
         ///     Initializes a new instance of the <see cref="Property"/> class.
         /// </summary>
-        public Property(string keyName)
+        public Property(string keyName, string value = "")
         {
-            if(string.IsNullOrEmpty(keyName))
+            if (string.IsNullOrEmpty(keyName))
                 throw new ArgumentException("key name can not be empty");
 
             _comments = new List<string>();
-            _value = string.Empty;
-            _keyName = keyName;
+            Value = value;
+            KeyName = keyName;
         }
 
         /// <summary>
@@ -37,8 +37,8 @@ namespace IniParser.Model
         /// </param>
         public Property(Property ori)
         {
-            _value = ori._value;
-            _keyName = ori._keyName;
+            Value = ori.Value;
+            KeyName = ori.KeyName;
             _comments = new List<string>(ori._comments);
         }
 
@@ -48,6 +48,7 @@ namespace IniParser.Model
 
         /// <summary>
         /// Gets or sets the comment list associated to this key.
+        /// Makes a copy og the values when set
         /// </summary>
         public List<string> Comments
         {
@@ -58,29 +59,13 @@ namespace IniParser.Model
         /// <summary>
         ///     Gets or sets the value associated to this key.
         /// </summary>
-        public string Value
-        {
-            get { return _value; }
-            set { _value = value; }
-        }
+        public string Value { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the key.
         /// </summary>
-        public string KeyName
-        {
-            get
-            {
-                return _keyName;
-            }
+        public string KeyName { get; set; }
 
-            set
-            {
-                if (value != string.Empty)
-                    _keyName = value;
-            }
-
-        }
 
         #endregion Properties 
 
@@ -103,12 +88,6 @@ namespace IniParser.Model
 
         // List with comment lines associated to this key 
         private List<string> _comments;
-
-        // Unique value associated to this key
-        private string _value;
-
-        // Name of the current key
-        private string _keyName;
 
         #endregion
     }
