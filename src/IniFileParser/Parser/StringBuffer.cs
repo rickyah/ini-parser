@@ -80,6 +80,12 @@ namespace IniParser.Parser
             _buffer = new List<char>(capacity);
         }
 
+        internal StringBuffer(List<char> buffer, Range bufferIndexes)
+        {
+            _buffer = buffer;
+            _bufferIndexes = bufferIndexes;
+        }
+
         public int Count { get { return _bufferIndexes.size; } }
 
         public bool IsEmpty
@@ -216,12 +222,7 @@ namespace IniParser.Parser
 
         public StringBuffer SwallowCopy()
         {
-            var newBuffer = new StringBuffer(this.Count);
-
-            newBuffer._buffer = this._buffer;
-            newBuffer._bufferIndexes = this._bufferIndexes;
-
-            return newBuffer;
+            return new StringBuffer(_buffer, _bufferIndexes);
         }
 
         public void TrimStart()
