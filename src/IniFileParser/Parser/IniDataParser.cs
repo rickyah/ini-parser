@@ -168,72 +168,7 @@ namespace IniParser.Parser
         // See IniParserConfiguration interface, and IniDataParser constructor
         // to change the default configuration.
 
-        /// <summary>
-        ///     Checks if a given string contains a comment.
-        /// </summary>
-        /// <param name="line">
-        ///     String with a line to be checked.
-        /// </param>
-        /// <returns>
-        ///     true if any substring from s is a comment,
-        ///     false otherwise.
-        /// </returns>
-        protected virtual bool LineContainsAComment(string line)
-        {
-            return !string.IsNullOrEmpty(line)
-                   && Scheme.CommentRegex.Match(line).Success;
-        }
-
-        /// <summary>
-        ///     Checks if a given string represents a section delimiter.
-        /// </summary>
-        /// <param name="line">
-        ///     The string to be checked.
-        /// </param>
-        /// <returns>
-        ///     true if the string represents a section,
-        ///     false otherwise.
-        /// </returns>
-        protected virtual bool LineMatchesASection(string line)
-        {
-            return !string.IsNullOrEmpty(line)
-                   && Scheme.SectionRegex.Match(line).Success;
-        }
-
-        /// <summary>
-        ///     Checks if a given string represents a key / value pair.
-        /// </summary>
-        /// <param name="line">
-        ///     The string to be checked.
-        /// </param>
-        /// <returns>
-        ///     true if the string represents a key / value pair,
-        ///     false otherwise.
-        /// </returns>
-        protected virtual bool LineMatchesAKeyValuePair(string line)
-        {
-            return !string.IsNullOrEmpty(line)
-                   && line.Contains(Scheme.KeyValueAssigmentString);
-        }
-
-        /// <summary>
-        ///     Removes a comment from a string if exist, and returns the string without
-        ///     the comment substring.
-        /// </summary>
-        /// <param name="line">
-        ///     The string we want to remove the comments from.
-        /// </param>
-        /// <returns>
-        ///     The string s without comments.
-        /// </returns>
-        protected virtual string ExtractComment(string line)
-        {
-            string comment = Scheme.CommentRegex.Match(line).Value.Trim();
-
-            _currentCommentListTemp.Add(comment.Substring(1, comment.Length - 1));
-
-            return line.Replace(comment, "").Trim();
-        }
+  
 
         /// <summary>
         ///     Processes one line and parses the data found in that line
@@ -267,7 +202,7 @@ namespace IniParser.Parser
                                        currentLine.DiscardChanges().ToString());
         }
 
-        protected bool ProcessComment(StringBuffer currentLine)
+        protected virtual bool ProcessComment(StringBuffer currentLine)
         {
             // Line is  med when it came here, so we only need to check if
             // the first characters are those of the comments
@@ -369,14 +304,13 @@ namespace IniParser.Parser
         {
             if (currentLine.Count <= 0) return false;
 
-            var propertyDelimiterPos = currentLine.FindSubstring(Scheme.PropertyDelimiterString);
+            var propertyAssignmentStringPos = currentLine.FindSubstring(Scheme.PropertyAssigmentString);
 
-            if (propertyDelimiterPos.IsEmpty) return false;
+            if (propertyAssignmentStringPos.IsEmpty) return false;
 
-
-            var keyRange = Range.WithIndexes(0, propertyDelimiterPos.start - 1);
-            var valueStartIdx = propertyDelimiterPos.end + 1;
-            var valueSize = currentLine.Count - propertyDelimiterPos.end - 1;
+            var keyRange = Range.WithIndexes(0, propertyAssignmentStringPos.start - 1);
+            var valueStartIdx = propertyAssignmentStringPos.end + 1;
+            var valueSize = currentLine.Count - propertyAssignmentStringPos.end - 1;
             var valueRange = Range.FromIndexWithSize(valueStartIdx, valueSize);
 
             var key = currentLine.Substring(keyRange);
@@ -505,8 +439,6 @@ namespace IniParser.Parser
         #endregion
 
         #region Fields
-
-
         uint _currentLineNumber;
 
         // Holds a list of the exceptions catched while parsing
