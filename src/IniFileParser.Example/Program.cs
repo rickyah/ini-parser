@@ -1,6 +1,5 @@
 using System;
 
-using System.IO;
 using IniParser.Model;
 using IniParser.Parser;
 
@@ -10,30 +9,30 @@ namespace IniFileParser.Example
     {
         public static void Main()
         {   
-            var testIniFileName = "TestIniFile.ini";
-            var newTestIniFileName = "NewTestIniFile.ini";
+            var testIniFile = @"#This section provides the general configuration of the application
+[GeneralConfiguration] 
+
+#Update rate in msecs
+setUpdate = 100
+
+#Maximun errors before quit
+setMaxErrors = 2
+
+#Users allowed to access the system
+#format: user = pass
+[Users]
+ricky = rickypass
+patty = pattypass ";
 
             //Create an instance of a ini file parser
             var parser = new IniDataParser();
-
-            if (File.Exists(newTestIniFileName))
-                File.Delete(newTestIniFileName);
 
             // This is a special ini file where we use the '#' character for comment lines
             // instead of ';' so we need to change the configuration of the parser:
             parser.Scheme.CommentString = "#";
 
             // Here we'll be storing the contents of the ini file we are about to read:
-            IniData parsedData;
-
-            // Read and parse the ini file
-            using (FileStream fs = File.Open(testIniFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                using (StreamReader sr = new StreamReader(fs, System.Text.Encoding.UTF8))
-                {
-                    parsedData = parser.Parse(sr.ReadToEnd());
-                }
-            }
+            IniData parsedData = parser.Parse(testIniFile);
 
             // Write down the contents of the ini file to the console
             Console.WriteLine("---- Printing contents of the INI file ----\n");
