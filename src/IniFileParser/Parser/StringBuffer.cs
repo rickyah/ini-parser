@@ -179,65 +179,101 @@ namespace IniParser.Parser
             _buffer.Clear();
         }
 
+        public void Resize(Range range)
+        {
+            Resize(range.start, range.size);
+        }
+
         public void Resize(int newSize)
         {
-            // TODO: not clear what this resizes, 
-            if (newSize < 0) return;
-            if (newSize >= _bufferIndexes.size) return;
+            Resize(0, newSize);
+        }
 
-            _bufferIndexes.size = newSize;
+        public void Resize(int startIdx, int size)
+        { 
+            if (startIdx < 0 || size < 0) return;
+
+            var internalStartIdx = _bufferIndexes.start + startIdx;
+            var internalEndIdx = internalStartIdx + size - 1;
+
+            if (internalEndIdx > _bufferIndexes.end) return;
+            
+            _bufferIndexes.start = internalStartIdx;
+            _bufferIndexes.size = size;
         }
 
         public void ResizeBetweenIndexes(int startIdx, int endIdx)
         {
-            var indexesSize = endIdx - startIdx + 1;
+            Resize(startIdx, endIdx - startIdx + 1);
+        }
 
-            if (indexesSize <= 0) return;
-            if (indexesSize > _bufferIndexes.size) return;
+        public StringBuffer Substring(Range range)
+        {
+            var copy = SwallowCopy();
+            copy.Resize(range);
+            return copy;
+        }
 
-            _bufferIndexes.start += startIdx;
+        public StringBuffer SwallowCopy()
+        {
+            var newBuffer = new StringBuffer(this.Count);
+
+            newBuffer._buffer = this._buffer;
+            newBuffer._bufferIndexes = this._bufferIndexes;
+
+            return newBuffer;
+        }
+
+        public void TrimStart()
+        {
+            if (IsEmpty) return;
+
+            int startIdx = _bufferIndexes.start;
+            while (startIdx <= _bufferIndexes.end
+                && char.IsWhiteSpace(_buffer[startIdx]))
+            {
+                startIdx++;
+            }
+
+            // We need to make a copy of this value because _bufferIndexes.end
+            // is a computed property, so it will change if we modify
+            // _bufferIndexes.start or _bufferIndexes.size
+            int endIdx = _bufferIndexes.end;
+
+            _bufferIndexes.start = startIdx;
             _bufferIndexes.size = endIdx - startIdx + 1;
         }
 
-        public string Substring(Range range)
+        public void TrimEnd()
         {
-            return new string(_buffer.ToArray(),
-                              _bufferIndexes.start + range.start,
-                              range.size);
-        }
+            if (IsEmpty) return;
 
-        public void TrimRange(ref Range range)
-        {
-            CheckRange(range);
+            int endIdx = _bufferIndexes.end;
 
-            if (range.size <= 0) return;
-
-            int endIdx = range.end;
-            for (; endIdx >= range.start; endIdx--)
+            while (endIdx >= _bufferIndexes.start
+                && char.IsWhiteSpace(_buffer[endIdx]))
             {
-                if (!char.IsWhiteSpace(_buffer[_bufferIndexes.start + endIdx]))
-                {
-                    break;
-                }
+                endIdx--;
             }
 
-            int startIdx = range.start;
-            for (; startIdx <= endIdx; startIdx++)
-            {
-  
-                if (!char.IsWhiteSpace(_buffer[startIdx + _bufferIndexes.start]))
-                {
-                    range.start = startIdx;
-                    break;
-                }
-            }
-
-            range.size = endIdx - startIdx + 1;
+            _bufferIndexes.size = endIdx - _bufferIndexes.start + 1;
         }
-
         public void Trim()
         {
-            TrimRange(ref _bufferIndexes);
+            TrimEnd();
+            TrimStart();
+        }
+
+        public bool StartsWith(string str)
+        {
+            if (string.IsNullOrEmpty(str)) return false;
+
+            for (int idx = _bufferIndexes.start; idx < str.Length; ++idx)
+            {
+                if (str[idx] != _buffer[idx]) return false;
+            }
+
+            return true;
         }
 
         public override string ToString()
@@ -249,37 +285,22 @@ namespace IniParser.Parser
 
         public string ToString(Range range)
         {
-            CheckRange(range);
+            if (range.IsEmpty
+             || range.start < 0
+             || range.size > _bufferIndexes.size
+             || range.start + _bufferIndexes.start > _bufferIndexes.end)
+            {
+                return string.Empty;
+            }
+
             return new string(_buffer.ToArray(),
                               _bufferIndexes.start + range.start,
                               range.size);
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
-        private void CheckRange(Range range)
-        {
-            if ( range.start < 0 
-             || range.size > _bufferIndexes.size
-             || range.start + _bufferIndexes.start > _bufferIndexes.end)
-            {
-                throw new IndexOutOfRangeException();
-            }
-        }
-        readonly List<char> _buffer;
+        List<char> _buffer;
         StringReader _dataSource;
 
         Range _bufferIndexes;
-
-        public bool StartsWith(string str)
-        {
-            if (string.IsNullOrEmpty(str)) return false;
-
-            for(int idx = _bufferIndexes.start; idx < str.Length; ++idx)
-            {
-                if (str[idx] != _buffer[idx]) return false;
-            }
-
-            return true;
-        }
     }
 }

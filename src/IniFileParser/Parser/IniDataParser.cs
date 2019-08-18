@@ -277,8 +277,9 @@ namespace IniParser.Parser
                 if (commentRange.IsEmpty) return false;
 
                 var startIdx = commentRange.start + Scheme.CommentString.Length;
-                var endIdx = currentLine.Count - 1;
-                var commentStr = currentLine.Substring(Range.WithIndexes(startIdx, endIdx));
+                var size = currentLine.Count - Scheme.CommentString.Length;
+                var range = Range.FromIndexWithSize(startIdx, size);
+                var commentStr = currentLine.ToString(range);
 
                 _currentCommentListTemp.Add(commentStr);
                 currentLine.Resize(commentRange.start);
@@ -374,20 +375,20 @@ namespace IniParser.Parser
 
 
             var keyRange = Range.WithIndexes(0, propertyDelimiterPos.start - 1);
-            var valueRange = Range.FromIndexWithSize(propertyDelimiterPos.end + 1,
-                                                     currentLine.Count - propertyDelimiterPos.end - 1);
-
-            if (Configuration.TrimProperties)
-            {
-                currentLine.TrimRange(ref keyRange);
-                currentLine.TrimRange(ref valueRange);
-            }
+            var valueStartIdx = propertyDelimiterPos.end + 1;
+            var valueSize = currentLine.Count - propertyDelimiterPos.end - 1;
+            var valueRange = Range.FromIndexWithSize(valueStartIdx, valueSize);
 
             var key = currentLine.Substring(keyRange);
             var value = currentLine.Substring(valueRange);
 
+            if (Configuration.TrimProperties)
+            {
+                key.Trim();
+                value.Trim();
+            }
 
-            if (string.IsNullOrEmpty(key))
+            if (key.IsEmpty)
             {
                 if (Configuration.SkipInvalidLines) return false;
 
@@ -416,13 +417,19 @@ namespace IniParser.Parser
                                                currentLine.DiscardChanges().ToString());
                 }
 
-                AddKeyToKeyValueCollection(key, value, iniData.Global, "global");
+                AddKeyToKeyValueCollection(key.ToString(), 
+                                           value.ToString(),
+                                           iniData.Global, 
+                                           "global");
             }
             else
             {
                 var currentSection = iniData.Sections.GetSectionData(_currentSectionNameTemp);
 
-                AddKeyToKeyValueCollection(key, value, currentSection.Keys, _currentSectionNameTemp);
+                AddKeyToKeyValueCollection(key.ToString(),
+                                           value.ToString(), 
+                                           currentSection.Keys,
+                                           _currentSectionNameTemp);
             }
 
 
@@ -431,12 +438,13 @@ namespace IniParser.Parser
 
 
         /// <summary>
-        ///     Abstract Method that decides what to do in case we are trying to add a duplicated key to a section
+        ///     Abstract Method that decides what to do in case we are trying 
+        ///     to add a duplicated key to a section
         /// </summary>
-        protected virtual void HandleDuplicatedKeyInCollection(string key,
-                                                               string value,
-                                                               PropertyCollection keyDataCollection,
-                                                               string sectionName)
+        void HandleDuplicatedKeyInCollection(string key,
+                                             string value,
+                                             PropertyCollection keyDataCollection,
+                                             string sectionName)
         {
             switch(Configuration.DuplicatePropertiesBehaviour)
             {
@@ -454,7 +462,6 @@ namespace IniParser.Parser
                 case IniParserConfiguration.EDuplicatePropertiesBehaviour.AllowAndConcatenateValues:
                     break;
             }
-
         }
         #endregion
 
