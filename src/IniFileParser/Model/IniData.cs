@@ -207,13 +207,10 @@ namespace IniParser.Model
         /// </param>
         public void Merge(IniData toMergeIniData)
         {
-
             if (toMergeIniData == null) return;
 
             Global.Merge(toMergeIniData.Global);
-
             Sections.Merge(toMergeIniData.Sections);
-
         }
 
         /// <summary>
@@ -290,32 +287,6 @@ namespace IniParser.Model
         {
             string result;
             return TryGetKey(key, out result) ? result : null;
-        }
-
-        /// <summary>
-        ///     Merge the sections into this by overwriting this sections.
-        /// </summary>
-        private void MergeSection(Section otherSection)
-        {
-            // no overlap -> create no section
-            if (!Sections.ContainsSection(otherSection.SectionName))
-            {
-                Sections.AddSection(otherSection.SectionName);
-            }
-
-            // merge section into the new one
-            Sections.GetSectionData(otherSection.SectionName).Merge(otherSection);
-        }
-
-        /// <summary>
-        ///     Merges the given global values into this globals by overwriting existing values.
-        /// </summary>
-        private void MergeGlobal(PropertyCollection globals)
-        {
-            foreach (var globalValue in globals)
-            {
-                Global[globalValue.KeyName] = globalValue.Value;
-            }
         }
     }
 }
