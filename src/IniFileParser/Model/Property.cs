@@ -17,7 +17,7 @@ namespace IniParser.Model
         public Property(string keyName, string value = "")
         {
             if (string.IsNullOrEmpty(keyName))
-                throw new ArgumentException("key name can not be empty");
+                throw new ArgumentException("key name can not be empty", nameof(KeyName));
 
             _comments = new List<string>();
             Value = value;

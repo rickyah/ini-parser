@@ -190,10 +190,10 @@ namespace IniParser.Model
         public void ClearAllComments()
         {
             Global.ClearComments();
-
-            foreach(var section in Sections)
+            foreach (var section in Sections)
             {
                 section.ClearComments();
+                section.Properties.ClearComments();
             }
         }
 

@@ -9,7 +9,7 @@ namespace IniParser.Model
     /// </summary>
     public class Section : ICloneable
     {
-        IEqualityComparer<string> _searchComparer;
+        readonly IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         public Section(string sectionName)
@@ -17,6 +17,7 @@ namespace IniParser.Model
         {
             
         }
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="Section"/> class.
         /// </summary>
@@ -25,13 +26,12 @@ namespace IniParser.Model
             _searchComparer = searchComparer;
 
             if (string.IsNullOrEmpty(sectionName))
-                throw new ArgumentException("section name can not be empty");
+                throw new ArgumentException("section name can not be empty", nameof(sectionName));
 
             _comments = new List<string>();
             _keyDataCollection = new PropertyCollection(_searchComparer);
             SectionName = sectionName;
         }
-
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Section"/> class
@@ -179,8 +179,7 @@ namespace IniParser.Model
         #region Non-public members
 
         // Comments associated to this section
-        private List<string> _comments;
-        private List<string> _trailingComments = new List<string>();
+        List<string> _comments;
 
         // Keys associated to this section
         private PropertyCollection _keyDataCollection;
