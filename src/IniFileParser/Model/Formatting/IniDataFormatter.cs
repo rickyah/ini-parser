@@ -44,7 +44,7 @@ namespace IniParser.Model.Formatting
                                     scheme.SectionEndString,
                                     format.NewLineStr));
 
-            WriteKeyValueData(section.Keys, sb, scheme, format);
+            WriteKeyValueData(section.Properties, sb, scheme, format);
 
             // Trailing comments
             WriteComments(section.Comments, sb, scheme, format);

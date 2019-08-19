@@ -41,7 +41,7 @@ value1 = 10.6";
             var newData = new IniData();
 
             newData.Sections.AddSection("newSection");
-            newData["newSection"].AddKey("newKey1", "value1");
+            newData["newSection"].AddKeyAndValue("newKey1", "value1");
 
             Assert.That(newData["newSection"]["newKey1"], Is.EqualTo("value1"));
         }

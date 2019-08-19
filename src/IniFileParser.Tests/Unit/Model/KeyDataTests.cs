@@ -74,13 +74,13 @@ namespace IniFileParser.Tests.Unit.Model
         public void check_merge_keys()
         {
             var keys1 = new PropertyCollection();
-            keys1.AddKey( "key1", "value1");
-            keys1.AddKey( "key2", "value2");
-            keys1.AddKey( "key3", "value3");
+            keys1.AddKeyAndValue( "key1", "value1");
+            keys1.AddKeyAndValue( "key2", "value2");
+            keys1.AddKeyAndValue( "key3", "value3");
 
             var keys2 = new PropertyCollection();
-            keys2.AddKey("key1", "value11");
-            keys2.AddKey("key4", "value4");
+            keys2.AddKeyAndValue("key1", "value11");
+            keys2.AddKeyAndValue("key4", "value4");
 
             keys1.Merge(keys2);
 

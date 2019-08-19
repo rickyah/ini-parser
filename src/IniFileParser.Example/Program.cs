@@ -52,8 +52,8 @@ patty = pattypass ";
             parsedData.Sections.AddSection("newSection");
             parsedData.Sections.GetSectionData("newSection").Comments
                 .Add("This is a new comment for the section");
-            parsedData.Sections.GetSectionData("newSection").Keys.AddKey("myNewKey", "value");
-            parsedData.Sections.GetSectionData("newSection").Keys.GetKeyData("myNewKey").Comments
+            parsedData.Sections.GetSectionData("newSection").Properties.AddKeyAndValue("myNewKey", "value");
+            parsedData.Sections.GetSectionData("newSection").Properties.GetKeyData("myNewKey").Comments
             .Add("new key comment");
 
             // Write down the contents of the modified ini file to the console

@@ -28,7 +28,7 @@ namespace IniFileParser.Tests.Unit.Model
             //Check access
             Assert.That(sdc.GetSectionData(strSectionTest), Is.Not.Null);
             Assert.That(sdc.GetSectionData(strSectionTest).Comments, Is.Empty);
-            Assert.That(sdc.GetSectionData(strSectionTest).Keys.Count, Is.EqualTo(0));
+            Assert.That(sdc.GetSectionData(strSectionTest).Properties.Count, Is.EqualTo(0));
 
             //Check add coments
             sdc.GetSectionData(strSectionTest).Comments.Add(strComment);
@@ -57,11 +57,11 @@ namespace IniFileParser.Tests.Unit.Model
             data.Sections.AddSection("test");
             data.Sections.AddSection("test2");
 
-            data["test"].AddKey("key1", "value1");
-            data["test"].AddKey("key2", "value2");
+            data["test"].AddKeyAndValue("key1", "value1");
+            data["test"].AddKeyAndValue("key2", "value2");
 
-            data["test2"].AddKey("key3", "value3");
-            data["test2"].AddKey("key4", "value4");
+            data["test2"].AddKeyAndValue("key3", "value3");
+            data["test2"].AddKeyAndValue("key4", "value4");
 
             Assert.That(data["test"].ContainsKey("key1"));
             Assert.That(data["test"].ContainsKey("key2"));
@@ -86,8 +86,8 @@ namespace IniFileParser.Tests.Unit.Model
             var col = new SectionCollection();
 
             var exampleSection = new Section("section1");
-            exampleSection.Keys.AddKey("examplekey");
-            exampleSection.Keys["examplekey"] = "examplevalue";
+            exampleSection.Properties.AddKey("examplekey");
+            exampleSection.Properties["examplekey"] = "examplevalue";
 
             col.Add(exampleSection);
 

@@ -73,7 +73,7 @@ namespace IniParser.Model
             get
             {
                 if ( _sectionData.ContainsKey(sectionName) )
-                    return _sectionData[sectionName].Keys;
+                    return _sectionData[sectionName].Properties;
 
                 return null;
             }
@@ -169,7 +169,7 @@ namespace IniParser.Model
                     AddSection(sectionDataToMerge.SectionName);
                 }
 
-                this[sectionDataToMerge.SectionName].Merge(sectionDataToMerge.Keys);
+                this[sectionDataToMerge.SectionName].Merge(sectionDataToMerge.Properties);
             }
         }
 

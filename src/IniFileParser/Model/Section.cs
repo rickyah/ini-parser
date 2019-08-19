@@ -66,7 +66,7 @@ namespace IniParser.Model
         public void ClearComments()
         {
             Comments.Clear();
-            Keys.ClearComments();
+            Properties.ClearComments();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace IniParser.Model
         /// </summary>
 		public void ClearKeyData()
 		{
-			Keys.RemoveAllKeys();
+			Properties.RemoveAllKeys();
 		}
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace IniParser.Model
         /// <param name="toMergeSection"></param>
         public void Merge(Section toMergeSection)
         {  
-            Keys.Merge(toMergeSection.Keys);
+            Properties.Merge(toMergeSection.Properties);
 
             foreach(var comment in toMergeSection.Comments) 
                 Comments.Add(comment);
@@ -146,7 +146,7 @@ namespace IniParser.Model
         /// <value>
         ///     A collection of Property objects.
         /// </value>
-        public PropertyCollection Keys
+        public PropertyCollection Properties
         {
             get
             {

@@ -358,7 +358,7 @@ namespace IniParser.Parser
 
                 AddKeyToKeyValueCollection(key.ToString(),
                                            value.ToString(), 
-                                           currentSection.Keys,
+                                           currentSection.Properties,
                                            _currentSectionNameTemp);
             }
 
@@ -425,7 +425,7 @@ namespace IniParser.Parser
             else
             {
                 // Save the keys
-                keyDataCollection.AddKey(key, value);
+                keyDataCollection.AddKeyAndValue(key, value);
             }
 
             keyDataCollection.GetKeyData(key).Comments = new List<string>(_currentCommentListTemp);

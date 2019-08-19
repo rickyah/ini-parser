@@ -104,12 +104,12 @@ name = Marble Zone
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
             Assert.That(section1.Comments[0], Is.EqualTo("comment for stage1"));
 
-            Assert.That(section1.Keys, Is.Not.Null);
-            Assert.That(section1.Keys.Count, Is.EqualTo(2));
-            Assert.That(section1.Keys.GetKeyData("name"), Is.Not.Null);
-            Assert.That(section1.Keys["name"], Is.EqualTo("Green Hill Zone"));
-            Assert.That(section1.Keys.GetKeyData("this_is_not_a_comment"), Is.Not.Null);
-            Assert.That(section1.Keys["this_is_not_a_comment"], Is.EqualTo(";no comment"));
+            Assert.That(section1.Properties, Is.Not.Null);
+            Assert.That(section1.Properties.Count, Is.EqualTo(2));
+            Assert.That(section1.Properties.GetKeyData("name"), Is.Not.Null);
+            Assert.That(section1.Properties["name"], Is.EqualTo("Green Hill Zone"));
+            Assert.That(section1.Properties.GetKeyData("this_is_not_a_comment"), Is.Not.Null);
+            Assert.That(section1.Properties["this_is_not_a_comment"], Is.EqualTo(";no comment"));
         }
 
         [Test, Ignore("no writing")]

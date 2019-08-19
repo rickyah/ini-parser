@@ -145,7 +145,7 @@ namespace IniParser.Model
         ///     true if the key was added  false if a key with the same name already exist 
         ///     in the collection
         /// </returns>
-        public bool AddKey(Property property)
+        public bool Add(Property property)
         {
             if (!_keyData.ContainsKey(property.KeyName))
             {
@@ -168,7 +168,7 @@ namespace IniParser.Model
         ///     true if the key was added  false if a key with the same name already exist 
         ///     in the collection.
         /// </returns>
-        public bool AddKey(string key, string value)
+        public bool AddKeyAndValue(string key, string value)
         {
             if (!_keyData.ContainsKey(key))
             {
@@ -257,7 +257,7 @@ namespace IniParser.Model
             if (_keyData.ContainsKey(data.KeyName))
                 RemoveKey(data.KeyName);
 
-            AddKey(data);
+            Add(data);
         }
 
         #endregion

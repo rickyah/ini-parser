@@ -12,7 +12,7 @@ namespace IniFileParser.Tests.Unit.Model
         public void merge_programatically_created_ini_files()
         {
 			var iniData = new IniData();
-			iniData.Global.AddKey("UseSeparateRepositoryForAssets", true.ToString());
+			iniData.Global.AddKeyAndValue("UseSeparateRepositoryForAssets", true.ToString());
 
 			iniData.Sections.AddSection("MainRepository");
 			iniData["MainRepository"]["Type"] = "git";
@@ -74,21 +74,21 @@ c = 55
 
                 Assert.That(s0, Is.Not.Null);
                 Assert.That(s0.SectionName, Is.EqualTo("s0"));
-                Assert.That(s0.Keys["a"], Is.EqualTo("22"));
-                Assert.That(s0.Keys["b"], Is.EqualTo("44"));
+                Assert.That(s0.Properties["a"], Is.EqualTo("22"));
+                Assert.That(s0.Properties["b"], Is.EqualTo("44"));
 
                 var s1 = dataA.Sections.GetSectionData("s1");
 
                 Assert.That(s1, Is.Not.Null);
                 Assert.That(s1.SectionName, Is.EqualTo("s1"));
-                Assert.That(s1.Keys["a"], Is.EqualTo("3"));
-                Assert.That(s1.Keys["b"], Is.EqualTo("4"));
+                Assert.That(s1.Properties["a"], Is.EqualTo("3"));
+                Assert.That(s1.Properties["b"], Is.EqualTo("4"));
 
                 var s2 = dataA.Sections.GetSectionData("s2");
 
                 Assert.That(s2, Is.Not.Null);
                 Assert.That(s2.SectionName, Is.EqualTo("s2"));
-                Assert.That(s2.Keys["c"], Is.EqualTo("55"));
+                Assert.That(s2.Properties["c"], Is.EqualTo("55"));
             }
 
         }

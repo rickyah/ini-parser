@@ -33,12 +33,12 @@ mykey1 = value1
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
 
-            Assert.That(section1.Keys, Is.Not.Null);
-            Assert.That(section1.Keys.Count, Is.EqualTo(2));
-            Assert.That(section1.Keys.GetKeyData("key1"), Is.Not.Null);
-            Assert.That(section1.Keys["key1"], Is.EqualTo("value1"));
-            Assert.That(section1.Keys.GetKeyData("key2"), Is.Not.Null);
-            Assert.That(section1.Keys["key2"], Is.EqualTo("value5"));
+            Assert.That(section1.Properties, Is.Not.Null);
+            Assert.That(section1.Properties.Count, Is.EqualTo(2));
+            Assert.That(section1.Properties.GetKeyData("key1"), Is.Not.Null);
+            Assert.That(section1.Properties["key1"], Is.EqualTo("value1"));
+            Assert.That(section1.Properties.GetKeyData("key2"), Is.Not.Null);
+            Assert.That(section1.Properties["key2"], Is.EqualTo("value5"));
         }
 
         [Test]
@@ -47,8 +47,8 @@ mykey1 = value1
             IniData data = new IniData();
 
             data.Sections.AddSection("newSection1");
-            data.Sections["newSection1"].AddKey("newKey1", "newValue1");
-            data.Sections["newSection1"].AddKey("newKey2", "newValue5");
+            data.Sections["newSection1"].AddKeyAndValue("newKey1", "newValue1");
+            data.Sections["newSection1"].AddKeyAndValue("newKey2", "newValue5");
 
             string result = data.ToString();
 

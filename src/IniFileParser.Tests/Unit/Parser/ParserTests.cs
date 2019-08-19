@@ -39,12 +39,12 @@ mykey1 = value1
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
 
-            Assert.That(section1.Keys, Is.Not.Null);
-            Assert.That(section1.Keys.Count, Is.EqualTo(2));
-            Assert.That(section1.Keys.GetKeyData("key1"), Is.Not.Null);
-            Assert.That(section1.Keys["key1"], Is.EqualTo("value1"));
-            Assert.That(section1.Keys.GetKeyData("key2"), Is.Not.Null);
-            Assert.That(section1.Keys["key2"], Is.EqualTo("value5"));
+            Assert.That(section1.Properties, Is.Not.Null);
+            Assert.That(section1.Properties.Count, Is.EqualTo(2));
+            Assert.That(section1.Properties.GetKeyData("key1"), Is.Not.Null);
+            Assert.That(section1.Properties["key1"], Is.EqualTo("value1"));
+            Assert.That(section1.Properties.GetKeyData("key2"), Is.Not.Null);
+            Assert.That(section1.Properties["key2"], Is.EqualTo("value5"));
         }
          
         string iniFileStrCustom = 
@@ -83,12 +83,12 @@ mykey1 = value1
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
 
-            Assert.That(section1.Keys, Is.Not.Null);
-            Assert.That(section1.Keys.Count, Is.EqualTo(2));
-            Assert.That(section1.Keys.GetKeyData("key1"), Is.Not.Null);
-            Assert.That(section1.Keys["key1"], Is.EqualTo("value1"));
-            Assert.That(section1.Keys.GetKeyData("key2"), Is.Not.Null);
-            Assert.That(section1.Keys["key2"], Is.EqualTo("value5"));
+            Assert.That(section1.Properties, Is.Not.Null);
+            Assert.That(section1.Properties.Count, Is.EqualTo(2));
+            Assert.That(section1.Properties.GetKeyData("key1"), Is.Not.Null);
+            Assert.That(section1.Properties["key1"], Is.EqualTo("value1"));
+            Assert.That(section1.Properties.GetKeyData("key2"), Is.Not.Null);
+            Assert.That(section1.Properties["key2"], Is.EqualTo("value5"));
         }
 
         [Test, Ignore("no writing tests")]
@@ -130,8 +130,8 @@ value1 = 10";
             IniData data = parser.Parse(ini_duplicated_keys);
 
             Assert.That(data, Is.Not.Null);
-            Assert.That(data.Sections.GetSectionData("seccion1").Keys.Count, Is.EqualTo(1));
-            Assert.That(data.Sections.GetSectionData("seccion1").Keys["value1"], Is.EqualTo("10.6"));
+            Assert.That(data.Sections.GetSectionData("seccion1").Properties.Count, Is.EqualTo(1));
+            Assert.That(data.Sections.GetSectionData("seccion1").Properties["value1"], Is.EqualTo("10.6"));
         }
 
         [Test, Description("Test for Issue 9: http://code.google.com/p/ini-parser/issues/detail?id=9")]
@@ -208,7 +208,7 @@ key2 = value5";
 
             Assert.That(iniData.Sections.ContainsSection("123_1"), Is.True);
             Assert.That(iniData.Sections.ContainsSection("123_2"), Is.True);
-            Assert.That(iniData.Sections.GetSectionData("123_1").Keys, Has.Count.EqualTo(3));
+            Assert.That(iniData.Sections.GetSectionData("123_1").Properties, Has.Count.EqualTo(3));
             Assert.That(iniData["123_1"]["key4"], Is.EqualTo("value4"));
             Assert.That(iniData["123_1"]["key2"], Is.EqualTo("value2"));
 
