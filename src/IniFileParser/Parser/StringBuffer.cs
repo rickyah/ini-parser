@@ -280,10 +280,14 @@ namespace IniParser.Parser
         public bool StartsWith(string str)
         {
             if (string.IsNullOrEmpty(str)) return false;
+            if (IsEmpty) return false;
 
-            for (int idx = _bufferIndexes.start; idx < str.Length; ++idx)
+            int strIdx = 0;
+            int bufferIdx = _bufferIndexes.start;
+
+            for (; strIdx < str.Length; ++strIdx, ++bufferIdx)
             {
-                if (str[idx] != _buffer[idx]) return false;
+                if (str[strIdx] != _buffer[bufferIdx]) return false;
             }
 
             return true;

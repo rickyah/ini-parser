@@ -164,8 +164,8 @@ namespace IniParser.Parser
                 }
             }
 
-
             if (HasError) return null;
+
             return iniData;
         }
 
