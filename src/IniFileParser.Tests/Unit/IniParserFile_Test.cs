@@ -1,45 +1,22 @@
-using System.IO;
 using IniParser.Exceptions;
 using IniParser.Model;
 using NUnit.Framework;
-using IniParser;
+using IniParser.Parser;
 
 namespace IniFileParser.Tests.Unit
 {
     [TestFixture, Category("File loading/saving tests")]
     public class IniParserFileTest
     {
-        readonly string strGoodINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIFileGOOD.ini");
-        readonly string strBadINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory,  @"INIfileBAD.ini");
-        readonly string strEmptyINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIFileEMPTY.ini");
-        readonly string strBadSectionINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIfileBADSection.ini");
-        readonly string strBadKeysINIFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, @"INIfileBADKeys.ini");
-
-        FileIniDataParser iniParser = new FileIniDataParser();
-
-        [SetUp]
-        public void SetUp()
-        {
-        
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-        }
-
-        [Test, Description("Checks existence of test INI files")]
-        public void CheckTestFilesExists()
-        {
-            Assert.That(File.Exists(strGoodINIFilePath), "Correct INI file {0} does not exists", strGoodINIFilePath);
-            Assert.That(File.Exists(strBadINIFilePath), "Invalid INI file {0} does not exists", strBadINIFilePath);
-            Assert.That(File.Exists(strEmptyINIFilePath), "Empty INI file {0} does not exists", strEmptyINIFilePath);
-        }
+        IniDataParser iniParser = new IniDataParser();
 
         [Test, Description("Checks correct parsing of an empty INI file")]
         public void CheckParseEmptyFileSuccess()
         {
-            IniData parsedData = iniParser.ReadFile(strEmptyINIFilePath);
+            var ini = @" 
+ 
+      ";
+            IniData parsedData = iniParser.Parse(ini);
 
             Assert.That(parsedData, Is.Not.Null);
         }
@@ -47,7 +24,14 @@ namespace IniFileParser.Tests.Unit
         [Test, Description("Checks correct parsing of a well formed INI file")]
         public void CheckParseGoodFileSuccess()
         {
-            IniData parsedData = iniParser.ReadFile(strGoodINIFilePath);
+            var ini = @";comentario1
+;comentario 2
+[seccion1]
+
+;valor de control
+value1 = 10.6";
+
+            IniData parsedData = iniParser.Parse(ini);
 
             Assert.That(parsedData, Is.Not.Null);
         }
@@ -56,20 +40,48 @@ namespace IniFileParser.Tests.Unit
         
         public void CheckParsingFailure()
         {
-            Assert.Throws(typeof(ParsingException), () => iniParser.ReadFile(strBadINIFilePath));
+            var ini = @"asdfasf [seccion1] fdsafsd
+   value2  =   jelou
+
+[seccion 2]    adsfa
+;
+value3 = que tal estas
+
+  [ [section   3] dsf a 
+   
+ ; comentario1
+ fsadfsad  ;comentario2";
+            Assert.Throws(typeof(ParsingException), () => iniParser.Parse(ini));
         }
 
         [Test, Description("Checks bad formed INI file: Two sections with same name")]
         public void CheckCollideSectionNames()
         {
-            iniParser.Parser.Configuration.SkipInvalidLines = false;
-            Assert.Throws(typeof(ParsingException), () => iniParser.ReadFile(strBadSectionINIFilePath));
+            var ini = @";comentario1
+[seccion1] ;comentario 2
+
+;valor de control
+value1 = 10.6
+
+[seccion1]
+value2 = 10.6";
+
+            iniParser.Configuration.SkipInvalidLines = false;
+
+            Assert.Throws(typeof(ParsingException), () => iniParser.Parse(ini));
         }
 
         [Test, Description("Checks bad formed INI file: Two keys in the same section with same name")]
         public void CheckCollideKeysNames()
         {
-            Assert.Throws(typeof(ParsingException), () => iniParser.ReadFile(strBadKeysINIFilePath));
+            var ini = @";comentario1
+[seccion1] ;comentario 2
+
+;valor de control
+value1 = 10.6
+value1 = 10";
+
+            Assert.Throws(typeof(ParsingException), () => iniParser.Parse(ini));
         }
     }
 }

@@ -57,10 +57,8 @@ mykey1 = value1
             // Check special characters as part of the key/value name
             Assert.That(section1.Properties["key;2"], Is.EqualTo("va:lu;e.5"));
 
-
-            //
+            // Bad section name (space missing)
             var section2 = data.Sections.GetSectionData("section2");
-            // Bad section name
             Assert.That(section2, Is.Null);
 
             // Beware: leading and trailing whitespaces are ignored by default!
@@ -73,22 +71,6 @@ mykey1 = value1
             Assert.That(section2.Properties.GetKeyData("mykey1").Comments, Is.Not.Empty);
             Assert.That(section2.Properties.GetKeyData("mykey1").Comments.Count, Is.EqualTo(1));
             Assert.That(section2.Properties.GetKeyData("mykey1").Comments[0], Is.EqualTo("comment for myKey1"));
-        }
-
-        [Test, Ignore("no writing tests")]
-        public void check_ini_writing()
-        {
-            IniData data = new IniDataParser().Parse(iniFileStr);
-
-            // ini file string with not-needed whitespace trimmed
-            var dataAsString = data.ToString();
-
-            // Generates a valid data file
-            IniData data2 = new IniDataParser().Parse(dataAsString);
-
-
-            // check all strings are equal
-            Assert.That(dataAsString, Is.EqualTo(data2.ToString()));
         }
     }
 }
