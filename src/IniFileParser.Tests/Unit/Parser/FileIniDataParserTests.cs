@@ -57,10 +57,7 @@ namespace IniFileParser.Tests.Unit.Parser
             parser.Parser.Configuration.ThrowExceptionsOnError = true;
 
             var filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "unicode_chinese.ini");
-            var iniFileData = parser.ReadFile(filePath);
-
-            // If you want to write the file you must specify the encoding
-            //parser.WriteFile("unicode_chinese_copy.ini", iniFileData, Encoding.UTF8);
+            parser.ReadFile(filePath);
         }
     }
 }
