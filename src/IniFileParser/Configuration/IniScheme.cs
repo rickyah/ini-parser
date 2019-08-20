@@ -1,4 +1,6 @@
-﻿namespace IniParser.Model.Configuration
+﻿using IniParser.Model;
+
+namespace IniParser.Configuration
 {
     public interface IIniScheme
     {

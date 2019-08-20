@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using IniParser.Exceptions;
-using IniParser.Model;
-using IniParser.Model.Configuration;
+using IniParser.Configuration;
 using System.Collections.ObjectModel;
 using System.IO;
+using IniParser.Parser;
+using IniParser.Model;
 using static IniParser.Parser.StringBuffer;
 
-namespace IniParser.Parser
+namespace IniParser
 {
     /// <summary>
 	/// 	Responsible for parsing an string from an ini file, and creating
@@ -216,7 +217,7 @@ namespace IniParser.Parser
         }
 
         protected virtual bool ProcessComment(StringBuffer currentLine)
-        {
+        { 
             // Line is  med when it came here, so we only need to check if
             // the first characters are those of the comments
             if (currentLine.StartsWith(Scheme.CommentString))

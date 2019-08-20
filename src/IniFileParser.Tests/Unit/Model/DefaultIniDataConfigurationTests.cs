@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IniParser.Model;
-using IniParser.Model.Configuration;
+using IniParser.Configuration;
 using NUnit.Framework;
 
 namespace IniFileParser.Tests.Unit.Model
@@ -89,8 +89,6 @@ namespace IniFileParser.Tests.Unit.Model
             kd.Value = "t";
             Assert.That(kd2.Value, Is.EqualTo(strValueTest));
             Assert.That(kd.Value, Is.EqualTo("t"));
-
         }
-         
     }
 }

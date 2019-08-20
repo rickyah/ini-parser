@@ -1,13 +1,11 @@
-﻿using System;
-using IniParser.Model;
-using IniParser.Model.Configuration;
-using IniParser.Parser;
+﻿using IniParser;
+using IniParser.Configuration;
 using NUnit.Framework;
 
 namespace IniFileParser.Tests.Unit.Configuration
 {
     [TestFixture]
-    public class ConfigurationTests
+    public class ConfigurationOptionsTests
     {
         private IniDataParser _parser;
 

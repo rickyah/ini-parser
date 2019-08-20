@@ -1,7 +1,5 @@
 using System;
-
-using IniParser.Model;
-using IniParser.Parser;
+using IniParser;
 
 namespace IniFileParser.Example
 {

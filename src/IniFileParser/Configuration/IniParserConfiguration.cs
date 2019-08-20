@@ -1,7 +1,7 @@
-﻿
+﻿using IniParser.Model;
 using IniParser.Parser;
 
-namespace IniParser.Model.Configuration
+namespace IniParser.Configuration
 {
     /// <summary>
     ///     Defines data for a Parser configuration object.

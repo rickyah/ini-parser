@@ -1,7 +1,6 @@
+using IniParser;
 using IniParser.Model;
 using NUnit.Framework;
-using IniParser.Parser;
-using IniParser.Model.Configuration;
 
 namespace IniFileParser.Tests.Unit.Model
 {

@@ -1,8 +1,5 @@
-﻿using NUnit.Framework;
-using System;
-
-using IniParser.Parser;
-using IniParser.Model;
+﻿using IniParser;
+using NUnit.Framework;
 
 namespace IniFileParser.Tests.Model
 {

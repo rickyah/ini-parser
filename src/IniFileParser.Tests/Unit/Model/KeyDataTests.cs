@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IniParser;
 using IniParser.Model;
 using NUnit.Framework;
 

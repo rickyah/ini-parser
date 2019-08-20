@@ -1,7 +1,7 @@
-using System;
-using IniParser.Model.Configuration;
+using IniParser.Configuration;
+using IniParser.Model;
 
-namespace IniParser.Model
+namespace IniParser
 {
     /// <summary>
     ///     Represents all data from an INI file
