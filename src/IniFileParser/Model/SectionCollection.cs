@@ -49,7 +49,7 @@ namespace IniParser.Model
             _sectionData = new Dictionary<string, Section>(_searchComparer);
             foreach(var sectionData in ori)
             {
-                _sectionData.Add(sectionData.SectionName, (Section)sectionData.Clone());
+                _sectionData.Add(sectionData.SectionName, sectionData.DeepClone());
             };
         }
 

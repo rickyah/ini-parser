@@ -56,7 +56,7 @@ key = 1
 ";
             var ori = new IniDataParser().Parse(input);
 
-            var copy = (IniData)ori.Clone();
+            var copy = ori.DeepClone();
 
             copy.Global["global"] = "2";
             copy["section"]["key"] = "2";

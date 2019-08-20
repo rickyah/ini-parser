@@ -151,7 +151,7 @@ namespace IniFileParser.Tests.Unit.Model
             section.Properties.AddKeyAndValue("key1", "value1");
             section.Properties.AddKeyAndValue("key2", "value2");
 
-            var copy = (Section)section.Clone();
+            var copy = section.DeepClone();
 
             copy.Properties["key1"] = "value3";
             copy.Properties["key2"] = "value4";

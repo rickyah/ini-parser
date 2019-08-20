@@ -7,7 +7,7 @@ namespace IniParser.Model
     ///     Information associated to a key from an INI file.
     ///     Includes both the value and the comments associated to the key.
     /// </summary>
-    public class Property : ICloneable
+    public class Property : IDeepCloneable<Property>
     {
         #region Initialization
 
@@ -69,15 +69,9 @@ namespace IniParser.Model
 
         #endregion Properties 
 
-        #region ICloneable Members
+        #region IDeepCloneable<T> Members
 
-        /// <summary>
-        ///     Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        ///     A new object that is a copy of this instance.
-        /// </returns>
-        public object Clone()
+        public Property DeepClone()
         {
             return new Property(this);
         }

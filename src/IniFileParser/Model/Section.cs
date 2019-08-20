@@ -7,7 +7,7 @@ namespace IniParser.Model
     ///     Information associated to a section in a INI File
     ///     Includes both the value and the comments associated to the key.
     /// </summary>
-    public class Section : ICloneable
+    public class Section : IDeepCloneable<Section>
     {
         readonly IEqualityComparer<string> _searchComparer;
         #region Initialization
@@ -161,19 +161,11 @@ namespace IniParser.Model
 
         #endregion
 
-        #region ICloneable Members
-
-        /// <summary>
-        ///     Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        ///     A new object that is a copy of this instance.
-        /// </returns>
-        public object Clone()
+        #region IDeepCloneable<T> Members
+        public Section DeepClone()
         {
             return new Section(this);
         }
-
         #endregion
 
         #region Non-public members

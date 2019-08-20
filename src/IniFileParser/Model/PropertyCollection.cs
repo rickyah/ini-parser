@@ -45,15 +45,15 @@ namespace IniParser.Model
         public PropertyCollection(PropertyCollection ori, IEqualityComparer<string> searchComparer)
             : this(searchComparer)
         {
-            foreach (Property key in ori)
+            foreach (Property property in ori)
             {
-                if (_keyData.ContainsKey(key.KeyName))
+                if (_keyData.ContainsKey(property.KeyName))
                 {
-                    _keyData[key.KeyName] = (Property)key.Clone();
+                    _keyData[property.KeyName] = property.DeepClone();
                 }
                 else
                 {
-                    _keyData.Add(key.KeyName, (Property)key.Clone());
+                    _keyData.Add(property.KeyName, property.DeepClone());
                 }
             }
         }

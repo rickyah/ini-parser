@@ -6,7 +6,7 @@ namespace IniParser.Model
     /// <summary>
     ///     Represents all data from an INI file
     /// </summary>
-    public class IniData : ICloneable
+    public class IniData : IDeepCloneable<IniData>
     {
         #region Non-Public Members
         /// <summary>
@@ -146,7 +146,7 @@ namespace IniParser.Model
         //}
         #endregion
 
-        #region ICloneable Members
+        #region IDeelCloneable<T> Members
 
         /// <summary>
         ///     Creates a new object that is a copy of the current instance.
@@ -154,7 +154,7 @@ namespace IniParser.Model
         /// <returns>
         ///     A new object that is a copy of this instance.
         /// </returns>
-        public object Clone()
+        public IniData DeepClone()
         {
             return new IniData(this);
         }

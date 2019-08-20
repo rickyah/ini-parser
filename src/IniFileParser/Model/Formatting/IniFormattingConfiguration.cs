@@ -1,7 +1,7 @@
 ﻿using System;
 namespace IniParser.Model.Configuration
 {
-    public class IniFormattingConfiguration : ICloneable
+    public class IniFormattingConfiguration : IDeepCloneable<IniFormattingConfiguration>
     {
         public IniFormattingConfiguration(/*IIniScheme scheme*/)
         {
@@ -36,22 +36,10 @@ namespace IniParser.Model.Configuration
 
         //public IIniScheme Scheme{ get; private set;}
 
-        #region ICloneable Members
-        /// <summary>
-        /// Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        /// A new object that is a copy of this instance.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public IniFormattingConfiguration Clone()
+        #region IDeepCloneable<T> Members
+        public IniFormattingConfiguration DeepClone()
         {
             return this.MemberwiseClone() as IniFormattingConfiguration;
-        }
-
-        object ICloneable.Clone()
-        {
-            return this.Clone();
         }
 
         #endregion

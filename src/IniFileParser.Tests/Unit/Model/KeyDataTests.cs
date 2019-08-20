@@ -59,7 +59,7 @@ namespace IniFileParser.Tests.Unit.Model
             kd2.Value = strValueTest;
             kd2.Comments = commentListTest;
 
-            Property kd = kd2.Clone() as Property;
+            Property kd = kd2.DeepClone();
 
             //Assert not null and empty
             Assert.That(kd, Is.Not.Null);
