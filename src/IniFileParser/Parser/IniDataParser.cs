@@ -115,16 +115,13 @@ namespace IniParser.Parser
             while (_mBuffer.ReadLine())
             {
                 _currentLineNumber++;
+
                 try
                 {
                     ProcessLine(_mBuffer, iniData);
                 }
                 catch (Exception ex)
                 {
-                    //var errorEx = new ParsingException(ex.Message,
-                    //_mBuffer.LineNumber + 1,
-                    //_mBuffer.ToString(),
-                    //ex);
                     _errorExceptions.Add(ex);
                     if (Configuration.ThrowExceptionsOnError)
                     {
@@ -198,6 +195,7 @@ namespace IniParser.Parser
 
             // TODO: change this to a global (IniData level) array of comments
             // Extract comments from current line and store them in a tmp list
+
             if (ProcessComment(currentLine)) return;
 
             if (ProcessSection(currentLine, iniData)) return;
@@ -457,7 +455,7 @@ namespace IniParser.Parser
         uint _currentLineNumber;
 
         // Holds a list of the exceptions catched while parsing
-        List<Exception> _errorExceptions;
+        readonly List<Exception> _errorExceptions;
 
         // Temp list of comments
         readonly List<string> _currentCommentListTemp = new List<string>();
@@ -467,7 +465,7 @@ namespace IniParser.Parser
 
         // Buffer used to hold the current line being processed.
         // Saves allocating a new string
-        StringBuffer _mBuffer = new StringBuffer(256);
+        readonly StringBuffer _mBuffer = new StringBuffer(256);
         #endregion
     }
 }
