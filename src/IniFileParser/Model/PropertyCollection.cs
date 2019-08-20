@@ -318,7 +318,7 @@ namespace IniParser.Model
         /// </summary>
         private readonly Dictionary<string, Property> _keyData;
 
-        IEqualityComparer<string> _searchComparer;
+        readonly IEqualityComparer<string> _searchComparer;
         #endregion
 
     }

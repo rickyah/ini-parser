@@ -9,7 +9,6 @@ namespace IniParser.Model
     /// </summary>
     public class SectionCollection : IDeepCloneable<SectionCollection>, IEnumerable<Section>
     {
-        IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         /// <summary>
@@ -249,8 +248,9 @@ namespace IniParser.Model
         /// <summary>
         /// Data associated to this section
         /// </summary>
-        private readonly Dictionary<string, Section> _sectionData;
+        readonly Dictionary<string, Section> _sectionData;
 
+        readonly IEqualityComparer<string> _searchComparer;
         #endregion
 
     }
