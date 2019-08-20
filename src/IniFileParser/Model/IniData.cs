@@ -1,6 +1,5 @@
 using System;
 using IniParser.Model.Configuration;
-using IniParser.Model.Formatting;
 
 namespace IniParser.Model
 {
@@ -13,7 +12,6 @@ namespace IniParser.Model
         /// <summary>
         ///     Represents all sections from an INI file
         /// </summary>
-        SectionCollection _sections;
         protected IniScheme _schemeInternal;
         #endregion
 
@@ -25,9 +23,8 @@ namespace IniParser.Model
         public IniData() 
         {
             Global = new PropertyCollection();
-            _sections = new SectionCollection();
+            Sections = new SectionCollection();
             _schemeInternal = new IniScheme();
-            SectionKeySeparator = '.';
         }
         
         /// <summary>
@@ -51,13 +48,13 @@ namespace IniParser.Model
         public IniData(SectionCollection sdc)
             :this()
         {
-            _sections = (SectionCollection)sdc.DeepClone();
+            Sections = sdc.DeepClone();
         }
 
         public IniData(IniData ori)
         {
-            _sections = ori._sections.DeepClone();
-            Global = (PropertyCollection)ori.Global.DeepClone();
+            Sections = ori.Sections.DeepClone();
+            Global = ori.Global.DeepClone();
             Configuration = ori.Configuration.DeepClone();
         }
         #endregion
@@ -74,7 +71,6 @@ namespace IniParser.Model
         ///     Defaults to false.
         /// </remarks>
         public bool CreateSectionsIfTheyDontExist { get; set; } = false;
-
 
         /// <summary>
         ///     Configuration used to write an ini file with the proper
@@ -120,13 +116,13 @@ namespace IniParser.Model
         {
             get
             {
-                if (!_sections.ContainsSection(sectionName))
+                if (!Sections.ContainsSection(sectionName))
                     if (CreateSectionsIfTheyDontExist)
-                        _sections.AddSection(sectionName);
+                        Sections.AddSection(sectionName);
                     else
                         return null;
 
-                return _sections[sectionName];
+                return Sections[sectionName];
             }
         }
 
@@ -134,11 +130,7 @@ namespace IniParser.Model
         /// Gets or sets all the <see cref="Section"/> 
         /// for this IniData instance.
         /// </summary>
-        public SectionCollection Sections
-        {
-            get { return _sections; }
-            set { _sections = value; }
-        }
+        public SectionCollection Sections { get; set; }
 
         /// <summary>
         ///     Used to mark the separation between the section name and the key name 
