@@ -56,6 +56,25 @@ namespace IniParser.Parser
             get { return _errorExceptions.AsReadOnly(); }
         }
         #endregion
+        /// <summary>
+        ///     Reads data in INI format from a stream.
+        /// </summary>
+        /// <param name="reader">Reader stream.</param>
+        /// <returns>
+        ///     And <see cref="IniData"/> instance with the readed ini data parsed.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="reader"/> is <c>null</c>.
+        /// </exception>
+        public IniData Parse(StreamReader reader)
+        { 
+            if (reader == null)
+            {
+                throw new ArgumentNullException("reader");
+            }
+
+            return Parse(new StringReader(reader.ReadToEnd()));
+        }
 
         /// <summary>
         ///     Parses a string containing valid ini data
