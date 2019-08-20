@@ -43,8 +43,7 @@
     /// Used IniDataParser to read INI files, and an IIniDataFormatter to write a new ini file string.
     /// </summary>
 	public class IniScheme : IIniScheme,
-                             IDeepCloneable<IniScheme>,
-                             IOverwritable<IniScheme>
+                             IDeepCloneable<IniScheme>
     {
         /// <summary>
         ///     Ctor.
@@ -78,9 +77,12 @@
         /// <param name="ori">
         ///     Original instance to be copied.
         /// </param>
-        public IniScheme(IniScheme ori)
+        IniScheme(IniScheme ori)
         {
-            this.OverwriteWith(ori);
+            PropertyAssigmentString = ori.PropertyAssigmentString;
+            SectionStartString = ori.SectionStartString;
+            SectionEndString = ori.SectionEndString;
+            CommentString = ori.CommentString;
         }
 
         #region IIniScheme Members
@@ -102,18 +104,5 @@
             return new IniScheme(this);
         }
         #endregion
-
-        #region IOverwritable<T> Members
-        public void OverwriteWith(IniScheme ori)
-        {
-            if (ori == null) return;
-
-            PropertyAssigmentString = ori.PropertyAssigmentString;
-            SectionStartString = ori.SectionStartString;
-            SectionEndString = ori.SectionEndString;
-            CommentString = ori.CommentString;
-        }
-        #endregion
     }
-
 }

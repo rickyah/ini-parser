@@ -14,8 +14,7 @@ namespace IniParser.Model.Configuration
     ///     the ini file (e.g. change the 'comment' caracter from ';' to '#')
     ///     You can also define how the parser should treat errors, or how liberal
     ///     or conservative should it be when parsing files with "strange" formats.
-    public class IniParserConfiguration : IDeepCloneable<IniParserConfiguration>,
-                                          IOverwritable<IniParserConfiguration>
+    public class IniParserConfiguration : IDeepCloneable<IniParserConfiguration>
     {
         /// <summary>
         ///     Default values used if an instance of <see cref="IniDataParser"/>
@@ -31,19 +30,8 @@ namespace IniParser.Model.Configuration
         /// <param name="ori">
         ///     Original instance to be copied.
         /// </param>
-        public IniParserConfiguration(IniParserConfiguration ori)
+        IniParserConfiguration(IniParserConfiguration ori)
         {
-            this.OverwriteWith(ori);
-        }
-
-        #region IOverwritable<T> Members
-        /// <summary>
-        /// Replaces contents of this instance with the parameter
-        /// </summary>
-        public void OverwriteWith(IniParserConfiguration ori)
-        {
-            if (ori == null) return;
-
             AllowKeysWithoutSection = ori.AllowKeysWithoutSection;
             DuplicatePropertiesBehaviour = ori.DuplicatePropertiesBehaviour;
             ConcatenateDuplicatePropertiesString = ori.ConcatenateDuplicatePropertiesString;
@@ -53,7 +41,6 @@ namespace IniParser.Model.Configuration
             TrimSections = ori.TrimSections;
             TrimProperties = ori.TrimProperties;
         }
-        #endregion
 
         /// <summary>
         ///     Retrieving section / keys by name is done with a case-insensitive
@@ -181,6 +168,5 @@ namespace IniParser.Model.Configuration
             return new IniParserConfiguration(this);
         }
         #endregion
-
     }
 }
