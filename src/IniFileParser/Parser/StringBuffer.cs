@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace IniParser.Parser
@@ -54,14 +53,18 @@ namespace IniParser.Parser
 
             public static Range FromIndexWithSize(int start, int size)
             {
-                if (start < 0 || size < 0) return new Range();
+                if (start < 0 || size <= 0) return new Range();
 
                 return new Range { start = start, size = size };
             }
 
             public static Range WithIndexes(int start, int end)
             {
-                if (start < 0 || end < 0) return new Range();
+                if (start < 0 || end < 0 || end - start < 0)
+
+                {
+                    return new Range();
+                }
 
                 return new Range { start = start, size = end - start + 1 };
             }
@@ -73,6 +76,15 @@ namespace IniParser.Parser
                                      end,
                                      size);
             }
+        }
+
+        readonly static int DefaultCapacity = 256;
+
+        public StringBuffer()
+            :this(StringBuffer.DefaultCapacity 
+                 )
+        {
+
         }
 
         public StringBuffer(int capacity)
@@ -299,9 +311,8 @@ namespace IniParser.Parser
                               range.size);
         }
 
-        List<char> _buffer;
         StringReader _dataSource;
-
+        List<char> _buffer;
         Range _bufferIndexes;
     }
 }

@@ -8,7 +8,6 @@ namespace IniFileParser.Tests
     [TestFixture]
     public class StringReaderBufferTest
     {
-
         private StringBuffer InitBufferAndReadLine(string str)
         {
             var buffer = new StringBuffer(str.Length);
@@ -17,7 +16,34 @@ namespace IniFileParser.Tests
             return buffer;
         }
 
+        [Test]
+        public void test_range_creation()
+        {
+            var r1 = StringBuffer.Range.FromIndexWithSize(4, 6);
+            Assert.That(r1.start, Is.EqualTo(4));
+            Assert.That(r1.end, Is.EqualTo(9));
+            Assert.That(r1.size, Is.EqualTo(6));
 
+            var r2 = StringBuffer.Range.WithIndexes(4, 4);
+            Assert.That(r2.start, Is.EqualTo(4));
+            Assert.That(r2.end, Is.EqualTo(4));
+            Assert.That(r2.size, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void test_empty_range()
+        {
+            var r1 = StringBuffer.Range.FromIndexWithSize(4, 0);
+            Assert.That(r1.start, Is.EqualTo(0));
+            Assert.That(r1.end, Is.EqualTo(0));
+            Assert.That(r1.size, Is.EqualTo(0));
+
+            var r2 = StringBuffer.Range.WithIndexes(4, 2);
+            Assert.That(r2.start, Is.EqualTo(0));
+            Assert.That(r2.end, Is.EqualTo(0));
+            Assert.That(r2.size, Is.EqualTo(0));
+        }
+            
         [Test]
         public void check_default_initialization()
         {
@@ -38,6 +64,16 @@ namespace IniFileParser.Tests
             Assert.That(buffer.ToString(), Is.EqualTo(string.Empty));
             Assert.That(buffer.Count, Is.EqualTo(0));
             Assert.That(buffer.ReadLine(), Is.False);
+        }
+
+        [Test]
+        public void check_auto_increases_capacity()
+        {
+            var str = "hello world!";
+            var smallBuffer = new StringBuffer(2);
+            smallBuffer.Reset(new StringReader(str));
+            Assert.That(smallBuffer.ReadLine(), Is.True);
+            Assert.That(smallBuffer.ToString(), Is.EqualTo(str));
         }
 
         [Test]
@@ -97,8 +133,8 @@ namespace IniFileParser.Tests
             var buffer3 = InitBufferAndReadLine(str2);
             buffer3.TrimStart();
             Assert.That(buffer3.ToString(), Is.EqualTo(str2));
-
         }
+
         [Test]
         public void trim()
         {
@@ -126,7 +162,6 @@ namespace IniFileParser.Tests
         {
             var str = @"   hello world!
 ";
-
             var buffer = InitBufferAndReadLine(str);
             Assert.That(buffer.Count, Is.EqualTo(str.Length - Environment.NewLine.Length));
             buffer.Trim();
@@ -208,7 +243,9 @@ namespace IniFileParser.Tests
         public void resize()
         {
             var str = "hello world!";
-            var buffer = InitBufferAndReadLine(str);
+            var originalBuffer = InitBufferAndReadLine(str);
+
+            var buffer = originalBuffer.SwallowCopy();
             buffer.Resize(5);
             Assert.That(buffer.ToString(), Is.EqualTo("hello"));
 
@@ -217,6 +254,17 @@ namespace IniFileParser.Tests
 
             buffer.Resize(-1);
             Assert.That(buffer.ToString(), Is.EqualTo("hello"));
+
+            buffer = originalBuffer.SwallowCopy();
+            buffer.Resize(StringBuffer.Range.FromIndexWithSize(6, 5));
+            Assert.That(buffer.ToString(), Is.EqualTo("world"));
+
+            buffer.Resize(StringBuffer.Range.FromIndexWithSize(1, 2));
+            Assert.That(buffer.ToString(), Is.EqualTo("or"));
+
+            buffer = originalBuffer.SwallowCopy();
+            buffer.Resize(6, 5);
+            Assert.That(buffer.ToString(), Is.EqualTo("world"));
         }
 
         [Test]
@@ -266,7 +314,6 @@ namespace IniFileParser.Tests
 
             buffer.DiscardChanges();
             Assert.That(buffer.ToString(), Is.EqualTo("  hello world! "));
-
         }
 
         [Test]
@@ -277,6 +324,17 @@ namespace IniFileParser.Tests
             Assert.That(buffer.StartsWith("  h"), Is.True);
 
             Assert.That(buffer.StartsWith("hel"), Is.False);
+        }
+
+        [Test]
+        public void convert_to_string()
+        {
+            var str = "hello world!";
+            var buffer = InitBufferAndReadLine(str);
+
+            Assert.That(buffer.ToString(), Is.EqualTo(str));
+            var range = StringBuffer.Range.FromIndexWithSize(6, 5);
+            Assert.That(buffer.ToString(range), Is.EqualTo("world"));
         }
     }
 }
