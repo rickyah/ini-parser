@@ -135,7 +135,7 @@ name = Marble Zone
         }
 
         [Test]
-        public void escape_comment_regex_special_characters()
+        public void comment_string_with_special_characters()
         {
             var iniStr = @"[Section]
                 \Backslash Bcomment
@@ -148,7 +148,7 @@ name = Marble Zone
         }
 
         [Test]
-        public void escape_section_regex_special_characters()
+        public void section_string_with_special_characters()
         {
             var iniStr = @"\section\
                 ;comment
