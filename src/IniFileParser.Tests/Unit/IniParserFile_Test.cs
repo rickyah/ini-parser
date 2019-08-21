@@ -9,7 +9,7 @@ namespace IniFileParser.Tests.Unit
     {
         IniDataParser iniParser = new IniDataParser();
 
-        [Test, Description("Checks correct parsing of an empty INI file")]
+        [Test]
         public void CheckParseEmptyFileSuccess()
         {
             var ini = @" 
@@ -20,7 +20,7 @@ namespace IniFileParser.Tests.Unit
             Assert.That(parsedData, Is.Not.Null);
         }
 
-        [Test, Description("Checks correct parsing of a well formed INI file")]
+        [Test]
         public void CheckParseGoodFileSuccess()
         {
             var ini = @";comentario1
@@ -35,7 +35,7 @@ value1 = 10.6";
             Assert.That(parsedData, Is.Not.Null);
         }
 
-        [Test, Description("Checks error when parsing a bad formed INI file")]
+        [Test]
         
         public void CheckParsingFailure()
         {
@@ -53,7 +53,7 @@ value3 = que tal estas
             Assert.Throws(typeof(ParsingException), () => iniParser.Parse(ini));
         }
 
-        [Test, Description("Checks bad formed INI file: Two sections with same name")]
+        [Test]
         public void CheckCollideSectionNames()
         {
             var ini = @";comentario1
@@ -70,7 +70,7 @@ value2 = 10.6";
             Assert.Throws(typeof(ParsingException), () => iniParser.Parse(ini));
         }
 
-        [Test, Description("Checks bad formed INI file: Two keys in the same section with same name")]
+        [Test]
         public void CheckCollideKeysNames()
         {
             var ini = @";comentario1
