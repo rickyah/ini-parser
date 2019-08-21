@@ -52,10 +52,11 @@ namespace IniParser.Configuration
         public bool CaseInsensitive { get; set; } = false;
 
         /// <summary>
-        ///     Allows having keys in the file that don't belong to any section.
-        ///     i.e. allows defining keys before defining a section.
-        ///     If set to false and keys without a section are defined,
-        ///     the <see cref="IniDataParser"/> will stop with an error.
+        ///     Allows having keys at the begining of the file, before any section 
+        ///     is defined. Those keys  don't belong to any section and are stored in 
+        ///     the <see cref="IniData.Global"/> special field.
+        ///     If set to false and the ini file contains keys outside a section,
+        ///     the parser will stop with an error.
         /// </summary>
         /// <remarks>
         ///     Defaults to true.
@@ -130,9 +131,12 @@ namespace IniParser.Configuration
         public bool AllowDuplicateSections { get; set; } = false;
 
         /// <summary>
-        ///     If set to true, it continues parsing the file even if a bad formed line is found
-        ///     If set to false, it will throw an exception the moment the parser finds a 
-        ///     bad formed line.
+        ///     If set to true, it continues parsing the file even if a bad formed line 
+        ///     is found, but does not count as an error found (i.e. 
+        ///     <see cref="IniDataParser.HasError"/> will return false)
+        ///     If set to false, it will throw an exception or track an error, 
+        ///     depending on the value of <see cref="ThrowExceptionsOnError"/>,
+        ///     when the parser encounters a badly formed line.
         /// </summary>
         /// <remarks>
         ///     Defaults to false.

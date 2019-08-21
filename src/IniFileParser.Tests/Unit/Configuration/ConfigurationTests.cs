@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace IniFileParser.Tests.Unit.Configuration
 {
     [TestFixture]
-    public class ConfigurationOptionsTests
+    public class ConfigurationTests
     {
         private IniDataParser _parser;
 

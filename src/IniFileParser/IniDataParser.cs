@@ -190,9 +190,7 @@ namespace IniParser
         protected virtual void ProcessLine(StringBuffer currentLine,
                                            IniData iniData)
         {
-            currentLine.Trim();
-
-            if (currentLine.IsEmpty) return;
+            if (currentLine.IsEmpty || currentLine.IsWhitespace) return;
 
             // TODO: change this to a global (IniData level) array of comments
             // Extract comments from current line and store them in a tmp list
@@ -217,26 +215,30 @@ namespace IniParser
         }
 
         protected virtual bool ProcessComment(StringBuffer currentLine)
-        { 
+        {
             // Line is  med when it came here, so we only need to check if
             // the first characters are those of the comments
-            if (currentLine.StartsWith(Scheme.CommentString))
+            var currentLineTrimmed = currentLine.SwallowCopy();
+            currentLineTrimmed.TrimStart();
+
+            if (!currentLineTrimmed.StartsWith(Scheme.CommentString))
             {
-                var commentRange = currentLine.FindSubstring(Scheme.CommentString);
-                if (commentRange.IsEmpty) return false;
-
-                var startIdx = commentRange.start + Scheme.CommentString.Length;
-                var size = currentLine.Count - Scheme.CommentString.Length;
-                var range = Range.FromIndexWithSize(startIdx, size);
-                var commentStr = currentLine.ToString(range);
-
-                _currentCommentListTemp.Add(commentStr);
-                currentLine.Resize(commentRange.start);
+                return false;
             }
 
-            // If the line was a comment now it should be empty,
-            // so no further processing is needed.
-            return currentLine.Count <= 0;
+            currentLineTrimmed.TrimEnd();
+
+            var commentRange = currentLineTrimmed.FindSubstring(Scheme.CommentString);
+            // Exctract the range of the string that contains the comment but not
+            // the comment delimiter
+            var startIdx = commentRange.start + Scheme.CommentString.Length;
+            var size = currentLineTrimmed.Count - Scheme.CommentString.Length;
+            var range = Range.FromIndexWithSize(startIdx, size);
+
+            var commentStr = currentLineTrimmed.ToString(range);
+            _currentCommentListTemp.Add(commentStr);
+
+            return true;
         }
 
         /// <summary>
@@ -408,6 +410,7 @@ namespace IniParser
                     keyDataCollection[key] = value;
                     break;
                 case IniParserConfiguration.EDuplicatePropertiesBehaviour.AllowAndConcatenateValues:
+                    keyDataCollection[key] += Configuration.ConcatenateDuplicatePropertiesString + value; 
                     break;
             }
         }
