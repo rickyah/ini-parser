@@ -170,6 +170,15 @@ namespace IniFileParser.Tests
         }
 
         [Test]
+        public void test_whitespace_buffer()
+        {
+            var str = @"   ";
+            var buffer = InitBufferAndReadLine(str);
+
+            Assert.That(buffer.IsWhitespace, Is.True);
+        }
+
+        [Test]
         public void find_substring()
         {
             var str = "hello wor world!";

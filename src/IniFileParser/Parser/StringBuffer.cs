@@ -105,6 +105,21 @@ namespace IniParser.Parser
             get { return _bufferIndexes.IsEmpty; }
         }
 
+        public bool IsWhitespace
+        {
+            get
+            {
+                int startIdx = _bufferIndexes.start;
+                while (startIdx <= _bufferIndexes.end
+                    && char.IsWhiteSpace(_buffer[startIdx]))
+                {
+                    startIdx++;
+                }
+
+                return startIdx > _bufferIndexes.end;
+            }
+        }
+
         public char this[int idx]
         {
             get
