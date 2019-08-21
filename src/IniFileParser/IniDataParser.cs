@@ -277,7 +277,7 @@ namespace IniParser
             }
 
             var startIdx = sectionStartRange.start + Scheme.SectionStartString.Length;
-            var endIdx = sectionEndRange.end - 1;
+            var endIdx = sectionEndRange.end - Scheme.SectionEndString.Length;
             currentLine.ResizeBetweenIndexes(startIdx, endIdx);
 
             if (Configuration.TrimSections)
