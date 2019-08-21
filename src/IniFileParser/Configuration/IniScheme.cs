@@ -10,7 +10,8 @@ namespace IniParser.Configuration
         ///     to the end of the line.
         /// </summary>
         /// <remarks>
-        ///     Defaults to string ";"
+        ///     Defaults to string ";". 
+        ///     String returned will also be trimmed
         /// </remarks>
         string CommentString { get; }
 
@@ -19,6 +20,7 @@ namespace IniParser.Configuration
         /// </summary>
         /// <remarks>
         ///     Defaults to "["
+        ///     String returned will also be trimmed
         /// </remarks>
         string SectionStartString { get; }
 
@@ -27,6 +29,7 @@ namespace IniParser.Configuration
         /// </summary>
         /// <remarks>
         ///     Defaults to character ']'
+        ///     String returned will also be trimmed
         /// </remarks>
         string SectionEndString { get; }
 
@@ -35,6 +38,7 @@ namespace IniParser.Configuration
         /// </summary>
         /// <remarks>
         ///     Defaults to character '='
+        ///     String returned will also be trimmed
         /// </remarks>
         string PropertyAssigmentString { get; }
     }
@@ -88,11 +92,32 @@ namespace IniParser.Configuration
         }
 
         #region IIniScheme Members
-        public string CommentString { get; set; } = ";";
-        public string SectionStartString { get; set; } = "[";
-        public string SectionEndString { get; set; } = "]";
-        public string PropertyAssigmentString { get; set; } = "=";
+        public string CommentString
+        {
+            get => string.IsNullOrWhiteSpace(_commentString) ? ";" : _commentString;
+            set => _commentString = value?.Trim();
+        }
+        public string SectionStartString
+        {
+            get => string.IsNullOrWhiteSpace(_sectionStartString) ? "[" : _sectionStartString;
+            set => _sectionStartString = value?.Trim();
+        }
+        public string SectionEndString
+        {
+            get => string.IsNullOrWhiteSpace(_sectionEndString) ? "]" : _sectionEndString;
+            set => _sectionEndString = value?.Trim();
+        }
+        public string PropertyAssigmentString
+        {
+            get => string.IsNullOrWhiteSpace(_propertyAssigmentString) ? "=" : _propertyAssigmentString;
+            set => _propertyAssigmentString = value?.Trim();
+        }
         #endregion
+
+        string _commentString = ";";
+        string _sectionStartString = "[";
+        string _sectionEndString = "]";
+        string _propertyAssigmentString = "=";
 
         #region IDeepCloneable<T> Members
         /// <summary>
