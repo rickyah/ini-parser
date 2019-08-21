@@ -235,8 +235,13 @@ namespace IniParser
             var size = currentLineTrimmed.Count - Scheme.CommentString.Length;
             var range = Range.FromIndexWithSize(startIdx, size);
 
-            var commentStr = currentLineTrimmed.ToString(range);
-            _currentCommentListTemp.Add(commentStr);
+            var comment = currentLineTrimmed.Substring(range);
+            if (Configuration.TrimComments)
+            {
+                comment.Trim();
+            }
+            
+            _currentCommentListTemp.Add(comment.ToString());
 
             return true;
         }

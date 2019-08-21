@@ -197,5 +197,24 @@ data2 = 2";
             Assert.That(iniData.Sections.ContainsSection("section1"), Is.False);
             Assert.That(iniData.Sections.ContainsSection("   section1"), Is.True);
         }
+
+        [Test]
+        public void check_trim_comments()
+        {
+            var ini = @"; comment
+[section1]";
+
+            var parser = new IniDataParser();
+
+            var iniData = parser.Parse(ini);
+
+            Assert.That(iniData.Sections.GetSectionData("section1").Comments[0],
+                Is.EqualTo("comment"));
+
+            parser.Configuration.TrimComments = false;
+            iniData = parser.Parse(ini);
+            Assert.That(iniData.Sections.GetSectionData("section1").Comments[0],
+                Is.EqualTo(" comment"));
+        }
     }
 }

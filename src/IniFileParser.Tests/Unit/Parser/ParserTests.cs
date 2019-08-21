@@ -151,7 +151,7 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
                 Is.EqualTo("Server=sqlserver.domain.com;Database=main;User ID=user;Password=password"));
 
             Assert.That(
-                iniData["test"].GetKeyData("connectionString").Comments[0], Is.EqualTo(" a comment"));
+                iniData["test"].GetKeyData("connectionString").Comments[0], Is.EqualTo("a comment"));
         }
 
         [Test, Description("Test for Issue 10: http://code.google.com/p/ini-parser/issues/detail?id=10")]

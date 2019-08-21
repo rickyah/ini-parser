@@ -163,6 +163,16 @@ namespace IniParser.Configuration
         /// </remarks>
         public bool TrimSections { get; set; } = true;
 
+        /// <summary>
+        ///     If set to true, it will trim the whitespace out of the comments when parsing.
+        ///     If set to false, it will consider all the whitespace in the line as part of the
+        ///     comment.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to true.
+        /// </remarks>
+        public bool TrimComments { get; set; } = true;
+
         #region IDeepCloneable<T> Members
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
