@@ -173,6 +173,13 @@ namespace IniParser.Configuration
         /// </remarks>
         public bool TrimComments { get; set; } = true;
 
+        /// <summary>
+        ///     If set to true, it will extract the comments from the parsed text and add them to
+        ///     the data structure
+        ///     If set to false, it will ignore all comments when parsing and not store them
+        ///     saving memory and allocations.
+        /// </summary>
+        public bool ParseComments { get; set; } = true;
         #region IDeepCloneable<T> Members
         /// <summary>
         /// Creates a new object that is a copy of the current instance.

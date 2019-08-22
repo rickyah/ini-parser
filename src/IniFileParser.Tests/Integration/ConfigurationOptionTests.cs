@@ -216,5 +216,23 @@ data2 = 2";
             Assert.That(iniData.Sections.FindByName("section1").Comments[0],
                 Is.EqualTo(" comment"));
         }
+
+        [Test]
+        public void check_parse_comments()
+        {
+            var ini = @"; comment
+[section1]";
+
+            var parser = new IniDataParser();
+
+            var iniData = parser.Parse(ini);
+            Assert.That(iniData.Sections.FindByName("section1").Comments, Has.Count.EqualTo(1));
+
+
+            parser.Configuration.ParseComments = false;
+
+            iniData = parser.Parse(ini);
+            Assert.That(iniData.Sections.FindByName("section1").Comments, Has.Count.EqualTo(0));
+        }
     }
 }

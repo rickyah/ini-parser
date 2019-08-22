@@ -226,6 +226,11 @@ namespace IniParser
                 return false;
             }
 
+            if (!Configuration.ParseComments)
+            {
+                return true;
+            }
+
             currentLineTrimmed.TrimEnd();
 
             var commentRange = currentLineTrimmed.FindSubstring(Scheme.CommentString);
