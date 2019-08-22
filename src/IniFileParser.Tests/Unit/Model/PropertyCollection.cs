@@ -4,10 +4,10 @@ using NUnit.Framework;
 namespace IniFileParser.Tests.Unit.Model
 {
     [TestFixture, Category("Test of data structures used to hold information retrieved for an INI file")]
-    public class KeyDataCollectionTests
+    public class PropertyCollectionTests
     {
         [Test]
-        public void test()
+        public void check_creating_programatically()
         {
             var col = new PropertyCollection();
             col.Add("key1");

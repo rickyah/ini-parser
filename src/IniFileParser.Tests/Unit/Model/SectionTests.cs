@@ -19,13 +19,13 @@ namespace IniFileParser.Tests.Unit.Model
         }
 
         [Test]
-        public void create_section_with_invalid_name()
+        public void check_create_section_with_invalid_name_throws()
         {
             Assert.Throws(typeof(ArgumentException), () => new Section(""));
         }
 
         [Test]
-        public void change_section_name_with_invalid_name()
+        public void check_cannot_change_section_name_with_invalid_name()
         {
             var sd = new Section("section_test");
 
@@ -35,7 +35,7 @@ namespace IniFileParser.Tests.Unit.Model
         }
 
         [Test]
-        public void change_section_name()
+        public void check_change_section_name()
         {
             var sd = new Section("section_test");
 
@@ -48,7 +48,7 @@ namespace IniFileParser.Tests.Unit.Model
         }
 
         [Test]
-        public void add_keys_to_section()
+        public void check_adding_keys_to_section()
         {
             string strKeyTest = "Mykey";
             string strValueTest = "My value";
@@ -83,7 +83,7 @@ namespace IniFileParser.Tests.Unit.Model
         }
 
         [Test]
-        public void remove_key_from_section()
+        public void check_removing_key_from_section()
         {
             string strKeyTest = "Mykey";
 
@@ -124,7 +124,7 @@ namespace IniFileParser.Tests.Unit.Model
         }
 
         [Test]
-        public void check_you_can_merge_sections()
+        public void check_merging_sections()
         {
             var destinySection = new Section("destiny_section");
             var newSection = new Section("new_section");

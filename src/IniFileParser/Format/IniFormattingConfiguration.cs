@@ -3,10 +3,8 @@ namespace IniParser.Configuration
 {
     public class IniFormattingConfiguration : IDeepCloneable<IniFormattingConfiguration>
     {
-        public IniFormattingConfiguration(/*IIniScheme scheme*/)
+        public IniFormattingConfiguration()
         {
-            //Scheme = scheme;
-
             AssigmentSpacer = " ";
             NewLineStr = Environment.NewLine;
         }
@@ -34,12 +32,10 @@ namespace IniParser.Configuration
 
         // TODO: Add property NewLinesBeforeSection (https://github.com/rickyah/ini-parser/issues/121)
 
-        //public IIniScheme Scheme{ get; private set;}
-
         #region IDeepCloneable<T> Members
         public IniFormattingConfiguration DeepClone()
         {
-            return this.MemberwiseClone() as IniFormattingConfiguration;
+            return MemberwiseClone() as IniFormattingConfiguration;
         }
 
         #endregion

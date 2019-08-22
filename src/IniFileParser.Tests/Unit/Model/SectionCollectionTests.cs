@@ -51,8 +51,8 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(sdc[strSectionTest], Is.Null);
         }
 
-        [Test, Description("Test for Issue 29: http://code.google.com/p/ini-parser/issues/detail?id=29")]
-        public void remove_all_keys_in_section_without_deleting_the_section()
+        [Test]
+        public void check_remove_all_keys_in_section_without_deleting_the_section()
         {
             IniData data = new IniData();
             data.Sections.Add("test");
