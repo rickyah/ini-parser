@@ -5,7 +5,7 @@ namespace IniParser.Model
 {
     /// <summary>
     ///     Information associated to a section in a INI File
-    ///     Includes both the value and the comments associated to the key.
+    ///     Includes both the properties and the comments associated to the section.
     /// </summary>
     public class Section : IDeepCloneable<Section>
     {
@@ -29,8 +29,8 @@ namespace IniParser.Model
                 throw new ArgumentException("section name can not be empty", nameof(sectionName));
 
             _comments = new List<string>();
-            _keyDataCollection = new PropertyCollection(_searchComparer);
-            SectionName = sectionName;
+            _properties = new PropertyCollection(_searchComparer);
+            Name = sectionName;
         }
 
         /// <summary>
@@ -49,11 +49,11 @@ namespace IniParser.Model
         /// </param>
         public Section(Section ori, IEqualityComparer<string> searchComparer = null)
         {
-            SectionName = ori.SectionName;
+            Name = ori.Name;
 
             _searchComparer = searchComparer;
             _comments = new List<string>(ori._comments);
-            _keyDataCollection = new PropertyCollection(ori._keyDataCollection, searchComparer ?? ori._searchComparer);
+            _properties = new PropertyCollection(ori._properties, searchComparer ?? ori._searchComparer);
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace IniParser.Model
 		#region Operations
 
         /// <summary>
-        ///     Deletes all comments in this section and in all the key/value pairs it contains
+        ///     Deletes all comments in this section and in all the properties pairs it contains
         /// </summary>
         public void ClearComments()
         {
@@ -70,17 +70,17 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Deletes all the key-value pairs in this section.
+        /// Deletes all the properties pairs in this section.
         /// </summary>
-		public void ClearKeyData()
+		public void ClearProperties()
 		{
-			Properties.RemoveAllKeys();
+			Properties.Clear();
 		}
 
         /// <summary>
-        ///     Merges otherSection into this, adding new keys if they don't exists
-        ///     or overwriting values if the key already exists.
-        /// Comments get appended.
+        ///     Merges otherSection into this, adding new properties if they 
+        ///     did not existed or overwriting values if the properties already 
+        ///     existed.
         /// </summary>
         /// <remarks>
         ///     Comments are also merged but they are always added, not overwritten.
@@ -104,17 +104,17 @@ namespace IniParser.Model
         /// <value>
         ///     The name of the section
         /// </value>
-        public string SectionName
+        public string Name
         {
             get
             {
-                return _sectionName;
+                return _name;
             }
 
             set
             {
                 if (!string.IsNullOrEmpty(value))
-                    _sectionName = value;
+                    _name = value;
             }
         }
 
@@ -135,13 +135,10 @@ namespace IniParser.Model
             {
                 _comments = value;
             }
-
-
-
         }
 
         /// <summary>
-        ///     Gets or sets the keys associated to this section.
+        ///     Gets or sets the properties associated to this section.
         /// </summary>
         /// <value>
         ///     A collection of Property objects.
@@ -150,12 +147,12 @@ namespace IniParser.Model
         {
             get
             {
-                return _keyDataCollection;
+                return _properties;
             }
 
             set
             {
-                _keyDataCollection = value;
+                _properties = value;
             }
         }
 
@@ -173,10 +170,10 @@ namespace IniParser.Model
         // Comments associated to this section
         List<string> _comments;
 
-        // Keys associated to this section
-        private PropertyCollection _keyDataCollection;
+        // Properties associated to this section
+        private PropertyCollection _properties;
 
-        private string _sectionName;
+        private string _name;
         #endregion
     }
 }

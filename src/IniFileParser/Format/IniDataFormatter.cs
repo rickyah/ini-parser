@@ -41,7 +41,7 @@ namespace IniParser.Format
             //Write section name
             sb.Append(string.Format("{0}{1}{2}{3}",
                                     scheme.SectionStartString,
-                                    section.SectionName,
+                                    section.Name,
                                     scheme.SectionEndString,
                                     format.NewLineStr));
 
@@ -67,7 +67,7 @@ namespace IniParser.Format
 
                 //Write key and value
                 sb.Append(string.Format("{0}{3}{1}{3}{2}{4}",
-                                        keyData.KeyName,
+                                        keyData.Name,
                                         scheme.PropertyAssigmentString,
                                         keyData.Value,
                                         format.AssigmentSpacer,

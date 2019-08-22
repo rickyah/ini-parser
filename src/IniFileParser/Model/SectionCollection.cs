@@ -28,7 +28,7 @@ namespace IniParser.Model
         {
             _searchComparer = searchComparer;
 
-            _sectionData = new Dictionary<string, Section>(_searchComparer);
+            _sections = new Dictionary<string, Section>(_searchComparer);
         }
 
         /// <summary>
@@ -45,10 +45,10 @@ namespace IniParser.Model
         {
             _searchComparer = searchComparer ?? EqualityComparer<string>.Default;
                 
-            _sectionData = new Dictionary<string, Section>(_searchComparer);
+            _sections = new Dictionary<string, Section>(_searchComparer);
             foreach(var sectionData in ori)
             {
-                _sectionData.Add(sectionData.SectionName, sectionData.DeepClone());
+                _sections.Add(sectionData.Name, sectionData.DeepClone());
             };
         }
 
@@ -59,20 +59,20 @@ namespace IniParser.Model
         /// <summary>
         /// Returns the number of Section elements in the collection
         /// </summary>
-        public int Count { get { return _sectionData.Count; } }
+        public int Count { get { return _sections.Count; } }
 
         /// <summary>
-        /// Gets the key data associated to a specified section name.
+        /// Gets the Properties  associated to a specified section name.
         /// </summary>
         /// <value>An instance of as <see cref="PropertyCollection"/> class 
-        /// holding the key data from the current parsed INI data, or a <c>null</c>
+        /// holding the properties in the given section, or a <c>null</c>
         /// value if the section doesn't exist.</value>
         public PropertyCollection this[string sectionName]
         {
             get
             {
-                if ( _sectionData.ContainsKey(sectionName) )
-                    return _sectionData[sectionName].Properties;
+                if ( _sections.ContainsKey(sectionName) )
+                    return _sections[sectionName].Properties;
 
                 return null;
             }
@@ -92,11 +92,11 @@ namespace IniParser.Model
         /// <return>true if the a new section with the specified name was added,
         /// false otherwise</return>
         /// <exception cref="ArgumentException">If the section name is not valid.</exception>
-        public bool AddSection(string sectionName)
+        public bool Add(string sectionName)
         {
-            if ( !ContainsSection(sectionName) )
+            if ( !Contains(sectionName) )
             {
-                _sectionData.Add( sectionName, new Section(sectionName, _searchComparer) );
+                _sections.Add( sectionName, new Section(sectionName, _searchComparer) );
                 return true;
             }
 
@@ -109,13 +109,13 @@ namespace IniParser.Model
         /// <param name="data">Data.</param>
         public void Add(Section data)
         {
-            if (ContainsSection(data.SectionName))
+            if (Contains(data.Name))
             {
-                SetSectionData(data.SectionName, new Section(data, _searchComparer));
+                _sections[data.Name] = new Section(data, _searchComparer);
             }
             else
             {
-                _sectionData.Add(data.SectionName, new Section(data, _searchComparer));
+                _sections.Add(data.Name, new Section(data, _searchComparer));
             }
         }
 
@@ -124,21 +124,21 @@ namespace IniParser.Model
         /// </summary>
         public void Clear()
         {
-            _sectionData.Clear();
+            _sections.Clear();
         }
 
 
         /// <summary>
         /// Gets if a section with a specified name exists in the collection.
         /// </summary>
-        /// <param name="keyName">Name of the section to search</param>
+        /// <param name="sectionName">Name of the section to search</param>
         /// <returns>
         /// true if a section with the specified name exists in the
         ///  collection false otherwise
         /// </returns>
-        public bool ContainsSection(string keyName)
+        public bool Contains(string sectionName)
         {
-            return _sectionData.ContainsKey(keyName);
+            return _sections.ContainsKey(sectionName);
         }
 
         /// <summary>
@@ -149,10 +149,10 @@ namespace IniParser.Model
         /// An instance of a <see cref="Section"/> class 
         /// holding the section data for the currently INI data
         /// </returns>
-        public Section GetSectionData(string sectionName)
+        public Section FindByName(string sectionName)
         {
-            if (_sectionData.ContainsKey(sectionName))
-                return _sectionData[sectionName];
+            if (_sections.ContainsKey(sectionName))
+                return _sections[sectionName];
 
             return null;
         }
@@ -161,39 +161,28 @@ namespace IniParser.Model
         {
             foreach(var sectionDataToMerge in sectionsToMerge)
             {
-                var sectionDataInThis = GetSectionData(sectionDataToMerge.SectionName);
+                var sectionDataInThis = FindByName(sectionDataToMerge.Name);
 
                 if (sectionDataInThis == null)
                 {
-                    AddSection(sectionDataToMerge.SectionName);
+                    Add(sectionDataToMerge.Name);
                 }
 
-                this[sectionDataToMerge.SectionName].Merge(sectionDataToMerge.Properties);
+                this[sectionDataToMerge.Name].Merge(sectionDataToMerge.Properties);
             }
         }
 
+
         /// <summary>
-        /// Sets the section data for given a section name.
+        /// Removes the section with the given name and all its properties
         /// </summary>
         /// <param name="sectionName"></param>
-        /// <param name="data">The new <see cref="Section"/>instance.</param>
-        public void SetSectionData(string sectionName, Section data)
-        {
-            if ( data != null )
-                _sectionData[sectionName] = data;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="keyName"></param>
         /// <return>true if the section with the specified name was removed, 
         /// false otherwise</return>
-        public bool RemoveSection(string keyName)
+        public bool Remove(string sectionName)
         {
-            return _sectionData.Remove(keyName);
+            return _sections.Remove(sectionName);
         }
-
 
         #endregion
 
@@ -207,8 +196,8 @@ namespace IniParser.Model
         /// </returns>
         public IEnumerator<Section> GetEnumerator()
         {
-            foreach (string sectionName in _sectionData.Keys)
-                yield return _sectionData[sectionName];
+            foreach (string sectionName in _sections.Keys)
+                yield return _sections[sectionName];
         }
 
         #endregion
@@ -248,7 +237,7 @@ namespace IniParser.Model
         /// <summary>
         /// Data associated to this section
         /// </summary>
-        readonly Dictionary<string, Section> _sectionData;
+        readonly Dictionary<string, Section> _sections;
 
         readonly IEqualityComparer<string> _searchComparer;
         #endregion

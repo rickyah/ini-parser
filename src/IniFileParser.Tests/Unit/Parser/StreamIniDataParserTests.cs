@@ -12,8 +12,8 @@ namespace IniFileParser.Tests.Unit.Parser
         public void write_key_and_value_without_blanks()
         {
 //            var data = new IniData();
-//            data.Sections.AddSection("section1");
-//            data["section1"].AddKey("key1", "value1");
+//            data.Sections.Add("section1");
+//            data["section1"].Add("key1", "value1");
 //            data.Scheme.AssigmentSpacer = "";
 
 //            var parser = new StreamIniDataParser();

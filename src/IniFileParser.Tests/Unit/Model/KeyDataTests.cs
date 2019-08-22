@@ -15,7 +15,7 @@ namespace IniFileParser.Tests.Unit.Model
             var kd = new Property("key_name");
 
             Assert.That(kd, Is.Not.Null);
-            Assert.That(kd.KeyName, Is.EqualTo("key_name"));
+            Assert.That(kd.Name, Is.EqualTo("key_name"));
             Assert.That(kd.Comments, Is.Empty);
             Assert.That(kd.Value, Is.Empty);
         }
@@ -40,7 +40,7 @@ namespace IniFileParser.Tests.Unit.Model
             
             //Assert not null and empty
             Assert.That(kd, Is.Not.Null);
-            Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
+            Assert.That(kd.Name, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
             Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
@@ -64,7 +64,7 @@ namespace IniFileParser.Tests.Unit.Model
 
             //Assert not null and empty
             Assert.That(kd, Is.Not.Null);
-            Assert.That(kd.KeyName, Is.EqualTo(strKeyTest));
+            Assert.That(kd.Name, Is.EqualTo(strKeyTest));
             Assert.That(kd.Value, Is.EqualTo(strValueTest));
             Assert.That(kd.Comments, Has.Count.EqualTo(2));
             Assert.That(kd.Comments[0], Is.EqualTo("testComment 1"));
@@ -98,12 +98,12 @@ namespace IniFileParser.Tests.Unit.Model
         public void correct_comment_assigment_to_keydata()
         {
             IniData inidata = new IniData();
-            inidata.Sections.AddSection("TestSection");
+            inidata.Sections.Add("TestSection");
 
             Property key = new Property("TestKey");
             key.Value = "TestValue";
             key.Comments.Add("This is a comment");
-            inidata["TestSection"].SetKeyData(key);
+            inidata["TestSection"].Add(key);
 
             Assert.That(inidata["TestSection"].GetKeyData("TestKey").Comments[0], Is.EqualTo("This is a comment"));
         }

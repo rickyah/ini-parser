@@ -20,21 +20,21 @@ Data2 = 2";
 
             var iniData = parser.Parse(ini);
 
-            Assert.That(iniData.Sections.GetSectionData("Section1"), 
+            Assert.That(iniData.Sections.FindByName("Section1"), 
                 Is.Not.Null);
-            Assert.That(iniData.Sections.GetSectionData("section1"), 
+            Assert.That(iniData.Sections.FindByName("section1"), 
                 Is.Null);
 
             parser.Configuration.CaseInsensitive = true;
 
             iniData = parser.Parse(ini);
 
-            Assert.That(iniData.Sections.GetSectionData("Section1"), 
+            Assert.That(iniData.Sections.FindByName("Section1"), 
                 Is.Not.Null);
-            Assert.That(iniData.Sections.GetSectionData("section1"), 
+            Assert.That(iniData.Sections.FindByName("section1"), 
                 Is.Not.Null);
-            Assert.That(iniData.Sections.GetSectionData("Section1"), 
-                Is.EqualTo(iniData.Sections.GetSectionData("section1")));
+            Assert.That(iniData.Sections.FindByName("Section1"), 
+                Is.EqualTo(iniData.Sections.FindByName("section1")));
         }
 
         [Test]
@@ -167,16 +167,16 @@ data2 = 2";
 
             var iniData = parser.Parse(ini);
 
-            Assert.That(iniData.Global.ContainsKey("prop1"), Is.True);
-            Assert.That(iniData.Global.ContainsKey("prop2"), Is.True);
+            Assert.That(iniData.Global.Contains("prop1"), Is.True);
+            Assert.That(iniData.Global.Contains("prop2"), Is.True);
             Assert.That(iniData.Global["prop2"], Is.EqualTo("value2"));
 
             parser.Configuration.TrimProperties = false;
             iniData = parser.Parse(ini);
 
-            Assert.That(iniData.Global.ContainsKey("prop1"), Is.True);
-            Assert.That(iniData.Global.ContainsKey("prop2"), Is.False);
-            Assert.That(iniData.Global.ContainsKey("   prop2 "), Is.True);
+            Assert.That(iniData.Global.Contains("prop1"), Is.True);
+            Assert.That(iniData.Global.Contains("prop2"), Is.False);
+            Assert.That(iniData.Global.Contains("   prop2 "), Is.True);
             Assert.That(iniData.Global["   prop2 "], Is.EqualTo("   value2  "));
         }
 
@@ -189,13 +189,13 @@ data2 = 2";
 
             var iniData = parser.Parse(ini);
 
-            Assert.That(iniData.Sections.ContainsSection("section1"), Is.True);
+            Assert.That(iniData.Sections.Contains("section1"), Is.True);
 
             parser.Configuration.TrimSections = false;
             iniData = parser.Parse(ini);
 
-            Assert.That(iniData.Sections.ContainsSection("section1"), Is.False);
-            Assert.That(iniData.Sections.ContainsSection("   section1"), Is.True);
+            Assert.That(iniData.Sections.Contains("section1"), Is.False);
+            Assert.That(iniData.Sections.Contains("   section1"), Is.True);
         }
 
         [Test]
@@ -208,12 +208,12 @@ data2 = 2";
 
             var iniData = parser.Parse(ini);
 
-            Assert.That(iniData.Sections.GetSectionData("section1").Comments[0],
+            Assert.That(iniData.Sections.FindByName("section1").Comments[0],
                 Is.EqualTo("comment"));
 
             parser.Configuration.TrimComments = false;
             iniData = parser.Parse(ini);
-            Assert.That(iniData.Sections.GetSectionData("section1").Comments[0],
+            Assert.That(iniData.Sections.FindByName("section1").Comments[0],
                 Is.EqualTo(" comment"));
         }
     }

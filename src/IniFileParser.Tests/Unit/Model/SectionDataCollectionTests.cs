@@ -21,30 +21,30 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(sdc, Is.Empty);
 
             //Add sectoin
-            sdc.AddSection(strSectionTest);
-            sdc.AddSection(strSectionTest);
+            sdc.Add(strSectionTest);
+            sdc.Add(strSectionTest);
             Assert.That(sdc.Count, Is.EqualTo(1));
 
 
             //Check access
-            Assert.That(sdc.GetSectionData(strSectionTest), Is.Not.Null);
-            Assert.That(sdc.GetSectionData(strSectionTest).Comments, Is.Empty);
-            Assert.That(sdc.GetSectionData(strSectionTest).Properties.Count, Is.EqualTo(0));
+            Assert.That(sdc.FindByName(strSectionTest), Is.Not.Null);
+            Assert.That(sdc.FindByName(strSectionTest).Comments, Is.Empty);
+            Assert.That(sdc.FindByName(strSectionTest).Properties.Count, Is.EqualTo(0));
 
             //Check add coments
-            sdc.GetSectionData(strSectionTest).Comments.Add(strComment);
-            Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(1));
-            sdc.GetSectionData(strSectionTest).Comments.Clear();
-            sdc.GetSectionData(strSectionTest).Comments.AddRange(commentListTest);
+            sdc.FindByName(strSectionTest).Comments.Add(strComment);
+            Assert.That(sdc.FindByName(strSectionTest).Comments.Count, Is.EqualTo(1));
+            sdc.FindByName(strSectionTest).Comments.Clear();
+            sdc.FindByName(strSectionTest).Comments.AddRange(commentListTest);
 
-            Assert.That(sdc.GetSectionData(strSectionTest).Comments.Count, Is.EqualTo(commentListTest.Count));
+            Assert.That(sdc.FindByName(strSectionTest).Comments.Count, Is.EqualTo(commentListTest.Count));
 
 
             //Remove section
-            sdc.RemoveSection("asdf");
+            sdc.Remove("asdf");
             Assert.That(sdc.Count, Is.EqualTo(1));
 
-            sdc.RemoveSection(strSectionTest);
+            sdc.Remove(strSectionTest);
             Assert.That(sdc.Count, Is.EqualTo(0));
 
             //Check access
@@ -55,8 +55,8 @@ namespace IniFileParser.Tests.Unit.Model
         public void remove_all_keys_in_section_without_deleting_the_section()
         {
             IniData data = new IniData();
-            data.Sections.AddSection("test");
-            data.Sections.AddSection("test2");
+            data.Sections.Add("test");
+            data.Sections.Add("test2");
 
             data["test"].AddKeyAndValue("key1", "value1");
             data["test"].AddKeyAndValue("key2", "value2");
@@ -64,20 +64,20 @@ namespace IniFileParser.Tests.Unit.Model
             data["test2"].AddKeyAndValue("key3", "value3");
             data["test2"].AddKeyAndValue("key4", "value4");
 
-            Assert.That(data["test"].ContainsKey("key1"));
-            Assert.That(data["test"].ContainsKey("key2"));
-            Assert.That(data["test2"].ContainsKey("key3"));
-            Assert.That(data["test2"].ContainsKey("key4"));
+            Assert.That(data["test"].Contains("key1"));
+            Assert.That(data["test"].Contains("key2"));
+            Assert.That(data["test2"].Contains("key3"));
+            Assert.That(data["test2"].Contains("key4"));
 
-            data.Sections.GetSectionData("test").ClearKeyData();
-            Assert.That(data.Sections.ContainsSection("test"));
-            Assert.That(data["test"].ContainsKey("key1"), Is.False);
-            Assert.That(data["test"].ContainsKey("key2"), Is.False);
+            data.Sections.FindByName("test").ClearProperties();
+            Assert.That(data.Sections.Contains("test"));
+            Assert.That(data["test"].Contains("key1"), Is.False);
+            Assert.That(data["test"].Contains("key2"), Is.False);
 
-            data["test2"].RemoveAllKeys();
-            Assert.That(data.Sections.ContainsSection("test2"));
-            Assert.That(data["test2"].ContainsKey("key3"), Is.False);
-            Assert.That(data["test2"].ContainsKey("key4"), Is.False);
+            data["test2"].Clear();
+            Assert.That(data.Sections.Contains("test2"));
+            Assert.That(data["test2"].Contains("key3"), Is.False);
+            Assert.That(data["test2"].Contains("key4"), Is.False);
 
         }
 
@@ -87,7 +87,7 @@ namespace IniFileParser.Tests.Unit.Model
             var col = new SectionCollection();
 
             var exampleSection = new Section("section1");
-            exampleSection.Properties.AddKey("examplekey");
+            exampleSection.Properties.Add("examplekey");
             exampleSection.Properties["examplekey"] = "examplevalue";
 
             col.Add(exampleSection);
@@ -95,8 +95,8 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(col["section1"], Is.Not.Null);
 
             // Add sections directly to the collection
-            Assert.That(col.AddSection("section2"), Is.True);
-            Assert.That(col.AddSection("section2"), Is.False);
+            Assert.That(col.Add("section2"), Is.True);
+            Assert.That(col.Add("section2"), Is.False);
 
             Assert.That(col["section2"], Is.Not.Null);
         }
@@ -105,7 +105,7 @@ namespace IniFileParser.Tests.Unit.Model
         public void check_deep_clone()
         {
             var ori = new SectionCollection();
-            ori.AddSection("section1");
+            ori.Add("section1");
             ori["section1"]["key1"] = "value1";
 
             var copy = ori.DeepClone();

@@ -94,10 +94,10 @@ name = Marble Zone
             Assert.That(data.Global.Count, Is.EqualTo(1));
             Assert.That(data.Global["cyberdreams"], Is.EqualTo("i have no section, and i must scream"));
             
-            var section1 = data.Sections.GetSectionData("stage1");
+            var section1 = data.Sections.FindByName("stage1");
 
             Assert.That(section1, Is.Not.Null);
-            Assert.That(section1.SectionName, Is.EqualTo("stage1"));
+            Assert.That(section1.Name, Is.EqualTo("stage1"));
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
             Assert.That(section1.Comments[0], Is.EqualTo("comment for stage1"));

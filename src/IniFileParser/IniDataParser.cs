@@ -142,7 +142,7 @@ namespace IniParser
                     {
                         // Check if there are actually sections in the file
                         var sections = iniData.Sections;
-                        var section = sections.GetSectionData(_currentSectionNameTemp);
+                        var section = sections.FindByName(_currentSectionNameTemp);
                         section.Comments.AddRange(_currentCommentListTemp);
                     }
                     else if (iniData.Global.Count > 0)
@@ -293,7 +293,7 @@ namespace IniParser
             //Checks if the section already exists
             if (!Configuration.AllowDuplicateSections)
             {
-                if (iniData.Sections.ContainsSection(sectionName))
+                if (iniData.Sections.Contains(sectionName))
                 {
                     if (Configuration.SkipInvalidLines) return false;
 
@@ -310,11 +310,11 @@ namespace IniParser
             }
 
             // If the section does not exists, add it to the ini data
-            iniData.Sections.AddSection(sectionName);
+            iniData.Sections.Add(sectionName);
 
             // Save comments read until now and assign them to this section
             var sections = iniData.Sections;
-            var sectionData = sections.GetSectionData(sectionName);
+            var sectionData = sections.FindByName(sectionName);
             sectionData.Comments.AddRange(_currentCommentListTemp);
             _currentCommentListTemp.Clear();
 
@@ -379,7 +379,7 @@ namespace IniParser
             }
             else
             {
-                var currentSection = iniData.Sections.GetSectionData(_currentSectionNameTemp);
+                var currentSection = iniData.Sections.FindByName(_currentSectionNameTemp);
 
                 AddKeyToKeyValueCollection(key.ToString(),
                                            value.ToString(), 
@@ -443,7 +443,7 @@ namespace IniParser
         private void AddKeyToKeyValueCollection(string key, string value, PropertyCollection keyDataCollection, string sectionName)
         {
             // Check for duplicated keys
-            if (keyDataCollection.ContainsKey(key))
+            if (keyDataCollection.Contains(key))
             {
                 // We already have a key with the same name defined in the current section
                 HandleDuplicatedKeyInCollection(key, value, keyDataCollection, sectionName);

@@ -19,8 +19,8 @@ namespace IniFileParser.Tests.Unit.Model
 
             data.Sections.Add(section);
 
-            Assert.That(data.Sections.ContainsSection("testsection"));
-            Assert.That(data.Sections.ContainsSection("TestSection"));
+            Assert.That(data.Sections.Contains("testsection"));
+            Assert.That(data.Sections.Contains("TestSection"));
             Assert.That(data["TestSection"]["key1"], Is.EqualTo("value1"));
             Assert.That(data["TestSection"]["keY1"], Is.EqualTo("value1"));
             Assert.That(data["TestSection"]["KEY2"], Is.EqualTo("value3"));

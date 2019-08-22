@@ -4,8 +4,9 @@ using System.Collections.Generic;
 namespace IniParser.Model
 {
     /// <summary>
-    ///     Information associated to a key from an INI file.
-    ///     Includes both the value and the comments associated to the key.
+    ///     Information associated to a property from an INI file.
+    ///     Includes both the key, the value and the comments associated to 
+    ///     the property.
     /// </summary>
     public class Property : IDeepCloneable<Property>
     {
@@ -17,11 +18,11 @@ namespace IniParser.Model
         public Property(string keyName, string value = "")
         {
             if (string.IsNullOrEmpty(keyName))
-                throw new ArgumentException("key name can not be empty", nameof(KeyName));
+                throw new ArgumentException("key name can not be empty", nameof(Name));
 
             _comments = new List<string>();
             Value = value;
-            KeyName = keyName;
+            Name = keyName;
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace IniParser.Model
         public Property(Property ori)
         {
             Value = ori.Value;
-            KeyName = ori.KeyName;
+            Name = ori.Name;
             _comments = new List<string>(ori._comments);
         }
 
@@ -47,7 +48,7 @@ namespace IniParser.Model
         #region Properties 
 
         /// <summary>
-        /// Gets or sets the comment list associated to this key.
+        /// Gets or sets the comment list associated to this property.
         /// Makes a copy og the values when set
         /// </summary>
         public List<string> Comments
@@ -57,14 +58,14 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        ///     Gets or sets the value associated to this key.
+        ///     Gets or sets the value associated to this property.
         /// </summary>
         public string Value { get; set; }
 
         /// <summary>
-        ///     Gets or sets the name of the key.
+        ///     Gets or sets the name of this property.
         /// </summary>
-        public string KeyName { get; set; }
+        public string Name { get; set; }
 
 
         #endregion Properties 
@@ -80,7 +81,7 @@ namespace IniParser.Model
 
         #region Non-public Members
 
-        // List with comment lines associated to this key 
+        // List with comment lines associated to this property 
         private List<string> _comments;
 
         #endregion

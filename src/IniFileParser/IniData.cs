@@ -102,7 +102,7 @@ namespace IniParser
         public IIniScheme Scheme { get { return _schemeInternal; } }
 
         /// <summary>
-        /// 	Global sections. Contains key/value pairs which are not
+        /// 	Global sections. Contains properties which are not
         /// 	enclosed in any section (i.e. they are defined at the beginning 
         /// 	of the file, before any section.
         /// </summary>
@@ -111,14 +111,15 @@ namespace IniParser
         /// <summary>
         /// Gets the <see cref="PropertyCollection"/> instance 
         /// with the specified section name.
+        /// with the specified section name.
         /// </summary>
         public PropertyCollection this[string sectionName]
         {
             get
             {
-                if (!Sections.ContainsSection(sectionName))
+                if (!Sections.Contains(sectionName))
                     if (CreateSectionsIfTheyDontExist)
-                        Sections.AddSection(sectionName);
+                        Sections.Add(sectionName);
                     else
                         return null;
 
@@ -169,7 +170,7 @@ namespace IniParser
         #endregion
 
         /// <summary>
-        ///     Deletes all comments in all sections and key values
+        ///     Deletes all comments in all sections and properties values
         /// </summary>
         public void ClearAllComments()
         {

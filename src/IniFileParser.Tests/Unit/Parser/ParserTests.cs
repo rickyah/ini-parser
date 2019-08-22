@@ -31,10 +31,10 @@ mykey1 = value1
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
-            var section1 = data.Sections.GetSectionData("section1");
+            var section1 = data.Sections.FindByName("section1");
 
             Assert.That(section1, Is.Not.Null);
-            Assert.That(section1.SectionName, Is.EqualTo("section1"));
+            Assert.That(section1.Name, Is.EqualTo("section1"));
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
 
@@ -75,10 +75,10 @@ mykey1 = value1
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
-            var section1 = data.Sections.GetSectionData("section1");
+            var section1 = data.Sections.FindByName("section1");
 
             Assert.That(section1, Is.Not.Null);
-            Assert.That(section1.SectionName, Is.EqualTo("section1"));
+            Assert.That(section1.Name, Is.EqualTo("section1"));
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
 
@@ -129,8 +129,8 @@ value1 = 10";
             IniData data = parser.Parse(ini_duplicated_keys);
 
             Assert.That(data, Is.Not.Null);
-            Assert.That(data.Sections.GetSectionData("seccion1").Properties.Count, Is.EqualTo(1));
-            Assert.That(data.Sections.GetSectionData("seccion1").Properties["value1"], Is.EqualTo("10.6"));
+            Assert.That(data.Sections.FindByName("seccion1").Properties.Count, Is.EqualTo(1));
+            Assert.That(data.Sections.FindByName("seccion1").Properties["value1"], Is.EqualTo("10.6"));
         }
 
         [Test, Description("Test for Issue 9: http://code.google.com/p/ini-parser/issues/detail?id=9")]
@@ -205,9 +205,9 @@ key2 = value5";
 
             var iniData = parser.Parse(data);
 
-            Assert.That(iniData.Sections.ContainsSection("123_1"), Is.True);
-            Assert.That(iniData.Sections.ContainsSection("123_2"), Is.True);
-            Assert.That(iniData.Sections.GetSectionData("123_1").Properties, Has.Count.EqualTo(3));
+            Assert.That(iniData.Sections.Contains("123_1"), Is.True);
+            Assert.That(iniData.Sections.Contains("123_2"), Is.True);
+            Assert.That(iniData.Sections.FindByName("123_1").Properties, Has.Count.EqualTo(3));
             Assert.That(iniData["123_1"]["key4"], Is.EqualTo("value4"));
             Assert.That(iniData["123_1"]["key2"], Is.EqualTo("value2"));
 
@@ -225,8 +225,8 @@ key = value";
             IniData iniData = parser.Parse(data);
 
             Assert.That(iniData.Sections.Count, Is.EqualTo(1));
-            Assert.That(iniData.Sections.ContainsSection("{E3729302-74D1-11D3-B43A-00AA00CAD128}"), Is.True);
-            Assert.That(iniData.Sections["{E3729302-74D1-11D3-B43A-00AA00CAD128}"].ContainsKey("key"), Is.True);
+            Assert.That(iniData.Sections.Contains("{E3729302-74D1-11D3-B43A-00AA00CAD128}"), Is.True);
+            Assert.That(iniData.Sections["{E3729302-74D1-11D3-B43A-00AA00CAD128}"].Contains("key"), Is.True);
             Assert.That(iniData.Sections["{E3729302-74D1-11D3-B43A-00AA00CAD128}"]["key"], Is.EqualTo("value"));
         }
 
@@ -242,8 +242,8 @@ key = value";
             IniData iniData = parser.Parse(data);
 
             Assert.That(iniData.Sections.Count, Is.EqualTo(1));
-            Assert.That(iniData.Sections.ContainsSection("Web Colaboration"), Is.True);
-            Assert.That(iniData.Sections["Web Colaboration"].ContainsKey("key"), Is.True);
+            Assert.That(iniData.Sections.Contains("Web Colaboration"), Is.True);
+            Assert.That(iniData.Sections["Web Colaboration"].Contains("key"), Is.True);
             Assert.That(iniData.Sections["Web Colaboration"]["key"], Is.EqualTo("value"));
         }
 
@@ -285,7 +285,7 @@ key=value";
 
             IniData parsedData = parser.Parse(data);
 
-            Assert.That(parsedData.Sections.ContainsSection("section\\subsection"));
+            Assert.That(parsedData.Sections.Contains("section\\subsection"));
             Assert.That(parsedData.Sections["section\\subsection"]["key"], Is.EqualTo("value"));
         }
 
@@ -299,7 +299,7 @@ key=value";
 
             IniData parsedData = parser.Parse(data);
 
-            Assert.That(parsedData.Sections.ContainsSection("section~subsection"));
+            Assert.That(parsedData.Sections.Contains("section~subsection"));
             Assert.That(parsedData.Sections["section~subsection"]["key"], Is.EqualTo("value"));
         }
 
@@ -320,7 +320,7 @@ value2 = 10";
             parser.Scheme.CommentString = "#";
 
             var result = parser.Parse(initest);
-            Assert.That(result.Sections.GetSectionData("seccion1").Comments.Count > 0);
+            Assert.That(result.Sections.FindByName("seccion1").Comments.Count > 0);
 
         }
 
@@ -416,7 +416,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
 
             var iniData = parser.Parse(iniString);
 
-            Assert.That(iniData.Sections.ContainsSection("2Way-Keyword-*##13559710880"));
+            Assert.That(iniData.Sections.Contains("2Way-Keyword-*##13559710880"));
 
         }
 
@@ -437,7 +437,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
             parser.Configuration.AllowKeysWithoutSection = true;
             var iniData = parser.Parse(iniDataString);
 
-            Assert.That(iniData.Global.ContainsKey("value1"));
+            Assert.That(iniData.Global.Contains("value1"));
 
             Assert.That(iniData.Global.GetKeyData("value1").Comments, Has.Count.EqualTo(3));
             Assert.That(iniData.Global.GetKeyData("value1").Comments[2], Is.EqualTo("end"));

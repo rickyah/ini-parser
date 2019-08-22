@@ -25,10 +25,10 @@ mykey1 = value1
 
             Assert.That(data, Is.Not.Null);
             Assert.That(data.Sections.Count, Is.EqualTo(2));
-            var section1 = data.Sections.GetSectionData("section1");
+            var section1 = data.Sections.FindByName("section1");
 
             Assert.That(section1, Is.Not.Null);
-            Assert.That(section1.SectionName, Is.EqualTo("section1"));
+            Assert.That(section1.Name, Is.EqualTo("section1"));
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
 
@@ -45,7 +45,7 @@ mykey1 = value1
         {
             IniData data = new IniData();
 
-            data.Sections.AddSection("newSection1");
+            data.Sections.Add("newSection1");
             data.Sections["newSection1"].AddKeyAndValue("newKey1", "newValue1");
             data.Sections["newSection1"].AddKeyAndValue("newKey2", "newValue5");
 

@@ -10,7 +10,7 @@ namespace IniFileParser.Tests.Unit.Model
         public void test()
         {
             var col = new PropertyCollection();
-            col.AddKey("key1");
+            col.Add("key1");
 
             Assert.That(col["key1"], Is.Empty);
 

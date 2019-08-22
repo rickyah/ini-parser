@@ -37,10 +37,10 @@ mykey1 = value1
             // global section is not computed when counting the number of sections in the
             // ini
             Assert.That(data.Sections.Count, Is.EqualTo(2),"Expected two (2) sections");
-            var section1 = data.Sections.GetSectionData("section1");
+            var section1 = data.Sections.FindByName("section1");
 
             Assert.That(section1, Is.Not.Null);
-            Assert.That(section1.SectionName, Is.EqualTo("section1"));
+            Assert.That(section1.Name, Is.EqualTo("section1"));
             Assert.That(section1.Comments, Is.Not.Empty);
             Assert.That(section1.Comments.Count, Is.EqualTo(1));
 
@@ -57,13 +57,13 @@ mykey1 = value1
             Assert.That(section1.Properties["key;2"], Is.EqualTo("va:lu;e.5"));
 
             // Bad section name (space missing)
-            var section2 = data.Sections.GetSectionData("section2");
+            var section2 = data.Sections.FindByName("section2");
             Assert.That(section2, Is.Null);
 
             // Beware: leading and trailing whitespaces are ignored by default!
-            section2 = data.Sections.GetSectionData("section 2");
+            section2 = data.Sections.FindByName("section 2");
             Assert.That(section2, Is.Not.Null);
-            Assert.That(section2.SectionName, Is.EqualTo("section 2"));
+            Assert.That(section2.Name, Is.EqualTo("section 2"));
             Assert.That(section2.Comments, Has.Count.EqualTo(1));
 
             // Check comments at the end of the section are parsed and assigned to the section

@@ -37,7 +37,7 @@ key1=1";
 #key1=1";
 
             iniData = parser.Parse(ini3);
-            Assert.That(iniData.Global.ContainsKey("#key1"), Is.True);
+            Assert.That(iniData.Global.Contains("#key1"), Is.True);
 
             Assert.That(iniData.Global.GetKeyData("#key1").Comments, Has.Count.EqualTo(1));
             Assert.That(iniData.Global.GetKeyData("#key1").Comments[0], Is.EqualTo("a comment"));
@@ -61,20 +61,20 @@ key1=1";
             var ini1 = @"[section]";
             iniData = parser.Parse(ini1);
 
-            Assert.That(iniData.Sections.ContainsSection("section"), Is.True);
+            Assert.That(iniData.Sections.Contains("section"), Is.True);
 
             var ini2 = @"<section>";
             parser.Scheme.SectionStartString = "<";
             parser.Scheme.SectionEndString = ">";
             iniData = parser.Parse(ini2);
 
-            Assert.That(iniData.Sections.ContainsSection("section"), Is.True);
+            Assert.That(iniData.Sections.Contains("section"), Is.True);
 
             var ini3 = @"<section]";
             parser.Scheme.SectionStartString = "<";
             parser.Scheme.SectionEndString = "]";
             iniData = parser.Parse(ini3);
-            Assert.That(iniData.Sections.ContainsSection("section"), Is.True);
+            Assert.That(iniData.Sections.Contains("section"), Is.True);
 
             var ini4 = @"<<section>>
 <key> = <value>";
@@ -82,8 +82,8 @@ key1=1";
             parser.Scheme.SectionStartString = "<<";
             parser.Scheme.SectionEndString = ">>";
             iniData = parser.Parse(ini4);
-            Assert.That(iniData.Sections.ContainsSection("section"), Is.True);
-            Assert.That(iniData["section"].ContainsKey("<key>"), Is.True);
+            Assert.That(iniData.Sections.Contains("section"), Is.True);
+            Assert.That(iniData["section"].Contains("<key>"), Is.True);
         }
 
         [Test]

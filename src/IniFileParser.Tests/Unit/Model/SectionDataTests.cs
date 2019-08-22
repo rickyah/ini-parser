@@ -13,7 +13,7 @@ namespace IniFileParser.Tests.Unit.Model
             var sd = new Section("section_test");
 
             Assert.That(sd, Is.Not.Null);
-            Assert.That(sd.SectionName, Is.EqualTo("section_test"));
+            Assert.That(sd.Name, Is.EqualTo("section_test"));
             Assert.That(sd.Comments, Is.Empty);
             Assert.That(sd.Properties, Is.Empty);
         }
@@ -29,9 +29,9 @@ namespace IniFileParser.Tests.Unit.Model
         {
             var sd = new Section("section_test");
 
-            sd.SectionName = "";
+            sd.Name = "";
 
-            Assert.That(sd.SectionName, Is.EqualTo("section_test"));
+            Assert.That(sd.Name, Is.EqualTo("section_test"));
         }
 
         [Test]
@@ -39,10 +39,10 @@ namespace IniFileParser.Tests.Unit.Model
         {
             var sd = new Section("section_test");
 
-            sd.SectionName = "section_test_2";
+            sd.Name = "section_test_2";
 
             Assert.That(sd, Is.Not.Null);
-            Assert.That(sd.SectionName, Is.EqualTo("section_test_2"));
+            Assert.That(sd.Name, Is.EqualTo("section_test_2"));
             Assert.That(sd.Comments, Is.Empty);
             Assert.That(sd.Properties, Is.Empty);
         }
@@ -56,9 +56,9 @@ namespace IniFileParser.Tests.Unit.Model
             var sd = new Section("section_test");
 
             //Add key
-            sd.Properties.AddKey(strKeyTest);
+            sd.Properties.Add(strKeyTest);
             Assert.That(sd.Properties.Count, Is.EqualTo(1));
-            Assert.That(sd.Properties.ContainsKey(strKeyTest), Is.True);
+            Assert.That(sd.Properties.Contains(strKeyTest), Is.True);
 
             //Assign value
             sd.Properties.GetKeyData(strKeyTest).Value = strValueTest;
@@ -73,11 +73,11 @@ namespace IniFileParser.Tests.Unit.Model
             var sd = new Section("section_test");
 
             //Add key
-            sd.Properties.AddKey(strKeyTest);
+            sd.Properties.Add(strKeyTest);
             Assert.That(sd.Properties.Count, Is.EqualTo(1));
-            Assert.That(sd.Properties.ContainsKey(strKeyTest), Is.True);
+            Assert.That(sd.Properties.Contains(strKeyTest), Is.True);
 
-            sd.Properties.AddKey(strKeyTest);
+            sd.Properties.Add(strKeyTest);
             Assert.That(sd.Properties.Count, Is.EqualTo(1));
 
         }
@@ -90,13 +90,13 @@ namespace IniFileParser.Tests.Unit.Model
             var sd = new Section("section_test");
 
             //Add key
-            sd.Properties.AddKey(strKeyTest);
+            sd.Properties.Add(strKeyTest);
             Assert.That(sd.Properties.Count, Is.EqualTo(1));
-            Assert.That(sd.Properties.ContainsKey(strKeyTest), Is.True);
+            Assert.That(sd.Properties.Contains(strKeyTest), Is.True);
 
-            sd.Properties.RemoveKey(strKeyTest);
+            sd.Properties.Remove(strKeyTest);
             Assert.That(sd.Properties.Count, Is.EqualTo(0));
-            Assert.That(sd.Properties.ContainsKey(strKeyTest), Is.False);
+            Assert.That(sd.Properties.Contains(strKeyTest), Is.False);
         }
 
         [Test]
@@ -107,11 +107,11 @@ namespace IniFileParser.Tests.Unit.Model
             var sd = new Section("section_test");
 
             //Add key
-            sd.Properties.AddKey(strKeyTest);
-            sd.Properties.RemoveKey("asdf");
+            sd.Properties.Add(strKeyTest);
+            sd.Properties.Remove("asdf");
             Assert.That(sd.Properties.Count, Is.EqualTo(1));
-            Assert.That(sd.Properties.ContainsKey(strKeyTest), Is.True);
-            Assert.That(sd.Properties.ContainsKey("asdf"), Is.False);
+            Assert.That(sd.Properties.Contains(strKeyTest), Is.True);
+            Assert.That(sd.Properties.Contains("asdf"), Is.False);
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace IniFileParser.Tests.Unit.Model
 
             Assert.That(destinySection.Properties["key1"], Is.EqualTo("value1"));
             Assert.That(destinySection.Properties["key2"], Is.EqualTo("newvalue2"));
-            Assert.That(destinySection.Properties.ContainsKey("key3"));
+            Assert.That(destinySection.Properties.Contains("key3"));
             Assert.That(destinySection.Properties["key3"], Is.EqualTo("value3"));
         }
 

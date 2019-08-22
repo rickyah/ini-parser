@@ -13,19 +13,19 @@ namespace IniFileParser.Tests.Unit.Model
 			var iniData = new IniData();
 			iniData.Global.AddKeyAndValue("UseSeparateRepositoryForAssets", true.ToString());
 
-			iniData.Sections.AddSection("MainRepository");
+			iniData.Sections.Add("MainRepository");
 			iniData["MainRepository"]["Type"] = "git";
 			iniData["MainRepository"]["RelativePath"] = ".";
 
-			Assert.That(iniData["MainRepository"].ContainsKey("Type"));
-			Assert.That(iniData["MainRepository"].ContainsKey("RelativePath"));
+			Assert.That(iniData["MainRepository"].Contains("Type"));
+			Assert.That(iniData["MainRepository"].Contains("RelativePath"));
 
-			iniData.Sections.AddSection("AssetsRepository");
+			iniData.Sections.Add("AssetsRepository");
 			iniData["AssetsRepository"]["Type"] = "svn";
 			iniData["AssetsRepository"]["RelativePath"] = "./Assets";
 
-			Assert.That(iniData["AssetsRepository"].ContainsKey("Type"));
-			Assert.That(iniData["AssetsRepository"].ContainsKey("RelativePath"));
+			Assert.That(iniData["AssetsRepository"].Contains("Type"));
+			Assert.That(iniData["AssetsRepository"].Contains("RelativePath"));
 
 			Console.WriteLine(iniData.ToString());
         }
@@ -69,24 +69,24 @@ c = 55
                 Assert.That(dataA.Global["j"], Is.EqualTo("a"));
                 Assert.That(dataA.Sections.Count, Is.EqualTo(3), "Expected two (3) sections");
 
-                var s0 = dataA.Sections.GetSectionData("s0");
+                var s0 = dataA.Sections.FindByName("s0");
 
                 Assert.That(s0, Is.Not.Null);
-                Assert.That(s0.SectionName, Is.EqualTo("s0"));
+                Assert.That(s0.Name, Is.EqualTo("s0"));
                 Assert.That(s0.Properties["a"], Is.EqualTo("22"));
                 Assert.That(s0.Properties["b"], Is.EqualTo("44"));
 
-                var s1 = dataA.Sections.GetSectionData("s1");
+                var s1 = dataA.Sections.FindByName("s1");
 
                 Assert.That(s1, Is.Not.Null);
-                Assert.That(s1.SectionName, Is.EqualTo("s1"));
+                Assert.That(s1.Name, Is.EqualTo("s1"));
                 Assert.That(s1.Properties["a"], Is.EqualTo("3"));
                 Assert.That(s1.Properties["b"], Is.EqualTo("4"));
 
-                var s2 = dataA.Sections.GetSectionData("s2");
+                var s2 = dataA.Sections.FindByName("s2");
 
                 Assert.That(s2, Is.Not.Null);
-                Assert.That(s2.SectionName, Is.EqualTo("s2"));
+                Assert.That(s2.Name, Is.EqualTo("s2"));
                 Assert.That(s2.Properties["c"], Is.EqualTo("55"));
             }
 

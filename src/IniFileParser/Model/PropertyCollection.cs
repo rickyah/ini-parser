@@ -28,7 +28,7 @@ namespace IniParser.Model
         public PropertyCollection(IEqualityComparer<string> searchComparer)
         {
             _searchComparer = searchComparer;
-            _keyData = new Dictionary<string, Property>(_searchComparer);
+            _properties = new Dictionary<string, Property>(_searchComparer);
         }
 
         /// <summary>
@@ -47,52 +47,50 @@ namespace IniParser.Model
         {
             foreach (Property property in ori)
             {
-                if (_keyData.ContainsKey(property.KeyName))
+                if (_properties.ContainsKey(property.Name))
                 {
-                    _keyData[property.KeyName] = property.DeepClone();
+                    _properties[property.Name] = property.DeepClone();
                 }
                 else
                 {
-                    _keyData.Add(property.KeyName, property.DeepClone());
+                    _properties.Add(property.Name, property.DeepClone());
                 }
             }
         }
 
         #endregion
 
+
         #region Properties
 
         /// <summary>
-        ///     Gets or sets the value of a concrete key.
+        ///     Gets or sets the value of a property.
         /// </summary>
         /// <remarks>
-        ///     If we try to assign the value of a key which doesn't exists,
-        ///     a new key is added with the name and the value is assigned to it.
+        ///     If we try to assign the value of a property which doesn't exists,
+        ///     a new one is added with the kay and the value specified
         /// </remarks>
         /// <param name="keyName">
-        ///     Name of the key
+        ///     key of the property
         /// </param>
-        /// <returns>
-        ///     The string with key's value or null if the key was not found.
-        /// </returns>
         public string this[string keyName]
         {
             get
             {
-                if (_keyData.ContainsKey(keyName))
-                    return _keyData[keyName].Value;
+                if (_properties.ContainsKey(keyName))
+                    return _properties[keyName].Value;
 
                 return null;
             }
 
             set
             {
-                if (!_keyData.ContainsKey(keyName))
+                if (!_properties.ContainsKey(keyName))
                 {
-                    this.AddKey(keyName);
+                    Add(keyName);
                 }
 
-                _keyData[keyName].Value = value;
+                _properties[keyName].Value = value;
 
             }
         }
@@ -102,7 +100,7 @@ namespace IniParser.Model
         /// </summary>
         public int Count
         {
-            get { return _keyData.Count; }
+            get { return _properties.Count; }
         }
 
         #region Helpers
@@ -110,7 +108,7 @@ namespace IniParser.Model
         internal void AddPropertyInternal(Property property)
         {
             _lastAdded = property;
-            _keyData.Add(property.KeyName, property);
+            _properties.Add(property.Name, property);
         }
         #endregion
 
@@ -124,9 +122,9 @@ namespace IniParser.Model
         ///     true if the key was added  false if a key with the same name already exist 
         ///     in the collection
         /// </returns>
-        public bool AddKey(string key)
+        public bool Add(string key)
         {
-            if (!_keyData.ContainsKey(key))
+            if (!_properties.ContainsKey(key))
             {
                 AddPropertyInternal(new Property(key, string.Empty));
                 return true;
@@ -136,18 +134,18 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        ///     Adds a new key to the collection
+        ///     Adds a new property to the collection
         /// </summary>
         /// <param name="property">
         ///     Property instance.
         /// </param>
         /// <returns>
-        ///     true if the key was added  false if a key with the same name already exist 
-        ///     in the collection
+        ///     true if the property was added  false if a property with the
+        ///     same key already exist in the collection
         /// </returns>
         public bool Add(Property property)
         {
-            if (!_keyData.ContainsKey(property.KeyName))
+            if (!_properties.ContainsKey(property.Name))
             {
                 AddPropertyInternal(property);
                 return true;
@@ -155,22 +153,22 @@ namespace IniParser.Model
             return false;
         }
 
-         /// <summary>
-        ///     Adds a new key with the specified name and value to the collection
+        /// <summary>
+        ///     Adds a new property with the specified key and value to the collection
         /// </summary>
         /// <param name="key">
-        ///     Name of the new key to be added.
+        ///     key of the new property to be added.
         /// </param>
         /// <param name="value">
-        ///     Value associated to the key.
+        ///     Value associated to the property.
         /// </param>
         /// <returns>
-        ///     true if the key was added  false if a key with the same name already exist 
-        ///     in the collection.
+        ///     true if the property was added, false if a key with the same 
+        ///     name already exist in the collection.
         /// </returns>
         public bool AddKeyAndValue(string key, string value)
         {
-            if (!_keyData.ContainsKey(key))
+            if (!_properties.ContainsKey(key))
             {
                 AddPropertyInternal(new Property(key, value));
                 return true;
@@ -190,14 +188,19 @@ namespace IniParser.Model
         }
 
         /// <summary>
-        /// Gets if a specifyed key name exists in the collection.
+        ///     Gets if a specified property with the given key name exists in 
+        ///     the collection.
         /// </summary>
-        /// <param name="keyName">Key name to search</param>
-        /// <returns>true if a key with the specified name exists in the collectoin
-        /// false otherwise</returns>
-        public bool ContainsKey(string keyName)
+        /// <param name="keyName">
+        ///     Key name to search
+        /// </param>
+        /// <returns>
+        ///     true if a property with the givne exists in the collectoin
+        ///     false otherwise
+        /// </returns>
+        public bool Contains(string keyName)
         {
-            return _keyData.ContainsKey(keyName);
+            return _properties.ContainsKey(keyName);
         }
 
         /// <summary>
@@ -210,28 +213,35 @@ namespace IniParser.Model
         /// </returns>
         public Property GetKeyData(string keyName)
         {
-            if (_keyData.ContainsKey(keyName))
-                return _keyData[keyName];
+            if (_properties.ContainsKey(keyName))
+                return _properties[keyName];
             return null;
         }
-
-        public void Merge(PropertyCollection keyDataToMerge)
+        /// <summary>
+        ///     Merges other Property into this, adding new properties if they 
+        ///     did not existed or overwriting values if the properties already 
+        ///     existed.
+        /// </summary>
+        /// <remarks>
+        ///     Comments are also merged but they are always added, not overwritten.
+        /// </remarks>
+        /// <param name="propertyToMerge"></param>
+        public void Merge(PropertyCollection propertyToMerge)
         {
-            foreach (var keyData in keyDataToMerge)
+            foreach (var keyData in propertyToMerge)
             {
-                AddKey(keyData.KeyName);
-                GetKeyData(keyData.KeyName).Comments.AddRange(keyData.Comments);
-                this[keyData.KeyName] = keyData.Value;
+                Add(keyData.Name);
+                this[keyData.Name] = keyData.Value;
+                GetKeyData(keyData.Name).Comments.AddRange(keyData.Comments);
             }
-
         }
 
         /// <summary>
-        /// 	Deletes all keys in this collection.
+        /// 	Deletes all properties in this collection.
         /// </summary>
-        public void RemoveAllKeys()
+        public void Clear()
         {
-            _keyData.Clear();
+            _properties.Clear();
         }
 
         /// <summary>
@@ -242,22 +252,9 @@ namespace IniParser.Model
         /// true if a key with the specified name was removed 
         /// false otherwise.
         /// </returns>
-        public bool RemoveKey(string keyName)
+        public bool Remove(string keyName)
         {
-            return _keyData.Remove(keyName);
-        }
-        /// <summary>
-        /// Sets the key data associated to a specified key.
-        /// </summary>
-        /// <param name="data">The new <see cref="Property"/> for the key.</param>
-        public void SetKeyData(Property data)
-        {
-            if (data == null) return;
-
-            if (_keyData.ContainsKey(data.KeyName))
-                RemoveKey(data.KeyName);
-
-            Add(data);
+            return _properties.Remove(keyName);
         }
 
         #endregion
@@ -270,8 +267,8 @@ namespace IniParser.Model
         /// <returns>A strong-typed IEnumerator </returns>
         public IEnumerator<Property> GetEnumerator()
         {
-            foreach (string key in _keyData.Keys)
-                yield return _keyData[key];
+            foreach (string key in _properties.Keys)
+                yield return _properties[key];
         }
 
         #region IEnumerable Members
@@ -282,7 +279,7 @@ namespace IniParser.Model
         /// <returns>A weak-typed IEnumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _keyData.GetEnumerator();
+            return _properties.GetEnumerator();
         }
 
         #endregion
@@ -305,8 +302,8 @@ namespace IniParser.Model
         #endregion
 
         #region Non-public Members
-        // Hack for getting the last key value (if exists) w/out using LINQ
-        // and maintain support for earlier versions of .NET
+        // Hack for getting the last property value (if exists) w/out using LINQ
+        // that will cause allocations
         Property _lastAdded;
         internal Property GetLast()
         {
@@ -316,10 +313,9 @@ namespace IniParser.Model
         /// <summary>
         /// Collection of Property for a given section
         /// </summary>
-        private readonly Dictionary<string, Property> _keyData;
+        private readonly Dictionary<string, Property> _properties;
 
         readonly IEqualityComparer<string> _searchComparer;
         #endregion
-
     }
 }
