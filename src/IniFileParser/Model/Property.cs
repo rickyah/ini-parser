@@ -20,7 +20,6 @@ namespace IniParser.Model
             if (string.IsNullOrEmpty(keyName))
                 throw new ArgumentException("key name can not be empty", nameof(Name));
 
-            _comments = new List<string>();
             Value = value;
             Name = keyName;
         }
@@ -40,8 +39,8 @@ namespace IniParser.Model
         {
             Value = ori.Value;
             Name = ori.Name;
-            _comments = new List<string>(ori._comments);
-        }
+            Comments = ori.Comments;
+        }   
 
         #endregion Constructors 
 
@@ -53,8 +52,25 @@ namespace IniParser.Model
         /// </summary>
         public List<string> Comments
         {
-            get { return _comments; }
-            set { _comments = new List<string> (value) ; }
+            get
+            {
+                if (_comments == null)
+                {
+                    _comments = new List<string>();
+                }
+
+                return _comments;
+            }
+
+            set
+            {
+                if (_comments == null)
+                {
+                    _comments = new List<string>();
+                }
+                _comments.Clear();
+                _comments.AddRange(value);
+            }
         }
 
         /// <summary>

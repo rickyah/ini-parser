@@ -108,7 +108,10 @@ namespace IniParser
                               : new IniData(Scheme);
 
             _errorExceptions.Clear();
-            _currentCommentListTemp.Clear();
+            if (Configuration.ParseComments)
+            {
+                _currentCommentListTemp.Clear();
+            }
             _currentSectionNameTemp = null;
             _mBuffer.Reset(stringReader);
             _currentLineNumber = 0;
@@ -134,9 +137,8 @@ namespace IniParser
             // TODO: is this try necessary?
             try
             {
-
                 // Orphan comments, assing to last section/key value
-                if (_currentCommentListTemp.Count > 0)
+                if (Configuration.ParseComments && _currentCommentListTemp.Count > 0)
                 {
                     if (iniData.Sections.Count > 0)
                     {
@@ -318,10 +320,13 @@ namespace IniParser
             iniData.Sections.Add(sectionName);
 
             // Save comments read until now and assign them to this section
-            var sections = iniData.Sections;
-            var sectionData = sections.FindByName(sectionName);
-            sectionData.Comments.AddRange(_currentCommentListTemp);
-            _currentCommentListTemp.Clear();
+            if (Configuration.ParseComments)
+            {
+                var sections = iniData.Sections;
+                var sectionData = sections.FindByName(sectionName);
+                sectionData.Comments.AddRange(_currentCommentListTemp);
+                _currentCommentListTemp.Clear();
+            }
 
             return true;
         }
@@ -459,8 +464,11 @@ namespace IniParser
                 keyDataCollection.AddKeyAndValue(key, value);
             }
 
-            keyDataCollection.GetKeyData(key).Comments = new List<string>(_currentCommentListTemp);
-            _currentCommentListTemp.Clear();
+            if (Configuration.ParseComments)
+            {
+                keyDataCollection.GetKeyData(key).Comments = _currentCommentListTemp;
+                _currentCommentListTemp.Clear();
+            }
         }
 
         #endregion
@@ -472,7 +480,24 @@ namespace IniParser
         readonly List<Exception> _errorExceptions;
 
         // Temp list of comments
-        readonly List<string> _currentCommentListTemp = new List<string>();
+        public List<string> _currentCommentListTemp
+        {
+            get
+            {
+                if (__currentCommentListTemp == null)
+                {
+                    __currentCommentListTemp = new List<string>();
+                }
+
+                return __currentCommentListTemp;
+            }
+
+            internal set
+            {
+                __currentCommentListTemp = value;
+            }
+        }
+        List<string> __currentCommentListTemp;
 
         // Tmp var with the name of the seccion which is being process
         string _currentSectionNameTemp;

@@ -28,8 +28,7 @@ namespace IniParser.Model
             if (string.IsNullOrEmpty(sectionName))
                 throw new ArgumentException("section name can not be empty", nameof(sectionName));
 
-            _comments = new List<string>();
-            _properties = new PropertyCollection(_searchComparer);
+            Properties = new PropertyCollection(_searchComparer);
             Name = sectionName;
         }
 
@@ -52,8 +51,8 @@ namespace IniParser.Model
             Name = ori.Name;
 
             _searchComparer = searchComparer;
-            _comments = new List<string>(ori._comments);
-            _properties = new PropertyCollection(ori._properties, searchComparer ?? ori._searchComparer);
+            Comments = ori.Comments;
+            Properties = new PropertyCollection(ori.Properties, searchComparer ?? ori._searchComparer);
         }
 
         #endregion
@@ -128,12 +127,22 @@ namespace IniParser.Model
         {
             get
             {
-				return _comments;
+                if (_comments == null)
+                {
+                    _comments = new List<string>();
+                }
+
+                return _comments;
             }
 
-            internal set
+            set
             {
-                _comments = value;
+                if (_comments == null)
+                {
+                    _comments = new List<string>();
+                }
+                _comments.Clear();
+                _comments.AddRange(value);
             }
         }
 
@@ -143,18 +152,7 @@ namespace IniParser.Model
         /// <value>
         ///     A collection of Property objects.
         /// </value>
-        public PropertyCollection Properties
-        {
-            get
-            {
-                return _properties;
-            }
-
-            set
-            {
-                _properties = value;
-            }
-        }
+        public PropertyCollection Properties { get; set; }
 
         #endregion
 
@@ -169,10 +167,6 @@ namespace IniParser.Model
 
         // Comments associated to this section
         List<string> _comments;
-
-        // Properties associated to this section
-        private PropertyCollection _properties;
-
         private string _name;
         #endregion
     }
