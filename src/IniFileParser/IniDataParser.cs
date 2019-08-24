@@ -57,25 +57,6 @@ namespace IniParser
             get { return _errorExceptions.AsReadOnly(); }
         }
         #endregion
-        /// <summary>
-        ///     Reads data in INI format from a stream.
-        /// </summary>
-        /// <param name="reader">Reader stream.</param>
-        /// <returns>
-        ///     And <see cref="IniData"/> instance with the readed ini data parsed.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        ///     Thrown if <paramref name="reader"/> is <c>null</c>.
-        /// </exception>
-        public IniData Parse(StreamReader reader)
-        { 
-            if (reader == null)
-            {
-                throw new ArgumentNullException("reader");
-            }
-
-            return Parse(new StringReader(reader.ReadToEnd()));
-        }
 
         /// <summary>
         ///     Parses a string containing valid ini data
@@ -91,7 +72,7 @@ namespace IniParser
         /// <summary>
         ///     Parses a string containing valid ini data
         /// </summary>
-        /// <param name="stringReader">
+        /// <param name="textReader">
         ///     Text reader for the source string contaninig the ini data
         /// </param>
         /// <returns>
@@ -101,19 +82,43 @@ namespace IniParser
         /// <exception cref="ParsingException">
         ///     Thrown if the data could not be parsed
         /// </exception>
-        public IniData Parse(StringReader stringReader)
+        public IniData Parse(TextReader textReader)
         {
             IniData iniData = Configuration.CaseInsensitive ?
-                              new IniDataCaseInsensitive(Scheme)
-                              : new IniData(Scheme);
+                  new IniDataCaseInsensitive(Scheme)
+                  : new IniData(Scheme);
+
+            Parse(textReader, ref iniData);
+
+            return iniData;
+        }
+
+        /// <summary>
+        ///     Parses a string containing valid ini data
+        /// </summary>
+        /// <param name="textReader">
+        ///     Text reader for the source string contaninig the ini data
+        /// </param>
+        /// <returns>
+        ///     An <see cref="IniData"/> instance containing the data readed
+        ///     from the source
+        /// </returns>
+        /// <exception cref="ParsingException">
+        ///     Thrown if the data could not be parsed
+        /// </exception>       
+        public void Parse(TextReader textReader, ref IniData iniData)
+        {
+            iniData.Clear();
+
+            iniData.Scheme = Scheme.DeepClone();
 
             _errorExceptions.Clear();
             if (Configuration.ParseComments)
             {
-                _currentCommentListTemp.Clear();
+                CurrentCommentListTemp.Clear();
             }
             _currentSectionNameTemp = null;
-            _mBuffer.Reset(stringReader);
+            _mBuffer.Reset(textReader);
             _currentLineNumber = 0;
 
             while (_mBuffer.ReadLine())
@@ -138,23 +143,23 @@ namespace IniParser
             try
             {
                 // Orphan comments, assing to last section/key value
-                if (Configuration.ParseComments && _currentCommentListTemp.Count > 0)
+                if (Configuration.ParseComments && CurrentCommentListTemp.Count > 0)
                 {
                     if (iniData.Sections.Count > 0)
                     {
                         // Check if there are actually sections in the file
                         var sections = iniData.Sections;
                         var section = sections.FindByName(_currentSectionNameTemp);
-                        section.Comments.AddRange(_currentCommentListTemp);
+                        section.Comments.AddRange(CurrentCommentListTemp);
                     }
                     else if (iniData.Global.Count > 0)
                     {
                         // No sections, put the comment in the last key value pair
                         // but only if the ini file contains at least one key-value pair
-                        iniData.Global.GetLast().Comments.AddRange(_currentCommentListTemp);
+                        iniData.Global.GetLast().Comments.AddRange(CurrentCommentListTemp);
                     }
 
-                    _currentCommentListTemp.Clear();
+                    CurrentCommentListTemp.Clear();
                 }
 
             }
@@ -167,9 +172,10 @@ namespace IniParser
                 }
             }
 
-            if (HasError) return null;
-
-            return iniData;
+            if (HasError)
+            {
+                iniData.Clear();
+            }
         }
 
         #region Template Method Design Pattern
@@ -248,7 +254,7 @@ namespace IniParser
                 comment.Trim();
             }
             
-            _currentCommentListTemp.Add(comment.ToString());
+            CurrentCommentListTemp.Add(comment.ToString());
 
             return true;
         }
@@ -324,8 +330,8 @@ namespace IniParser
             {
                 var sections = iniData.Sections;
                 var sectionData = sections.FindByName(sectionName);
-                sectionData.Comments.AddRange(_currentCommentListTemp);
-                _currentCommentListTemp.Clear();
+                sectionData.Comments.AddRange(CurrentCommentListTemp);
+                CurrentCommentListTemp.Clear();
             }
 
             return true;
@@ -466,8 +472,8 @@ namespace IniParser
 
             if (Configuration.ParseComments)
             {
-                keyDataCollection.GetKeyData(key).Comments = _currentCommentListTemp;
-                _currentCommentListTemp.Clear();
+                keyDataCollection.GetKeyData(key).Comments = CurrentCommentListTemp;
+                CurrentCommentListTemp.Clear();
             }
         }
 
@@ -480,24 +486,24 @@ namespace IniParser
         readonly List<Exception> _errorExceptions;
 
         // Temp list of comments
-        public List<string> _currentCommentListTemp
+        public List<string> CurrentCommentListTemp
         {
             get
             {
-                if (__currentCommentListTemp == null)
+                if (_currentCommentListTemp == null)
                 {
-                    __currentCommentListTemp = new List<string>();
+                    _currentCommentListTemp = new List<string>();
                 }
 
-                return __currentCommentListTemp;
+                return _currentCommentListTemp;
             }
 
             internal set
             {
-                __currentCommentListTemp = value;
+                _currentCommentListTemp = value;
             }
         }
-        List<string> __currentCommentListTemp;
+        List<string> _currentCommentListTemp;
 
         // Tmp var with the name of the seccion which is being process
         string _currentSectionNameTemp;

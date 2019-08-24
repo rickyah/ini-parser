@@ -205,7 +205,7 @@ namespace IniParser.Parser
             return _buffer.Count > 0 || c != -1;
         }
 
-        public void Reset(StringReader dataSource)
+        public void Reset(TextReader dataSource)
         {
             _dataSource = dataSource;
             _bufferIndexes.Reset();
@@ -330,7 +330,7 @@ namespace IniParser.Parser
                               range.size);
         }
 
-        StringReader _dataSource;
+        TextReader _dataSource;
         List<char> _buffer;
         Range _bufferIndexes;
     }

@@ -490,7 +490,7 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
 
             var result = parser.Parse(iniDataString);
 
-            Assert.That(result, Is.Null);
+            Assert.That(result, Is.Not.Null);
             Assert.That(parser.HasError, Is.True);
             Assert.That(parser.Errors, Has.Count.EqualTo(2));
 

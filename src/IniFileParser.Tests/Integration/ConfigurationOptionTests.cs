@@ -112,7 +112,7 @@ data1 = 1";
 
             var iniData = parser.Parse(ini);
 
-            Assert.That(iniData, Is.Null);
+            Assert.That(iniData, Is.Not.Null);
             Assert.That(parser.HasError, Is.True);
             Assert.That(parser.Errors, Has.Count.EqualTo(1));
             Assert.That(parser.Errors[0].GetType(), Is.EqualTo(typeof(ParsingException)));
