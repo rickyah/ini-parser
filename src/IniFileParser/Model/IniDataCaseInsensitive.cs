@@ -14,40 +14,30 @@ namespace IniParser.Model
         ///     Initializes an empty IniData instance.
         /// </summary>
         public IniDataCaseInsensitive()
-            : base (new SectionCollection(StringComparer.OrdinalIgnoreCase))
         {
+            Sections = new SectionCollection(StringComparer.OrdinalIgnoreCase);
             Global = new PropertyCollection(StringComparer.OrdinalIgnoreCase);
+            _scheme = new IniScheme();
         }
 
         public IniDataCaseInsensitive(IniScheme scheme)
-    : base(new SectionCollection(StringComparer.OrdinalIgnoreCase))
         {
+            Sections = new SectionCollection(StringComparer.OrdinalIgnoreCase);
             Global = new PropertyCollection(StringComparer.OrdinalIgnoreCase);
-            _schemeInternal = scheme.DeepClone();
+            _scheme = scheme.DeepClone();
         }
-        /// <summary>
-        ///     Initializes a new IniData instance using a previous
-        ///     <see cref="SectionCollection"/>.
-        /// </summary>
-        /// <param name="sdc">
-        ///     <see cref="SectionCollection"/> object containing the
-        ///     data with the sections of the file
-        /// </param>
-        public IniDataCaseInsensitive(SectionCollection sdc)
-            : base (new SectionCollection(sdc, StringComparer.OrdinalIgnoreCase))
-        {
-            Global = new PropertyCollection(StringComparer.OrdinalIgnoreCase);
-        }
+
 
         /// <summary>
         /// Copies an instance of the <see cref="IniParser.Model.IniDataCaseInsensitive"/> class
         /// </summary>
         /// <param name="ori">Original </param>
         public IniDataCaseInsensitive(IniData ori)
-            : this(new SectionCollection(ori.Sections, StringComparer.OrdinalIgnoreCase))
+            : this()
         {
-            Global = (PropertyCollection) ori.Global.DeepClone();
+            Global = ori.Global.DeepClone();
             Configuration = ori.Configuration.DeepClone();
+            Sections = new SectionCollection(ori.Sections, StringComparer.OrdinalIgnoreCase);
         }
     }
     

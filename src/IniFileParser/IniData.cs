@@ -12,7 +12,7 @@ namespace IniParser
         /// <summary>
         ///     Represents all sections from an INI file
         /// </summary>
-        protected IniScheme _schemeInternal;
+        protected IniScheme _scheme;
         #endregion
 
         #region Initialization
@@ -24,7 +24,7 @@ namespace IniParser
         {
             Global = new PropertyCollection();
             Sections = new SectionCollection();
-            _schemeInternal = new IniScheme();
+            _scheme = new IniScheme();
         }
         
         /// <summary>
@@ -34,21 +34,7 @@ namespace IniParser
         public IniData(IniScheme scheme)
          : this()
         {
-            _schemeInternal = scheme.DeepClone();
-        }
-
-        /// <summary>
-        ///     Initializes a new IniData instance using a previous
-        ///     <see cref="SectionCollection"/>.
-        /// </summary>
-        /// <param name="sdc">
-        ///     <see cref="SectionCollection"/> object containing the
-        ///     data with the sections of the file
-        /// </param>
-        public IniData(SectionCollection sdc)
-            :this()
-        {
-            Sections = sdc.DeepClone();
+            _scheme = scheme.DeepClone();
         }
 
         public IniData(IniData ori)
@@ -58,8 +44,6 @@ namespace IniParser
             Configuration = ori.Configuration.DeepClone();
         }
         #endregion
-
-        #region Properties
 
         /// <summary>
         ///     If set to true, it will automatically create a section when you use the indexed 
@@ -96,10 +80,30 @@ namespace IniParser
                 return _configuration;
             }
 
-            set { _configuration = value.DeepClone(); }
+            set
+            {
+                _configuration = value.DeepClone();
+            }
         }
 
-        public IIniScheme Scheme { get { return _schemeInternal; } }
+        public IniScheme Scheme
+        {
+            get
+            {
+                // Lazy initialization
+                if (_scheme == null)
+                {
+                    _scheme = new IniScheme();
+                }
+
+                return _scheme;
+            }
+
+            set
+            {
+                _scheme = value.DeepClone();
+            }
+        }
 
         /// <summary>
         /// 	Global sections. Contains properties which are not
@@ -133,42 +137,14 @@ namespace IniParser
         /// </summary>
         public SectionCollection Sections { get; set; }
 
-        #endregion
-
-        #region Object Methods
-        //public override string ToString()
-        //{
-        //    return ToString(new DefaultIniDataFormatter(Configuration));
-        //}
-
-        //public virtual string ToString(IIniDataFormatter formatter)
-        //{
-        //    return formatter.IniDataToString(this);
-        //}
-        #endregion
-
-        #region IDeelCloneable<T> Members
-
         /// <summary>
-        ///     Creates a new object that is a copy of the current instance.
+        ///     Deletes all data
         /// </summary>
-        /// <returns>
-        ///     A new object that is a copy of this instance.
-        /// </returns>
-        public IniData DeepClone()
+        public void Clear()
         {
-            return new IniData(this);
+            Global.Clear();
+            Sections.Clear();
         }
-
-        #endregion
-
-        #region Fields
-        /// <summary>
-        ///     See property <see cref="Configuration"/> for more information. 
-        /// </summary>
-        private IniParserConfiguration _configuration;
-        #endregion
-
         /// <summary>
         ///     Deletes all comments in all sections and properties values
         /// </summary>
@@ -197,5 +173,27 @@ namespace IniParser
             Global.Merge(toMergeIniData.Global);
             Sections.Merge(toMergeIniData.Sections);
         }
+
+        #region IDeelCloneable<T> Members
+
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///     A new object that is a copy of this instance.
+        /// </returns>
+        public IniData DeepClone()
+        {
+            return new IniData(this);
+        }
+
+        #endregion
+
+        #region Fields
+        /// <summary>
+        ///     See property <see cref="Configuration"/> for more information. 
+        /// </summary>
+        private IniParserConfiguration _configuration;
+        #endregion
     }
 }
