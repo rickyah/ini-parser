@@ -2,54 +2,12 @@
 
 namespace IniParser.Configuration
 {
-    public interface IIniScheme
-    {
-        /// <summary>
-        ///     Sets the string that defines the start of a comment.
-        ///     A comment spans from the mirst matching comment string
-        ///     to the end of the line.
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to string ";". 
-        ///     String returned will also be trimmed
-        /// </remarks>
-        string CommentString { get; }
-
-        /// <summary>
-        ///     Sets the string that defines the start of a section name.
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to "["
-        ///     String returned will also be trimmed
-        /// </remarks>
-        string SectionStartString { get; }
-
-        /// <summary>
-        ///     Sets the char that defines the end of a section name.
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to character ']'
-        ///     String returned will also be trimmed
-        /// </remarks>
-        string SectionEndString { get; }
-
-        /// <summary>
-        ///     Sets the string used in the ini file to denote a key / value assigment
-        /// </summary>
-        /// <remarks>
-        ///     Defaults to character '='
-        ///     String returned will also be trimmed
-        /// </remarks>
-        string PropertyAssigmentString { get; }
-    }
-
     /// <summary>
     /// This structure defines the format of the INI file by customization the characters used to define sections
     /// key/values or comments.
     /// Used IniDataParser to read INI files, and an IIniDataFormatter to write a new ini file string.
     /// </summary>
-	public class IniScheme : IIniScheme,
-                             IDeepCloneable<IniScheme>
+	public class IniScheme : IDeepCloneable<IniScheme>
     {
         /// <summary>
         ///     Ctor.
@@ -91,34 +49,63 @@ namespace IniParser.Configuration
             CommentString = ori.CommentString;
         }
 
-        #region IIniScheme Members
+        /// <summary>
+        ///     Sets the string that defines the start of a comment.
+        ///     A comment spans from the mirst matching comment string
+        ///     to the end of the line.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to string ";". 
+        ///     String returned will also be trimmed
+        /// </remarks>
         public string CommentString
         {
             get => string.IsNullOrWhiteSpace(_commentString) ? ";" : _commentString;
             set => _commentString = value?.Trim();
         }
+
+        /// <summary>
+        ///     Sets the string that defines the start of a section name.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to "["
+        ///     String returned will also be trimmed
+        /// </remarks>
         public string SectionStartString
         {
             get => string.IsNullOrWhiteSpace(_sectionStartString) ? "[" : _sectionStartString;
             set => _sectionStartString = value?.Trim();
         }
+
+
+        /// <summary>
+        ///     Sets the char that defines the end of a section name.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to character ']'
+        ///     String returned will also be trimmed
+        /// </remarks>
         public string SectionEndString
         {
             get => string.IsNullOrWhiteSpace(_sectionEndString) ? "]" : _sectionEndString;
             set => _sectionEndString = value?.Trim();
         }
+
+
+        /// <summary>
+        ///     Sets the string used in the ini file to denote a key / value assigment
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to character '='
+        ///     String returned will also be trimmed
+        /// </remarks>
+        /// 
         public string PropertyAssigmentString
         {
             get => string.IsNullOrWhiteSpace(_propertyAssigmentString) ? "=" : _propertyAssigmentString;
             set => _propertyAssigmentString = value?.Trim();
         }
-        #endregion
-
-        string _commentString = ";";
-        string _sectionStartString = "[";
-        string _sectionEndString = "]";
-        string _propertyAssigmentString = "=";
-
+        
         #region IDeepCloneable<T> Members
         /// <summary>
         ///     Creates a new object that is a copy of the current instance.
@@ -130,6 +117,13 @@ namespace IniParser.Configuration
         {
             return new IniScheme(this);
         }
+        #endregion
+
+        #region Fields
+        string _commentString = ";";
+        string _sectionStartString = "[";
+        string _sectionEndString = "]";
+        string _propertyAssigmentString = "=";
         #endregion
     }
 }
