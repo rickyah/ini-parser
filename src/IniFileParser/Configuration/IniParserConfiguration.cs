@@ -1,5 +1,4 @@
 ﻿using IniParser.Model;
-using IniParser.Parser;
 
 namespace IniParser.Configuration
 {

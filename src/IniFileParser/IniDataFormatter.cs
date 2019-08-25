@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Text;
 using IniParser.Configuration;
 using IniParser.Model;
+using IniParser.Format;
 
-namespace IniParser.Format
+namespace IniParser
 {
-
     public class IniDataFormatter : IIniDataFormatter
     {
         public string Format(IniData iniData, IniFormattingConfiguration format)
@@ -68,7 +68,7 @@ namespace IniParser.Format
                 }
 
                 //Write key and value
-                sb.Append($"{property.Name}{format.SpacesBetweenKeyAndAssigment}{scheme.PropertyAssigmentString}{format.SpacesBetweenAssigmentAndValue}{property.Value}{format.NewLineString}");
+                sb.Append($"{property.Key}{format.SpacesBetweenKeyAndAssigment}{scheme.PropertyAssigmentString}{format.SpacesBetweenAssigmentAndValue}{property.Value}{format.NewLineString}");
 
                 if (format.NewLineAfterProperty)
                 {

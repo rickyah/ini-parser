@@ -61,8 +61,8 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(sd.Properties.Contains(strKeyTest), Is.True);
 
             //Assign value
-            sd.Properties.GetKeyData(strKeyTest).Value = strValueTest;
-            Assert.That(sd.Properties.GetKeyData(strKeyTest).Value, Is.EqualTo(strValueTest));
+            sd.Properties.FindByKey(strKeyTest).Value = strValueTest;
+            Assert.That(sd.Properties.FindByKey(strKeyTest).Value, Is.EqualTo(strValueTest));
         }
 
         [Test]
@@ -130,11 +130,11 @@ namespace IniFileParser.Tests.Unit.Model
             var newSection = new Section("new_section");
 
             //Add key
-            destinySection.Properties.AddKeyAndValue("key1", "value1");
-            destinySection.Properties.AddKeyAndValue("key2", "value2");
+            destinySection.Properties.Add("key1", "value1");
+            destinySection.Properties.Add("key2", "value2");
 
-            newSection.Properties.AddKeyAndValue("key2", "newvalue2");
-            newSection.Properties.AddKeyAndValue("key3", "value3");
+            newSection.Properties.Add("key2", "newvalue2");
+            newSection.Properties.Add("key3", "value3");
 
             destinySection.Merge(newSection);
 
@@ -148,8 +148,8 @@ namespace IniFileParser.Tests.Unit.Model
         public void check_deep_clone()
         {
             var section = new Section("ori_section");
-            section.Properties.AddKeyAndValue("key1", "value1");
-            section.Properties.AddKeyAndValue("key2", "value2");
+            section.Properties.Add("key1", "value1");
+            section.Properties.Add("key2", "value2");
 
             var copy = section.DeepClone();
 

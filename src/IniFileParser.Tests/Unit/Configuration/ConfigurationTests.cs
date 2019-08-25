@@ -104,9 +104,9 @@ name = Marble Zone
 
             Assert.That(section1.Properties, Is.Not.Null);
             Assert.That(section1.Properties.Count, Is.EqualTo(2));
-            Assert.That(section1.Properties.GetKeyData("name"), Is.Not.Null);
+            Assert.That(section1.Properties.FindByKey("name"), Is.Not.Null);
             Assert.That(section1.Properties["name"], Is.EqualTo("Green Hill Zone"));
-            Assert.That(section1.Properties.GetKeyData("this_is_not_a_comment"), Is.Not.Null);
+            Assert.That(section1.Properties.FindByKey("this_is_not_a_comment"), Is.Not.Null);
             Assert.That(section1.Properties["this_is_not_a_comment"], Is.EqualTo(";no comment"));
         }
 

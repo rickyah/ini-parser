@@ -54,8 +54,6 @@ namespace IniParser.Model
 
         #endregion
 
-        #region Properties
-
         /// <summary>
         /// Returns the number of Section elements in the collection
         /// </summary>
@@ -77,10 +75,6 @@ namespace IniParser.Model
                 return null;
             }
         }
-
-        #endregion
-
-        #region Public Members
 
         /// <summary>
         /// Creates a new section with empty data.
@@ -127,7 +121,6 @@ namespace IniParser.Model
             _sections.Clear();
         }
 
-
         /// <summary>
         /// Gets if a section with a specified name exists in the collection.
         /// </summary>
@@ -172,7 +165,6 @@ namespace IniParser.Model
             }
         }
 
-
         /// <summary>
         /// Removes the section with the given name and all its properties
         /// </summary>
@@ -183,8 +175,6 @@ namespace IniParser.Model
         {
             return _sections.Remove(sectionName);
         }
-
-        #endregion
 
         #region IEnumerable<SectionData> Members
 
@@ -232,15 +222,9 @@ namespace IniParser.Model
 
         #endregion
 
-        #region Non-public Members
-
-        /// <summary>
-        /// Data associated to this section
-        /// </summary>
+        #region Fields
         readonly Dictionary<string, Section> _sections;
-
         readonly IEqualityComparer<string> _searchComparer;
         #endregion
-
     }
 }

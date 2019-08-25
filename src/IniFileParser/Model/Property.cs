@@ -18,10 +18,10 @@ namespace IniParser.Model
         public Property(string keyName, string value = "")
         {
             if (string.IsNullOrEmpty(keyName))
-                throw new ArgumentException("key name can not be empty", nameof(Name));
+                throw new ArgumentException("key name can not be empty", nameof(Key));
 
             Value = value;
-            Name = keyName;
+            Key = keyName;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace IniParser.Model
         public Property(Property ori)
         {
             Value = ori.Value;
-            Name = ori.Name;
+            Key = ori.Key;
             Comments = ori.Comments;
         }   
 
@@ -81,7 +81,7 @@ namespace IniParser.Model
         /// <summary>
         ///     Gets or sets the name of this property.
         /// </summary>
-        public string Name { get; set; }
+        public string Key { get; set; }
 
 
         #endregion Properties 

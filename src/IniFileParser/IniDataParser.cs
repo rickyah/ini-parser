@@ -467,12 +467,12 @@ namespace IniParser
             else
             {
                 // Save the keys
-                keyDataCollection.AddKeyAndValue(key, value);
+                keyDataCollection.Add(key, value);
             }
 
             if (Configuration.ParseComments)
             {
-                keyDataCollection.GetKeyData(key).Comments = CurrentCommentListTemp;
+                keyDataCollection.FindByKey(key).Comments = CurrentCommentListTemp;
                 CurrentCommentListTemp.Clear();
             }
         }

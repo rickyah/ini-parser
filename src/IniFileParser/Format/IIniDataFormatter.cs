@@ -1,6 +1,6 @@
 using IniParser.Configuration;
 
-namespace IniParser
+namespace IniParser.Format
 {
     /// <summary>
     ///     Formats a IniData structure to an string

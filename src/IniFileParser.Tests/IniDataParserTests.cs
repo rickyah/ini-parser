@@ -40,9 +40,9 @@ mykey1 = value1
 
             Assert.That(section1.Properties, Is.Not.Null);
             Assert.That(section1.Properties.Count, Is.EqualTo(2));
-            Assert.That(section1.Properties.GetKeyData("key1"), Is.Not.Null);
+            Assert.That(section1.Properties.FindByKey("key1"), Is.Not.Null);
             Assert.That(section1.Properties["key1"], Is.EqualTo("value1"));
-            Assert.That(section1.Properties.GetKeyData("key2"), Is.Not.Null);
+            Assert.That(section1.Properties.FindByKey("key2"), Is.Not.Null);
             Assert.That(section1.Properties["key2"], Is.EqualTo("value5"));
         }
          
@@ -84,9 +84,9 @@ mykey1 = value1
 
             Assert.That(section1.Properties, Is.Not.Null);
             Assert.That(section1.Properties.Count, Is.EqualTo(2));
-            Assert.That(section1.Properties.GetKeyData("key1"), Is.Not.Null);
+            Assert.That(section1.Properties.FindByKey("key1"), Is.Not.Null);
             Assert.That(section1.Properties["key1"], Is.EqualTo("value1"));
-            Assert.That(section1.Properties.GetKeyData("key2"), Is.Not.Null);
+            Assert.That(section1.Properties.FindByKey("key2"), Is.Not.Null);
             Assert.That(section1.Properties["key2"], Is.EqualTo("value5"));
         }
 
@@ -151,7 +151,7 @@ connectionString = Server=sqlserver.domain.com;Database=main;User ID=user;Passwo
                 Is.EqualTo("Server=sqlserver.domain.com;Database=main;User ID=user;Password=password"));
 
             Assert.That(
-                iniData["test"].GetKeyData("connectionString").Comments[0], Is.EqualTo("a comment"));
+                iniData["test"].FindByKey("connectionString").Comments[0], Is.EqualTo("a comment"));
         }
 
         [Test, Description("Test for Issue 10: http://code.google.com/p/ini-parser/issues/detail?id=10")]
@@ -439,8 +439,8 @@ Run=http://192.168.1.88:8139/getsms.aspx?SENDER=@@SENDER@@&FULLSMS=@@FULLSMS@@&S
 
             Assert.That(iniData.Global.Contains("value1"));
 
-            Assert.That(iniData.Global.GetKeyData("value1").Comments, Has.Count.EqualTo(3));
-            Assert.That(iniData.Global.GetKeyData("value1").Comments[2], Is.EqualTo("end"));
+            Assert.That(iniData.Global.FindByKey("value1").Comments, Has.Count.EqualTo(3));
+            Assert.That(iniData.Global.FindByKey("value1").Comments[2], Is.EqualTo("end"));
         }
 
         // Thanks https://github.com/RichardSinden for this issue

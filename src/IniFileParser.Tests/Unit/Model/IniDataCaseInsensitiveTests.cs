@@ -13,9 +13,9 @@ namespace IniFileParser.Tests.Unit.Model
 
             var data = new IniDataCaseInsensitive();
             var section = new Section("TestSection");
-            section.Properties.AddKeyAndValue("keY1", "value1");
-            section.Properties.AddKeyAndValue("KEY2", "value2");
-            section.Properties.AddKeyAndValue("KeY2", "value3");
+            section.Properties.Add("keY1", "value1");
+            section.Properties.Add("KEY2", "value2");
+            section.Properties.Add("KeY2", "value3");
 
             data.Sections.Add(section);
 
@@ -49,8 +49,8 @@ namespace IniFileParser.Tests.Unit.Model
         {
 
             var data = new IniDataCaseInsensitive();
-            data.Global.AddKeyAndValue("keY1", "value1");
-            data.Global.AddKeyAndValue("KEY2", "value2");
+            data.Global.Add("keY1", "value1");
+            data.Global.Add("KEY2", "value2");
             data.Global["KeY2"] = "value3";
 
             Assert.That(data.Global["key1"], Is.EqualTo("value1"));

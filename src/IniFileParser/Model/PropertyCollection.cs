@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -47,21 +46,18 @@ namespace IniParser.Model
         {
             foreach (Property property in ori)
             {
-                if (_properties.ContainsKey(property.Name))
+                if (_properties.ContainsKey(property.Key))
                 {
-                    _properties[property.Name] = property.DeepClone();
+                    _properties[property.Key] = property.DeepClone();
                 }
                 else
                 {
-                    _properties.Add(property.Name, property.DeepClone());
+                    _properties.Add(property.Key, property.DeepClone());
                 }
             }
         }
 
         #endregion
-
-
-        #region Properties
 
         /// <summary>
         ///     Gets or sets the value of a property.
@@ -103,15 +99,6 @@ namespace IniParser.Model
             get { return _properties.Count; }
         }
 
-        #region Helpers
-        // Adds a property w/out checking if it is already contained in the dictionary
-        internal void AddPropertyInternal(Property property)
-        {
-            _lastAdded = property;
-            _properties.Add(property.Name, property);
-        }
-        #endregion
-
         /// <summary>
         ///     Adds a new key with the specified name and empty value and comments
         /// </summary>
@@ -145,7 +132,7 @@ namespace IniParser.Model
         /// </returns>
         public bool Add(Property property)
         {
-            if (!_properties.ContainsKey(property.Name))
+            if (!_properties.ContainsKey(property.Key))
             {
                 AddPropertyInternal(property);
                 return true;
@@ -166,7 +153,7 @@ namespace IniParser.Model
         ///     true if the property was added, false if a key with the same 
         ///     name already exist in the collection.
         /// </returns>
-        public bool AddKeyAndValue(string key, string value)
+        public bool Add(string key, string value)
         {
             if (!_properties.ContainsKey(key))
             {
@@ -211,12 +198,13 @@ namespace IniParser.Model
         /// A <see cref="Property"/> instance holding
         /// the key information or <c>null</c> if the key wasn't found.
         /// </returns>
-        public Property GetKeyData(string keyName)
+        public Property FindByKey(string keyName)
         {
             if (_properties.ContainsKey(keyName))
                 return _properties[keyName];
             return null;
         }
+       
         /// <summary>
         ///     Merges other Property into this, adding new properties if they 
         ///     did not existed or overwriting values if the properties already 
@@ -230,9 +218,9 @@ namespace IniParser.Model
         {
             foreach (var keyData in propertyToMerge)
             {
-                Add(keyData.Name);
-                this[keyData.Name] = keyData.Value;
-                GetKeyData(keyData.Name).Comments.AddRange(keyData.Comments);
+                Add(keyData.Key);
+                this[keyData.Key] = keyData.Value;
+                FindByKey(keyData.Key).Comments.AddRange(keyData.Comments);
             }
         }
 
@@ -256,8 +244,6 @@ namespace IniParser.Model
         {
             return _properties.Remove(keyName);
         }
-
-        #endregion
 
         #region IEnumerable<KeyData> Members
 
@@ -299,6 +285,15 @@ namespace IniParser.Model
             return new PropertyCollection(this, _searchComparer);
         }
 
+        #endregion
+
+        #region Helpers
+        // Adds a property w/out checking if it is already contained in the dictionary
+        internal void AddPropertyInternal(Property property)
+        {
+            _lastAdded = property;
+            _properties.Add(property.Key, property);
+        }
         #endregion
 
         #region Non-public Members

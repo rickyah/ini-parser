@@ -19,16 +19,16 @@ value1 = 10.6";
 
             var data = new IniDataParser().Parse(iniData);
 
-            Assert.That(data.Global.GetKeyData("key1").Comments, Is.Not.Empty);
+            Assert.That(data.Global.FindByKey("key1").Comments, Is.Not.Empty);
             Assert.That(data.Sections.FindByName("section1").Comments, Is.Not.Empty);
-            Assert.That(data["section1"].GetKeyData("value1").Comments, Is.Not.Empty);
+            Assert.That(data["section1"].FindByKey("value1").Comments, Is.Not.Empty);
 
 
             data.ClearAllComments();
 
-            Assert.That(data.Global.GetKeyData("key1").Comments, Is.Empty);
+            Assert.That(data.Global.FindByKey("key1").Comments, Is.Empty);
             Assert.That(data.Sections.FindByName("section1").Comments, Is.Empty);
-            Assert.That(data["section1"].GetKeyData("value1").Comments, Is.Empty);
+            Assert.That(data["section1"].FindByKey("value1").Comments, Is.Empty);
 
         }
 
@@ -38,7 +38,7 @@ value1 = 10.6";
             var newData = new IniData();
 
             newData.Sections.Add("newSection");
-            newData["newSection"].AddKeyAndValue("newKey1", "value1");
+            newData["newSection"].Add("newKey1", "value1");
 
             Assert.That(newData["newSection"]["newKey1"], Is.EqualTo("value1"));
         }

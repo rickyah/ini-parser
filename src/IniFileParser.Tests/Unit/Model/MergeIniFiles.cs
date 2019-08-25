@@ -11,7 +11,7 @@ namespace IniFileParser.Tests.Unit.Model
         public void merge_programatically_created_ini_files()
         {
 			var iniData = new IniData();
-			iniData.Global.AddKeyAndValue("UseSeparateRepositoryForAssets", true.ToString());
+			iniData.Global.Add("UseSeparateRepositoryForAssets", true.ToString());
 
 			iniData.Sections.Add("MainRepository");
 			iniData["MainRepository"]["Type"] = "git";

@@ -15,7 +15,7 @@ namespace IniFileParser.Tests.Unit.Model
             Assert.That(col["key1"], Is.Empty);
 
 
-            col.AddKeyAndValue("key2", "value2");
+            col.Add("key2", "value2");
 
             Assert.That(col["key2"], Is.EqualTo("value2"));
 
@@ -31,7 +31,7 @@ namespace IniFileParser.Tests.Unit.Model
         {
             var ori = new PropertyCollection();
 
-            ori.AddKeyAndValue("key1", "value1");
+            ori.Add("key1", "value1");
 
             var copy = ori.DeepClone();
 

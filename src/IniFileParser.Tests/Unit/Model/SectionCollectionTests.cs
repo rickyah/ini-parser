@@ -58,11 +58,11 @@ namespace IniFileParser.Tests.Unit.Model
             data.Sections.Add("test");
             data.Sections.Add("test2");
 
-            data["test"].AddKeyAndValue("key1", "value1");
-            data["test"].AddKeyAndValue("key2", "value2");
+            data["test"].Add("key1", "value1");
+            data["test"].Add("key2", "value2");
 
-            data["test2"].AddKeyAndValue("key3", "value3");
-            data["test2"].AddKeyAndValue("key4", "value4");
+            data["test2"].Add("key3", "value3");
+            data["test2"].Add("key4", "value4");
 
             Assert.That(data["test"].Contains("key1"));
             Assert.That(data["test"].Contains("key2"));

@@ -14,7 +14,7 @@ namespace IniFileParser.Tests.Unit.Model
             var property = new Property("key_name");
 
             Assert.That(property, Is.Not.Null);
-            Assert.That(property.Name, Is.EqualTo("key_name"));
+            Assert.That(property.Key, Is.EqualTo("key_name"));
             Assert.That(property.Comments, Is.Empty);
             Assert.That(property.Value, Is.Empty);
         }
@@ -39,7 +39,7 @@ namespace IniFileParser.Tests.Unit.Model
             
             //Assert not null and empty
             Assert.That(property, Is.Not.Null);
-            Assert.That(property.Name, Is.EqualTo(strKeyTest));
+            Assert.That(property.Key, Is.EqualTo(strKeyTest));
             Assert.That(property.Value, Is.EqualTo(strValueTest));
             Assert.That(property.Comments, Has.Count.EqualTo(2));
             Assert.That(property.Comments[0], Is.EqualTo("testComment 1"));
@@ -63,7 +63,7 @@ namespace IniFileParser.Tests.Unit.Model
 
             //Assert not null and empty
             Assert.That(propertyCopy, Is.Not.Null);
-            Assert.That(propertyCopy.Name, Is.EqualTo(strKeyTest));
+            Assert.That(propertyCopy.Key, Is.EqualTo(strKeyTest));
             Assert.That(propertyCopy.Value, Is.EqualTo(strValueTest));
             Assert.That(propertyCopy.Comments, Has.Count.EqualTo(2));
             Assert.That(propertyCopy.Comments[0], Is.EqualTo("testComment 1"));
@@ -74,13 +74,13 @@ namespace IniFileParser.Tests.Unit.Model
         public void check_merge_properties()
         {
             var properties1 = new PropertyCollection();
-            properties1.AddKeyAndValue( "key1", "value1");
-            properties1.AddKeyAndValue( "key2", "value2");
-            properties1.AddKeyAndValue( "key3", "value3");
+            properties1.Add( "key1", "value1");
+            properties1.Add( "key2", "value2");
+            properties1.Add( "key3", "value3");
 
             var properties2 = new PropertyCollection();
-            properties2.AddKeyAndValue("key1", "value11");
-            properties2.AddKeyAndValue("key4", "value4");
+            properties2.Add("key1", "value11");
+            properties2.Add("key4", "value4");
 
             properties1.Merge(properties2);
 

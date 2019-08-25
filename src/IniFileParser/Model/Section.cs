@@ -9,7 +9,6 @@ namespace IniParser.Model
     /// </summary>
     public class Section : IDeepCloneable<Section>
     {
-        readonly IEqualityComparer<string> _searchComparer;
         #region Initialization
 
         public Section(string sectionName)
@@ -57,45 +56,6 @@ namespace IniParser.Model
 
         #endregion
 
-		#region Operations
-
-        /// <summary>
-        ///     Deletes all comments in this section and in all the properties pairs it contains
-        /// </summary>
-        public void ClearComments()
-        {
-            Comments.Clear();
-            Properties.ClearComments();
-        }
-
-        /// <summary>
-        /// Deletes all the properties pairs in this section.
-        /// </summary>
-		public void ClearProperties()
-		{
-			Properties.Clear();
-		}
-
-        /// <summary>
-        ///     Merges otherSection into this, adding new properties if they 
-        ///     did not existed or overwriting values if the properties already 
-        ///     existed.
-        /// </summary>
-        /// <remarks>
-        ///     Comments are also merged but they are always added, not overwritten.
-        /// </remarks>
-        /// <param name="toMergeSection"></param>
-        public void Merge(Section toMergeSection)
-        {  
-            Properties.Merge(toMergeSection.Properties);
-
-            foreach(var comment in toMergeSection.Comments) 
-                Comments.Add(comment);
-        }
-
-		#endregion
-
-        #region Properties
 
         /// <summary>
         ///     Gets or sets the name of the section.
@@ -154,7 +114,48 @@ namespace IniParser.Model
         /// </value>
         public PropertyCollection Properties { get; set; }
 
-        #endregion
+        /// <summary>
+        ///     Deletes all comments and properties from this Section
+        /// </summary>
+        public void Clear()
+        {
+            ClearProperties();
+            ClearComments();
+        }
+
+        /// <summary>
+        ///     Deletes all comments in this section and in all the properties pairs it contains
+        /// </summary>
+        public void ClearComments()
+        {
+            Comments.Clear();
+            Properties.ClearComments();
+        }
+
+        /// <summary>
+        /// Deletes all the properties pairs in this section.
+        /// </summary>
+		public void ClearProperties()
+        {
+            Properties.Clear();
+        }
+
+        /// <summary>
+        ///     Merges otherSection into this, adding new properties if they 
+        ///     did not existed or overwriting values if the properties already 
+        ///     existed.
+        /// </summary>
+        /// <remarks>
+        ///     Comments are also merged but they are always added, not overwritten.
+        /// </remarks>
+        /// <param name="toMergeSection"></param>
+        public void Merge(Section toMergeSection)
+        {
+            Properties.Merge(toMergeSection.Properties);
+
+            foreach (var comment in toMergeSection.Comments)
+                Comments.Add(comment);
+        }
 
         #region IDeepCloneable<T> Members
         public Section DeepClone()
@@ -163,11 +164,10 @@ namespace IniParser.Model
         }
         #endregion
 
-        #region Non-public members
-
-        // Comments associated to this section
+        #region Fields
         List<string> _comments;
         private string _name;
+        readonly IEqualityComparer<string> _searchComparer;
         #endregion
     }
 }

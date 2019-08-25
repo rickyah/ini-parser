@@ -20,16 +20,16 @@ namespace IniFileParser.Tests.Unit.Configuration
             var ini1 = @"; comment
 key1=1";
             iniData = parser.Parse(ini1);
-            Assert.That(iniData.Global.GetKeyData("key1").Comments, Has.Count.EqualTo(1));
-            Assert.That(iniData.Global.GetKeyData("key1").Comments[0], Is.EqualTo("comment"));
+            Assert.That(iniData.Global.FindByKey("key1").Comments, Has.Count.EqualTo(1));
+            Assert.That(iniData.Global.FindByKey("key1").Comments[0], Is.EqualTo("comment"));
 
             parser.Scheme.CommentString = "#";
             var ini2 = @"# comment
 key1=1";
 
             iniData = parser.Parse(ini2);
-            Assert.That(iniData.Global.GetKeyData("key1").Comments, Has.Count.EqualTo(1));
-            Assert.That(iniData.Global.GetKeyData("key1").Comments[0], Is.EqualTo("comment"));
+            Assert.That(iniData.Global.FindByKey("key1").Comments, Has.Count.EqualTo(1));
+            Assert.That(iniData.Global.FindByKey("key1").Comments[0], Is.EqualTo("comment"));
 
             parser.Scheme.CommentString = "##";
 
@@ -39,8 +39,8 @@ key1=1";
             iniData = parser.Parse(ini3);
             Assert.That(iniData.Global.Contains("#key1"), Is.True);
 
-            Assert.That(iniData.Global.GetKeyData("#key1").Comments, Has.Count.EqualTo(1));
-            Assert.That(iniData.Global.GetKeyData("#key1").Comments[0], Is.EqualTo("a comment"));
+            Assert.That(iniData.Global.FindByKey("#key1").Comments, Has.Count.EqualTo(1));
+            Assert.That(iniData.Global.FindByKey("#key1").Comments[0], Is.EqualTo("a comment"));
         }
 
         [Test]
