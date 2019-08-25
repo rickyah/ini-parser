@@ -22,6 +22,11 @@ namespace IniParser
                 WriteSection(section, sb, iniData.Scheme, format);
             }
 
+            var newLineLength = format.NewLineString.Length;
+            
+            // Remove the last new line
+            sb.Remove(sb.Length - newLineLength, newLineLength);
+
             return sb.ToString();
         }
 
