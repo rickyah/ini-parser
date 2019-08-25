@@ -2,7 +2,7 @@ using System;
 using IniParser;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Model
+namespace IniParser.Tests.Unit.Model
 {
     [TestFixture]
     public class MergeIniFiles

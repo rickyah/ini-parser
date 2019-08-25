@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
-using IniParser;
-using IniParser.Format;
+using IniParser.Configuration;
 
-namespace IniFileParser.Tests.Unit.Format
+namespace IniParser.Tests.Unit.Format
 {
     [TestFixture]
     public class IniFormatterTests
@@ -46,7 +45,6 @@ key=value
 
 
 key2=value
-
 ";
 
             var iniData = parser.Parse(str);

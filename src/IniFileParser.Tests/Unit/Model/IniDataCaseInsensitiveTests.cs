@@ -2,7 +2,7 @@ using IniParser;
 using IniParser.Model;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Model
+namespace IniParser.Tests.Unit.Model
 {
     [TestFixture]
     public class IniDataCaseInsensitiveTests

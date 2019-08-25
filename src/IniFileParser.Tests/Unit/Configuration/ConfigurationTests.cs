@@ -2,7 +2,7 @@
 using IniParser.Configuration;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Configuration
+namespace IniParser.Tests.Unit.Configuration
 {
     [TestFixture]
     public class ConfigurationTests

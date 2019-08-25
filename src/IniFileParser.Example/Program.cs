@@ -1,7 +1,7 @@
 using System;
 using IniParser;
 
-namespace IniFileParser.Example
+namespace IniParser.Example
 {
     public class MainProgram
     {

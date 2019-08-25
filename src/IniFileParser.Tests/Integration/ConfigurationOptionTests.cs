@@ -3,7 +3,7 @@ using IniParser.Configuration;
 using IniParser.Exceptions;
 using NUnit.Framework;
 
-namespace IniFileParser.Tests.Unit.Configuration
+namespace IniParser.Tests.Unit.Configuration
 {
     [TestFixture]
     public class ConfigurationOptionsTests

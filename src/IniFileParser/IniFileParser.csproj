@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>IniParser</RootNamespace>
-		<AssemblyName>IniFileParser</AssemblyName>
+		<AssemblyName>IniParser</AssemblyName>
 		<Description>A .NET, Mono and Unity3d compatible(*) library for reading/writing INI data from IO streams, file streams, and strings written in C#.
 
 Also implements merging operations, both for complete ini files, sections, or even just a subset of the keys contained by the files.
@@ -12,14 +12,14 @@ Also implements merging operations, both for complete ini files, sections, or ev
 		<PackageProjectUrl>https://github.com/rickyah/ini-parser</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageIconUrl>https://raw.githubusercontent.com/rickyah/ini-parser/development/nuget-ini-icon.png</PackageIconUrl>
-		<Version>2.5.3-sh1</Version>
+		<Version>3.0</Version>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
 		<OutputType>Library</OutputType>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 		<NoWarn>$(NoWarn);0618;1591;1573</NoWarn><!-- Ignore: Use of Deprecated, Undocumented Public Members, Undocumented Parameters -->
-		<PackageTags>ini</PackageTags>
+		<PackageTags>ini, parser, configuration, config, inifile, cfg, ini file</PackageTags>
 		<PackageId>ini-parser</PackageId>
 		<Product>INI Parser</Product>
 		<ReleaseVersion></ReleaseVersion>
@@ -28,6 +28,8 @@ Also implements merging operations, both for complete ini files, sections, or ev
 	<!-- Auto-select supported target frameworks based on MSBuild version -->
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<RepositoryUrl>https://github.com/rickyah/ini-parser</RepositoryUrl>
+		<Copyright>Ricardo Amores Hernández 2009-2019</Copyright>
 	</PropertyGroup>
     <!-- Only generate NuGet package for full builds -->
     <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Full'">

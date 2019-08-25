@@ -75,7 +75,6 @@ namespace IniParser.Configuration
         public string SpacesBetweenAssigmentAndValue { get; private set; }
         public bool NewLineBeforeSection { get; set; } = false;
         public bool NewLineAfterSection { get; set; } = false;
-
         public bool NewLineAfterProperty { get; set; } = false;
         public bool NewLineBeforeProperty { get; set; } = false;
 
@@ -88,8 +87,10 @@ namespace IniParser.Configuration
 
         #endregion
 
+        #region Fields
         private uint _numSpacesBetweenKeyAndAssigment;
         private uint _numSpacesBetweenAssigmentAndValue;
+        #endregion
     }
 
 }

@@ -3,7 +3,7 @@ using IniParser.Parser;
 using System.IO;
 using System;
 
-namespace IniFileParser.Tests
+namespace IniParser.Tests
 {
     [TestFixture]
     public class StringReaderBufferTest
