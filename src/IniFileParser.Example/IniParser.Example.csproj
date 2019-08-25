@@ -13,9 +13,9 @@
     <PropertyGroup Condition="'$(MSBuildRuntimeType)'!='Core'">
     <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IniFileParser\IniFileParser.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\IniFileParser\IniParser.csproj" />
+    </ItemGroup>
 
   <ItemGroup>
     <None Update="TestIniFile.ini">
