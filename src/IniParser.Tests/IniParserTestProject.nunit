@@ -1,9 +1,9 @@
 ﻿<NUnitProject>
   <Settings activeconfig="Release" />
   <Config name="Debug" binpathtype="Auto">
-    <assembly path="bin\Debug\IniFileParserTests.dll" />
+    <assembly path="bin\Debug\IniParserTests.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto">
-    <assembly path="bin\Release\IniFileParserTests.dll" />
+    <assembly path="bin\Release\IniParserTests.dll" />
   </Config>
 </NUnitProject>

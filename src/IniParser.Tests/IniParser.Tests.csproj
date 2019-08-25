@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IniFileParser\IniParser.csproj" />
+    <ProjectReference Include="..\IniParser\IniParser.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,19 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="INIFileEMPTY.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="INIfileBADKeys.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IniFileParserTestProject.nunit">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="long_file.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="INIFileGOOD.ini_test.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="real_file.ini">
