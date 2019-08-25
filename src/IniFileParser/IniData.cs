@@ -8,13 +8,6 @@ namespace IniParser
     /// </summary>
     public class IniData : IDeepCloneable<IniData>
     {
-        #region Non-Public Members
-        /// <summary>
-        ///     Represents all sections from an INI file
-        /// </summary>
-        protected IniScheme _scheme;
-        #endregion
-
         #region Initialization
 
         /// <summary>
@@ -194,6 +187,11 @@ namespace IniParser
         ///     See property <see cref="Configuration"/> for more information. 
         /// </summary>
         private IniParserConfiguration _configuration;
+        /// <summary>
+        ///     Represents all sections from an INI file
+        /// </summary>
+        protected IniScheme _scheme;
+
         #endregion
     }
 }
