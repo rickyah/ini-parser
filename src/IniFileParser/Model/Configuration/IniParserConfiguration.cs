@@ -277,6 +277,14 @@ namespace IniParser.Model.Configuration
 
         public bool SkipInvalidLines { get; set; }
 
+        /// <summary>
+        /// If true, it will consider lines that does not contains an assigment 
+        /// character as keys with a null value
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>false</c>.
+        /// </remarks>
+        public bool AllowKeysWithoutValue { get; set; }
         #endregion
 
         #region Fields

@@ -282,6 +282,11 @@ namespace IniParser.Parser
                 ProcessKeyValuePair(currentLine, currentIniData);
                 return;
             }
+            else if (Configuration.AllowKeysWithoutValue)
+            {
+                AddKeyvaluePair(currentLine, null, currentIniData);
+                return;
+            }
 
             if (Configuration.SkipInvalidLines)
                 return;
@@ -349,6 +354,11 @@ namespace IniParser.Parser
 
             string value = ExtractValue(line);
 
+            AddKeyvaluePair(key, value, currentIniData);
+        }
+
+        private void AddKeyvaluePair(string key, string value, IniData currentIniData)
+        {
             // Check if we haven't read any section yet
             if (string.IsNullOrEmpty(_currentSectionNameTemp))
             {
@@ -366,7 +376,6 @@ namespace IniParser.Parser
                 AddKeyToKeyValueCollection(key, value, currentSection.Keys, _currentSectionNameTemp);
             }
         }
-
         /// <summary>
         ///     Extracts the key portion of a string containing a key/value pair..
         /// </summary>

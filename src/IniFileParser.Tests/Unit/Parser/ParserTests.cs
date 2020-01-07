@@ -509,5 +509,20 @@ key2 = value2";
 			Assert.That(parsedData.Sections["W101 0.5\" wc"], Is.Not.Empty);
 			Assert.That(parsedData.Sections["W103 0.5' wc"], Is.Not.Empty);
 		}
+
+        [Test]
+        public void test_parsing_properties_without_value()
+        {
+            var iniString = @"
+[section1]
+value1
+value2";
+            var parser = new IniDataParser();
+            parser.Configuration.AllowKeysWithoutValue = true;
+            var parsedData = parser.Parse(iniString);
+
+            Assert.That(parsedData["section1"].ContainsKey("value1"), Is.True);
+            Assert.That(parsedData["section1"]["value1"], Is.Null);
+        }
     }
 }
