@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IniParser", "IniParser\IniParser.csproj", "{5E46DCF4-C473-4171-9F9B-F3910B5EC407}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IniParser.Tests", "IniParser.Tests\IniParser.Tests.csproj", "{553AD4A0-946C-436D-8135-5ADBA97D246E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IniParser.Example", "IniParser.Example\IniParser.Example.csproj", "{D4CF6996-5C75-46D1-A75B-22731ED16058}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E46DCF4-C473-4171-9F9B-F3910B5EC407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{553AD4A0-946C-436D-8135-5ADBA97D246E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4CF6996-5C75-46D1-A75B-22731ED16058}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B9CB680-C9FA-4BC3-B61A-E1000C409156}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = IniParser.Example\IniParser.Example.csproj
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		version = 
+	EndGlobalSection
+EndGlobal
