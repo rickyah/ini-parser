@@ -1,16 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using IniParser;
 using IniParser.Exceptions;
-using IniParser.Model;
-using IniParser.Parser;
 using NUnit.Framework;
 
 namespace IniParser.Tests.Unit.Parser
 {
     [TestFixture]
-    public class IniDataParserTestFiles
+    public partial class ParserTests
     {
         IniData ReadAndParseIniFile(IniDataParser parser, string fileName, Encoding fileEncoding)
         {

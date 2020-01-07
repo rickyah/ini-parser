@@ -32,7 +32,7 @@ value1 = 10.6";
 
         }
 
-        [Test, Description("Test for Issue 7: http://code.google.com/p/ini-parser/issues/detail?id=7")]
+        [Test]
         public void check_add_keydata_method_using_key_and_value_strings()
         {
             var newData = new IniData();

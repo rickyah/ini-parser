@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace IniParser.Tests.Unit.Parser
 {
     [TestFixture]
-    public class ParserTests
+    public partial class ParserTests
     {
 
         string iniFileStr =
@@ -88,14 +88,6 @@ mykey1 = value1
             Assert.That(section1.Properties["key1"], Is.EqualTo("value1"));
             Assert.That(section1.Properties.FindByKey("key2"), Is.Not.Null);
             Assert.That(section1.Properties["key2"], Is.EqualTo("value5"));
-        }
-
-        [Test, Ignore("no writing tests")]
-        public void check_ini_writing()
-        {
-            IniData data = new IniDataParser().Parse(iniFileStr);
-
-            Assert.That(data.ToString(), Is.EqualTo(iniFileStr));
         }
 
         [Test, Description("Test for Issue 3: http://code.google.com/p/ini-parser/issues/detail?id=3")]
