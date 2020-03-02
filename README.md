@@ -113,6 +113,5 @@ You can easily use this library in your Unity3D projects. Just drop either the c
 
 ini-parser is actually being used in [ProjectPrefs](http://u3d.as/content/garrafote/project-prefs/5so) a free add-on available in the Unity Assets Store that allows you to set custom preferences for your project. I'm not affiliated with this project: Kudos to Garrafote for making this add-on.
 
-## Contributing
-
+## Contributing
 Do you have an idea to improve this library, or did you happen to run into a bug? Please share your idea or the bug you found in the [issues page](https://github.com/rickyah/ini-parser/issues), or even better: feel free to fork and [contribute](https://github.com/rickyah/ini-parser/wiki/Contributing) to this project with a Pull Request.
