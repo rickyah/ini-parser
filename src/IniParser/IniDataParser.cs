@@ -246,7 +246,7 @@ namespace IniParser
             // the comment delimiter
             var startIdx = commentRange.start + Scheme.CommentString.Length;
             var size = currentLineTrimmed.Count - Scheme.CommentString.Length;
-            var range = Range.FromIndexWithSize(startIdx, size);
+            var range = IniParser.Parser.StringBuffer.Range.FromIndexWithSize(startIdx, size);
 
             var comment = currentLineTrimmed.Substring(range);
             if (Configuration.TrimComments)
@@ -345,10 +345,10 @@ namespace IniParser
 
             if (propertyAssigmentIdx.IsEmpty) return false;
 
-            var keyRange = Range.WithIndexes(0, propertyAssigmentIdx.start - 1);
+            var keyRange = IniParser.Parser.StringBuffer.Range.WithIndexes(0, propertyAssigmentIdx.start - 1);
             var valueStartIdx = propertyAssigmentIdx.end + 1;
             var valueSize = currentLine.Count - propertyAssigmentIdx.end - 1;
-            var valueRange = Range.FromIndexWithSize(valueStartIdx, valueSize);
+            var valueRange = IniParser.Parser.StringBuffer.Range.FromIndexWithSize(valueStartIdx, valueSize);
 
             var key = currentLine.Substring(keyRange);
             var value = currentLine.Substring(valueRange);

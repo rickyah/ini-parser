@@ -11,7 +11,7 @@ Also implements merging operations, both for complete ini files, sections, or ev
 		<Authors>Ricardo Amores Hernández</Authors>
 		<PackageProjectUrl>https://github.com/rickyah/ini-parser</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageIconUrl>https://raw.githubusercontent.com/rickyah/ini-parser/development/nuget-ini-icon.png</PackageIconUrl>
+		<PackageIconUrl>../../nuget-ini-icon.png</PackageIconUrl>
 		<Version>3.0</Version>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
@@ -27,12 +27,12 @@ Also implements merging operations, both for complete ini files, sections, or ev
 
 	<!-- Auto-select supported target frameworks based on MSBuild version -->
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
 		<RepositoryUrl>https://github.com/rickyah/ini-parser</RepositoryUrl>
 		<Copyright>Ricardo Amores Hernández 2009-2019</Copyright>
 	</PropertyGroup>
     <!-- Only generate NuGet package for full builds -->
-    <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Full'">
+    <PropertyGroup>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     </PropertyGroup>
 </Project>
