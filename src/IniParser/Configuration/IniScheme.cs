@@ -13,7 +13,7 @@ namespace IniParser.Configuration
         ///     Ctor.
         /// </summary>
         /// <remarks>
-        ///     By default the various delimiters for the data are setted:
+        ///     By default the various delimiters for the data are set:
         ///     <para>';' for one-line comments</para>
         ///     <para>'[' ']' for delimiting a section</para>
         ///     <para>'=' for linking key / value pairs</para>
@@ -51,7 +51,7 @@ namespace IniParser.Configuration
 
         /// <summary>
         ///     Sets the string that defines the start of a comment.
-        ///     A comment spans from the mirst matching comment string
+        ///     A comment spans from the first matching comment string
         ///     to the end of the line.
         /// </summary>
         /// <remarks>
@@ -93,7 +93,7 @@ namespace IniParser.Configuration
 
 
         /// <summary>
-        ///     Sets the string used in the ini file to denote a key / value assigment
+        ///     Sets the string used in the ini file to denote a key / value assignment
         /// </summary>
         /// <remarks>
         ///     Defaults to character '='

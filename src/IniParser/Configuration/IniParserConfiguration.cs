@@ -8,9 +8,9 @@ namespace IniParser.Configuration
     ///     With a configuration object you can redefine how the parser
     ///     will detect special items in the ini file by defining new regex
     ///     (e.g. you can redefine the comment regex so it just treat text as
-    ///     a comment iff the comment caracter is the first in the line)
+    ///     a comment iff the comment character is the first in the line)
     ///     or changing the set of characters used to define elements in
-    ///     the ini file (e.g. change the 'comment' caracter from ';' to '#')
+    ///     the ini file (e.g. change the 'comment' character from ';' to '#')
     ///     You can also define how the parser should treat errors, or how liberal
     ///     or conservative should it be when parsing files with "strange" formats.
     public class IniParserConfiguration : IDeepCloneable<IniParserConfiguration>
@@ -51,7 +51,7 @@ namespace IniParser.Configuration
         public bool CaseInsensitive { get; set; } = false;
 
         /// <summary>
-        ///     Allows having keys at the begining of the file, before any section 
+        ///     Allows having keys at the beginning of the file, before any section 
         ///     is defined. Those keys  don't belong to any section and are stored in 
         ///     the <see cref="IniData.Global"/> special field.
         ///     If set to false and the ini file contains keys outside a section,

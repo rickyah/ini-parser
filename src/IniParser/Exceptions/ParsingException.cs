@@ -3,7 +3,7 @@ using System;
 namespace IniParser.Exceptions
 {
     /// <summary>
-    /// Represents an error ococcurred while parsing data 
+    /// Represents an error occurred while parsing data 
     /// </summary>
     public class ParsingException : Exception
     {

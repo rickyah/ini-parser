@@ -226,7 +226,7 @@ key = value";
         public void allow_whitespace_in_section_names()
         {
             string data =
-                @"[Web Colaboration]
+                @"[Web Collaboration]
 key = value";
 
             var parser = new IniDataParser();
@@ -234,9 +234,9 @@ key = value";
             IniData iniData = parser.Parse(data);
 
             Assert.That(iniData.Sections.Count, Is.EqualTo(1));
-            Assert.That(iniData.Sections.Contains("Web Colaboration"), Is.True);
-            Assert.That(iniData.Sections["Web Colaboration"].Contains("key"), Is.True);
-            Assert.That(iniData.Sections["Web Colaboration"]["key"], Is.EqualTo("value"));
+            Assert.That(iniData.Sections.Contains("Web Collaboration"), Is.True);
+            Assert.That(iniData.Sections["Web Collaboration"].Contains("key"), Is.True);
+            Assert.That(iniData.Sections["Web Collaboration"]["key"], Is.EqualTo("value"));
         }
 
         [Test]
