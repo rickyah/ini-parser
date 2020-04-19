@@ -39,6 +39,7 @@ namespace IniParser.Configuration
             SkipInvalidLines = ori.SkipInvalidLines;
             TrimSections = ori.TrimSections;
             TrimProperties = ori.TrimProperties;
+            TrimValues = ori.TrimValues;
         }
 
         /// <summary>
