@@ -21,7 +21,7 @@ namespace IniParser
         }
         
         /// <summary>
-        ///     Initialzes an IniData instance with a given scheme
+        ///     Initializes an IniData instance with a given scheme
         /// </summary>
         /// <param name="scheme"></param>
         public IniData(IniScheme scheme)
@@ -40,7 +40,7 @@ namespace IniParser
 
         /// <summary>
         ///     If set to true, it will automatically create a section when you use the indexed 
-        ///     access with a section name that does not exis.
+        ///     access with a section name that does not exist.
         ///     If set to false, it will throw an exception if you try to access a section that 
         ///     does not exist with the index operator.
         /// </summary>

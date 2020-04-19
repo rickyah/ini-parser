@@ -11,9 +11,9 @@ using static IniParser.Parser.StringBuffer;
 namespace IniParser
 {
     /// <summary>
-	/// 	Responsible for parsing an string from an ini file, and creating
-	/// 	an <see cref="IniData"/> structure.
-	/// </summary>
+    ///     Responsible for parsing an string from an ini file, and creating
+    ///     an <see cref="IniData"/> structure.
+    /// </summary>
     public partial class IniDataParser
     {
         #region Initialization
@@ -73,10 +73,10 @@ namespace IniParser
         ///     Parses a string containing valid ini data
         /// </summary>
         /// <param name="textReader">
-        ///     Text reader for the source string contaninig the ini data
+        ///     Text reader for the source string containing the ini data
         /// </param>
         /// <returns>
-        ///     An <see cref="IniData"/> instance containing the data readed
+        ///     An <see cref="IniData"/> instance containing the data read
         ///     from the source
         /// </returns>
         /// <exception cref="ParsingException">
@@ -97,10 +97,10 @@ namespace IniParser
         ///     Parses a string containing valid ini data
         /// </summary>
         /// <param name="textReader">
-        ///     Text reader for the source string contaninig the ini data
+        ///     Text reader for the source string containing the ini data
         /// </param>
         /// <returns>
-        ///     An <see cref="IniData"/> instance containing the data readed
+        ///     An <see cref="IniData"/> instance containing the data read
         ///     from the source
         /// </returns>
         /// <exception cref="ParsingException">
@@ -142,7 +142,7 @@ namespace IniParser
             // TODO: is this try necessary?
             try
             {
-                // Orphan comments, assing to last section/key value
+                // Orphan comments, assign to last section/key value
                 if (Configuration.ParseComments && CurrentCommentListTemp.Count > 0)
                 {
                     if (iniData.Sections.Count > 0)
@@ -242,7 +242,7 @@ namespace IniParser
             currentLineTrimmed.TrimEnd();
 
             var commentRange = currentLineTrimmed.FindSubstring(Scheme.CommentString);
-            // Exctract the range of the string that contains the comment but not
+            // Extract the range of the string that contains the comment but not
             // the comment delimiter
             var startIdx = commentRange.start + Scheme.CommentString.Length;
             var size = currentLineTrimmed.Count - Scheme.CommentString.Length;
@@ -260,7 +260,7 @@ namespace IniParser
         }
 
         /// <summary>
-        ///     Proccess a string which contains an ini section.%
+        ///     Process a string which contains an ini section.%
         /// </summary>
         /// <param name="currentLine">
         ///     The string to be processed
@@ -482,7 +482,7 @@ namespace IniParser
         #region Fields
         uint _currentLineNumber;
 
-        // Holds a list of the exceptions catched while parsing
+        // Holds a list of the exceptions caught while parsing
         readonly List<Exception> _errorExceptions;
 
         // Temp list of comments
@@ -505,7 +505,7 @@ namespace IniParser
         }
         List<string> _currentCommentListTemp;
 
-        // Tmp var with the name of the seccion which is being process
+        // Temporary var with the name of the section which is being process
         string _currentSectionNameTemp;
 
         // Buffer used to hold the current line being processed.

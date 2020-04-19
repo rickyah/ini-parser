@@ -5,7 +5,7 @@
     ///  copied too instead of copying the reference.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IDeepCloneable<T> where T : class                                             
+    public interface IDeepCloneable<T> where T : class
     {
         T DeepClone();
     }

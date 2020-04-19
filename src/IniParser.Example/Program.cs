@@ -13,7 +13,7 @@ namespace IniParser.Example
 #Update rate in msecs
 setUpdate = 100
 
-#Maximun errors before quit
+#Maximum errors before quit
 setMaxErrors = 2
 
 #Users allowed to access the system

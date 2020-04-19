@@ -20,7 +20,7 @@ namespace IniParser.Tests.Unit.Model
             SectionCollection sdc = new SectionCollection();
             Assert.That(sdc, Is.Empty);
 
-            //Add sectoin
+            //Add section
             sdc.Add(strSectionTest);
             sdc.Add(strSectionTest);
             Assert.That(sdc.Count, Is.EqualTo(1));
@@ -31,7 +31,7 @@ namespace IniParser.Tests.Unit.Model
             Assert.That(sdc.FindByName(strSectionTest).Comments, Is.Empty);
             Assert.That(sdc.FindByName(strSectionTest).Properties.Count, Is.EqualTo(0));
 
-            //Check add coments
+            //Check add comments
             sdc.FindByName(strSectionTest).Comments.Add(strComment);
             Assert.That(sdc.FindByName(strSectionTest).Comments.Count, Is.EqualTo(1));
             sdc.FindByName(strSectionTest).Comments.Clear();
