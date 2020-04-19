@@ -103,7 +103,7 @@ namespace IniParser.Configuration
         public string PropertyAssigmentString
         {
             get => string.IsNullOrWhiteSpace(_propertyAssigmentString) ? "=" : _propertyAssigmentString;
-            set => _propertyAssigmentString = value?.Trim();
+            set => _propertyAssigmentString = value;
         }
         
         #region IDeepCloneable<T> Members

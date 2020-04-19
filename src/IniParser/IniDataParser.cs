@@ -356,6 +356,10 @@ namespace IniParser
             if (Configuration.TrimProperties)
             {
                 key.Trim();
+            }
+
+            if (Configuration.TrimValues)
+            {
                 value.Trim();
             }
 
