@@ -90,6 +90,34 @@ mykey1 = value1
             Assert.That(section1.Properties["key2"], Is.EqualTo("value5"));
         }
 
+        [Test, Description("Tests for ability to parse properties with no values")]
+        public void test_parsing_properties_without_value()
+        {
+            var iniString = @"
+[section1]
+value1
+value2";
+            var parser = new IniDataParser();
+            parser.Configuration.AllowPropertiesWithoutValue = true;
+            var parsedData = parser.Parse(iniString);
+
+            Assert.That(parsedData["section1"].Contains("value1"), Is.True);
+            Assert.That(parsedData["section1"]["value1"], Is.Null);
+        }
+
+        [Test, Description("Tests for ability to parse properties with empty values")]
+        public void test_parsing_properties_with_empty_value()
+        {
+            var iniString = @"
+[section1]
+value1=";
+            var parser = new IniDataParser();
+            var parsedData = parser.Parse(iniString);
+
+            Assert.That(parsedData["section1"].Contains("value1"), Is.True);
+            Assert.That(parsedData["section1"]["value1"], Is.Empty);
+        }
+
         [Test, Description("Test for Issue 3: http://code.google.com/p/ini-parser/issues/detail?id=3")]
         public void allow_keys_with_dots()
         {
