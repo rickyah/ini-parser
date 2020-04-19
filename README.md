@@ -104,7 +104,7 @@ comments are written before the element they refer to.
 To query, add or remove comments, access the property `Comments` available both in `SectionData` and `KeyData` models.
 
 ```csharp
-var listOfCommentsForSection = config.["user_settings"].Comments;
+var listOfCommentsForSection = config["user_settings"].Comments;
 var listOfCommentsForKey = config["user_settings"].GetKeyData("resolution").Comments;
 ```
 
