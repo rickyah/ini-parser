@@ -157,7 +157,7 @@ data2 = 2";
         }
 
         [Test]
-        public void check_trim_properties()
+        public void check_trim_properties_and_values()
         {
             var ini = @"prop1=0
    prop2 =   value2  
@@ -172,6 +172,7 @@ data2 = 2";
             Assert.That(iniData.Global["prop2"], Is.EqualTo("value2"));
 
             parser.Configuration.TrimProperties = false;
+            parser.Configuration.TrimValues = false;
             iniData = parser.Parse(ini);
 
             Assert.That(iniData.Global.Contains("prop1"), Is.True);

@@ -106,6 +106,8 @@ key1=1";
             var ini2 = @"key1 <== 1";
             parser.Scheme.PropertyAssigmentString = "<==";
             iniData = parser.Parse(ini2);
+
+            Assert.That(iniData.Global["key1"], Is.EqualTo("1"));
         }
     }
 }

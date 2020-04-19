@@ -502,5 +502,43 @@ key2 = value2";
 			Assert.That(parsedData.Sections["W101 0.5\" wc"], Is.Not.Empty);
 			Assert.That(parsedData.Sections["W103 0.5' wc"], Is.Not.Empty);
 		}
+
+        [Test, Description("Allow leading spaces in property values")]
+        public void can_preserve_leading_space_in_value()
+        {
+            var parser = new IniDataParser();
+            parser.Configuration.TrimValues = false;
+            parser.Scheme.PropertyAssigmentString = " = ";
+
+            var iniDataString = @"[Section 1]
+key1 =  value1
+key2 = value2
+key3 = value3 ";
+            IniData parsedData = parser.Parse(iniDataString);
+
+            Assert.That(parsedData.Sections["Section 1"]["key1"], Is.EqualTo(" value1"));
+            Assert.That(parsedData.Sections["Section 1"]["key2"], Is.EqualTo("value2"));
+            Assert.That(parsedData.Sections["Section 1"]["key3"], Is.EqualTo("value3 "));
+        }
+
+        [Test, Description("Allow leading and railing space in the assignment string. Useful for reading properties with trailing space and values with leading space")]
+        public void allow_leading_and_trailing_space_in_assignment_string()
+        {
+            var parser = new IniDataParser();
+            parser.Scheme.PropertyAssigmentString = " = ";
+            parser.Configuration.TrimValues = false;
+            parser.Configuration.TrimProperties = false;
+
+            var iniDataString = @"[Section 1]
+key1 = value1
+key2  =  value2
+key3 = value3";
+            IniData parsedData = parser.Parse(iniDataString);
+
+            Assert.That(parsedData.Sections["Section 1"]["key1"], Is.EqualTo("value1"));
+            Assert.That(parsedData.Sections["Section 1"]["key2 "], Is.EqualTo(" value2"));
+            Assert.That(parsedData.Sections["Section 1"]["key3"], Is.EqualTo("value3"));
+            Assert.That(parsedData.Sections["Section 1"]["key2"], Is.Null);
+        }
     }
 }

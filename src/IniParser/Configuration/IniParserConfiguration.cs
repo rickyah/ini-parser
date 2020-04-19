@@ -39,6 +39,7 @@ namespace IniParser.Configuration
             SkipInvalidLines = ori.SkipInvalidLines;
             TrimSections = ori.TrimSections;
             TrimProperties = ori.TrimProperties;
+            TrimValues = ori.TrimValues;
         }
 
         /// <summary>
@@ -151,6 +152,16 @@ namespace IniParser.Configuration
         ///     Defaults to true.
         /// </remarks>
         public bool TrimProperties { get; set; } = true;
+
+        /// <summary>
+        ///     If set to true, it will trim the whitespace out of the value when parsing.
+        ///     If set to false, it will consider all the whitespace in the line as part of the
+        ///     value when extracting the key and values.
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to true.
+        /// </remarks>
+        public bool TrimValues { get; set; } = true;
 
         /// <summary>
         ///     If set to true, it will trim the whitespace out of the section name when parsing.
