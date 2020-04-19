@@ -37,6 +37,7 @@ namespace IniParser.Configuration
             AllowDuplicateSections = ori.AllowDuplicateSections;
             ThrowExceptionsOnError = ori.ThrowExceptionsOnError;
             SkipInvalidLines = ori.SkipInvalidLines;
+            AllowPropertiesWithoutValue = ori.AllowPropertiesWithoutValue;
             TrimSections = ori.TrimSections;
             TrimProperties = ori.TrimProperties;
         }
@@ -141,6 +142,15 @@ namespace IniParser.Configuration
         ///     Defaults to false.
         /// </remarks>
         public bool SkipInvalidLines { get; set; } = false;
+
+        /// <summary>
+        /// If true, it will consider lines that does not contains an assignment 
+        /// character as properties with a null value
+        /// </summary>
+        /// <remarks>
+        ///     Defaults to <c>false</c>.
+        /// </remarks>
+        public bool AllowPropertiesWithoutValue { get; set; }
 
         /// <summary>
         ///     If set to true, it will trim the whitespace out of the property when parsing.

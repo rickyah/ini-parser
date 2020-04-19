@@ -343,20 +343,33 @@ namespace IniParser
 
             var propertyAssigmentIdx = currentLine.FindSubstring(Scheme.PropertyAssigmentString);
 
-            if (propertyAssigmentIdx.IsEmpty) return false;
+            StringBuffer key;
+            StringBuffer value;
+            if (propertyAssigmentIdx.IsEmpty)
+            {
+                if (Configuration.AllowPropertiesWithoutValue)
+                {
+                    key = currentLine;
+                    value = null;
+                }
+                else
+                    return false;
+            }
+            else
+            {
+                var keyRange = Range.WithIndexes(0, propertyAssigmentIdx.start - 1);
+                var valueStartIdx = propertyAssigmentIdx.end + 1;
+                var valueSize = currentLine.Count - propertyAssigmentIdx.end - 1;
+                var valueRange = Range.FromIndexWithSize(valueStartIdx, valueSize);
 
-            var keyRange = Range.WithIndexes(0, propertyAssigmentIdx.start - 1);
-            var valueStartIdx = propertyAssigmentIdx.end + 1;
-            var valueSize = currentLine.Count - propertyAssigmentIdx.end - 1;
-            var valueRange = Range.FromIndexWithSize(valueStartIdx, valueSize);
-
-            var key = currentLine.Substring(keyRange);
-            var value = currentLine.Substring(valueRange);
+                key = currentLine.Substring(keyRange);
+                value = currentLine.Substring(valueRange);
+            }
 
             if (Configuration.TrimProperties)
             {
                 key.Trim();
-                value.Trim();
+                value?.Trim();
             }
 
             if (key.IsEmpty)
@@ -389,7 +402,7 @@ namespace IniParser
                 }
 
                 AddKeyToKeyValueCollection(key.ToString(), 
-                                           value.ToString(),
+                                           value?.ToString(),
                                            iniData.Global, 
                                            "global");
             }
@@ -398,7 +411,7 @@ namespace IniParser
                 var currentSection = iniData.Sections.FindByName(_currentSectionNameTemp);
 
                 AddKeyToKeyValueCollection(key.ToString(),
-                                           value.ToString(), 
+                                           value?.ToString(), 
                                            currentSection.Properties,
                                            _currentSectionNameTemp);
             }
