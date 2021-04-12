@@ -8,10 +8,10 @@
 
   <!-- Auto-select supported target frameworks based on MSBuild version -->
   <PropertyGroup Condition="'$(MSBuildRuntimeType)'=='Core'">
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
     <PropertyGroup Condition="'$(MSBuildRuntimeType)'!='Core'">
-    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
     <ItemGroup>
       <ProjectReference Include="..\IniParser\IniParser.csproj" />
