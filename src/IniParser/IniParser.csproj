@@ -11,7 +11,7 @@ Also implements merging operations, both for complete ini files, sections, or ev
 		<Authors>Ricardo Amores Hernández</Authors>
 		<PackageProjectUrl>https://github.com/rickyah/ini-parser</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageIconUrl>https://raw.githubusercontent.com/rickyah/ini-parser/development/nuget-ini-icon.png</PackageIconUrl>
+		<PackageIcon>https://raw.githubusercontent.com/rickyah/ini-parser/development/nuget-ini-icon.png</PackageIcon>
 		<Version>3.0</Version>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
