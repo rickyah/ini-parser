@@ -31,7 +31,7 @@ Also implements merging operations, both for complete ini files, sections, or ev
 	
 	<!-- Auto-select supported target frameworks based on MSBuild version -->
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<RepositoryUrl>https://github.com/rickyah/ini-parser</RepositoryUrl>
 		<Copyright>Ricardo Amores Hernández 2009-2019</Copyright>
 	</PropertyGroup>
