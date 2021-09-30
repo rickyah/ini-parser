@@ -11,7 +11,7 @@ Also implements merging operations, both for complete ini files, sections, or ev
 		<Authors>Ricardo Amores Hernández</Authors>
 		<PackageProjectUrl>https://github.com/rickyah/ini-parser</PackageProjectUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageIcon>https://raw.githubusercontent.com/rickyah/ini-parser/development/nuget-ini-icon.png</PackageIcon>
+		<PackageIcon>nuget-ini-icon.png</PackageIcon>
 		<Version>3.0</Version>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>Properties\publickey.snk</AssemblyOriginatorKeyFile>
@@ -24,7 +24,11 @@ Also implements merging operations, both for complete ini files, sections, or ev
 		<Product>INI Parser</Product>
 		<ReleaseVersion></ReleaseVersion>
 	</PropertyGroup>
-
+	
+	<ItemGroup>
+		<None Include="../../nuget-ini-icon.png" Pack="true" PackagePath=""/>
+	</ItemGroup>
+	
 	<!-- Auto-select supported target frameworks based on MSBuild version -->
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
