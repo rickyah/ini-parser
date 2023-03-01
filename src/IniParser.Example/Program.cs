@@ -57,7 +57,17 @@ patty = pattypass ";
             // Write down the contents of the modified ini file to the console
             Console.WriteLine("---- Printing contents of the new INI file ----");
             Console.WriteLine(parsedData);
-			Console.WriteLine();
+	    Console.WriteLine();
+		
+	    // Test using Number on PropertyCollection
+            Console.WriteLine("User 1: {0}",parsedData["Users"][0]);
+            Console.WriteLine("User 2: {0}",parsedData["Users"][1]);
+
+            // Test using ForLoop
+            for(int i = 0; i < parsedData["Users"].Count; i++)
+            {
+                Console.WriteLine("[ForLoop] User 1: {0}",parsedData["Users"][i]);
+            }
         }
     }
 }
