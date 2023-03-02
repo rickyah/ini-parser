@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,14 +102,23 @@ namespace IniParser.Model
 		/// <param name="keyNumber">
 		///     key of the property
 		/// </param>
-		public string this[int keyNumber]
+		public dynamic this[int keyNumber]
 		{
 			get
 			{
-				foreach(var (v,i) in _properties.Select((v,i)=>(v,i)))
+				bool _BooleanTest = false;
+				int _Interger = 0;
+				foreach (var (v, i) in _properties.Select((v, i) => (v, i)))
 				{
 					if (keyNumber == i)
-						return v.Key;
+					{
+						string Value = _properties[v.Key].Value;
+
+						if (bool.TryParse(Value, out _BooleanTest)) return bool.Parse(Value);
+						if (int.TryParse(Value, out _Interger)) return int.Parse(Value);
+						return Value;
+					}
+
 				}
 
 				return null;
