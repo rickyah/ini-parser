@@ -20,7 +20,17 @@ setMaxErrors = 2
 #format: user = pass
 [Users]
 ricky = rickypass
-patty = pattypass ";
+patty = pattypass
+
+[String]
+a = abc
+
+[Integer]
+a = 123
+
+[bool]
+a = true";
+
 
             //Create an instance of a ini file parser
             var parser = new IniDataParser();
@@ -57,11 +67,14 @@ patty = pattypass ";
             // Write down the contents of the modified ini file to the console
             Console.WriteLine("---- Printing contents of the new INI file ----");
             Console.WriteLine(parsedData);
-	    Console.WriteLine();
-		
-	    // Test using Number on PropertyCollection
+			Console.WriteLine();
+
+            // Test using Number on PropertyCollection
             Console.WriteLine("User 1: {0}",parsedData["Users"][0]);
             Console.WriteLine("User 2: {0}",parsedData["Users"][1]);
+            Console.WriteLine("String:  {0}    Type: {1}",parsedData["String"][0],parsedData["String"][0].GetType());
+            Console.WriteLine("Integer: {0}    Type: {1}",parsedData["Integer"][0],parsedData["Integer"][0].GetType());
+            Console.WriteLine("Boolean: {0}    Type: {1}",parsedData["bool"][0],parsedData["bool"][0].GetType());
 
             // Test using ForLoop
             for(int i = 0; i < parsedData["Users"].Count; i++)
