@@ -59,6 +59,35 @@ namespace IniParser
         #endregion
 
         /// <summary>
+        ///     Try to Parse the string if its a valid ini data or not
+        /// </summary>
+        /// <param name="iniString">
+        ///     String with ata in INI format
+        /// </param>
+        /// <param name="result">
+        ///     Output value of the parsed Data if its successful
+        /// </param>
+        public static bool TryParse(string iniString, out IniData result)
+        {
+            if(string.IsNullOrEmpty(iniString))
+            {
+                result = null;
+                return false;
+            }
+
+            try
+            {
+                result = new IniDataParser().Parse(iniString);
+                return true;
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
+        }
+
+        /// <summary>
         ///     Parses a string containing valid ini data
         /// </summary>
         /// <param name="iniString">
