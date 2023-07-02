@@ -116,7 +116,6 @@ namespace IniParser.Model
 						if (short.TryParse(Value, out short _Short)) return _Short;
 						if (int.TryParse(Value, out int _Interger)) return _Interger;
 						if (long.TryParse(Value, out long _Long)) return _Long;
-						if (float.TryParse(Value, out float _Float)) return _Float;
 						if (double.TryParse(Value, out double _Double)) return _Double;
 
 						return Value;
