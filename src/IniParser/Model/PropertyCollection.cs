@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IniParser.Model
 {
@@ -91,10 +93,43 @@ namespace IniParser.Model
             }
         }
 
-        /// <summary>
-        ///     Return the number of keys in the collection
-        /// </summary>
-        public int Count
+		/// <summary>
+		///     Gets the value of a property.
+		/// </summary>
+		/// <remarks>
+		///    Gets the key by int
+		/// </remarks>
+		/// <param name="keyNumber">
+		///     key of the property
+		/// </param>
+		public dynamic this[int keyNumber]
+		{
+			get
+			{
+				foreach (var (v, i) in _properties.Select((v, i) => (v, i)))
+				{
+					if (keyNumber == i)
+					{
+						string Value = _properties[v.Key].Value;
+
+						if (bool.TryParse(Value, out bool _BooleanTest)) return _BooleanTest;
+						if (short.TryParse(Value, out short _Short)) return _Short;
+						if (int.TryParse(Value, out int _Interger)) return _Interger;
+						if (long.TryParse(Value, out long _Long)) return _Long;
+						if (double.TryParse(Value, out double _Double)) return _Double;
+
+						return Value;
+					}
+				}
+
+				return null;
+			}
+		}
+
+		/// <summary>
+		///     Return the number of keys in the collection
+		/// </summary>
+		public int Count
         {
             get { return _properties.Count; }
         }
